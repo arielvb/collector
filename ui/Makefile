@@ -1,19 +1,15 @@
-all: ui2py rc2py
+UI_DIR='./designer'
+BUILD_DIR='./gen'
+
+
+all: ui2py
 
 ui2py:
-	pyuic4 -x mainWindow.ui -o mainWindow.pyw 
-	pyuic4 -x main.ui -o main.pyw
-rc2py:
-	pyrcc4 -o resources_rc.py resources.qrc
+	echo '#' > ${BUILD_DIR}/__init__.py
+	pyuic4 -x ${UI_DIR}/mainWindow.ui -o ${BUILD_DIR}/mainWindow.py
+	pyuic4 -x ${UI_DIR}/dashboard.ui -o ${BUILD_DIR}/dashboard.py
+	pyrcc4 -o ${BUILD_DIR}/resources_rc.py ${UI_DIR}/resources.qrc
 
-clean:  cleanui cleanrc cleanpyc
-
-cleanpyc:
-	rm *.pyc
-
-cleanrc:
-	rm resources_rc.py
-
-cleanui: 
-	rm *.pyw
-
+clean: 
+	find . -name \*.pyc -exec rm {\} \;
+	rm $(BUILD_DIR)/*
