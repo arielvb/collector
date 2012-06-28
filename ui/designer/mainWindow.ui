@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Gestor de col·leccions</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
