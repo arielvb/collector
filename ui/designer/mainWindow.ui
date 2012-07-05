@@ -18,7 +18,7 @@
     <normaloff>:/boards.png</normaloff>:/boards.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QWidget" name="wContainer" native="true"/>
     </item>

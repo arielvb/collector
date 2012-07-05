@@ -1,5 +1,6 @@
 <RCC>
   <qresource>
+    <file>pilares.jpg</file>
     <file>boards.png</file>
     <file>author.png</file>
   </qresource>
