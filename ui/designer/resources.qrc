@@ -1,5 +1,8 @@
 <RCC>
   <qresource>
+    <file>boards_grey.png</file>
+    <file>add_grey.png</file>
+    <file>add.png</file>
     <file>pilares.jpg</file>
     <file>boards.png</file>
     <file>author.png</file>

@@ -6,6 +6,7 @@ from gen.mainWindow import Ui_MainWindow
 from gen.dashboard import Ui_Form as Ui_Form_Dashboard
 from gen.fitxa import Ui_Form as Ui_Form_Fitxa
 from gen.search_results import Ui_Form as Ui_Form_Search
+from gen.search_quick import Ui_Dialog as Ui_Dialog_Search
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -62,8 +63,11 @@ class Ui_Application(Ui_MainWindow):
         self.window.setCentralWidget(dashboardWidget)
 
     def viewQuickSearch(self):
-        #TODO
-        pass
+        Dialog = QtGui.QDialog()
+        ui = Ui_Dialog_Search()
+        ui.setupUi(Dialog)
+        Dialog.exec_()
+
 
     def searchResults(self, text):
         w = QtGui.QWidget()
