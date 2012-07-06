@@ -1,5 +1,5 @@
-set UI_DIR=designer
-set BUILD_DIR=gen
+set UI_DIR=ui\designer
+set BUILD_DIR=ui\gen
 set PYQT_PATH=C:\Python27\Lib\site-packages\PyQt4
 echo # > %BUILD_DIR%\__init__.py
 call %PYQT_PATH%\pyuic4 -x %UI_DIR%\mainWindow.ui -o %BUILD_DIR%\mainWindow.py

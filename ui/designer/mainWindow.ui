@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>585</width>
+    <height>507</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
-    <normaloff>:/boards.png</normaloff>:/boards.png</iconset>
+    <normaloff>:/collection.png</normaloff>:/collection.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -29,7 +29,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>585</width>
      <height>22</height>
     </rect>
    </property>
@@ -49,20 +49,31 @@
     </property>
     <addaction name="actionQuick_search"/>
    </widget>
-   <widget class="QMenu" name="menuDashboard">
+   <widget class="QMenu" name="menuTools">
     <property name="title">
-     <string>Dashboard</string>
+     <string>Tools</string>
+    </property>
+    <addaction name="actionFullscreen"/>
+    <addaction name="actionPlugins"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
     </property>
     <addaction name="actionView_Dashboard"/>
    </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuDashboard"/>
+   <addaction name="menuView"/>
    <addaction name="menuSearch"/>
+   <addaction name="menuTools"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionQuick_search">
    <property name="text">
     <string>Quick search...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
    </property>
   </action>
   <action name="actionClose">
@@ -77,8 +88,12 @@
    </property>
   </action>
   <action name="actionView_Dashboard">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/boards.png</normaloff>:/boards.png</iconset>
+   </property>
    <property name="text">
-    <string>View Dashboard</string>
+    <string>Dashboard</string>
    </property>
   </action>
   <action name="actionOpen_Collection">
@@ -94,6 +109,19 @@
   <action name="actionAbout">
    <property name="text">
     <string>About Km</string>
+   </property>
+  </action>
+  <action name="actionFullscreen">
+   <property name="text">
+    <string>Fullscreen</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+F</string>
+   </property>
+  </action>
+  <action name="actionPlugins">
+   <property name="text">
+    <string>Plugins</string>
    </property>
   </action>
  </widget>

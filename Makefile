@@ -1,10 +1,10 @@
-UI_DIR='./designer'
-BUILD_DIR='./gen'
+UI_DIR='./ui/designer'
+BUILD_DIR='./ui/gen'
 
 all: ui2py
 
 run: all
-	./run.sh
+	./bin/run.sh
 
 ui2py:
 	echo '#' > ${BUILD_DIR}/__init__.py

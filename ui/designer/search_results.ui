@@ -17,12 +17,27 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
+      <widget class="QLabel" name="label_2">
+       <property name="font">
+        <font>
+         <pointsize>13</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+         <strikeout>false</strikeout>
+        </font>
+       </property>
+       <property name="text">
+        <string>SEARCH</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="QLineEdit" name="lSearch"/>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="bSearch">
          <property name="text">
           <string>Search</string>
          </property>
@@ -38,12 +53,36 @@
       </widget>
      </item>
      <item>
-      <widget class="QListView" name="listView"/>
+      <widget class="QProgressBar" name="progressBar">
+       <property name="maximum">
+        <number>0</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QListWidget" name="listWidget"/>
      </item>
     </layout>
    </item>
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>lSearch</sender>
+   <signal>returnPressed()</signal>
+   <receiver>bSearch</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>249</x>
+     <y>27</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>528</x>
+     <y>29</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
