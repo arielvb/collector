@@ -6,6 +6,17 @@ all: ui2py
 run: all
 	./bin/run.sh
 
+dist/main.dmg: all
+	python setup.py py2app
+
+macdebug: all
+	#Creates an alias, doesn't copy all the libraries
+	python setup.py py2app -A
+
+# create dmg
+dmg: dist/main.dmg
+	hdiutil create -imagekey zlib-level=9 -srcfolder dist/ -volname collection.dmg
+
 ui2py:
 	echo '#' > ${BUILD_DIR}/__init__.py
 	pyuic4 -x ${UI_DIR}/mainWindow.ui -o ${BUILD_DIR}/mainWindow.py
@@ -15,6 +26,8 @@ ui2py:
 	pyuic4 -x ${UI_DIR}/search_quick.ui -o ${BUILD_DIR}/search_quick.py
 	pyrcc4 -o ${BUILD_DIR}/resources_rc.py ${UI_DIR}/resources.qrc
 
-clean: 
+.PHONY: clean
+clean:
 	find . -name \*.pyc -exec rm {\} \;
 	rm $(BUILD_DIR)/*
+	rm dist/*

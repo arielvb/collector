@@ -1,2 +1,6 @@
 *.pyc
-ui/gen/*
+*.pyo
+*.egg
+build
+dist
+ui/gen
