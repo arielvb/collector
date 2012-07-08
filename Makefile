@@ -4,17 +4,18 @@ BUILD_DIR='./ui/gen'
 all: ui2py
 
 run: all
-	./bin/run.sh
+	./bin/gameboard
 
-dist/main.dmg: all
+mac: all
 	python setup.py py2app
+	bin/macdeployqt dist/main.app
 
 macdebug: all
 	#Creates an alias, doesn't copy all the libraries
 	python setup.py py2app -A
 
 # create dmg
-dmg: dist/main.dmg
+dmg: mac
 	hdiutil create -imagekey zlib-level=9 -srcfolder dist/ -volname collection.dmg
 
 ui2py:

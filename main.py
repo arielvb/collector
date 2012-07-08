@@ -106,7 +106,7 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form_Dashboard):
             listContainer.addItem(item)
 
 
-class Ui_Application(Ui_MainWindow):
+class Ui_Application(QtGui.QMainWindow, Ui_MainWindow):
 
     window = None
     fullscreen = False
@@ -159,10 +159,11 @@ class Ui_Application(Ui_MainWindow):
 if __name__ == "__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
-    MainWindow = QtGui.QMainWindow()
+    #MainWindow = QtGui.QMainWindow()
     ui = Ui_Application()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
+    ui.setupUi(ui)
+    ui.show()
+    #MainWindow.show()
     # Bring window to front
-    MainWindow.raise_()
+    ui.raise_()
     sys.exit(app.exec_())
