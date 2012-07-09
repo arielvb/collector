@@ -1,3 +1,4 @@
 add.png http://www.iconfinder.com/icondetails/23421/128/add_insert_object_icon
 dashboard.png http://www.iconfinder.com/icondetails/67978/128/_icon
 http://www.iconfinder.com/icondetails/49592/128/bookcase_library_shelf_icon
+fullscreen.png http://www.iconfinder.com/icondetails/15328/32/fullscreen_view_icon

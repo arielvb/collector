@@ -6,9 +6,14 @@ all: ui2py
 run: all
 	./bin/gameboard
 
+test: ui2py
+	python -m unittest tests.bootstrap tests.application
+
 mac: all
 	python setup.py py2app
 	bin/macdeployqt dist/main.app
+	# Remove _debug binaries inside frameworks
+	find dist/main.app/Contents/Frameworks/ -name *_debug -exec rm {\} \;
 
 macdebug: all
 	#Creates an alias, doesn't copy all the libraries
@@ -31,4 +36,4 @@ ui2py:
 clean:
 	find . -name \*.pyc -exec rm {\} \;
 	rm $(BUILD_DIR)/*
-	rm dist/*
+	rm -r dist/*

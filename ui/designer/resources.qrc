@@ -1,8 +1,9 @@
 <RCC>
   <qresource>
+    <file>dashboard.png</file>
+    <file>fullscreen.png</file>
     <file>add.png</file>
     <file>collection.png</file>
-    <file>pilares.jpg</file>
     <file>boards.png</file>
     <file>author.png</file>
   </qresource>

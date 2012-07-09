@@ -53,14 +53,22 @@
     <property name="title">
      <string>Tools</string>
     </property>
-    <addaction name="actionFullscreen"/>
-    <addaction name="actionPlugins"/>
+    <widget class="QMenu" name="menuPlugins">
+     <property name="title">
+      <string>Plugins</string>
+     </property>
+     <addaction name="actionSearch_game"/>
+     <addaction name="separator"/>
+     <addaction name="actionManage_plugins"/>
+    </widget>
+    <addaction name="menuPlugins"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
      <string>View</string>
     </property>
     <addaction name="actionView_Dashboard"/>
+    <addaction name="actionFullscreen"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuView"/>
@@ -90,7 +98,7 @@
   <action name="actionView_Dashboard">
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/boards.png</normaloff>:/boards.png</iconset>
+     <normaloff>:/dashboard.png</normaloff>:/dashboard.png</iconset>
    </property>
    <property name="text">
     <string>Dashboard</string>
@@ -112,6 +120,10 @@
    </property>
   </action>
   <action name="actionFullscreen">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/fullscreen.png</normaloff>:/fullscreen.png</iconset>
+   </property>
    <property name="text">
     <string>Fullscreen</string>
    </property>
@@ -119,9 +131,14 @@
     <string>Ctrl+Shift+F</string>
    </property>
   </action>
-  <action name="actionPlugins">
+  <action name="actionSearch_game">
    <property name="text">
-    <string>Plugins</string>
+    <string>Search game</string>
+   </property>
+  </action>
+  <action name="actionManage_plugins">
+   <property name="text">
+    <string>Manage plugins</string>
    </property>
   </action>
  </widget>
