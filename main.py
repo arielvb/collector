@@ -6,6 +6,7 @@ from PyQt4.QtGui import QListWidgetItem
 from ui.gen.mainWindow import Ui_MainWindow
 from ui.gen.dashboard import Ui_Form as Ui_Form_Dashboard
 from ui.gen.fitxa import Ui_Form as Ui_Form_Fitxa
+from ui.gen.fitxa_edit import Ui_Form as Ui_Form_Fitxa_Edit
 from ui.gen.search_results import Ui_Form as Ui_Form_Search
 from ui.gen.search_quick import Ui_Dialog as Ui_Dialog_Search
 from collector.search import bgg
@@ -19,7 +20,7 @@ except AttributeError:
 
 class GameboardPersistence():
 
-    items = mocks.items
+    items = mocks.gameboards
 
     def getLast(self, count):
         result = self.items[:count]
@@ -32,18 +33,22 @@ class GameboardPersistence():
         return {}
 
 
+class CollectorSchemas():
+
+    def get(self, name):
+        #TODO implement
+        return mocks.schemas['boardgames']
+
+
 class Collection():
 
     def __init__(self):
+        # FIXME GameboardPersistence must be singleton?
         self.db = GameboardPersistence()
 
     def getLast(self):
         """ Finds last items created at the collection."""
         return self.db.getLast(10)
-        #TODO this is a mock, make work over persistance class
-        return [
-                'Kolonisten van Catan: Europa Ontwaakt'
-            ]
 
     def get(self, title):
         return self.db.get(title)
@@ -65,10 +70,15 @@ class Worker_Search(QtCore.QThread):
 
     def run(self):
         if self.action == 'search':
-            p = bgg.search(self.params['query'], bgg.bgg_search_provider, bgg.bgg_search_filter)
-
-            self.results['search'] = p
+            self.results['search'] = []
+            try:
+                p = bgg.search(self.params['query'], bgg.bgg_search_provider, bgg.bgg_search_filter)
+                self.results['search'] = p
+            except:
+                #TODO añadir gestión de errores
+                self.error = 'Oopss'
             self.searchComplete.emit()
+
             return
         if self.action == 'lastgames':
             self.results['lastgames'] = []
@@ -114,6 +124,67 @@ class Ui_Search(Ui_Form_Search):
             del item
 
 
+class Ui_Fitxa_Edit(QtGui.QWidget, Ui_Form_Fitxa_Edit):
+
+    row = 0
+
+    def __init__(self, item, parent=None, flags=None):
+        if flags is None:
+            flags = QtCore.Qt.WindowFlags(0)
+        super(Ui_Fitxa_Edit, self).__init__(parent, flags)
+        self.setupUi(item)
+
+    def setupUi(self, obj):
+        super(Ui_Fitxa_Edit, self).setupUi(self)
+        self.fontLabel = QtGui.QFont()
+        self.fontLabel.setBold(True)
+        self.fontLabel.setWeight(75)
+        schema = CollectorSchemas().get('boardgames')
+        for field in schema['fields']:
+            value = field in obj and obj[field] or ''
+            self.createField(schema['fields'][field]['name'], value)
+        self.bCancel.connect(self.bCancel, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda: self.parent().viewFitxa(obj['title']))
+
+
+    def createLabel(self, text, label=False):
+        item = QtGui.QLabel(self)
+        if label:
+            item.setFont(self.fontLabel)
+        else:
+            item.setTextInteractionFlags(QtCore.Qt.LinksAccessibleByMouse | QtCore.Qt.TextSelectableByMouse)
+        item.setText(text)
+        item.setObjectName(_fromUtf8(text))
+        return item
+
+    def createLineEdit(self, text, label=False):
+        item = QtGui.QLineEdit(self)
+        #if label:
+        #    item.setFont(self.fontLabel)
+        #else:
+        #    item.setTextInteractionFlags(QtCore.Qt.LinksAccessibleByMouse | QtCore.Qt.TextSelectableByMouse)
+        item.setText(text)
+        item.setObjectName(_fromUtf8(text))
+        return item
+
+    def createField(self, label, text):
+        columnspan = 1
+        column = 0
+        rowspan = 1
+        itemLabel = self.createLabel(label, True)
+        # TODO image schema must allow choose file from the os
+        # usign QtGui.QFileDialog()
+
+        self.fieldsLayout.addWidget(itemLabel, self.row, column, rowspan, columnspan)
+        column += 1
+        if not isinstance(text, list):
+            text = [text]
+        for i in text:
+            item = self.createLineEdit(i)
+            self.fieldsLayout.addWidget(item, self.row, column, rowspan, columnspan)
+            self.row += 1
+        self.row += 1
+
+
 class Ui_Fitxa(QtGui.QWidget, Ui_Form_Fitxa):
 
     row = 0
@@ -153,8 +224,8 @@ class Ui_Fitxa(QtGui.QWidget, Ui_Form_Fitxa):
 
     def setupUi(self, item):
         super(Ui_Fitxa, self).setupUi(self)
-        obj = Collection().get(str(item.text()))
-        self.lTitle.setText(item.text())
+        obj = Collection().get(item)
+        self.lTitle.setText(item)
         self.fontLabel = QtGui.QFont()
         self.fontLabel.setBold(True)
         self.fontLabel.setWeight(75)
@@ -162,9 +233,12 @@ class Ui_Fitxa(QtGui.QWidget, Ui_Form_Fitxa):
         self.createField('Designer/s', obj['designer'])
         self.createField('Artist/s', obj['artist'])
         self.bDashboard.connect(self.bDashboard, QtCore.SIGNAL(_fromUtf8("linkActivated(QString)")), lambda s: self.parent().viewDashboard())
+        self.bEdit.connect(self.bEdit, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda: self.parent().editFitxa(obj))
+
         # TODO set image: we need to store it somewhere... but where is the best place?
         import os
         self.image.setPixmap(QtGui.QPixmap(os.path.join(os.path.dirname(__file__), obj['image'])))
+
 
 class Ui_Dashboard(QtGui.QWidget, Ui_Form_Dashboard):
 
@@ -174,15 +248,46 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form_Dashboard):
         super(Ui_Dashboard, self).__init__(parent, flags)
         self.setupUi()
 
-    def _show_fitxa(self, item):
-        self.parent().viewFitxa(item)
-
     def setupUi(self):
         super(Ui_Dashboard, self).setupUi(self)
         self.loadLastGames(self.listWidget)
         self.bSearch.connect(self.bSearch, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda: self.parent().searchResults(self.lSearch.text()))
+        self._loadQuickFilters()
+        self.listWidget.connect(self.listWidget, QtCore.SIGNAL(_fromUtf8("itemClicked(QListWidgetItem *)")), lambda s: self.parent().viewFitxa(str(s.text())))
 
-        self.listWidget.connect(self.listWidget, QtCore.SIGNAL(_fromUtf8("itemClicked(QListWidgetItem *)")), lambda s: self.parent().viewFitxa(s))
+    def _loadQuickFilters(self):
+        template = """<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+                    <html><head><meta name="qrichtext" content="1" /><style type="text/css">
+                    p, li { white-space: pre-wrap; }"
+                    a img {text-decoration:none;}"
+                    </style></head><body style=" font-family:'Lucida Grande'; font-size:13pt; font-weight:400; font-style:normal;">
+                    <p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><a href="collector:%(path)s"><img src=":%(image)s" /><br/><span style=" text-decoration: none; color:#000000;">%(title)s</span></a></p></body></html>"""
+        quick = [
+            {'class':'link', 'title': 'Boardgames', 'path': 'collection/boardgames', 'image': 'boards.png'},
+            {'class':'link', 'title': 'Authors & Designers', 'path': 'collection/authors', 'image': 'author.png'},
+            {'class': 'spacer'},
+            {'class': 'line'},
+            {'class':'link', 'title': 'New Boardgame', 'path': 'collection/boardgames/add', 'image': 'add.png'},
+        ]
+        self.quick = []
+        for i in quick:
+            if i['class'] == 'link':
+                content = template % {'path': i['path'], 'title': i['title'], 'image': i['image']}
+                # .replace('%title%', i['title']).replace('%PATH%', i['path']).replace('%IMG_RESOURCE%', i['img_resource'])
+                item = QtGui.QLabel(self)
+                item.setText(content)
+                self.quick.append(item)
+                self.quickFilters.addWidget(item)
+            elif i['class'] == 'spacer':
+                spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+                self.quick.append(spacerItem)
+                self.quickFilters.addItem(spacerItem)
+            elif i['class'] == 'line':
+                item = QtGui.QFrame(self)
+                item.setFrameShape(QtGui.QFrame.VLine)
+                item.setFrameShadow(QtGui.QFrame.Sunken)
+                self.quick.append(item)
+                self.quickFilters.addWidget(item)
 
     def loadLastGames(self, listContainer):
         lastGames = Collection().getLast()
@@ -193,15 +298,22 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form_Dashboard):
 
 class Ui_Application(QtGui.QMainWindow, Ui_MainWindow):
 
-    fullscreen = False
+    wasMaximized = False
 
     def switchFullscreen(self):
-        self.fullscreen = not self.fullscreen
-        if self.fullscreen:
+        """Display fullscrenn mode if isn't not active or shows the previous visualitzation
+        maximized or normal window."""
+        fullscreen = self.isFullScreen()
+        if not fullscreen:
+            self.wasMaximized = False
+            if self.isMaximized():
+                self.wasMaximized = True
             self.showFullScreen()
         else:
-            # TODO go to the previous mode!
-            self.showNormal()
+            if self.wasMaximized:
+                self.showMaximized()
+            else:
+                self.showNormal()
 
     def viewDashboard(self):
         dashboardWidget = Ui_Dashboard(self)
@@ -227,6 +339,10 @@ class Ui_Application(QtGui.QMainWindow, Ui_MainWindow):
     def viewFitxa(self, item):
         fitxaWidget = Ui_Fitxa(item, self)
         self.setCentralWidget(fitxaWidget)
+
+    def editFitxa(self, item):
+        ui = Ui_Fitxa_Edit(item, self)
+        self.setCentralWidget(ui)
 
     def setupUi(self):
         super(Ui_Application,  self).setupUi(self)

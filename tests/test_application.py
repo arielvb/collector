@@ -14,21 +14,21 @@ class TestUi(unittest.TestCase):
     def tearDown(self):
         del self.app
 
-    def test_application(self):
+    def test_application_can_be_created(self):
         from main import Ui_Application
         from ui.gen.mainWindow import Ui_MainWindow
         app = Ui_Application()
         app.setupUi()
         self.assertIsInstance(app, Ui_MainWindow)
 
-    def test_network(self):
+    def test_network_is_active(self):
         import urllib2
         is_google = False
         try:
-            urllib2.open('http://google.es', 2)
+            urllib2.urlopen('http://google.com', timeout=200)
             is_google = True
         except:
-            self.assertTrue(is_google, "Looks that no intenet connection is avaible")
+            self.assertTrue(is_google, "Looks like no internet connection is avaible.")
 
 if __name__ == '__main__':
     unittest.main()
