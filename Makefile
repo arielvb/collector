@@ -4,32 +4,39 @@ BUILD_DIR='./ui/gen'
 all: ui2py
 
 run: all
-	./bin/gameboard
+	./main.py
 
 test: ui2py
-	python -m unittest tests.bootstrap tests.application
+	python -m unittest discover tests
 
 mac: all
 	python setup.py py2app
-	bin/macdeployqt dist/main.app
+	bin/macdeployqt dist/collector.app
 	# Remove _debug binaries inside frameworks
-	find dist/main.app/Contents/Frameworks/ -name *_debug -exec rm {\} \;
+	find dist/collector.app/Contents/Frameworks/ -name *_debug -exec rm {\} \;
 
 macdebug: all
 	#Creates an alias, doesn't copy all the libraries
 	python setup.py py2app -A
 
 # create dmg
-dmg: mac
-	hdiutil create -imagekey zlib-level=9 -srcfolder dist/ -volname collection.dmg
+dmg:
+	hdiutil create -imagekey zlib-level=9 -srcfolder dist/collector.app dist/collector.dmg
+
+# Copiar a la carpeta compartida amb la maquina virtual de windows
+copy2win:
+	rm -rf ~/Desktop/mv/app
+	cp -r ../app ~/Desktop/mv/
 
 ui2py:
 	echo '#' > ${BUILD_DIR}/__init__.py
 	pyuic4 -x ${UI_DIR}/mainWindow.ui -o ${BUILD_DIR}/mainWindow.py
 	pyuic4 -x ${UI_DIR}/dashboard.ui -o ${BUILD_DIR}/dashboard.py
 	pyuic4 -x ${UI_DIR}/fitxa.ui -o ${BUILD_DIR}/fitxa.py
+	pyuic4 -x ${UI_DIR}/fitxa_edit.ui -o ${BUILD_DIR}/fitxa_edit.py
 	pyuic4 -x ${UI_DIR}/search_results.ui -o ${BUILD_DIR}/search_results.py
 	pyuic4 -x ${UI_DIR}/search_quick.ui -o ${BUILD_DIR}/search_quick.py
+	pyuic4 -x ${UI_DIR}/collection_items.ui -o ${BUILD_DIR}/collection_items.py
 	pyrcc4 -o ${BUILD_DIR}/resources_rc.py ${UI_DIR}/resources.qrc
 
 .PHONY: clean
