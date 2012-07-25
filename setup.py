@@ -2,7 +2,7 @@ from setuptools import setup
 import os
 import sys
 
-name = 'collector'
+name = 'Collector'
 version = "0.1"
 VERSION = "0.1"
 
@@ -47,7 +47,7 @@ if isosx:
     requires.append('py2app')
 
 if iswin:
-    import py2exe
+    
     options['py2exe'] = {
                 "skip_archive": True,
                 "includes": ["sip"],
@@ -72,9 +72,9 @@ setup(
   url="http://www.arielvb.com",
   license="GPL2",
   zip_safe=False,
-  app=["main.py"],
+  app=["collector.py"],
   windows=[{
-            "script": "main.py",
+            "script": "collector.py",
             'icon_resources':[(1, 'collection.ico')]
             }],
   options=options,

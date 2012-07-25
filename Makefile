@@ -4,16 +4,16 @@ BUILD_DIR='./ui/gen'
 all: ui2py
 
 run: all
-	./main.py
+	./collector.py
 
-test: ui2py
+test:
 	python -m unittest discover tests
 
 mac: all
 	python setup.py py2app
-	bin/macdeployqt dist/collector.app
+	bin/macdeployqt dist/Collector.app
 	# Remove _debug binaries inside frameworks
-	find dist/collector.app/Contents/Frameworks/ -name *_debug -exec rm {\} \;
+	find dist/Collector.app/Contents/Frameworks/ -name *_debug -exec rm {\} \;
 
 macdebug: all
 	#Creates an alias, doesn't copy all the libraries
@@ -21,7 +21,7 @@ macdebug: all
 
 # create dmg
 dmg:
-	hdiutil create -imagekey zlib-level=9 -srcfolder dist/collector.app dist/collector.dmg
+	hdiutil create -imagekey zlib-level=9 -srcfolder dist/Collector.app dist/Collector.dmg
 
 # Copiar a la carpeta compartida amb la maquina virtual de windows
 copy2win:
@@ -38,6 +38,9 @@ ui2py:
 	pyuic4 -x ${UI_DIR}/search_quick.ui -o ${BUILD_DIR}/search_quick.py
 	pyuic4 -x ${UI_DIR}/collection_items.ui -o ${BUILD_DIR}/collection_items.py
 	pyrcc4 -o ${BUILD_DIR}/resources_rc.py ${UI_DIR}/resources.qrc
+
+i18n:
+	pylupdate4 ui/designer/*.ui -ts translations.ts
 
 .PHONY: clean
 clean:
