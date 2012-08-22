@@ -17,19 +17,7 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QLabel" name="label_2">
-       <property name="font">
-        <font>
-         <pointsize>13</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-         <strikeout>false</strikeout>
-        </font>
-       </property>
-       <property name="text">
-        <string>SEARCH</string>
-       </property>
-      </widget>
+      <widget class="QWidget" name="topbar" native="true"/>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">

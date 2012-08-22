@@ -1,5 +1,15 @@
 <RCC>
   <qresource>
+    <file>ico/boards.png</file>
+    <file>ico/dashboard.png</file>
+    <file>ico/search.png</file>
+    <file>info.png</file>
+    <file>back.png</file>
+    <file>box.png</file>
+    <file>save.png</file>
+    <file>search.png</file>
+    <file>edit.png</file>
+    <file>delete.png</file>
     <file>dashboard.png</file>
     <file>fullscreen.png</file>
     <file>add.png</file>

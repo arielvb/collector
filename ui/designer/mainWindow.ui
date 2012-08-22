@@ -39,7 +39,6 @@
     </property>
     <addaction name="actionOpen_Collection"/>
     <addaction name="actionBackup"/>
-    <addaction name="actionAbout"/>
     <addaction name="separator"/>
     <addaction name="actionClose"/>
    </widget>
@@ -47,6 +46,7 @@
     <property name="title">
      <string>Search</string>
     </property>
+    <addaction name="actionAdvanced_Search"/>
     <addaction name="actionQuick_search"/>
    </widget>
    <widget class="QMenu" name="menuTools">
@@ -139,6 +139,15 @@
   <action name="actionManage_plugins">
    <property name="text">
     <string>Manage plugins</string>
+   </property>
+  </action>
+  <action name="actionAdvanced_Search">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/ico/search.png</normaloff>:/ico/search.png</iconset>
+   </property>
+   <property name="text">
+    <string>Advanced search</string>
    </property>
   </action>
  </widget>

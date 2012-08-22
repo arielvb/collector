@@ -1,16 +1,24 @@
 #!/usr/bin/env python2.7
 # -*- coding: utf-8 -*-
 
+# This is only needed for Python v2 but is harmless for Python v3.
+import sip
+sip.setapi('QVariant', 2)
+
 from PyQt4 import QtCore, QtGui
-from PyQt4.QtGui import QListWidgetItem
+from PyQt4.Qt import qDebug  # Debug!!!
 from ui.gen.mainWindow import Ui_MainWindow
-from ui.gen.dashboard import Ui_Form as Ui_Form_Dashboard
-from ui.gen.fitxa import Ui_Form as Ui_Form_Fitxa
-from ui.gen.fitxa_edit import Ui_Form as Ui_Form_Fitxa_Edit
-from ui.gen.search_results import Ui_Form as Ui_Form_Search
 from ui.gen.search_quick import Ui_Dialog as Ui_Dialog_Search
-from collector.search import bgg
-from tests import mocks
+from ui.gen.info_dialog import Ui_Dialog as Ui_Dialog_Info
+from ui.gen.plugins import Ui_Form as Ui_Plugins
+#from ui.views.dashboard import Ui_Dashboard
+from ui.views.dashboard import DashboardView
+from ui.views.fitxa_edit import FitxaEditView
+from ui.views.fitxa import FitxaView
+from ui.views.collection import CollectionView
+from ui.views.search import Ui_Search
+from engine.collection import CollectionManager
+
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -18,290 +26,50 @@ except AttributeError:
     _fromUtf8 = lambda s: s
 
 
-class GameboardPersistence():
+class ToolBarManager():
 
-    items = mocks.gameboards
+    def __init__(self, parent):
+        self.parent = parent
+        toolbars = {}
+        self.parent.setUnifiedTitleAndToolBarOnMac(True)
+        toolBar = QtGui.QToolBar("Navigation")
+        self.parent.addToolBar(toolBar)
+        # Notify unified title and toolbar on mac (displays collapse button at the right corner)
+        toolbars['navigation'] = toolBar
+        self.dashToolbarAction = QtGui.QAction(QtGui.QIcon(':/dashboard.png'),
+                "&Dashboard", self.parent, shortcut="Ctrl+D",
+                statusTip="View dashboard",
+                triggered=lambda: self.parent.displatView('dashboard'))
+        toolBar.addAction(self.dashToolbarAction)
+        toolBar = QtGui.QToolBar("Edition")
+        toolbars['edition'] = toolBar
+        self.editToolbarAction = QtGui.QAction(QtGui.QIcon(':/edit.png'),
+                "&Edit", self.parent, shortcut="Ctrl+E",
+                statusTip="Edit",
+                triggered=lambda: self.parent.editFitxa())
+        # self.editToolbarAction.setEnabled(False)
+        toolBar.addAction(self.editToolbarAction)
+        self.toolbars = toolbars
 
-    def getLast(self, count):
-        result = self.items[:count]
-        return result
+    def hiddeToolBar(self, toolbar):
+        self.parent.setUnifiedTitleAndToolBarOnMac(False)
+        self.parent.removeToolBar(self.toolbars[toolbar])
+        self.parent.setUnifiedTitleAndToolBarOnMac(True)
 
-    def get(self, title):
-        for a in self.items:
-            if title == a['title']:
-                return a
-        return {}
-
-
-class CollectorSchemas():
-
-    def get(self, name):
-        #TODO implement
-        return mocks.schemas['boardgames']
-
-
-class Collection():
-
-    def __init__(self):
-        # FIXME GameboardPersistence must be singleton?
-        self.db = GameboardPersistence()
-
-    def getLast(self):
-        """ Finds last items created at the collection."""
-        return self.db.getLast(10)
-
-    def get(self, title):
-        return self.db.get(title)
-
-
-class Worker_Search(QtCore.QThread):
-
-    searchComplete = QtCore.pyqtSignal()
-
-    def __init__(self, parent=None):
-        QtCore.QThread.__init__(self, parent)
-        self.results = {}
-
-    def search(self, text):
-        #log.debug('Searching...')
-        self.action = 'search'
-        self.params = {'query': text}
-        self.start()
-
-    def run(self):
-        if self.action == 'search':
-            self.results['search'] = []
-            try:
-                p = bgg.search(self.params['query'], bgg.bgg_search_provider, bgg.bgg_search_filter)
-                self.results['search'] = p
-            except:
-                #TODO añadir gestión de errores
-                self.error = 'Oopss'
-            self.searchComplete.emit()
-
-            return
-        if self.action == 'lastgames':
-            self.results['lastgames'] = []
-            return
-
-    def getLastResult(self):
-        return self.results
-
-    def __del__(self):
-        self.wait()
-
-
-class Ui_Search(Ui_Form_Search):
-
-    worker = None
-
-    def setupUi(self, container, window, args):
-        super(Ui_Search, self).setupUi(container)
-        if 'query' in args:
-            self.lSearch.setText(args['query'])
-        self.bSearch.connect(self.bSearch, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda: self.search(self.lSearch.text()))
-
-        self.worker = Worker_Search()
-        self.worker.searchComplete.connect(lambda: self.searchComplete())
-        if str(args['query']) != '':
-            self.search(str(args['query']))
-        else:
-            self.progressBar.hide()
-
-    def search(self, text):
-        self.bSearch.setDisabled(True)
-        self.listWidget.clear()
-        self.progressBar.show()
-        self.worker.search(str(text))
-
-    def searchComplete(self):
-        self.bSearch.setEnabled(True)
-        self.progressBar.hide()
-        results = self.worker.getLastResult()
-        for a in results['search']:
-            item = QListWidgetItem(a[0])
-            self.listWidget.addItem(item)
-            del item
-
-
-class Ui_Fitxa_Edit(QtGui.QWidget, Ui_Form_Fitxa_Edit):
-
-    row = 0
-
-    def __init__(self, item, parent=None, flags=None):
-        if flags is None:
-            flags = QtCore.Qt.WindowFlags(0)
-        super(Ui_Fitxa_Edit, self).__init__(parent, flags)
-        self.setupUi(item)
-
-    def setupUi(self, obj):
-        super(Ui_Fitxa_Edit, self).setupUi(self)
-        self.fontLabel = QtGui.QFont()
-        self.fontLabel.setBold(True)
-        self.fontLabel.setWeight(75)
-        schema = CollectorSchemas().get('boardgames')
-        for field in schema['fields']:
-            value = field in obj and obj[field] or ''
-            self.createField(schema['fields'][field]['name'], value)
-        self.bCancel.connect(self.bCancel, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda: self.parent().viewFitxa(obj['title']))
-
-
-    def createLabel(self, text, label=False):
-        item = QtGui.QLabel(self)
-        if label:
-            item.setFont(self.fontLabel)
-        else:
-            item.setTextInteractionFlags(QtCore.Qt.LinksAccessibleByMouse | QtCore.Qt.TextSelectableByMouse)
-        item.setText(text)
-        item.setObjectName(_fromUtf8(text))
-        return item
-
-    def createLineEdit(self, text, label=False):
-        item = QtGui.QLineEdit(self)
-        #if label:
-        #    item.setFont(self.fontLabel)
-        #else:
-        #    item.setTextInteractionFlags(QtCore.Qt.LinksAccessibleByMouse | QtCore.Qt.TextSelectableByMouse)
-        item.setText(text)
-        item.setObjectName(_fromUtf8(text))
-        return item
-
-    def createField(self, label, text):
-        columnspan = 1
-        column = 0
-        rowspan = 1
-        itemLabel = self.createLabel(label, True)
-        # TODO image schema must allow choose file from the os
-        # usign QtGui.QFileDialog()
-
-        self.fieldsLayout.addWidget(itemLabel, self.row, column, rowspan, columnspan)
-        column += 1
-        if not isinstance(text, list):
-            text = [text]
-        for i in text:
-            item = self.createLineEdit(i)
-            self.fieldsLayout.addWidget(item, self.row, column, rowspan, columnspan)
-            self.row += 1
-        self.row += 1
-
-
-class Ui_Fitxa(QtGui.QWidget, Ui_Form_Fitxa):
-
-    row = 0
-
-    def __init__(self, item, parent=None, flags=None):
-        if flags is None:
-            flags = QtCore.Qt.WindowFlags(0)
-        super(Ui_Fitxa, self).__init__(parent, flags)
-        # TODO obtain full item, not only the title
-        self.setupUi(item)
-
-    def createLabel(self, text, label=False):
-        item = QtGui.QLabel(self)
-        if label:
-            item.setFont(self.fontLabel)
-        else:
-            item.setTextInteractionFlags(QtCore.Qt.LinksAccessibleByMouse | QtCore.Qt.TextSelectableByMouse)
-        item.setText(text)
-        item.setObjectName(_fromUtf8(text))
-        return item
-
-    def createField(self, label, text):
-        columnspan = 1
-        column = 0
-        rowspan = 1
-        #TODO add support for multiavalue fields
-        itemLabel = self.createLabel(label, True)
-        self.fieldsLayout.addWidget(itemLabel, self.row, column, rowspan, columnspan)
-        column += 1
-        if not isinstance(text, list):
-            text = [text]
-        for i in text:
-            item = self.createLabel(i)
-            self.fieldsLayout.addWidget(item, self.row, column, rowspan, columnspan)
-            self.row += 1
-        self.row += 1
-
-    def setupUi(self, item):
-        super(Ui_Fitxa, self).setupUi(self)
-        obj = Collection().get(item)
-        self.lTitle.setText(item)
-        self.fontLabel = QtGui.QFont()
-        self.fontLabel.setBold(True)
-        self.fontLabel.setWeight(75)
-        self.createField('Title', obj['title'])
-        self.createField('Designer/s', obj['designer'])
-        self.createField('Artist/s', obj['artist'])
-        self.bDashboard.connect(self.bDashboard, QtCore.SIGNAL(_fromUtf8("linkActivated(QString)")), lambda s: self.parent().viewDashboard())
-        self.bEdit.connect(self.bEdit, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda: self.parent().editFitxa(obj))
-
-        # TODO set image: we need to store it somewhere... but where is the best place?
-        import os
-        self.image.setPixmap(QtGui.QPixmap(os.path.join(os.path.dirname(__file__), obj['image'])))
-
-
-class Ui_Dashboard(QtGui.QWidget, Ui_Form_Dashboard):
-
-    def __init__(self, parent=None, flags=None):
-        if flags is None:
-            flags = QtCore.Qt.WindowFlags(0)
-        super(Ui_Dashboard, self).__init__(parent, flags)
-        self.setupUi()
-
-    def setupUi(self):
-        super(Ui_Dashboard, self).setupUi(self)
-        self.loadLastGames(self.listWidget)
-        self.bSearch.connect(self.bSearch, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda: self.parent().searchResults(self.lSearch.text()))
-        self._loadQuickFilters()
-        self.listWidget.connect(self.listWidget, QtCore.SIGNAL(_fromUtf8("itemClicked(QListWidgetItem *)")), lambda s: self.parent().viewFitxa(str(s.text())))
-
-    def _loadQuickFilters(self):
-        template = """<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
-                    <html><head><meta name="qrichtext" content="1" /><style type="text/css">
-                    p, li { white-space: pre-wrap; }"
-                    a img {text-decoration:none;}"
-                    </style></head><body style=" font-family:'Lucida Grande'; font-size:13pt; font-weight:400; font-style:normal;">
-                    <p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><a href="collector:%(path)s"><img src=":%(image)s" /><br/><span style=" text-decoration: none; color:#000000;">%(title)s</span></a></p></body></html>"""
-        quick = [
-            {'class':'link', 'title': 'Boardgames', 'path': 'collection/boardgames', 'image': 'boards.png'},
-            {'class':'link', 'title': 'Authors & Designers', 'path': 'collection/authors', 'image': 'author.png'},
-            {'class': 'spacer'},
-            {'class': 'line'},
-            {'class':'link', 'title': 'New Boardgame', 'path': 'collection/boardgames/add', 'image': 'add.png'},
-        ]
-        self.quick = []
-        for i in quick:
-            if i['class'] == 'link':
-                content = template % {'path': i['path'], 'title': i['title'], 'image': i['image']}
-                # .replace('%title%', i['title']).replace('%PATH%', i['path']).replace('%IMG_RESOURCE%', i['img_resource'])
-                item = QtGui.QLabel(self)
-                item.setText(content)
-                self.quick.append(item)
-                self.quickFilters.addWidget(item)
-            elif i['class'] == 'spacer':
-                spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-                self.quick.append(spacerItem)
-                self.quickFilters.addItem(spacerItem)
-            elif i['class'] == 'line':
-                item = QtGui.QFrame(self)
-                item.setFrameShape(QtGui.QFrame.VLine)
-                item.setFrameShadow(QtGui.QFrame.Sunken)
-                self.quick.append(item)
-                self.quickFilters.addWidget(item)
-
-    def loadLastGames(self, listContainer):
-        lastGames = Collection().getLast()
-        for i in lastGames:
-            item = QListWidgetItem(i['title'])
-            listContainer.addItem(item)
+    def showToolBar(self, toolbar):
+        self.parent.setUnifiedTitleAndToolBarOnMac(False)
+        # TODO why once deleted the toolbar it is destroyed and it's impossiblo to show again?
+        self.parent.addToolBar(self.toolbars[toolbar])
+        self.parent.setUnifiedTitleAndToolBarOnMac(True)
 
 
 class Ui_Application(QtGui.QMainWindow, Ui_MainWindow):
 
     wasMaximized = False
+    collection = CollectionManager.getInstance()
 
     def switchFullscreen(self):
-        """Display fullscrenn mode if isn't not active or shows the previous visualitzation
+        """Display fullscreen mode if isn't not active or shows the previous visualitzation
         maximized or normal window."""
         fullscreen = self.isFullScreen()
         if not fullscreen:
@@ -315,9 +83,17 @@ class Ui_Application(QtGui.QMainWindow, Ui_MainWindow):
             else:
                 self.showNormal()
 
-    def viewDashboard(self):
-        dashboardWidget = Ui_Dashboard(self)
-        self.setCentralWidget(dashboardWidget)
+    def displayView(self, name, params={}):
+        if not name in self.views:
+            raise Exception('View not found')
+        self.views[name].run(params)
+
+    # def viewDashboard(self):
+    #     #dashboardWidget = Ui_Dashboard(self)
+    #     #self.setCentralWidget(dashboardWidget)
+    #     self.views['dashboard'].run()
+    #     #self.toolbarManager.hiddeToolBar('edition')
+
 
     def viewQuickSearch(self):
         dialog = QtGui.QDialog()
@@ -330,37 +106,105 @@ class Ui_Application(QtGui.QMainWindow, Ui_MainWindow):
             self.searchResults(ui.lineEdit.text())
         #TODO obtain response of the dialog
 
+    def viewInfo(self, msg):
+        dialog = QtGui.QDialog()
+        ui = Ui_Dialog_Info()
+        ui.setupUi(dialog)
+        ui.lMessage.setText(msg)
+        dialog.exec_()
+
+    def managePlugins(self):
+        w = QtGui.QWidget()
+        ui = Ui_Plugins()
+        ui.setupUi(w)
+        self.setCentralWidget(w)
+
     def searchResults(self, text):
         w = QtGui.QWidget()
         ui = Ui_Search()
         ui.setupUi(w, self, {'query': text})
         self.setCentralWidget(w)
 
-    def viewFitxa(self, item):
-        fitxaWidget = Ui_Fitxa(item, self)
-        self.setCentralWidget(fitxaWidget)
+    # def viewFitxa(self, item):
+    #     fitxaWidget = Ui_Fitxa(item, self)
+    #     self.fitxa = item
+    #     self.setCentralWidget(fitxaWidget)
+    #     #self.toolbarManager.showToolBar('edition')
 
-    def editFitxa(self, item):
-        ui = Ui_Fitxa_Edit(item, self)
-        self.setCentralWidget(ui)
+    # def editFitxa(self, item=None):
+    #     if item is None:
+    #         item = self.fitxa
+    #     ui = Ui_Fitxa_Edit(item, self)
+    #     self.setCentralWidget(ui)
+    #     #self.toolbarManager.hiddeToolBar('edition')
 
     def setupUi(self):
         super(Ui_Application,  self).setupUi(self)
-        self.viewDashboard()
-        QtCore.QObject.connect(self.actionView_Dashboard, QtCore.SIGNAL(_fromUtf8("triggered()")), self.viewDashboard)
+        self.createToolbar()
+        self.createAbout()
+        self.initViews()
+        self.displayView('dashboard')
+        # Menu actions
+        QtCore.QObject.connect(self.actionView_Dashboard, QtCore.SIGNAL(_fromUtf8("triggered()")), lambda: self.displayView('dashboard'))
         QtCore.QObject.connect(self.actionQuick_search, QtCore.SIGNAL(_fromUtf8("triggered()")), self.viewQuickSearch)
         QtCore.QObject.connect(self.actionFullscreen, QtCore.SIGNAL(_fromUtf8("triggered()")), self.switchFullscreen)
         QtCore.QObject.connect(self.actionSearch_game, QtCore.SIGNAL(_fromUtf8("triggered()")), lambda: self.searchResults(''))
+        QtCore.QObject.connect(self.actionManage_plugins, QtCore.SIGNAL(_fromUtf8("triggered()")), self.managePlugins)
         #dashboard.setupUi(dashboardWidget, self.centralwidget)
 
+    def initViews(self):
+        self.views = {
+            'dashboard': DashboardView(self),
+            'fitxa': FitxaView(self),
+            'fitxa_edit': FitxaEditView(self),
+            'collection': CollectionView(self)
+        }
+
+    def about(self):
+        QtGui.QMessageBox.about(self, "About Application",
+                "<b>Collector</b> manages your collections!")
+
+    def createAbout(self):
+        self.helpMenu = self.menuBar().addMenu("&Help")
+        self.aboutAct = QtGui.QAction("&About", self,
+        statusTip="Show the application's About box",
+        triggered=self.about)
+        self.helpMenu.addAction(self.aboutAct)
+
+    def createToolbar(self):
+        # TODO better toolbar!
+        #self.toolbarManager = ToolBarManager(self)
+        qDebug('ToolbarCreated')
+
+
+class SplashScreen():
+
+    def __init__(self):
+        splash_pix = QtGui.QPixmap('./data/collector_splash.png')
+        self.splash = QtGui.QSplashScreen(splash_pix, QtCore.Qt.WindowStaysOnTopHint)
+        self.splash.setMask(splash_pix.mask())
+        self.splash.show()
+
+    def finish(self, ui):
+        self.splash.finish(ui)
 
 if __name__ == "__main__":
     import sys
+    import time
     app = QtGui.QApplication(sys.argv)
+
+    # Create and display the splash screen
+    splash = SplashScreen()
+    app.processEvents()
+
     ui = Ui_Application()
     ui.setupUi()
+    # TODO remove time sleep, now exists only to see the splash screen
+    time.sleep(2)
+
     # Show window
     ui.show()
+    splash.finish(ui)
     # Bring window to front
     ui.raise_()
     sys.exit(app.exec_())
