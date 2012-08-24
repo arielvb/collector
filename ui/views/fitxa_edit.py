@@ -114,7 +114,7 @@ class Ui_Fitxa_Edit(QtGui.QWidget, Ui_Form):
             data[field] = values
         data['id'] = self.obj['id']
         self.collection.save(data)
-        self.parent().displayView('fitxa', {'item': data['name'], 'collection': self.collection.name})
+        self.parent().displayView('fitxa', {'item': data['id'], 'collection': self.collection.name})
         qDebug(str(data))
 
         #pass
