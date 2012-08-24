@@ -161,8 +161,14 @@ class Ui_Application(QtGui.QMainWindow, Ui_MainWindow):
         }
 
     def about(self):
-        QtGui.QMessageBox.about(self, "About Application",
-                "<b>Collector</b> manages your collections!")
+        QtGui.QMessageBox.about(self, "About Collector",
+                _fromUtf8("""
+                 collector |kəˈlektər|
+                 noun a person or thing that collects something, in particular
+                 - New Oxford dictionary
+
+                https://www.ariel.cat
+                """))
 
     def createAbout(self):
         self.helpMenu = self.menuBar().addMenu("&Help")
