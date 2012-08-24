@@ -2,8 +2,7 @@ from setuptools import setup
 import os
 from engine.config import iswin, isosx
 
-name = 'Collector'
-version = "0.1"
+NAME = 'Collector'
 VERSION = "0.1"
 
 
@@ -13,6 +12,7 @@ def read(*rnames):
 
 options = {}
 requires = ["beautifulsoup4"]
+
 if isosx:
     options['py2app'] = {
                 "iconfile": "collection.icns",
@@ -41,10 +41,10 @@ if isosx:
                             ]
             }
     requires.append('py2app')
-    extraoptions = dict()
+    extraoptions = dict(  app=["collector.py"])
 
 if iswin:
-
+    import py2exe
     options['py2exe'] = {
                 "skip_archive": True,
                 "includes": ["sip"],
@@ -62,18 +62,17 @@ if iswin:
             }])
 
 setup(
-  name=name,
-  version=version,
+  name=NAME,
+  version=VERSION,
   description="Collector is a management application",
   long_description=(read('README.rst')),
   # TODO search classifiers
-  classifiers=['Intended Auidence:: Developers'],
-  author="Ariel",
+  classifiers=['Intended Auidence:: Developers, Collectors'],
+  author="Ariel von Barnekow",
   author_email="i@arielvb.com",
   url="http://www.arielvb.com",
   license="GPL2",
   zip_safe=False,
-  app=["collector.py"],
   options=options,
   setup_requires=requires,
   **extraoptions
