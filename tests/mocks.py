@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from engine.config import Config
 from os import path
 config = Config()
@@ -36,7 +37,7 @@ boardgames = [
         'year': "2007",
         'designer': ['people:1', 'peope:2'],
         'artist': ['people:3', 'people:4', 'people:5'],
-        'image': BASE_PATH + '/pilares.jpg'
+        'image': path.join(BASE_PATH, 'pilares.jpg')
     },
     {
         'id': 2,
@@ -44,7 +45,7 @@ boardgames = [
         'year': "2010",
         'designer': ['people:6'],
         'artist': ['people:7'],
-        'image': BASE_PATH + '/coney-island.jpg'
+        'image': path.join(BASE_PATH, 'coney-island.jpg')
     }
 ]
 
