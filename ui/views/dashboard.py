@@ -17,6 +17,21 @@ class FitxaList(QListWidgetItem):
         self.id = id
 
 
+# TODO store settings in a config file
+dashboard_settings = {
+
+    'items': [
+            {'class':'link', 'name': 'Boardgames', 'path': 'collection/boardgames', 'image': ':/boards.png'},
+            {'class':'link', 'name': 'Authors & Designers', 'path': 'collection/people', 'image': ':/author.png'},
+            {'class': 'spacer'},
+            {'class': 'line'},
+            {'class':'link', 'name': 'New <b>Boardgame</b>', 'path': 'collection/boardgames/add', 'image': ':/add.png'},
+        ],
+
+    'lastcollection': 'boardgames'
+}
+
+
 class Ui_Dashboard(QtGui.QWidget, Ui_Form):
 
     def __init__(self, parent=None, flags=None):
@@ -24,6 +39,8 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
         if flags is None:
             flags = QtCore.Qt.WindowFlags(0)
         super(Ui_Dashboard, self).__init__(parent, flags)
+        global dashboard_settings
+        self.settings = dashboard_settings
         self.setupUi()
 
     def setupUi(self):
@@ -42,13 +59,7 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
 
     def _loadToolbar(self):
         """ Creates the toolbar for the view, this function must be called after the Ui_Form.setupUi has been called."""
-        items = [
-            {'class':'link', 'name': 'Boardgames', 'path': 'collection/boardgames', 'image': ':/boards.png'},
-            {'class':'link', 'name': 'Authors & Designers', 'path': 'collection/people', 'image': ':/author.png'},
-            {'class': 'spacer'},
-            {'class': 'line'},
-            {'class':'link', 'name': 'New Boardgame', 'path': 'collection/boardgames/add', 'image': ':/add.png'},
-        ]
+        items = self.settings['items']
         CustomToolbar(self.toolbar, items, self._toolbarCallback)
 
     def _toolbarCallback(self, uri):
@@ -75,8 +86,11 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
             pass
 
     def loadLastGames(self, listContainer):
-        lastGames = self.parent().collection.getCollection('boardgames').getLast10()
-        for i in lastGames:
+        collection = self.parent().collection.getCollection(self.settings['lastcollection'])
+        label = collection.getName()
+        self.lLastItems.setText("Last %s" % label)
+        lastObjects = collection.getLast10()
+        for i in lastObjects:
             item = FitxaList(i['id'], i['name'])
             listContainer.addItem(item)
 
