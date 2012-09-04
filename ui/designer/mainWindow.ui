@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Gestor de col·leccions</string>
+   <string>Collector</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
@@ -35,12 +35,12 @@
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>File</string>
+     <string>Collection</string>
     </property>
-    <addaction name="actionOpen_Collection"/>
-    <addaction name="actionBackup"/>
+    <addaction name="actionProperties"/>
     <addaction name="separator"/>
     <addaction name="actionClose"/>
+    <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menuSearch">
     <property name="title">
@@ -62,6 +62,8 @@
      <addaction name="actionManage_plugins"/>
     </widget>
     <addaction name="menuPlugins"/>
+    <addaction name="actionOpen_Collection"/>
+    <addaction name="actionBackup"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -106,12 +108,12 @@
   </action>
   <action name="actionOpen_Collection">
    <property name="text">
-    <string>Open</string>
+    <string>Import</string>
    </property>
   </action>
   <action name="actionBackup">
    <property name="text">
-    <string>Backup</string>
+    <string>Export</string>
    </property>
   </action>
   <action name="actionAbout">
@@ -133,7 +135,7 @@
   </action>
   <action name="actionSearch_game">
    <property name="text">
-    <string>Search game</string>
+    <string>Discover files</string>
    </property>
   </action>
   <action name="actionManage_plugins">
@@ -148,6 +150,16 @@
    </property>
    <property name="text">
     <string>Advanced search</string>
+   </property>
+  </action>
+  <action name="actionProperties">
+   <property name="text">
+    <string>Properties</string>
+   </property>
+  </action>
+  <action name="actionFolder">
+   <property name="text">
+    <string>Edit</string>
    </property>
   </action>
  </widget>
