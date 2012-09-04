@@ -2,33 +2,9 @@
 from engine.config import Config
 from os import path
 config = Config()
-BASE_PATH = path.join(config.getDataFolder(), 'demo')
+BASE_PATH = path.join(config.get_appdata_path(), 'demo')
 #BASE_PATH = os.path.join(os.path.dirname(__file__), 'data')
 
-schemas = {
-    'boardgames': {
-        'name': 'Boardgames',
-        'fields': {
-            'name': {'class': 'text', 'name': 'Title'},
-            'year': {'class': 'int', 'name': 'Year'},
-            'designer': {'class': 'ref', 'name': 'Designer/s', 'multiple': True, 'params': {'ref': 'people.name'}},
-            'artist': {'class': 'ref', 'name': 'Artist/s', 'multiple': True,  'params': {'ref': 'people.name'}},
-            'image': {'class': 'image', 'name': 'Image'},
-            'originalidea': {'class': 'text', 'name': 'Original Idea'}
-        },
-        'default': 'name',
-        'order': ['name', 'year', 'designer', 'artist', 'image', 'originalidea']
-    },
-    'people': {
-        'name': 'Authors / Designers',
-        'fields': {
-            'name': {'class': 'text', 'name': 'Name'}
-        },
-        #TODO why if order is not defiened-> the default order isn't load
-        #'order': 'name',
-        'default': 'name',
-    }
-}
 
 boardgames = [
     {
@@ -59,6 +35,46 @@ people = [
     {'id': 6, 'name': 'Michael Schant'},
     {'id': 7, 'name': 'Dennis Lohausen'}
 ]
+
+#TODO allow schema option searchable?
+collections = {
+                'boardgames': {
+                    'name': 'Boardgames',
+                    'protection': 'user',  # Aka, none
+                    'description': 'Boardgames collection',
+                    'author': 'Ariel',
+                    'schemas': {
+                        'boardgames': {
+                            'name': 'Boardgames',
+                            'fields': {
+                                'name': {'class': 'text', 'name': 'Title'},
+                                'year': {'class': 'int', 'name': 'Year'},
+                                'designer': {'class': 'ref', 'name': 'Designer/s', 'multiple': True, 'params': {'ref': 'people.name'}},
+                                'artist': {'class': 'ref', 'name': 'Artist/s', 'multiple': True,  'params': {'ref': 'people.name'}},
+                                'image': {'class': 'image', 'name': 'Image'},
+                                'originalidea': {'class': 'text', 'name': 'Original Idea'}
+                            },
+                            'default': 'name',
+                            'order': ['name', 'year', 'designer', 'artist', 'image', 'originalidea'],
+                            'image': ':/boards.png',
+                            'ico': ':ico/boards.png'
+                        },
+                        'people': {
+                            'name': 'Authors / Designers',
+                            'fields': {
+                                'name': {'class': 'text', 'name': 'Name'}
+                            },
+                            'default': 'name',
+                            'image': ':/author.png',
+                            'ico': ':ico/author.png'
+                        },
+                    },
+                    'persistence': {
+                        'storage': 'dict',
+                        'parameters': {'boardgames': boardgames, 'people': people}
+                    }
+                }
+            }
 
 if __name__ == '__main__':
     print boardgames

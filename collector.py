@@ -16,9 +16,13 @@ from ui.views.dashboard import DashboardView
 from ui.views.fitxa_edit import FitxaEditView
 from ui.views.fitxa import FitxaView
 from ui.views.collection import CollectionView
-from ui.views.search import Ui_Search
+from ui.views.search import SearchView
+from ui.views.fitxa_new import FitxaNewView
+import time
+
 from engine.collection import CollectionManager
 
+import sys
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -63,10 +67,52 @@ class ToolBarManager():
         self.parent.setUnifiedTitleAndToolBarOnMac(True)
 
 
-class Ui_Application(QtGui.QMainWindow, Ui_MainWindow):
+class CollectorUI(QtGui.QMainWindow, Ui_MainWindow):
 
     wasMaximized = False
     collection = CollectionManager.getInstance()
+
+    def __init__(self, parent=None):
+        super(CollectorUI,  self).__init__()
+        # TODO remove time sleep, now exists only to see the splash screen
+        time.sleep(2)
+
+        self.setupUi(self)
+        self.setUnifiedTitleAndToolBarOnMac(True)
+        # TODO clean toolbar code?
+        # self.createToolbar()
+        self.createAbout()
+        self.initViews()
+        self.displayView('dashboard')
+        # Menu actions
+        QtCore.QObject.connect(self.actionView_Dashboard, QtCore.SIGNAL(_fromUtf8("triggered()")), lambda: self.displayView('dashboard'))
+        QtCore.QObject.connect(self.actionQuick_search, QtCore.SIGNAL(_fromUtf8("triggered()")), self.viewQuickSearch)
+        QtCore.QObject.connect(self.actionFullscreen, QtCore.SIGNAL(_fromUtf8("triggered()")), self.switchFullscreen)
+        QtCore.QObject.connect(self.actionSearch_game, QtCore.SIGNAL(_fromUtf8("triggered()")), lambda: self.searchResults(''))
+        QtCore.QObject.connect(self.actionManage_plugins, QtCore.SIGNAL(_fromUtf8("triggered()")), self.managePlugins)
+        #dashboard.setupUi(dashboardWidget, self.centralwidget)
+        # TODO use user_plugins, path dinamically, and extend sys.path in the config
+        #  class
+        # TODO remove the call of this plugin!
+        sys.path.append('/Users/arkow/universidad/pfc/app/data/user_plugins')
+        __import__('hello', -1)
+
+    def initViews(self):
+        self.views = {
+            'dashboard': DashboardView(self),
+            'fitxa': FitxaView(self),
+            'edit': FitxaEditView(self),
+            'collection': CollectionView(self),
+            'add': FitxaNewView(self),
+            'search': SearchView(self)
+        }
+
+    def displayView(self, name, params={}):
+        """Launches the requested view by name with their parameters,
+         if view doesn't exist throws an exception"""
+        if not name in self.views:
+            raise Exception('View not found')
+        self.views[name].run(params)
 
     def switchFullscreen(self):
         """Display fullscreen mode if isn't not active or shows the previous visualitzation
@@ -83,17 +129,34 @@ class Ui_Application(QtGui.QMainWindow, Ui_MainWindow):
             else:
                 self.showNormal()
 
-    def displayView(self, name, params={}):
-        if not name in self.views:
-            raise Exception('View not found')
-        self.views[name].run(params)
+    def collectorURICaller(self, uri):
+        # Prevent that uri aren't a string. if called from a signal
+        #  the uri param will be a QString and doesn't have the startsWith method
+        uri = str(uri)
+        # Check protocol
+        if not uri.startswith('collector://'):
+            raise Exception("Not a collector uri")
+        # Remove protocol
+        uri = uri[len('collector://'):]
+        params_encoded = uri.split('/')
+        params = {}
+        key = None
+        for a in params_encoded:
+            if key is None:
+                key = a
+            else:
+                params[str(key)] = str(a)
+                key = None
+        if params_encoded[0] == 'view':
+            self.displayView(params['view'], params)
+        else:
+            return params
 
     # def viewDashboard(self):
     #     #dashboardWidget = Ui_Dashboard(self)
     #     #self.setCentralWidget(dashboardWidget)
     #     self.views['dashboard'].run()
     #     #self.toolbarManager.hiddeToolBar('edition')
-
 
     def viewQuickSearch(self):
         dialog = QtGui.QDialog()
@@ -119,12 +182,6 @@ class Ui_Application(QtGui.QMainWindow, Ui_MainWindow):
         ui.setupUi(w)
         self.setCentralWidget(w)
 
-    def searchResults(self, text):
-        w = QtGui.QWidget()
-        ui = Ui_Search()
-        ui.setupUi(w, self, {'query': text})
-        self.setCentralWidget(w)
-
     # def viewFitxa(self, item):
     #     fitxaWidget = Ui_Fitxa(item, self)
     #     self.fitxa = item
@@ -138,36 +195,14 @@ class Ui_Application(QtGui.QMainWindow, Ui_MainWindow):
     #     self.setCentralWidget(ui)
     #     #self.toolbarManager.hiddeToolBar('edition')
 
-    def setupUi(self):
-        super(Ui_Application,  self).setupUi(self)
-        self.createToolbar()
-        self.createAbout()
-        self.initViews()
-        self.displayView('dashboard')
-        # Menu actions
-        QtCore.QObject.connect(self.actionView_Dashboard, QtCore.SIGNAL(_fromUtf8("triggered()")), lambda: self.displayView('dashboard'))
-        QtCore.QObject.connect(self.actionQuick_search, QtCore.SIGNAL(_fromUtf8("triggered()")), self.viewQuickSearch)
-        QtCore.QObject.connect(self.actionFullscreen, QtCore.SIGNAL(_fromUtf8("triggered()")), self.switchFullscreen)
-        QtCore.QObject.connect(self.actionSearch_game, QtCore.SIGNAL(_fromUtf8("triggered()")), lambda: self.searchResults(''))
-        QtCore.QObject.connect(self.actionManage_plugins, QtCore.SIGNAL(_fromUtf8("triggered()")), self.managePlugins)
-        #dashboard.setupUi(dashboardWidget, self.centralwidget)
-
-    def initViews(self):
-        self.views = {
-            'dashboard': DashboardView(self),
-            'fitxa': FitxaView(self),
-            'fitxa_edit': FitxaEditView(self),
-            'collection': CollectionView(self)
-        }
-
     def about(self):
         QtGui.QMessageBox.about(self, "About Collector",
                 _fromUtf8("""
-                 collector |kəˈlektər|
-                 noun a person or thing that collects something, in particular
-                 - New Oxford dictionary
+collector |kəˈlektər|
+noun a person or thing that collects something, in particular
+ - New Oxford dictionary
 
-                https://www.ariel.cat
+https://www.ariel.cat
                 """))
 
     def createAbout(self):
@@ -194,23 +229,31 @@ class SplashScreen():
     def finish(self, ui):
         self.splash.finish(ui)
 
+
+class CollectorApplication(QtGui.QApplication):
+
+    def __init__(self, argv):
+        super(CollectorApplication, self).__init__(argv)
+
+        # Create and display the splash screen
+        self.splash = SplashScreen()
+        self.processEvents()
+
+        # Create main window
+        self.main = CollectorUI()
+
+        # Show main window
+        self.main.show()
+
+        # Hide splash
+        self.splash.finish(self.main)
+
+        # Bring window to front
+        self.main.raise_()
+
+
 if __name__ == "__main__":
-    import sys
-    import time
-    app = QtGui.QApplication(sys.argv)
 
-    # Create and display the splash screen
-    splash = SplashScreen()
-    app.processEvents()
+    app = CollectorApplication(sys.argv)
 
-    ui = Ui_Application()
-    ui.setupUi()
-    # TODO remove time sleep, now exists only to see the splash screen
-    time.sleep(2)
-
-    # Show window
-    ui.show()
-    splash.finish(ui)
-    # Bring window to front
-    ui.raise_()
     sys.exit(app.exec_())

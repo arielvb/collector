@@ -25,7 +25,7 @@ class CustomToolbar(CustomToolbarUi):
             "<p align=\"center\" style=\" margin-top:0px;"
             "margin-bottom:0px; margin-left:0px;"
             "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">"
-            "<a href=\"collector:%(path)s\"><img src=\"%(image)s\" /><br/>"
+            "<a href=\"collector://%(path)s\"><img src=\"%(image)s\" /><br/>"
             "<span style=\"\">%(title)s</span>"
             "</a></p></body>"
             "</html>")
@@ -97,6 +97,5 @@ class Topbar(TopbarUi):
 
     def __init__(self, widget, icon, title):
         self.setupUi(widget)
-        self.icon.setPixmap(QtGui.QPixmap(_fromUtf8(":ico/" + icon)))
+        self.icon.setPixmap(QtGui.QPixmap(_fromUtf8(icon)))
         self.title.setText(title)
-

@@ -4,6 +4,8 @@ from PyQt4 import QtCore, QtGui
 from ui.gen.fitxa import Ui_Form
 from ui.helpers.customtoolbar import CustomToolbar, Topbar
 from PyQt4.Qt import qDebug  # Debug!!!
+from ui.widgetprovider import WidgetProvider
+
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -54,12 +56,12 @@ class Ui_Fitxa(QtGui.QWidget, Ui_Form):
         super(Ui_Fitxa, self).setupUi(self)
         item = self.item
         obj = self.collection.get(item)
-        from PyQt4.Qt import qDebug; qDebug(str(obj))
+        self.collection.loadReferences(obj)
         self.fontLabel = QtGui.QFont()
         self.fontLabel.setBold(True)
         self.fontLabel.setWeight(75)
         schema = self.collection.schema
-        Topbar(widget=self.topbar, icon='boards.png',
+        Topbar(widget=self.topbar, icon=self.collection.schema.ico,
             title=self.collection.schema.name.upper() + ' > ' + obj['name'])
         # self.lWindowTitle.setText(schema.name.upper() + ' > ')
         # self.lTitle.setText(obj['name'])
@@ -67,66 +69,63 @@ class Ui_Fitxa(QtGui.QWidget, Ui_Form):
             if field != 'image':
                 value = field in obj and obj[field] or ''
                 self.createField(schema.fields[field]['name'], value)
-        #self.createField('Name', obj['name'])
-        #self.createField('Designer/s', obj['designer'])
-        #self.createField('Artist/s', obj['artist'])
+        # self.createField('Name', obj['name'])
+        # self.createField('Designer/s', obj['designer'])
+        # self.createField('Artist/s', obj['artist'])
 
         # TODO set image: we need to store it somewhere...
-        # but where is the best place?
-        import os
+        #  but where is the best place?
         if 'image' in obj:
-            self.image.setPixmap(
-                    QtGui.QPixmap(os.path.join(os.path.dirname(__file__),
-                        obj['image'])
-                        )
-                    )
+            pixmap = None
+            if obj['image'] != '':
+                pixmap = QtGui.QPixmap(obj['image'])
+            # Check if the file doensn't have image or the image file
+            #  doesn't exists
+            if pixmap is None or pixmap.isNull():
+                pixmap = QtGui.QPixmap(_fromUtf8(':box.png'))
+            scaled = pixmap.scaled(150, 150, QtCore.Qt.KeepAspectRatio)
+            self.image.setPixmap(scaled)
         else:
             self.image.hide()
         self._loadToolbar()
-        # Connect dashboard and edit button
-        #self.bDashboard.connect(self.bDashboard, QtCore.SIGNAL(_fromUtf8("linkActivated(QString)")), lambda s: self.parent().viewDashboard())
-        #self.bEdit.connect(self.bEdit, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda: self.parent().displayView('fitxa_edit', {'item': item}))
 
     def _loadToolbar(self):
         quick = [
-            {'class':'link', 'name': 'Dashboard', 'path': 'dashboard', 'image': ':/dashboard.png'},
-            {'class':'link', 'name': 'Boardgames', 'path': 'collection/' + self.collection.name, 'image': ':/boards.png'},
+            {'class':'link', 'name': 'Dashboard', 'path': 'view/dashboard', 'image': ':/dashboard.png'},
+            {'class':'link', 'name': self.collection.schema.name, 'path': 'view/collection/collection/' + self.collection.name, 'image': ':/boards.png'},
             {'class': 'spacer'},
             {'class': 'line'},
-            {'class':'link', 'name': 'Edit', 'path': 'collection/' + self.collection.name + '/edit', 'image': ':/edit.png'},
+            {'class':'link', 'name': 'Edit', 'path': 'view/edit/collection/' + self.collection.name + '/item/' + str(self.item), 'image': ':/edit.png'},
         ]
         CustomToolbar(self.toolbar, quick, self._linkactivated)
 
     def _linkactivated(self, uri):
         qDebug('Uri called: ' + uri)
-        collection = self.collection.name
-        if uri == 'collector:dashboard':
-            self.parent().displayView('dashboard')
-        elif uri == 'collector:collection/' + collection + '/edit':
-            self.parent().displayView('fitxa_edit', {'item': self.item, 'collection': self.collection.name})
-        elif uri == 'collector:collection/' + collection:
-            #TODO this code is from dashboard:_toolbarCallback, refractor to a single place
-            params_encoded = uri.split('/')
-            # delete first params, because is the view name
-            #del params_encoded[0]
-            params = {}
-            key = None
-            for a in params_encoded:
-                if key is None:
-                    key = a
-                else:
-                    params[str(key)] = str(a)
-                    key = None
-            self.parent().displayView('collection', params)
+        # collection = self.collection.name
+        # if uri == 'collector:dashboard':
+        #     self.parent().displayView('dashboard')
+        # elif uri == 'collector:collection/' + collection + '/edit':
+        #     self.parent().displayView('fitxa_edit', {'item': self.item, 'collection': self.collection.name})
+        # elif uri == 'collector:collection/' + collection:
+        #     #TODO this code is from dashboard:_toolbarCallback, refractor to a single place
+        #     params_encoded = uri.split('/')
+        #     # delete first params, because is the view name
+        #     #del params_encoded[0]
+        #     params = {}
+        #     key = None
+        #     for a in params_encoded:
+        #         if key is None:
+        #             key = a
+        #         else:
+        #             params[str(key)] = str(a)
+        #             key = None
+        #     self.parent().displayView('collection', params)
+        self.parent().collectorURICaller(uri)
 
 
-class FitxaView():
+class FitxaView(WidgetProvider):
 
-    def __init__(self, parent):
-        self.parent = parent
-
-    def run(self, params):
+    def getWidget(self, params):
         collection = params['collection']
         item = params['item']
-        fitxaWidget = Ui_Fitxa(item, collection, self.parent)
-        self.parent.setCentralWidget(fitxaWidget)
+        return Ui_Fitxa(item, collection, self.parent)

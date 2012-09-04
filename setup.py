@@ -1,29 +1,35 @@
+"""
+Setup for Collector
+"""
 from setuptools import setup
 import os
-from engine.config import iswin, isosx
+from engine.config import ISWINDOWS, ISOSX
 
 NAME = 'Collector'
 VERSION = "0.1"
 
 
 def read(*rnames):
+    """Reads the requestes files"""
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
 
-options = {}
-requires = ["beautifulsoup4"]
+OPTIONS = {}
+REQUIRES = ["beautifulsoup4"]
 
-if isosx:
-    options['py2app'] = {
+if ISOSX:
+    OPTIONS['py2app'] = {
                 "iconfile": "collection.icns",
                 "plist": {
-                        'CFBundleGetInfoString': '''Collection, a collection management application.''',
+                        'CFBundleGetInfoString':
+                          "Collection, a collection management application.",
                         'CFBundleIdentifier': 'com.arielvb.collection',
                         'CFBundleShortVersionString': VERSION,
                         'CFBundleVersion': 'Collection' + ' ' + VERSION,
                         'LSMinimumSystemVersion': '10.4.3',
                         'LSMultipleInstancesProhibited': 'true',
-                        'NSHumanReadableCopyright': 'Copyright 2012, arielvb.com',
+                        'NSHumanReadableCopyright':
+                          'Copyright 2012, arielvb.com',
                     },
                 "resources": [
                         #'qt.conf'
@@ -40,12 +46,12 @@ if isosx:
                             "PyQt4.QtMultimedia",
                             ]
             }
-    requires.append('py2app')
-    extraoptions = dict(  app=["collector.py"])
+    REQUIRES.append('py2app')
+    EXTRAOPTIONS = dict(app=["collector.py"])
 
-if iswin:
-    import py2exe
-    options['py2exe'] = {
+if ISWINDOWS:
+    __import__('py2exe')
+    OPTIONS['py2exe'] = {
                 "skip_archive": True,
                 "includes": ["sip"],
                 "dll_excludes": [
@@ -55,8 +61,8 @@ if iswin:
                       "powrprof.dll",
                       ],
             }
-    requires.append('py2exe')
-    extraoptions = dict(windows=[{
+    REQUIRES.append('py2exe')
+    EXTRAOPTIONS = dict(windows=[{
             "script": "collector.py",
             'icon_resources':[(1, 'collection.ico')]
             }])
@@ -73,7 +79,7 @@ setup(
   url="http://www.arielvb.com",
   license="GPL2",
   zip_safe=False,
-  options=options,
-  setup_requires=requires,
-  **extraoptions
+  options=OPTIONS,
+  setup_requires=REQUIRES,
+  **EXTRAOPTIONS
 )

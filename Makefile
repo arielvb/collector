@@ -49,6 +49,9 @@ resources:
 i18n:
 	pylupdate4 ui/designer/*.ui -ts translations.ts
 
+release_i18n:
+	/Applications/QtSDK/Desktop/Qt/4.8.1/gcc/bin/lrelease translations.ts
+
 .PHONY: clean
 clean:
 	find . -name \*.pyc -exec rm {\} \;

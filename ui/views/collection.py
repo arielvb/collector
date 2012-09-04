@@ -2,6 +2,7 @@
 from ui.gen.collection_items import Ui_Form
 from PyQt4 import QtCore, QtGui
 from ui.helpers.customtoolbar import CustomToolbar, Topbar
+from ui.widgetprovider import WidgetProvider
 
 
 class FitxaTableItem(QtGui.QTableWidgetItem):
@@ -33,16 +34,16 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
     def customize(self):
         #Topbar
         # TODO title collection name must be a parameter
-        Topbar(widget=self.topbar, icon='boards.png',
+        Topbar(widget=self.topbar, icon=self.schema.ico,
             title=self.collection.schema.name.upper())
 
         # Toolbar
         items = [
-                {'class':'link', 'name': 'Dashboard', 'path': 'dashboard', 'image': ':/dashboard.png'},
+                {'class':'link', 'name': 'Dashboard', 'path': 'view/dashboard', 'image': ':/dashboard.png'},
                 {'class': 'spacer'},
                 {'class': 'line'},
                 # TODO i10n
-                {'class':'link', 'name': 'New <b>' + self.collection.schema.name + '</b> entry', 'path': 'collection/' + self.collection.name + '/add', 'image': ':/add.png'},
+                {'class':'link', 'name': 'New <b>' + self.collection.schema.name + '</b> entry', 'path': 'view/add/collection/' + self.collection.name, 'image': ':/add.png'},
         ]
         CustomToolbar(self.toolbar, items, self._toolbarCallback)
         # +1 (id field)
@@ -58,8 +59,7 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
         QtCore.QObject.connect(self.tableWidget, QtCore.SIGNAL("itemDoubleClicked(QTableWidgetItem*)"), self._itemSelected)
 
     def _toolbarCallback(self, uri):
-        if uri == 'collector:dashboard':
-            self.parent().displayView('dashboard')
+        self.parent().collectorURICaller(uri)
 
     def createHeaderItem(self, text):
         item = QtGui.QTableWidgetItem()
@@ -95,15 +95,7 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
         self.parent().displayView('fitxa', {'item': tableItem.getObjectId(), 'collection': self.collection.name})
 
 
-class CollectionView():
+class CollectionView(WidgetProvider):
 
-    def __init__(self, parent):
-        self.parent = parent
-
-    def run(self, params={}):
-        from PyQt4.Qt import qDebug; qDebug(str(params))
-        self.parent.fitxa = None
-        widget = Ui_Collection(self.parent, collection=params['collector:collection'])
-        #ui = Ui_Form()
-        #ui.setupUi(widget)
-        self.parent.setCentralWidget(widget)
+    def getWidget(self, params):
+        return Ui_Collection(self.parent, collection=params['collection'])

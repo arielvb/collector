@@ -17,10 +17,9 @@ class TestUi(unittest.TestCase):
         del self.app
 
     def test_application_can_be_created(self):
-        from collector import Ui_Application
+        from collector import CollectorUI
         from ui.gen.mainWindow import Ui_MainWindow
-        app = Ui_Application()
-        app.setupUi()
+        app = CollectorUI()
         self.assertIsInstance(app, Ui_MainWindow)
 
     # def test_network_is_active(self):
@@ -31,6 +30,3 @@ class TestUi(unittest.TestCase):
     #         is_google = True
     #     except:
     #         self.assertTrue(is_google, "Looks like no internet connection is avaible.")
-
-if __name__ == '__main__':
-    unittest.main()
