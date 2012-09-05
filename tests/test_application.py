@@ -30,3 +30,6 @@ class TestUi(unittest.TestCase):
     #         is_google = True
     #     except:
     #         self.assertTrue(is_google, "Looks like no internet connection is avaible.")
+
+if __name__ == '__main__':
+    unittest.main()

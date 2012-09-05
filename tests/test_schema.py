@@ -100,3 +100,7 @@ class TestSchema(unittest.TestCase):
         in_values = self.in_values
         self.schema.loadFromDict(in_values)
         self.assertFalse(self.schema.isMultivalue('name'))
+
+
+if __name__ == '__main__':
+    unittest.main()
