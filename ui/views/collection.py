@@ -26,7 +26,7 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
             flags = QtCore.Qt.WindowFlags(0)
         super(Ui_Collection, self).__init__(parent, flags)
         self.setupUi(self)
-        self.collection = self.parent().collection.getInstance().getCollection(collection)
+        self.collection = self.parent().collection.getCollection(collection)
         self.schema = self.collection.schema
         self.objects = self.collection.getAll()
         self.customize()
@@ -35,15 +35,19 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
         #Topbar
         # TODO title collection name must be a parameter
         Topbar(widget=self.topbar, icon=self.schema.ico,
-            title=self.collection.schema.name.upper())
+               title=self.collection.schema.name.upper())
 
         # Toolbar
         items = [
-                {'class':'link', 'name': 'Dashboard', 'path': 'view/dashboard', 'image': ':/dashboard.png'},
-                {'class': 'spacer'},
-                {'class': 'line'},
-                # TODO i10n
-                {'class':'link', 'name': 'New <b>' + self.collection.schema.name + '</b> entry', 'path': 'view/add/collection/' + self.collection.name, 'image': ':/add.png'},
+            {'class':'link', 'name': 'Dashboard',
+             'path': 'view/dashboard', 'image': ':/dashboard.png'},
+            {'class': 'spacer'},
+            {'class': 'line'},
+            # TODO i10n
+            {'class':'link', 'name':
+             'New <b>' + self.collection.schema.name + '</b> entry',
+             'path': 'view/add/collection/' + self.collection.name,
+             'image': ':/add.png'},
         ]
         CustomToolbar(self.toolbar, items, self._toolbarCallback)
         # +1 (id field)
@@ -56,7 +60,10 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
             self.createTableRow(item, header)
 
         # Connections
-        QtCore.QObject.connect(self.tableWidget, QtCore.SIGNAL("itemDoubleClicked(QTableWidgetItem*)"), self._itemSelected)
+        QtCore.QObject.connect(
+            self.tableWidget,
+            QtCore.SIGNAL("itemDoubleClicked(QTableWidgetItem*)"),
+            self._itemSelected)
 
     def _toolbarCallback(self, uri):
         self.parent().collectorURICaller(uri)
@@ -68,7 +75,8 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
         self._table_headers += 1
 
     def createTableRow(self, items, orderedKeys):
-        """ items is a list, and each item of the list can be a string or a list """
+        """ items is a list, and each item of the list can be a string or
+        a list """
         row = self._table_items
         column = 0
         for key in orderedKeys:
@@ -82,7 +90,7 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
             else:
                 more = len(value) - 1
                 more_text = ''
-                if  more > 0:
+                if more > 0:
                     more_text = " and " + str(more) + " more"
                 item.setText(str(value[0]) + more_text)
             self.tableWidget.setItem(row, column, item)
@@ -90,9 +98,10 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
         self._table_items += 1
 
     def _itemSelected(self, tableItem):
-        itemId = tableItem.getObjectId()
-        from PyQt4.Qt import qDebug; qDebug(str(itemId))
-        self.parent().displayView('fitxa', {'item': tableItem.getObjectId(), 'collection': self.collection.name})
+        self.parent().displayView(
+            'fitxa',
+            {'item': tableItem.getObjectId(),
+             'collection': self.collection.name})
 
 
 class CollectionView(WidgetProvider):

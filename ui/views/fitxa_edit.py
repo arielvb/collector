@@ -41,25 +41,20 @@ class Ui_Fitxa_Edit(QtGui.QWidget, Ui_Form):
             value = field in obj and obj[field] or ''
             widgets = self.createField(schema.fields[field]['name'], value)
             self.fitxa_fields[field] = widgets
-        #self.bCancel.connect(self.bCancel, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda: self.parent().displayView('fitxa', {'item': obj['name']}))
-        #self.bSave.connect(self.bSave, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda: self.save())
 
     def createLabel(self, text, label=False):
         item = QtGui.QLabel(self)
         if label:
             item.setFont(self.fontLabel)
         else:
-            item.setTextInteractionFlags(QtCore.Qt.LinksAccessibleByMouse | QtCore.Qt.TextSelectableByMouse)
+            item.setTextInteractionFlags(QtCore.Qt.LinksAccessibleByMouse |
+                                         QtCore.Qt.TextSelectableByMouse)
         item.setText(text)
         item.setObjectName(_fromUtf8(text))
         return item
 
     def createLineEdit(self, text, label=False):
         item = QtGui.QLineEdit(self)
-        #if label:
-        #    item.setFont(self.fontLabel)
-        #else:
-        #    item.setTextInteractionFlags(QtCore.Qt.LinksAccessibleByMouse | QtCore.Qt.TextSelectableByMouse)
         item.setText(text)
         item.setObjectName(_fromUtf8(text))
         return item
@@ -71,7 +66,8 @@ class Ui_Fitxa_Edit(QtGui.QWidget, Ui_Form):
         itemLabel = self.createLabel(label, True)
         # TODO image schema must allow choose file from the os
         # usign QtGui.QFileDialog()
-        self.fieldsLayout.addWidget(itemLabel, self.row, column, rowspan, columnspan)
+        self.fieldsLayout.addWidget(itemLabel, self.row, column,
+                                    rowspan, columnspan)
         column += 1
         if not isinstance(text, list):
             text = [text]
@@ -80,16 +76,19 @@ class Ui_Fitxa_Edit(QtGui.QWidget, Ui_Form):
         for i in text:
             item = self.createLineEdit(i)
             widgets.append(item)
-            self.fieldsLayout.addWidget(item, self.row, column, rowspan, columnspan)
+            self.fieldsLayout.addWidget(item, self.row, column,
+                                        rowspan, columnspan)
             self.row += 1
         self.row += 1
         return widgets
 
     def _loadToolbar(self):
         quick = [
-            {'class':'link', 'name': 'Cancel', 'path': 'action/cancel', 'image': ':/back.png'},
+            {'class':'link', 'name': 'Cancel',
+             'path': 'action/cancel', 'image': ':/back.png'},
             {'class': 'spacer'},
-            {'class':'link', 'name': 'Save', 'path': 'action/save', 'image': ':/save.png'},
+            {'class':'link', 'name': 'Save',
+             'path': 'action/save', 'image': ':/save.png'},
         ]
         CustomToolbar(self.toolbar, quick, self._linkactivated)
 
@@ -100,7 +99,9 @@ class Ui_Fitxa_Edit(QtGui.QWidget, Ui_Form):
             if action == 'save':
                 self.save()
             elif action == 'cancel':
-                self.parent().displayView('fitxa', {'item': self.item, 'collection': self.collection.name})
+                self.parent().displayView(
+                    'fitxa',
+                    {'item': self.item, 'collection': self.collection.name})
 
     def save(self):
         qDebug('Saving!')
@@ -117,7 +118,9 @@ class Ui_Fitxa_Edit(QtGui.QWidget, Ui_Form):
             data[field] = values
         data['id'] = self.obj['id']
         self.collection.save(data)
-        self.parent().displayView('fitxa', {'item': data['id'], 'collection': self.collection.name})
+        self.parent().displayView(
+            'fitxa',
+            {'item': data['id'], 'collection': self.collection.name})
         qDebug(str(data))
 
         #pass

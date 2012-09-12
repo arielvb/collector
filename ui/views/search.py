@@ -30,12 +30,17 @@ class Ui_Search(QWidget, Ui_Form):
     def setupUi(self, query):
         super(Ui_Search, self).setupUi(self)
         Topbar(widget=self.topbar, icon=':ico/search.png',
-            title='SEARCH')
+               title='SEARCH')
         if query:
             self.lSearch.setText(query)
-        self.bSearch.connect(self.bSearch, QtCore.SIGNAL(_fromUtf8("clicked()")), lambda: self.search(self.lSearch.text()))
-        self.listWidget.connect(self.listWidget,
-            QtCore.SIGNAL(_fromUtf8("itemClicked(QListWidgetItem *)")), self.itemSelected)
+        self.bSearch.connect(
+            self.bSearch,
+            QtCore.SIGNAL(_fromUtf8("clicked()")),
+            lambda: self.search(self.lSearch.text()))
+        self.listWidget.connect(
+            self.listWidget,
+            QtCore.SIGNAL(_fromUtf8("itemClicked(QListWidgetItem *)")),
+            self.itemSelected)
         self.worker = Worker_Search()
         self.worker.searchComplete.connect(lambda: self.searchComplete())
         if str(query) != '':
@@ -74,7 +79,10 @@ class Ui_Search(QWidget, Ui_Form):
         # self.parent().viewInfo('Hola!')
 
     def itemSelected(self, listItem):
-        self.parent().displayView('fitxa', {'item': listItem.id, 'collection': 'boardgames'})
+        self.parent().displayView(
+            'fitxa',
+            {'item': listItem.id, 'collection': 'boardgames'}
+        )
 
 
 class SearchView(WidgetProvider):

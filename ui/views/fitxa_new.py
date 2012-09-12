@@ -44,8 +44,9 @@ class Ui_Fitxa_New(QtGui.QWidget, Ui_Form):
         if label:
             item.setFont(self.fontLabel)
         else:
-            item.setTextInteractionFlags(QtCore.Qt.LinksAccessibleByMouse
-                | QtCore.Qt.TextSelectableByMouse)
+            item.setTextInteractionFlags(
+                QtCore.Qt.LinksAccessibleByMouse |
+                QtCore.Qt.TextSelectableByMouse)
         item.setText(text)
         item.setObjectName(_fromUtf8(text))
         return item
@@ -64,7 +65,7 @@ class Ui_Fitxa_New(QtGui.QWidget, Ui_Form):
         # TODO image schema must allow choose file from the os
         # usign QtGui.QFileDialog()
         self.fieldsLayout.addWidget(itemLabel,
-            self.row, column, rowspan, columnspan)
+                                    self.row, column, rowspan, columnspan)
         column += 1
         if not isinstance(text, list):
             text = [text]
@@ -74,7 +75,7 @@ class Ui_Fitxa_New(QtGui.QWidget, Ui_Form):
             item = self.createLineEdit(i)
             widgets.append(item)
             self.fieldsLayout.addWidget(item,
-                self.row, column, rowspan, columnspan)
+                                        self.row, column, rowspan, columnspan)
             self.row += 1
         self.row += 1
         return widgets
@@ -98,7 +99,7 @@ class Ui_Fitxa_New(QtGui.QWidget, Ui_Form):
         elif action == 'cancel':
             # TODO return to referer parameter?
             self.parent().displayView('collection',
-                {'collection': self.collection.name})
+                                      {'collection': self.collection.name})
 
     def save(self):
         qDebug('Saving!')
@@ -116,7 +117,8 @@ class Ui_Fitxa_New(QtGui.QWidget, Ui_Form):
         # data['id'] = self.obj['id']
         self.collection.save(data)
         self.parent().displayView('fitxa',
-            {'item': data['id'], 'collection': self.collection.name})
+                                  {'item': data['id'],
+                                  'collection': self.collection.name})
         qDebug(str(data))
 
 
