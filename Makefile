@@ -1,5 +1,6 @@
 UI_DIR='./ui/designer'
 BUILD_DIR='./ui/gen'
+EXPORT='./export/'
 
 all: ui2py
 
@@ -30,7 +31,6 @@ copy2win:
 	cp -r ../app ~/Desktop/mv/
 
 ui2py: resources
-	echo '#' > ${BUILD_DIR}/__init__.py
 	pyuic4 -x ${UI_DIR}/mainWindow.ui -o ${BUILD_DIR}/mainWindow.py
 	pyuic4 -x ${UI_DIR}/dashboard.ui -o ${BUILD_DIR}/dashboard.py
 	pyuic4 -x ${UI_DIR}/fitxa.ui -o ${BUILD_DIR}/fitxa.py
@@ -43,7 +43,10 @@ ui2py: resources
 	pyuic4 -x ${UI_DIR}/toolbar.ui -o ${BUILD_DIR}/toolbar.py
 	pyuic4 -x ${UI_DIR}/topbar.ui -o ${BUILD_DIR}/topbar.py
 
+
 resources:
+	mkdir -p ${BUILD_DIR}
+	echo '#' > ${BUILD_DIR}/__init__.py
 	pyrcc4 -o ${BUILD_DIR}/resources_rc.py ${UI_DIR}/resources.qrc
 
 i18n:
@@ -52,9 +55,15 @@ i18n:
 release_i18n:
 	/Applications/QtSDK/Desktop/Qt/4.8.1/gcc/bin/lrelease translations.ts
 
+gitexport:
+	rm -rf ${EXPORT}
+	git checkout-index --prefix=${EXPORT} -a
+	cd engine; git checkout-index --prefix=../${EXPORT}/engine/ -a
+
 .PHONY: clean
 clean:
 	find . -name \*.pyc -exec rm {\} \;
 	find . -name \*.pyo -exec rm {\} \;
-	rm $(BUILD_DIR)/*
-	rm -rf dist/*
+	rm -f $(BUILD_DIR)/*
+	rm -rf dist build
+	rm -rf ${EXPORT}
