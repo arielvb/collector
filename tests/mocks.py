@@ -38,43 +38,54 @@ people = [
 
 #TODO allow schema option searchable?
 collections = {
-                'boardgames': {
-                    'name': 'Boardgames',
-                    'protection': 'user',  # Aka, none
-                    'description': 'Boardgames collection',
-                    'author': 'Ariel',
-                    'schemas': {
-                        'boardgames': {
-                            'name': 'Boardgames',
-                            'fields': {
-                                'name': {'class': 'text', 'name': 'Title'},
-                                'year': {'class': 'int', 'name': 'Year'},
-                                'designer': {'class': 'ref', 'name': 'Designer/s', 'multiple': True, 'params': {'ref': 'people.name'}},
-                                'artist': {'class': 'ref', 'name': 'Artist/s', 'multiple': True,  'params': {'ref': 'people.name'}},
-                                'image': {'class': 'image', 'name': 'Image'},
-                                'originalidea': {'class': 'text', 'name': 'Original Idea'}
-                            },
-                            'default': 'name',
-                            'order': ['name', 'year', 'designer', 'artist', 'image', 'originalidea'],
-                            'image': ':/boards.png',
-                            'ico': ':ico/boards.png'
-                        },
-                        'people': {
-                            'name': 'Authors / Designers',
-                            'fields': {
-                                'name': {'class': 'text', 'name': 'Name'}
-                            },
-                            'default': 'name',
-                            'image': ':/author.png',
-                            'ico': ':ico/author.png'
-                        },
-                    },
-                    'persistence': {
-                        'storage': 'dict',
-                        'parameters': {'boardgames': boardgames, 'people': people}
-                    }
+    'boardgames': {
+        'name': 'Boardgames',
+        'protection': 'user',  # Aka, none
+        'description': 'Boardgames collection',
+        'author': 'Ariel',
+        'schemas': {
+            'boardgames': {
+                'name': 'Boardgames',
+                'fields': {
+                    'name': {'class': 'text', 'name': 'Title'},
+                    'year': {'class': 'int', 'name': 'Year'},
+                    'designer': {'class': 'ref', 'name': 'Designer/s',
+                                 'multiple': True,
+                                 'params': {'ref': 'people.name'}},
+                    'artist': {'class': 'ref', 'name': 'Artist/s',
+                               'multiple': True,
+                               'params': {'ref': 'people.name'}},
+                    'image': {'class': 'image', 'name': 'Image'},
+                    'originalidea': {'class': 'text', 'name': 'Original Idea'}
+                },
+                'default': 'name',
+                'order': ['name', 'year', 'designer', 'artist',
+                          'image', 'originalidea'],
+                'image': ':/boards.png',
+                'ico': ':ico/boards.png'
+            },
+            'people': {
+                'name': 'Authors / Designers',
+                'fields': {
+                    'name': {'class': 'text', 'name': 'Name'}
+                },
+                'default': 'name',
+                'image': ':/author.png',
+                'ico': ':ico/author.png'
+            },
+            'categories': {
+                'name': 'Categories',
+                'fields': {
+                    'name': {'class': 'text', 'name': 'Name'}
                 }
             }
+        },
+        'persistence': {
+            'storage': 'dict',
+            'parameters': {'boardgames': boardgames, 'people': people}
+        }
+    }
+}
 
 if __name__ == '__main__':
     print boardgames
