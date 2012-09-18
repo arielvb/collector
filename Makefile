@@ -1,7 +1,7 @@
 UI_DIR='./ui/designer'
 BUILD_DIR='./ui/gen'
 EXPORT='./export/'
-VM_SHARED="~/Desktop/mv/collector"
+VM_SHARED=~/Desktop/mv/collector
 
 .PHONY: clean
 
@@ -31,8 +31,8 @@ dmg: mac
 # Copiar a la carpeta compartida amb la maquina virtual de windows
 copy2win: clean
 	mkdir -p ${VM_SHARED}
-	rm -rf ${VM_SHARED}/*
-	cp -r . ${VM_SHARED}
+	rm -rf ${VM_SHARED}/
+	cp -r ./ ${VM_SHARED}
 
 ui2py: resources
 	pyuic4 -x ${UI_DIR}/mainWindow.ui -o ${BUILD_DIR}/mainWindow.py

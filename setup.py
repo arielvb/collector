@@ -52,6 +52,7 @@ if ISOSX:
 if ISWINDOWS:
     __import__('py2exe')
     OPTIONS['py2exe'] = {
+        "dist_dir": 'dist/windows',
         "skip_archive": True,
         "includes": ["sip"],
         "dll_excludes": [
@@ -64,6 +65,7 @@ if ISWINDOWS:
     REQUIRES.append('py2exe')
     EXTRAOPTIONS = dict(windows=[{
         "script": "collector.py",
+        "dest_base": "Collector",
         'icon_resources':[(1, 'collection.ico')]
     }])
 

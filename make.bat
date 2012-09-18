@@ -1,17 +1,59 @@
-set UI_DIR=ui\designer
-set BUILD_DIR=ui\gen
-set PYQT_PATH=C:\Python27\Lib\site-packages\PyQt4
-echo # > %BUILD_DIR%\__init__.py
-call %PYQT_PATH%\pyuic4 -x %UI_DIR%\mainWindow.ui -o %BUILD_DIR%\mainWindow.py
-echo Next
-call %PYQT_PATH%\pyuic4 -x %UI_DIR%\dashboard.ui -o %BUILD_DIR%\dashboard.py
-call %PYQT_PATH%\pyuic4 -x %UI_DIR%\fitxa_edit.ui -o %BUILD_DIR%\fitxa_edit.py
-call %PYQT_PATH%\pyuic4 -x %UI_DIR%\fitxa.ui -o %BUILD_DIR%\fitxa.py
-call %PYQT_PATH%\pyuic4 -x %UI_DIR%\search_results.ui -o %BUILD_DIR%\search_results.py
-call %PYQT_PATH%\pyuic4 -x %UI_DIR%\search_quick.ui -o %BUILD_DIR%\search_quick.py
-call %PYQT_PATH%\pyuic4 -x %UI_DIR%\info_dialog.ui -o %BUILD_DIR%\info_dialog.py
-call %PYQT_PATH%\pyuic4 -x %UI_DIR%\collection_items.ui -o %BUILD_DIR%\collection_items.py
-call %PYQT_PATH%\pyuic4 -x %UI_DIR%\plugins.ui -o %BUILD_DIR%\plugins.py
-call %PYQT_PATH%\pyuic4 -x %UI_DIR%\toolbar.ui -o %BUILD_DIR%\toolbar.py
-call %PYQT_PATH%\pyuic4 -x %UI_DIR%\topbar.ui -o %BUILD_DIR%\topbar.py
-call %PYQT_PATH%\pyrcc4 -o %BUILD_DIR%\resources_rc.py %UI_DIR%\resources.qrc
+:: "Makefile" for windows
+@ECHO OFF
+REM Command file for develop collector
+
+:: ISSC path
+::  xp (es_ES): "C:\Archivos de programa\Inno Setup 5\ISCC.exe"
+::  7: "c:\Program Files\Inno Setup 5\ISCC.exe"
+
+set ISCC="C:\Archivos de programa\Inno Setup 5\ISCC.exe"
+set QTPLUGINS="C:\Python27\Lib\site-packages\PyQt4\plugins\imageformats"
+set UI_DIR="ui\designer"
+set BUILD_DIR="ui\gen"
+set PYQT_PATH="C:\Python27\Lib\site-packages\PyQt4"
+
+if "%1" == "" (
+    echo # > %BUILD_DIR%\__init__.py
+    echo.Building widgets...
+    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\mainWindow.ui -o %BUILD_DIR%\mainWindow.py
+    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\dashboard.ui -o %BUILD_DIR%\dashboard.py
+    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\fitxa_edit.ui -o %BUILD_DIR%\fitxa_edit.py
+    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\fitxa.ui -o %BUILD_DIR%\fitxa.py
+    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\search_results.ui -o %BUILD_DIR%\search_results.py
+    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\search_quick.ui -o %BUILD_DIR%\search_quick.py
+    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\info_dialog.ui -o %BUILD_DIR%\info_dialog.py
+    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\collection_items.ui -o %BUILD_DIR%\collection_items.py
+    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\plugins.ui -o %BUILD_DIR%\plugins.py
+    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\toolbar.ui -o %BUILD_DIR%\toolbar.py
+    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\topbar.ui -o %BUILD_DIR%\topbar.py
+    call %PYQT_PATH%\pyrcc4 -o %BUILD_DIR%\resources_rc.py %UI_DIR%\resources.qrc
+    echo.Widgets finished
+    goto end
+)
+
+if "%1" == "dist" (
+    echo.Building distribution...
+    :: Carefull the next line calls to this file whitout params, if calls
+    ::  it whit installer -> infinite loop
+    call make.bat
+    DEL /S /Q dist
+    C:\Python27\python.exe setup.py py2exe
+    XCOPY "data" "dist\data" /I /S
+    XCOPY %QTPLUGINS% "dist\imageformats" /I /S
+    echo.Distribution finished
+    goto end
+)
+
+if "%1" == "installer" (
+    echo.Building installer...
+    :: Carefull the next line calls to this file whit param dist, if calls
+    ::  it whit installer -> infinite loop
+    call make.bat dist
+    call %ISCC% /Q /O"dist" /F"Collector Installer" "collector.iss"
+    echo.Installer created
+    goto end
+)
+
+:: Rule clean
+
+:end
