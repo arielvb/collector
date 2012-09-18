@@ -38,19 +38,22 @@ class ToolBarManager():
         self.parent.setUnifiedTitleAndToolBarOnMac(True)
         toolBar = QtGui.QToolBar("Navigation")
         self.parent.addToolBar(toolBar)
-        # Notify unified title and toolbar on mac (displays collapse button at the right corner)
+        # Notify unified title and toolbar on mac (displays collapse button at
+        #  the right corner)
         toolbars['navigation'] = toolBar
-        self.dashToolbarAction = QtGui.QAction(QtGui.QIcon(':/dashboard.png'),
-                "&Dashboard", self.parent, shortcut="Ctrl+D",
-                statusTip="View dashboard",
-                triggered=lambda: self.parent.displatView('dashboard'))
+        self.dashToolbarAction = QtGui.QAction(
+            QtGui.QIcon(':/dashboard.png'),
+            "&Dashboard", self.parent, shortcut="Ctrl+D",
+            statusTip="View dashboard",
+            triggered=lambda: self.parent.displatView('dashboard'))
         toolBar.addAction(self.dashToolbarAction)
         toolBar = QtGui.QToolBar("Edition")
         toolbars['edition'] = toolBar
-        self.editToolbarAction = QtGui.QAction(QtGui.QIcon(':/edit.png'),
-                "&Edit", self.parent, shortcut="Ctrl+E",
-                statusTip="Edit",
-                triggered=lambda: self.parent.editFitxa())
+        self.editToolbarAction = QtGui.QAction(
+            QtGui.QIcon(':/edit.png'),
+            "&Edit", self.parent, shortcut="Ctrl+E",
+            statusTip="Edit",
+            triggered=lambda: self.parent.editFitxa())
         # self.editToolbarAction.setEnabled(False)
         toolBar.addAction(self.editToolbarAction)
         self.toolbars = toolbars
@@ -62,7 +65,8 @@ class ToolBarManager():
 
     def showToolBar(self, toolbar):
         self.parent.setUnifiedTitleAndToolBarOnMac(False)
-        # TODO why once deleted the toolbar it is destroyed and it's impossiblo to show again?
+        # TODO why once deleted the toolbar it is destroyed and it's impossiblo
+        #  to show again?
         self.parent.addToolBar(self.toolbars[toolbar])
         self.parent.setUnifiedTitleAndToolBarOnMac(True)
 
@@ -85,16 +89,31 @@ class CollectorUI(QtGui.QMainWindow, Ui_MainWindow):
         self.initViews()
         self.displayView('dashboard')
         # Menu actions
-        QtCore.QObject.connect(self.actionView_Dashboard, QtCore.SIGNAL(_fromUtf8("triggered()")), lambda: self.displayView('dashboard'))
-        QtCore.QObject.connect(self.actionQuick_search, QtCore.SIGNAL(_fromUtf8("triggered()")), self.viewQuickSearch)
-        QtCore.QObject.connect(self.actionFullscreen, QtCore.SIGNAL(_fromUtf8("triggered()")), self.switchFullscreen)
-        QtCore.QObject.connect(self.actionSearch_game, QtCore.SIGNAL(_fromUtf8("triggered()")), lambda: self.searchResults(''))
-        QtCore.QObject.connect(self.actionManage_plugins, QtCore.SIGNAL(_fromUtf8("triggered()")), self.managePlugins)
+        QtCore.QObject.connect(
+            self.actionView_Dashboard,
+            QtCore.SIGNAL(_fromUtf8("triggered()")),
+            lambda: self.displayView('dashboard'))
+        QtCore.QObject.connect(
+            self.actionQuick_search,
+            QtCore.SIGNAL(_fromUtf8("triggered()")),
+            self.viewQuickSearch)
+        QtCore.QObject.connect(
+            self.actionFullscreen,
+            QtCore.SIGNAL(_fromUtf8("triggered()")),
+            self.switchFullscreen)
+        QtCore.QObject.connect(
+            self.actionSearch_game,
+            QtCore.SIGNAL(_fromUtf8("triggered()")),
+            lambda: self.searchResults(''))
+        QtCore.QObject.connect(self.actionManage_plugins,
+                               QtCore.SIGNAL(_fromUtf8("triggered()")),
+                               self.managePlugins)
         #dashboard.setupUi(dashboardWidget, self.centralwidget)
-        # TODO use user_plugins, path dinamically, and extend sys.path in the config
-        #  class
-        # TODO remove the call of this plugin!
-        sys.path.append('/Users/arkow/universidad/pfc/app/data/user_plugins')
+        # TODO remove the call of this plugin! Plugins must be autoloaded by
+        #  someone else.
+        import os
+        sys_plugin_path = self.collection.getConfig().get_resources_path()
+        sys.path.append(os.path.join(sys_plugin_path, 'data', 'user_plugins'))
         __import__('hello', -1)
 
     def initViews(self):
@@ -115,8 +134,8 @@ class CollectorUI(QtGui.QMainWindow, Ui_MainWindow):
         self.views[name].run(params)
 
     def switchFullscreen(self):
-        """Display fullscreen mode if isn't not active or shows the previous visualitzation
-        maximized or normal window."""
+        """Display fullscreen mode if isn't not active or shows the previous
+        visualitzation maximized or normal window."""
         fullscreen = self.isFullScreen()
         if not fullscreen:
             self.wasMaximized = False
@@ -130,8 +149,8 @@ class CollectorUI(QtGui.QMainWindow, Ui_MainWindow):
                 self.showNormal()
 
     def collectorURICaller(self, uri):
-        # Prevent that uri aren't a string. if called from a signal
-        #  the uri param will be a QString and doesn't have the startsWith method
+        # Prevent that uri aren't a string. if called from a signal the uri
+        #  param will be a QString and doesn't have the startsWith method
         uri = str(uri)
         # Check protocol
         if not uri.startswith('collector://'):
@@ -196,20 +215,21 @@ class CollectorUI(QtGui.QMainWindow, Ui_MainWindow):
     #     #self.toolbarManager.hiddeToolBar('edition')
 
     def about(self):
-        QtGui.QMessageBox.about(self, "About Collector",
-                _fromUtf8("""
-collector |kəˈlektər|
-noun a person or thing that collects something, in particular
+        about_msg = _fromUtf8("""collector |kəˈlektər|
+noun a person or thing that collects something, in particular.
  - New Oxford dictionary
 
 https://www.ariel.cat
-                """))
+                """)
+        QtGui.QMessageBox.about(self, "About Collector", about_msg)
 
     def createAbout(self):
         self.helpMenu = self.menuBar().addMenu("&Help")
-        self.aboutAct = QtGui.QAction("&About", self,
-        statusTip="Show the application's About box",
-        triggered=self.about)
+        self.aboutAct = QtGui.QAction(
+            "&About",
+            self,
+            statusTip="Show the application's About box",
+            triggered=self.about)
         self.helpMenu.addAction(self.aboutAct)
 
     def createToolbar(self):
@@ -222,7 +242,8 @@ class SplashScreen():
 
     def __init__(self):
         splash_pix = QtGui.QPixmap('./data/collector_splash.png')
-        self.splash = QtGui.QSplashScreen(splash_pix, QtCore.Qt.WindowStaysOnTopHint)
+        self.splash = QtGui.QSplashScreen(splash_pix,
+                                          QtCore.Qt.WindowStaysOnTopHint)
         self.splash.setMask(splash_pix.mask())
         self.splash.show()
 

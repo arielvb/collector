@@ -22,14 +22,14 @@ if ISOSX:
         "iconfile": "collection.icns",
         "plist": {
             'CFBundleGetInfoString':
-            "Collection, a collection management application.",
-            'CFBundleIdentifier': 'com.arielvb.collection',
+            "Collector, a collection management application.",
+            'CFBundleIdentifier': 'com.arielvb.collector',
             'CFBundleShortVersionString': VERSION,
-            'CFBundleVersion': 'Collection' + ' ' + VERSION,
+            'CFBundleVersion': 'Collector' + ' ' + VERSION,
             'LSMinimumSystemVersion': '10.4.3',
             'LSMultipleInstancesProhibited': 'true',
             'NSHumanReadableCopyright':
-            'Copyright 2012, arielvb.com',
+            'Copyright 2012, arielvb.com'
         },
         "resources": [
             #'qt.conf'
@@ -43,7 +43,7 @@ if ISOSX:
             "PyQt4.QtOpenGL",
             "PyQt4.QtDesigner",
             "PyQt4.phonon",
-            "PyQt4.QtMultimedia",
+            "PyQt4.QtMultimedia"
         ]
     }
     REQUIRES.append('py2app')
