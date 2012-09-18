@@ -1,0 +1,4 @@
+#!/bin/sh
+# Starts windows xp with virtualbox
+
+VBoxManage startvm WinXP
