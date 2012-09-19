@@ -2,7 +2,7 @@
 
 # This is only needed for Python v2 but is harmless for Python v3.
 from PyQt4 import QtCore
-from PyQt4.QtGui import QWidget
+from PyQt4.QtGui import QWidget, QApplication
 from ui.gen.search_results import Ui_Form
 from ui.workers.search import Worker_Search
 from ui.helpers.customtoolbar import Topbar
@@ -29,8 +29,10 @@ class Ui_Search(QWidget, Ui_Form):
 
     def setupUi(self, query):
         super(Ui_Search, self).setupUi(self)
+        title = QApplication.translate("Form", "Search",
+                                       None, QApplication.UnicodeUTF8)
         Topbar(widget=self.topbar, icon=':ico/search.png',
-               title='SEARCH')
+               title=title.toUpper())
         if query:
             self.lSearch.setText(query)
         self.bSearch.connect(

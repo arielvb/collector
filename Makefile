@@ -54,7 +54,8 @@ resources:
 	pyrcc4 -o ${BUILD_DIR}/resources_rc.py ${UI_DIR}/resources.qrc
 
 i18n:
-	pylupdate4 ui/designer/*.ui -ts translations.ts
+	# Use of the verbose option to see the changes
+	pylupdate4 -verbose ui/designer/*.ui ui/views/*.py -ts translations.ts
 
 release_i18n:
 	/Applications/QtSDK/Desktop/Qt/4.8.1/gcc/bin/lrelease translations.ts
