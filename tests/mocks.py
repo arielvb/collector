@@ -2,8 +2,7 @@
 from engine.config import Config
 from os import path
 config = Config.getInstance()
-BASE_PATH = path.join(config.get_appdata_path(), 'demo')
-#BASE_PATH = os.path.join(os.path.dirname(__file__), 'data')
+BASE_PATH = path.join(config.get_appdata_path(), 'collections', 'demo')
 
 
 boardgames = [
