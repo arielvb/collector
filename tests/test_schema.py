@@ -3,38 +3,6 @@
 import unittest
 import mocks
 from engine.schema import Schema
-from engine import fields
-
-
-class TestField(unittest.TestCase):
-
-    def setUp(self):
-        self.name = 'Fish'
-
-    def test_field_name(self):
-        field = fields.Field(self.name)
-        self.assertEqual(field.name, self.name)
-
-    def test_field_single_value(self):
-        field = fields.Field(self.name)
-        self.assertFalse(field.isMultivalue())
-        field.setValue('Black')
-        self.assertEqual(field.getValue(), 'Black')
-        field.setValue('Yellow')
-        self.assertEqual(field.getValue(), 'Yellow')
-        self.assertRaises(Exception, field.addValue, 'method not allowed')
-        self.assertRaises(Exception, field.setValue, ['Black', 'Yellow'])
-
-    def test_field_multivalue(self):
-        field = fields.Field(self.name, True)
-        self.assertTrue(field.isMultivalue())
-        field.addValue('Black')
-        self.assertEquals(field.getValue(), ['Black'])
-        field.addValue('Yellow')
-        self.assertEquals(field.getValue(), ['Black', 'Yellow'])
-        field.setValue([])
-        self.assertEqual(field.getValue(), [])
-        self.assertRaises(Exception, field.setValue, "string aren't allowed, neither basic types")
 
 
 # class TestField(unittest.TestCase):
@@ -68,7 +36,7 @@ class TestSchema(unittest.TestCase):
 
     def setUp(self):
         self.schema = Schema()
-        self.in_values = mocks.collections['boardgames']['schemas']['boardgames']
+        self.in_values = mocks.collections['demo']['schemas']['boardgames']
 
     def test_loadFromDict_schema(self):
         in_values = self.in_values

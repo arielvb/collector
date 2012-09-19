@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from engine.config import Config
 from os import path
-config = Config()
+config = Config.getInstance()
 BASE_PATH = path.join(config.get_appdata_path(), 'demo')
 #BASE_PATH = os.path.join(os.path.dirname(__file__), 'data')
 
@@ -38,10 +38,10 @@ people = [
 
 #TODO allow schema option searchable?
 collections = {
-    'boardgames': {
-        'name': 'Boardgames',
+    'demo': {
+        'name': 'Boardgames Demo',
         'protection': 'user',  # Aka, none
-        'description': 'Boardgames collection',
+        'description': 'Boardgames demo collection',
         'author': 'Ariel',
         'schemas': {
             'boardgames': {
@@ -81,8 +81,8 @@ collections = {
             }
         },
         'persistence': {
-            'storage': 'dict',
-            'parameters': {'boardgames': boardgames, 'people': people}
+            'storage': 'pickle',
+            # 'parameters': {'boardgames': boardgames, 'people': people}
         }
     }
 }

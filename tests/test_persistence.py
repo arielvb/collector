@@ -1,13 +1,13 @@
 import unittest
 from engine.persistence import PersistenceDict
-import mocks
+from mocks import boardgames
 
 
 class TestPersistence(unittest.TestCase):
 
     def setUp(self):
-        self.manager = PersistenceDict('boardgames',
-                mocks.collections['boardgames']['persistence']['parameters'])
+        self.manager = PersistenceDict('demo', 'boardgames',
+                data=boardgames)
 
     def tearDown(self):
         pass
