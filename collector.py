@@ -10,19 +10,23 @@ from PyQt4.Qt import qDebug  # Debug!!!
 from ui.gen.mainWindow import Ui_MainWindow
 from ui.gen.search_quick import Ui_Dialog as Ui_Dialog_Search
 from ui.gen.info_dialog import Ui_Dialog as Ui_Dialog_Info
-from ui.gen.plugins import Ui_Form as Ui_Plugins
-#from ui.views.dashboard import Ui_Dashboard
 from ui.views.dashboard import DashboardView
 from ui.views.fitxa_edit import FitxaEditView
 from ui.views.fitxa import FitxaView
 from ui.views.collection import CollectionView
 from ui.views.search import SearchView
 from ui.views.fitxa_new import FitxaNewView
+from ui.views.plugins import PluginsView
+
 import time
 
 from engine.collection import CollectionManager
+from engine.plugin import PluginManager
+from engine.config import Config
+from plugins.boardgamegeek import PluginBoardGameGeek
 
 import sys
+import os
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -74,12 +78,22 @@ class ToolBarManager():
 class CollectorUI(QtGui.QMainWindow, Ui_MainWindow):
 
     wasMaximized = False
-    collection = CollectionManager.getInstance()
+    collection = None
 
     def __init__(self, parent=None):
         super(CollectorUI,  self).__init__()
         # TODO remove time sleep, now exists only to see the splash screen
         time.sleep(2)
+
+        sys_plugin_path = Config.getInstance().get_appdata_path()
+        sys_plugin_path = os.path.join(sys_plugin_path, 'user_plugins')
+
+        self.plugin_manager = PluginManager(
+            ['PluginHellouser', 'PluginBoardgamegeek'],
+            {'PluginBoardgamegeek': PluginBoardGameGeek()},
+            paths=[sys_plugin_path])
+
+        self.collection = CollectionManager.getInstance()
 
         self.setupUi(self)
         self.setUnifiedTitleAndToolBarOnMac(True)
@@ -105,16 +119,10 @@ class CollectorUI(QtGui.QMainWindow, Ui_MainWindow):
             self.actionSearch_game,
             QtCore.SIGNAL(_fromUtf8("triggered()")),
             lambda: self.searchResults(''))
-        QtCore.QObject.connect(self.actionManage_plugins,
-                               QtCore.SIGNAL(_fromUtf8("triggered()")),
-                               self.managePlugins)
-        #dashboard.setupUi(dashboardWidget, self.centralwidget)
-        # TODO remove the call of this plugin! Plugins must be autoloaded by
-        #  someone else.
-        import os
-        sys_plugin_path = self.collection.getConfig().get_resources_path()
-        sys.path.append(os.path.join(sys_plugin_path, 'data', 'user_plugins'))
-        __import__('hello', -1)
+        QtCore.QObject.connect(
+            self.actionManage_plugins,
+            QtCore.SIGNAL(_fromUtf8("triggered()")),
+            lambda: self.displayView('plugins'))
 
     def initViews(self):
         self.views = {
@@ -123,7 +131,8 @@ class CollectorUI(QtGui.QMainWindow, Ui_MainWindow):
             'edit': FitxaEditView(self),
             'collection': CollectionView(self),
             'add': FitxaNewView(self),
-            'search': SearchView(self)
+            'search': SearchView(self),
+            'plugins': PluginsView(self)
         }
 
     def displayView(self, name, params={}):
@@ -186,7 +195,6 @@ class CollectorUI(QtGui.QMainWindow, Ui_MainWindow):
         if result == 1:
             # Accepted
             self.searchResults(ui.lineEdit.text())
-        #TODO obtain response of the dialog
 
     def viewInfo(self, msg):
         dialog = QtGui.QDialog()

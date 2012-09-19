@@ -6,10 +6,11 @@
 """Plugin for Boardgamegeek"""
 
 from bs4 import BeautifulSoup
+from engine.plugin import PluginCollector
 from engine.schema import Schema
 
 
-class PluginBoardGameGeek(object):
+class PluginBoardGameGeek(PluginCollector):
     """Boardgamegeek pluginclass"""
 
     website = 'http://boardgamegeek.com/'
@@ -84,8 +85,13 @@ class PluginBoardGameGeek(object):
     def __init__(self):
         super(PluginBoardGameGeek, self).__init__()
 
-    @classmethod
-    def search_filter(cls, html):
+    def get_name(self):
+        return self.name
+
+    def get_author(self):
+        return 'Ariel'
+
+    def search_filter(self, html):
         """ Parses the html to obtain all the results of the search """
         selector = ".collection_objectname"
         soup = BeautifulSoup(html)
@@ -98,8 +104,7 @@ class PluginBoardGameGeek(object):
                 ])
         return output
 
-    @classmethod
-    def attr_filter(cls, html):
+    def attr_filter(self, html):
         """ Parses the html to obtain all the fields defeined in the schema """
         #FIXME # of Players has a dummy encoding,
         #  after beautifulsoup... modify the original string
@@ -109,25 +114,25 @@ class PluginBoardGameGeek(object):
         results['title'] = soup.select('.geekitem_title a span')[0].getText()
         taula = soup.select('.geekitem_infotable')[0]
         rows = taula.findAll('tr')
-        results['designer'] = cls.row_filter(rows[0])
-        results['artist'] = cls.row_filter(rows[1])
-        results['publisher'] = cls.remove_show_more(cls.row_filter(rows[2]))
-        results['year'] = int(cls.row_filter(rows[3])[0])
-        num_of_player = cls.row_filter(rows[4])[0].split('-')
+        results['designer'] = self.row_filter(rows[0])
+        results['artist'] = self.row_filter(rows[1])
+        results['publisher'] = self.remove_show_more(self.row_filter(rows[2]))
+        results['year'] = int(self.row_filter(rows[3])[0])
+        num_of_player = self.row_filter(rows[4])[0].split('-')
         results['min_players'] = int(num_of_player[0])
         results['max_players'] = int(num_of_player[1])
         # TODO user_suggested_players field (row 5)
         # TODO unify playing time to minutes
-        results['playing'] = ' '.join(cls.row_filter(
+        results['playing'] = ' '.join(self.row_filter(
                                     rows[6])).replace('\t', '')
-        results['min_age'] = int(cls.row_filter(rows[7])[0])
+        results['min_age'] = int(self.row_filter(rows[7])[0])
         # TODO user_suggested_age field (row 8)
         # TODO language_dependence field (row 9)
         # TODO Honors (row 10)
         # TODO subdomain (row 11)
         results['categories'] = (
-            cls.remove_show_more(cls.row_filter(rows[12])))
-        results['mechanic'] = cls.remove_show_more(cls.row_filter(rows[13]))
+            self.remove_show_more(self.row_filter(rows[12])))
+        results['mechanic'] = self.remove_show_more(self.row_filter(rows[13]))
 
         return results
 
