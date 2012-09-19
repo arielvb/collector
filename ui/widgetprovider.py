@@ -18,3 +18,10 @@ class WidgetProvider(object):
 
         if self.mode == self.CENTRAL_WIDGET:
             self.parent.setCentralWidget(widget)
+
+        if self.mode == self.DIALOG_WIDGET:
+            widget.exec_()
+            self.after_exec(widget)
+
+    def after_exec(self, widget):
+        pass

@@ -82,9 +82,6 @@ class PluginBoardGameGeek(PluginCollector):
                 'default': 'title'}
             )
 
-    def __init__(self):
-        super(PluginBoardGameGeek, self).__init__()
-
     def get_name(self):
         return self.name
 

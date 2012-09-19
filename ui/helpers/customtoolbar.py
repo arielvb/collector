@@ -101,7 +101,52 @@ class CustomToolbar(CustomToolbarUi):
 
 class Topbar(TopbarUi):
 
-    def __init__(self, widget, icon, title):
+    def __init__(self, widget, icon, title, description=None):
         self.setupUi(widget)
         self.icon.setPixmap(QtGui.QPixmap(_fromUtf8(icon)))
         self.title.setText(title)
+        if description is None:
+            self.description.hide()
+        else:
+            self.description.setText(description)
+
+
+class ToolBarManager():
+    #TODO what to do whit this class?
+    def __init__(self, parent):
+        self.parent = parent
+        toolbars = {}
+        self.parent.setUnifiedTitleAndToolBarOnMac(True)
+        toolBar = QtGui.QToolBar("Navigation")
+        self.parent.addToolBar(toolBar)
+        # Notify unified title and toolbar on mac (displays collapse button at
+        #  the right corner)
+        toolbars['navigation'] = toolBar
+        self.dashToolbarAction = QtGui.QAction(
+            QtGui.QIcon(':/dashboard.png'),
+            "&Dashboard", self.parent, shortcut="Ctrl+D",
+            statusTip="View dashboard",
+            triggered=lambda: self.parent.displatView('dashboard'))
+        toolBar.addAction(self.dashToolbarAction)
+        toolBar = QtGui.QToolBar("Edition")
+        toolbars['edition'] = toolBar
+        self.editToolbarAction = QtGui.QAction(
+            QtGui.QIcon(':/edit.png'),
+            "&Edit", self.parent, shortcut="Ctrl+E",
+            statusTip="Edit",
+            triggered=lambda: self.parent.editFitxa())
+        # self.editToolbarAction.setEnabled(False)
+        toolBar.addAction(self.editToolbarAction)
+        self.toolbars = toolbars
+
+    def hiddeToolBar(self, toolbar):
+        self.parent.setUnifiedTitleAndToolBarOnMac(False)
+        self.parent.removeToolBar(self.toolbars[toolbar])
+        self.parent.setUnifiedTitleAndToolBarOnMac(True)
+
+    def showToolBar(self, toolbar):
+        self.parent.setUnifiedTitleAndToolBarOnMac(False)
+        # TODO why once deleted the toolbar it is destroyed and it's impossiblo
+        #  to show again?
+        self.parent.addToolBar(self.toolbars[toolbar])
+        self.parent.setUnifiedTitleAndToolBarOnMac(True)

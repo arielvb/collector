@@ -93,13 +93,13 @@ class Ui_Fitxa_Edit(QtGui.QWidget, Ui_Form):
         CustomToolbar(self.toolbar, quick, self._linkactivated)
 
     def _linkactivated(self, uri):
-        params = self.parent().collectorURICaller(uri)
+        params = self.parent().collector_uri_call(uri)
         if params is not None:
             action = params['action']
             if action == 'save':
                 self.save()
             elif action == 'cancel':
-                self.parent().displayView(
+                self.parent().display_view(
                     'fitxa',
                     {'item': self.item, 'collection': self.collection.name})
 
@@ -118,7 +118,7 @@ class Ui_Fitxa_Edit(QtGui.QWidget, Ui_Form):
             data[field] = values
         data['id'] = self.obj['id']
         self.collection.save(data)
-        self.parent().displayView(
+        self.parent().display_view(
             'fitxa',
             {'item': data['id'], 'collection': self.collection.name})
         qDebug(str(data))

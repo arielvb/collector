@@ -66,7 +66,7 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
             self._itemSelected)
 
     def _toolbarCallback(self, uri):
-        self.parent().collectorURICaller(uri)
+        self.parent().collector_uri_call(uri)
 
     def createHeaderItem(self, text):
         item = QtGui.QTableWidgetItem()
@@ -98,7 +98,7 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
         self._table_items += 1
 
     def _itemSelected(self, tableItem):
-        self.parent().displayView(
+        self.parent().display_view(
             'fitxa',
             {'item': tableItem.getObjectId(),
              'collection': self.collection.name})

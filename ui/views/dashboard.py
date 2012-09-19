@@ -2,7 +2,7 @@
 
 from PyQt4 import QtCore, QtGui
 from ui.gen.dashboard import Ui_Form
-from ui.helpers.customtoolbar import CustomToolbar
+from ui.helpers.customtoolbar import CustomToolbar, Topbar
 from ui.helpers.items import FitxaListItem
 
 try:
@@ -51,16 +51,19 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
         self.bSearch.connect(
             self.bSearch,
             QtCore.SIGNAL(_fromUtf8("clicked()")),
-            lambda: self.parent().displayView(
+            lambda: self.parent().display_view(
                 'search',
                 {'term': self.lSearch.text()}))
+
+        Topbar(widget=self.topbar, icon=':ico/dashboard.png',
+               title=self.tr("Dashboard").toUpper())
         self._loadToolbar()
         # TODO lastgames must be a widget and will ofer a way to choose
         #  the collection to display and the title
         self.listWidget.connect(
             self.listWidget,
             QtCore.SIGNAL(_fromUtf8("itemClicked(QListWidgetItem *)")),
-            lambda s: self.parent().displayView(
+            lambda s: self.parent().display_view(
                 'fitxa',
                 {'item': s.id, 'collection': 'boardgames'}))
 
@@ -71,10 +74,7 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
         CustomToolbar(self.toolbar, items, self._toolbarCallback)
 
     def _toolbarCallback(self, uri):
-        # TODO make more generic without if,
-        #  else maybe a collector uri scheme class
-        # TODO parse arguments
-        self.parent().collectorURICaller(uri)
+        self.parent().collector_uri_call(uri)
 
     def loadLastGames(self, listContainer):
         collection = self.parent().collection.getCollection(

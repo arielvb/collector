@@ -109,7 +109,7 @@ class Ui_Fitxa(QtGui.QWidget, Ui_Form):
 
     def _linkactivated(self, uri):
         qDebug('Uri called: ' + uri)
-        self.parent().collectorURICaller(uri)
+        self.parent().collector_uri_call(uri)
 
 
 class FitxaView(WidgetProvider):

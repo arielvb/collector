@@ -92,13 +92,13 @@ class Ui_Fitxa_New(QtGui.QWidget, Ui_Form):
 
     def _linkactivated(self, uri):
         qDebug('Uri called: ' + uri)
-        params = self.parent().collectorURICaller(uri)
+        params = self.parent().collector_uri_call(uri)
         action = params['action']
         if action == 'save':
             self.save()
         elif action == 'cancel':
             # TODO return to referer parameter?
-            self.parent().displayView('collection',
+            self.parent().display_view('collection',
                                       {'collection': self.collection.name})
 
     def save(self):
@@ -116,7 +116,7 @@ class Ui_Fitxa_New(QtGui.QWidget, Ui_Form):
             data[field] = values
         # data['id'] = self.obj['id']
         self.collection.save(data)
-        self.parent().displayView('fitxa',
+        self.parent().display_view('fitxa',
                                   {'item': data['id'],
                                   'collection': self.collection.name})
         qDebug(str(data))
