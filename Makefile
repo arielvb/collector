@@ -52,13 +52,16 @@ resources:
 	mkdir -p ${BUILD_DIR}
 	echo '#' > ${BUILD_DIR}/__init__.py
 	pyrcc4 -o ${BUILD_DIR}/resources_rc.py ${UI_DIR}/resources.qrc
+	pyrcc4 -o ${BUILD_DIR}/lang_rc.py ${UI_DIR}/lang.qrc
+
 
 i18n:
 	# Use of the verbose option to see the changes
-	pylupdate4 -verbose ui/designer/*.ui ui/views/*.py -ts translations.ts
+	pylupdate4 -verbose ui/designer/*.ui ui/views/*.py -ts ${UI_DIR}/lang/es_ES.ts
+	pylupdate4 -verbose ui/designer/*.ui ui/views/*.py -ts ${UI_DIR}/lang/ca_ES.ts
 
 release_i18n:
-	/Applications/QtSDK/Desktop/Qt/4.8.1/gcc/bin/lrelease translations.ts
+	/Applications/QtSDK/Desktop/Qt/4.8.1/gcc/bin/lrelease ${UI_DIR}/lang/es_ES.ts ${UI_DIR}/lang/ca_ES.ts
 
 gitexport:
 	rm -rf ${EXPORT}

@@ -51,7 +51,7 @@ p, li { white-space: pre-wrap; }
         </font>
        </property>
        <property name="text">
-        <string>Override this message: lMessage.setText(&quot;[yout text]&quot;)</string>
+        <string notr="true">Override this message: lMessage.setText(&quot;[yout text]&quot;)</string>
        </property>
       </widget>
      </item>

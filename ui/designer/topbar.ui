@@ -47,7 +47,7 @@
         </font>
        </property>
        <property name="text">
-        <string>[Title]</string>
+        <string notr="true">[Title]</string>
        </property>
       </widget>
      </item>

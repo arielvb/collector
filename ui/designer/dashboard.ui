@@ -51,7 +51,7 @@
       </font>
      </property>
      <property name="text">
-      <string>[Last collection entrys]</string>
+      <string notr="true">[Last collection entrys]</string>
      </property>
      <property name="textInteractionFlags">
       <set>Qt::NoTextInteraction</set>

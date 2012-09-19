@@ -38,7 +38,7 @@
      <item>
       <widget class="QLabel" name="image">
        <property name="text">
-        <string>image</string>
+        <string notr="true">image</string>
        </property>
       </widget>
      </item>

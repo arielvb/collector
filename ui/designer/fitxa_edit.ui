@@ -27,7 +27,7 @@
         </font>
        </property>
        <property name="text">
-        <string>COLLECTION &gt;</string>
+        <string notr="true">[COLLECTION] &gt;</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
@@ -44,7 +44,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Item name</string>
+        <string notr="true">[Item name]</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>

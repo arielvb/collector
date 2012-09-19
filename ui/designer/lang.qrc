@@ -1,0 +1,8 @@
+<RCC>
+  <qresource>
+    <file>lang/ca_ES.qm</file>
+    <file>lang/ca_ES.ts</file>
+    <file>lang/es_ES.qm</file>
+    <file>lang/es_ES.ts</file>
+  </qresource>
+</RCC>

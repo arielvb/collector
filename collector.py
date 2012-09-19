@@ -29,6 +29,8 @@ from plugins.boardgamegeek import PluginBoardGameGeek
 import sys
 import os
 
+from ui.gen import lang_rc
+
 try:
     _from_utf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -166,11 +168,6 @@ https://www.ariel.cat
                 """)
         QtGui.QMessageBox.about(self, "About Collector", about_msg)
 
-    # def createToolbar(self):
-    #     # TODO better toolbar!
-    #     #self.toolbarManager = ToolBarManager(self)
-    #     qDebug('ToolbarCreated')
-
 
 class SplashScreen(object):
     """Displays a splash screen until the main window is ready"""
@@ -190,12 +187,16 @@ class SplashScreen(object):
 class CollectorApplication(QtGui.QApplication):
     """The GUI Aplication for Collector"""
 
+    translators = {}
+    current = None
+
     def __init__(self, argv):
         super(CollectorApplication, self).__init__(argv)
 
         # Create and display the splash screen
         self.splash = SplashScreen()
         self.processEvents()
+        self.loadTranslations(":/lang")
 
         # Create main window
         self.main = CollectorUI()
@@ -209,10 +210,55 @@ class CollectorApplication(QtGui.QApplication):
         # Bring window to front
         self.main.raise_()
 
+    # The language code selector is from:
+    # switch translations dynamically in a PyQt4 application
+    #
+    # PyQt version by Hans-Peter Jansen <hpj@urpla.net>
+
+    def loadTranslations(self, folder):
+        if not isinstance(folder, QtCore.QDir):
+            folder = QtCore.QDir(folder)
+        pattern = "*_*.qm"  # <language>_<country>.qm
+        filters = QtCore.QDir.Files | QtCore.QDir.Readable
+        sort = QtCore.QDir.SortFlags(QtCore.QDir.Name)
+        for langFile in folder.entryInfoList([pattern], filters, sort):
+            # pick country and language out of the file name
+            language, country = langFile.baseName().split("_", 1)
+            language = language.toLower()
+            country = country.toUpper()
+            locale = language + "_" + country
+            # only load translation, if it does not exist already
+            if not locale in CollectorApplication.translators:
+                # create and load translator
+                translator = QtCore.QTranslator(self.instance())
+                if translator.load(langFile.absoluteFilePath()):
+                    CollectorApplication.translators[locale] = translator
+
+        system = QtCore.QLocale.system()
+
+        for lang in CollectorApplication.availableLanguages():
+            from PyQt4.Qt import qDebug; qDebug(lang)
+            if str(lang) == system.name():
+                # language match the current system
+                CollectorApplication.setLanguage(lang)
+
+    @staticmethod
+    def availableLanguages():
+        return sorted(CollectorApplication.translators.keys())
+
+    @staticmethod
+    def setLanguage(locale):
+        #print "Application.setLanguage(%s)" % locale
+        if CollectorApplication.current:
+            CollectorApplication.removeTranslator(CollectorApplication.current)
+        CollectorApplication.current = CollectorApplication.translators.get(locale, None)
+        if CollectorApplication.current is not None:
+            CollectorApplication.installTranslator(CollectorApplication.current)
 
 def main():
     """ Starts the application"""
     app = CollectorApplication(sys.argv)
+
     sys.exit(app.exec_())
 
 if __name__ == "__main__":

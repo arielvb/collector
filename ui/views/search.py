@@ -72,7 +72,7 @@ class Ui_Search(QWidget, Ui_Form):
         if results.status != STATUS_OK:
             QMessageBox.warning(
                 self.tr("Ooops!\nSomething happened and the search" +
-                        "could'nt be completed."))
+                        " could'nt be completed."))
             return
         for result in results.results:
             item = FitxaListItem(result['id'], result['name'])
@@ -104,7 +104,7 @@ class Ui_SearchPlugin(Ui_Search):
                 self,
                 self.tr("Warning"),
                 self.tr("Ooops!\nSomething happened and the search" +
-                        "could'nt be completed."))
+                        " could'nt be completed."))
             return
         self.results = results.results
         for result in results.results:

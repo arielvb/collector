@@ -116,11 +116,6 @@
     <string>Export</string>
    </property>
   </action>
-  <action name="actionAbout">
-   <property name="text">
-    <string>About Km</string>
-   </property>
-  </action>
   <action name="actionFullscreen">
    <property name="icon">
     <iconset resource="resources.qrc">
@@ -157,14 +152,10 @@
     <string>Properties</string>
    </property>
   </action>
-  <action name="actionFolder">
-   <property name="text">
-    <string>Edit</string>
-   </property>
-  </action>
  </widget>
  <resources>
   <include location="resources.qrc"/>
+  <include location="lang.qrc"/>
  </resources>
  <connections>
   <connection>
