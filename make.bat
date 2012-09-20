@@ -26,7 +26,9 @@ if "%1" == "" (
     call %PYQT_PATH%\pyuic4 -x %UI_DIR%\plugins.ui -o %BUILD_DIR%\plugins.py
     call %PYQT_PATH%\pyuic4 -x %UI_DIR%\toolbar.ui -o %BUILD_DIR%\toolbar.py
     call %PYQT_PATH%\pyuic4 -x %UI_DIR%\topbar.ui -o %BUILD_DIR%\topbar.py
+    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\properties.ui -o %BUILD_DIR%\properties.py
     call %PYQT_PATH%\pyrcc4 -o %BUILD_DIR%\resources_rc.py %UI_DIR%\resources.qrc
+    call %PYQT_PATH%\pyrcc4 -o %BUILD_DIR%\lang_rc.py %UI_DIR%\lang.qrc
     echo.Widgets finished
     goto end
 )

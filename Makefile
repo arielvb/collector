@@ -46,7 +46,7 @@ ui2py: resources
 	pyuic4 -x ${UI_DIR}/plugins.ui -o ${BUILD_DIR}/plugins.py
 	pyuic4 -x ${UI_DIR}/toolbar.ui -o ${BUILD_DIR}/toolbar.py
 	pyuic4 -x ${UI_DIR}/topbar.ui -o ${BUILD_DIR}/topbar.py
-
+	pyuic4 -x ${UI_DIR}/properties.ui -o ${BUILD_DIR}/properties.py
 
 resources:
 	mkdir -p ${BUILD_DIR}
