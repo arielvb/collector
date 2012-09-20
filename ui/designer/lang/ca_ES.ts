@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="ca_ES" sourcelanguage="en">
+<!DOCTYPE TS><TS version="2.0" language="ca_ES" sourcelanguage="en">
 <context>
     <name>Dialog</name>
     <message>
@@ -91,9 +90,9 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="search.py" line="91"/>
+        <location filename="search.py" line="100"/>
         <source>Discover</source>
-        <translation>Descubreix</translation>
+        <translation type="obsolete">Descubreix</translation>
     </message>
 </context>
 <context>
@@ -101,7 +100,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="mainWindow.ui" line="14"/>
         <source>Collector</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Collector</translation>
     </message>
     <message>
         <location filename="mainWindow.ui" line="38"/>
@@ -195,9 +194,47 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>Properties</name>
+    <message>
+        <location filename="properties.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="properties.ui" line="24"/>
+        <source>Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="properties.ui" line="36"/>
+        <source>Title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="properties.ui" line="52"/>
+        <source>Author</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="properties.ui" line="68"/>
+        <source>Description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="properties.ui" line="78"/>
+        <source>Persitence</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="properties.ui" line="93"/>
+        <source>Fields</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Ui_Dashboard</name>
     <message>
-        <location filename="dashboard.py" line="58"/>
+        <location filename="dashboard.py" line="82"/>
         <source>Dashboard</source>
         <translation>Tauler principal</translation>
     </message>
@@ -205,10 +242,20 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>Ui_Search</name>
     <message>
-        <location filename="search.py" line="73"/>
+        <location filename="search.py" line="77"/>
         <source>Ooops!
 Something happened and the search could&apos;nt be completed.</source>
         <translation>Hi ha hagut un error i la cerca no s&apos;ha pogut completar.</translation>
+    </message>
+    <message>
+        <location filename="search.py" line="65"/>
+        <source>Searching...</source>
+        <translation>Cercant...</translation>
+    </message>
+    <message>
+        <location filename="search.py" line="77"/>
+        <source>Collector</source>
+        <translation>Collector</translation>
     </message>
 </context>
 <context>
@@ -216,13 +263,23 @@ Something happened and the search could&apos;nt be completed.</source>
     <message>
         <location filename="search.py" line="103"/>
         <source>Warning</source>
-        <translation>Atenció</translation>
+        <translation type="obsolete">Atenció</translation>
     </message>
     <message>
         <location filename="search.py" line="103"/>
         <source>Ooops!
 Something happened and the search could&apos;nt be completed.</source>
-        <translation>Hi ha hagut un error i la cerca no s&apos;ha pogut completar.</translation>
+        <translation type="obsolete">Hi ha hagut un error i la cerca no s&apos;ha pogut completar.</translation>
+    </message>
+    <message>
+        <location filename="search.py" line="100"/>
+        <source>Discover</source>
+        <translation>Descubreix</translation>
+    </message>
+    <message>
+        <location filename="search.py" line="102"/>
+        <source>Discover allows you find new objects for your collection, type somenthing in the searchbox and the plugins will do the hardwork.</source>
+        <translation>&quot;Descubreix&quot; et permet trobar nous objecte per la teva collecció, escriu quelcom a la caixa de cerca i els complements faràn la resta. </translation>
     </message>
 </context>
 </TS>

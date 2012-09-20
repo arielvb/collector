@@ -90,9 +90,9 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="search.py" line="91"/>
+        <location filename="search.py" line="100"/>
         <source>Discover</source>
-        <translation>Descubrir</translation>
+        <translation type="obsolete">Descubrir</translation>
     </message>
 </context>
 <context>
@@ -199,9 +199,47 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>Properties</name>
+    <message>
+        <location filename="properties.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="properties.ui" line="24"/>
+        <source>Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="properties.ui" line="36"/>
+        <source>Title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="properties.ui" line="52"/>
+        <source>Author</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="properties.ui" line="68"/>
+        <source>Description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="properties.ui" line="78"/>
+        <source>Persitence</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="properties.ui" line="93"/>
+        <source>Fields</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Ui_Dashboard</name>
     <message>
-        <location filename="dashboard.py" line="58"/>
+        <location filename="dashboard.py" line="82"/>
         <source>Dashboard</source>
         <translation>Panel principal</translation>
     </message>
@@ -216,11 +254,21 @@ Something happened and the searchcould&apos;nt be completed.</source>
 Algo ha ocurrido y la búsquda no se ha completado.</translation>
     </message>
     <message>
-        <location filename="search.py" line="73"/>
+        <location filename="search.py" line="77"/>
         <source>Ooops!
 Something happened and the search could&apos;nt be completed.</source>
         <translation>Ooops!
 Algo ha ocurrido y la búsquda no se ha completado.</translation>
+    </message>
+    <message>
+        <location filename="search.py" line="65"/>
+        <source>Searching...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="search.py" line="77"/>
+        <source>Collector</source>
+        <translation type="unfinished">Collector</translation>
     </message>
 </context>
 <context>
@@ -228,7 +276,7 @@ Algo ha ocurrido y la búsquda no se ha completado.</translation>
     <message>
         <location filename="search.py" line="103"/>
         <source>Warning</source>
-        <translation>Atención</translation>
+        <translation type="obsolete">Atención</translation>
     </message>
     <message>
         <location filename="search.py" line="103"/>
@@ -241,8 +289,18 @@ Algo ha ocurrido y la búsquda no se ha completado.</translation>
         <location filename="search.py" line="103"/>
         <source>Ooops!
 Something happened and the search could&apos;nt be completed.</source>
-        <translation>Ooops!
+        <translation type="obsolete">Ooops!
 Algo ha ocurrido y la búsquda no se ha completado.</translation>
+    </message>
+    <message>
+        <location filename="search.py" line="100"/>
+        <source>Discover</source>
+        <translation type="unfinished">Descubrir</translation>
+    </message>
+    <message>
+        <location filename="search.py" line="102"/>
+        <source>Discover allows you find new objects for your collection, type somenthing in the searchbox and the plugins will do the hardwork.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
