@@ -18,5 +18,7 @@
     <file>collection.png</file>
     <file>boards.png</file>
     <file>author.png</file>
+    <file>folder.png</file>
+    <file>ico/folder.png</file>
   </qresource>
 </RCC>
