@@ -34,8 +34,11 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
     def customize(self):
         #Topbar
         # TODO title collection name must be a parameter
-        Topbar(widget=self.topbar, icon=self.schema.ico,
-               title=self.collection.schema.name.upper())
+        icon = self.collection.schema.ico
+        if icon is None:
+            icon = ':ico/folder.png'
+        Topbar(widget=self.topbar, icon=icon,
+               title=self.collection.getName().upper())
 
         # Toolbar
         items = [

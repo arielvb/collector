@@ -39,8 +39,32 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
             flags = QtCore.Qt.WindowFlags(0)
         super(Ui_Dashboard, self).__init__(parent, flags)
         global dashboard_settings
-        self.settings = dashboard_settings
+        self.settings = self.get_dashboard_settings()
         self.setupUi()
+
+    def get_dashboard_settings(self):
+        settings = {}
+        collections = self.parent().collection.collections
+        items = []
+        for collection in collections.values():
+            image = collection.get_image()
+            if image is None:
+                image = ":folder.png"
+            items.append(
+                {'class': 'link', 'name': collection.getName(),
+                 'path': 'view/collection/collection/' + collection.name,
+                 'image': image}
+                )
+        # TODO allow personalization of the new entry button?
+        items.extend([
+            {'class': 'spacer'},
+            {'class': 'line'},
+            {'class': 'link', 'name': 'New <b>Boardgame</b>',
+             'path': 'view/add/collection/boardgames', 'image': ':/add.png'}
+        ])
+        settings['items'] = items
+        settings['lastcollection'] = collections.values()[0].name
+        return settings
 
     def setupUi(self):
         """Creates the ui elements for the dashboard.

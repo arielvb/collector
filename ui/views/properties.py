@@ -46,6 +46,7 @@ class PropertiesWidget(QtGui.QWidget, Ui_Properties):
             self.buttonBox,
             QtCore.SIGNAL(_fromUtf8("rejected()")),
             lambda: self.parent().display_view('dashboard'))
+        # TODO save method
 
 
 class PropertiesView(WidgetProvider):

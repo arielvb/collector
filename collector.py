@@ -18,8 +18,7 @@ from ui.views.collection import CollectionView
 from ui.views.search import SearchView, DiscoverView, SearchDialog
 from ui.views.fitxa_new import FitxaNewView
 from ui.views.plugins import PluginsView
-
-import time
+from ui.views.properties import PropertiesView
 
 from engine.collection import CollectionManager
 from engine.plugin import PluginManager
@@ -28,8 +27,6 @@ from plugins.boardgamegeek import PluginBoardGameGeek
 
 import sys
 import os
-
-from ui.gen import lang_rc
 
 try:
     _from_utf8 = QtCore.QString.fromUtf8
@@ -49,10 +46,9 @@ class CollectorUI(QtGui.QMainWindow, Ui_MainWindow):
 
     def __init__(self, parent=None):
         super(CollectorUI,  self,).__init__(parent)
-        # TODO remove time sleep, now exists only to see the splash screen
-        time.sleep(2)
-
-        sys_plugin_path = Config.getInstance().get_appdata_path()
+        config = Config.getInstance()
+        config.build_data_directory()
+        sys_plugin_path = config.get_appdata_path()
         sys_plugin_path = os.path.join(sys_plugin_path, 'user_plugins')
 
         self.plugin_manager = PluginManager(
@@ -63,7 +59,7 @@ class CollectorUI(QtGui.QMainWindow, Ui_MainWindow):
         self.collection = CollectionManager.getInstance()
 
         self.setupUi(self)
-        self.setUnifiedTitleAndToolBarOnMac(True)
+        self.setUnifiedTitleAndToolBarOnMac(False)
         # TODO clean toolbar code?
         # self.createToolbar()
         self.views = self.init_views()
@@ -97,6 +93,10 @@ class CollectorUI(QtGui.QMainWindow, Ui_MainWindow):
             self.actionManage_plugins,
             QtCore.SIGNAL(_from_utf8("triggered()")),
             lambda: self.display_view('plugins'))
+        QtCore.QObject.connect(
+            self.actionProperties,
+            QtCore.SIGNAL(_from_utf8("triggered()")),
+            lambda: self.display_view('properties'))
 
     def init_views(self):
         """ Initialize the avaible views, each view is loaded by a provider"""
@@ -109,7 +109,8 @@ class CollectorUI(QtGui.QMainWindow, Ui_MainWindow):
             'search': SearchView(self),
             'discover': DiscoverView(self),
             'plugins': PluginsView(self),
-            'quicksearch': SearchDialog(self)
+            'quicksearch': SearchDialog(self),
+            'properties': PropertiesView(self)
         }
 
     def display_view(self, name, params={}):
@@ -177,10 +178,16 @@ class SplashScreen(object):
         self.splash = QtGui.QSplashScreen(splash_pix,
                                           QtCore.Qt.WindowStaysOnTopHint)
         self.splash.setMask(splash_pix.mask())
+
+    def show(self):
+        """Displays the splash screen"""
         self.splash.show()
+        import time
+        # ensure at least its visible one second
+        time.sleep(1)
 
     def finish(self, window):
-        """Hide's and destroy the splash screen"""
+        """Hides and destroy the splash screen, ensure the """
         self.splash.finish(window)
 
 
@@ -195,8 +202,10 @@ class CollectorApplication(QtGui.QApplication):
 
         # Create and display the splash screen
         self.splash = SplashScreen()
+        self.splash.show()
         self.processEvents()
-        self.loadTranslations(":/lang")
+        __import__("ui.gen.lang_rc")
+        self.load_translations(":/lang")
 
         # Create main window
         self.main = CollectorUI()
@@ -215,15 +224,17 @@ class CollectorApplication(QtGui.QApplication):
     #
     # PyQt version by Hans-Peter Jansen <hpj@urpla.net>
 
-    def loadTranslations(self, folder):
+    def load_translations(self, folder):
+        """Loads the transaltions from the parameter folder, the translations
+         must match the pattern *_*.qm"""
         if not isinstance(folder, QtCore.QDir):
             folder = QtCore.QDir(folder)
         pattern = "*_*.qm"  # <language>_<country>.qm
         filters = QtCore.QDir.Files | QtCore.QDir.Readable
         sort = QtCore.QDir.SortFlags(QtCore.QDir.Name)
-        for langFile in folder.entryInfoList([pattern], filters, sort):
+        for lang_file in folder.entryInfoList([pattern], filters, sort):
             # pick country and language out of the file name
-            language, country = langFile.baseName().split("_", 1)
+            language, country = lang_file.baseName().split("_", 1)
             language = language.toLower()
             country = country.toUpper()
             locale = language + "_" + country
@@ -231,29 +242,31 @@ class CollectorApplication(QtGui.QApplication):
             if not locale in CollectorApplication.translators:
                 # create and load translator
                 translator = QtCore.QTranslator(self.instance())
-                if translator.load(langFile.absoluteFilePath()):
+                if translator.load(lang_file.absoluteFilePath()):
                     CollectorApplication.translators[locale] = translator
 
         system = QtCore.QLocale.system()
 
-        for lang in CollectorApplication.availableLanguages():
-            from PyQt4.Qt import qDebug; qDebug(lang)
+        for lang in CollectorApplication.available_languages():
             if str(lang) == system.name():
                 # language match the current system
-                CollectorApplication.setLanguage(lang)
+                CollectorApplication.set_language(lang)
 
     @staticmethod
-    def availableLanguages():
+    def available_languages():
+        """ Returns the avaible languages (code_country) as a list"""
         return sorted(CollectorApplication.translators.keys())
 
     @staticmethod
-    def setLanguage(locale):
-        #print "Application.setLanguage(%s)" % locale
-        if CollectorApplication.current:
-            CollectorApplication.removeTranslator(CollectorApplication.current)
-        CollectorApplication.current = CollectorApplication.translators.get(locale, None)
-        if CollectorApplication.current is not None:
-            CollectorApplication.installTranslator(CollectorApplication.current)
+    def set_language(locale):
+        """ Sets the language of the application using the deseired locale"""
+        app = CollectorApplication
+        if app.current:
+            app.removeTranslator(app.current)
+        app.current = app.translators.get(locale, None)
+        if app.current is not None:
+            app.installTranslator(app.current)
+
 
 def main():
     """ Starts the application"""

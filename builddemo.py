@@ -15,7 +15,7 @@ DATA_FILES = [('people', people), ('boardgames', boardgames)]
 
 def deploy():
 
-    json_it(CONFIG_FILE, collections)
+    json_it(CONFIG_FILE, collections['demo'])
     for item in DATA_FILES:
         pickle_it(item[0] + '.p', item[1])
 

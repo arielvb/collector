@@ -3,7 +3,6 @@
 from PyQt4 import QtCore, QtGui
 from ui.gen.fitxa import Ui_Form
 from ui.helpers.customtoolbar import CustomToolbar, Topbar
-from PyQt4.Qt import qDebug  # Debug!!!
 from ui.widgetprovider import WidgetProvider
 
 
@@ -101,6 +100,8 @@ class Ui_Fitxa(QtGui.QWidget, Ui_Form):
              'image': ':/boards.png'},
             {'class': 'spacer'},
             {'class': 'line'},
+            {'class':'link', 'name': 'Delete', 'path': 'action/delete',
+             'image': ':/delete.png'},
             {'class':'link', 'name': 'Edit', 'path': 'view/edit/collection/' +
              self.collection.name + '/item/' + str(self.item),
              'image': ':/edit.png'},
@@ -108,8 +109,15 @@ class Ui_Fitxa(QtGui.QWidget, Ui_Form):
         CustomToolbar(self.toolbar, quick, self._linkactivated)
 
     def _linkactivated(self, uri):
-        qDebug('Uri called: ' + uri)
-        self.parent().collector_uri_call(uri)
+        params = self.parent().collector_uri_call(uri)
+        if params is not None:
+            action = params['action']
+            if action == 'delete':
+                self.delete()
+
+    def delete(self):
+        self.collection.delete(self.item)
+        self.parent().display_view('dashboard')
 
 
 class FitxaView(WidgetProvider):

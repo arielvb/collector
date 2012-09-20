@@ -62,25 +62,34 @@ class Ui_Search(QWidget, Ui_Form):
         self.listWidget.clear()
         self.progressBar.show()
         self.query = text
+        self.parent().statusBar().showMessage(self.tr('Searching...'))
         if isinstance(text, QtCore.QString):
             text = text.toUtf8()
         self.worker.search(str(text))
 
     def searchComplete(self, results):
+        """Process the results of a search, *results* must be instance of
+         WorkerResult"""
+        self.parent().statusBar().clearMessage()
         self.bSearch.setEnabled(True)
         self.progressBar.hide()
         if results.status != STATUS_OK:
-            QMessageBox.warning(
+            QMessageBox.warning(self,
+                self.tr("Collector"),
                 self.tr("Ooops!\nSomething happened and the search" +
                         " could'nt be completed."))
-            return
-        for result in results.results:
+        else:
+            self.addResults(results.results)
+
+    def addResults(self, listResults):
+        """Adds the each elelemt of listResults to the results list widget"""
+        for result in listResults:
             item = FitxaListItem(result['id'], result['name'])
             self.listWidget.addItem(item)
             del item
 
     def itemSelected(self, listItem):
-        self.parent().displayView(
+        self.parent().display_view(
             'fitxa',
             {'item': listItem.id, 'collection': 'boardgames'}
         )
@@ -88,32 +97,26 @@ class Ui_Search(QWidget, Ui_Form):
 
 class Ui_SearchPlugin(Ui_Search):
 
-    title = QApplication.translate("Form", "Discover",
+    title = QApplication.translate("Ui_SearchPlugin", "Discover",
                                    None, QApplication.UnicodeUTF8)
-    description = ("Discover allows you find new objects for your collection,"
-                  " type somenthing in the searchbox and the plugins"
-                  " will do the hardwork.")
+    description = QApplication.translate("Ui_SearchPlugin",
+        "Discover allows you find new objects for your collection,"
+        " type somenthing in the searchbox and the plugins"
+        " will do the hardwork.", None, QApplication.UnicodeUTF8)
+
     worker = Worker_Discover()
 
-    def searchComplete(self, results):
-        self.bSearch.setEnabled(True)
-        self.progressBar.hide()
-        if results.status != STATUS_OK:
-            # TODO parse errors
-            QMessageBox.warning(
-                self,
-                self.tr("Warning"),
-                self.tr("Ooops!\nSomething happened and the search" +
-                        " could'nt be completed."))
-            return
-        self.results = results.results
-        for result in results.results:
+    def addResults(self, results):
+        """Overrides the default addResults because the results from plugins
+         are a little bit differnt"""
+        # TODO the results of a plugin must be in the same format of the search
+        for result in results:
             item = FitxaListItem(1, result[0])
             self.listWidget.addItem(item)
             del item
 
     def itemSelected(self, listItem):
-        self.parent().displayView(
+        self.parent().display_view(
             'fitxa',
             {
                 'item': listItem.id,
@@ -160,6 +163,6 @@ class SearchDialog(WidgetProvider):
             result = widget.result()
             if result == 1:
                 # Accepted
-                self.parent.displayView(
+                self.parent.display_view(
                     'search',
                     {'term': self.ui.lineEdit.text().toUtf8()})
