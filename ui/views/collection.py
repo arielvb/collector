@@ -28,7 +28,7 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
         self.setupUi(self)
         self.collection = self.parent().collection.getCollection(collection)
         self.schema = self.collection.schema
-        self.objects = self.collection.getAll()
+        self.objects = self.collection.get_all()
         self.customize()
 
     def customize(self):
