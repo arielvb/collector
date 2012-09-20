@@ -1,6 +1,7 @@
 *.pyc
 *.pyo
 *.egg
+*.qm
 build
 dist
 ui/gen
