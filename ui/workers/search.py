@@ -36,7 +36,7 @@ class Worker_Search(QThread):
 
     def run(self):
         self.error = None
-        man = CollectionManager.getInstance()
+        man = CollectionManager.get_instance()
         collection = man.getCollection('boardgames')
         self.results = collection.query(self.params['query'])
         self.searchComplete.emit(WorkerResult(STATUS_OK, self.results))
@@ -66,6 +66,6 @@ class Worker_Discover(QThread):
         try:
             p = bgg.search(self.params['query'])
             self.searchComplete.emit(WorkerResult(STATUS_OK, p))
-        except:
+        except Exception:
             #TODO añadir gestión de errores
             self.searchComplete.emit(WorkerResult(STATUS_ERROR, msg=""))

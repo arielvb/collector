@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from engine.config import Config
 from os import path
-config = Config.getInstance()
+config = Config.get_instance()
 BASE_PATH = path.join(config.get_appdata_path(), 'collections', 'demo')
 
 
@@ -64,7 +64,7 @@ collections = {
                 'ico': ':ico/boards.png'
             },
             'people': {
-                'name': 'Authors / Designers',
+                'name': 'Artists / Designers',
                 'fields': {
                     'name': {'class': 'text', 'name': 'Name'}
                 },

@@ -19,16 +19,16 @@ from engine.schema import Schema
 
 #     def test_is_singleton(self):
 #         self.assertRaises(Exception, SchemaManager)
-#         ins1 = SchemaManager.getInstance()
-#         ins2 = SchemaManager.getInstance()
+#         ins1 = SchemaManager.get_instance()
+#         ins2 = SchemaManager.get_instance()
 #         self.assertEqual(ins1, ins2)
 
 #     def test_get_non_existing_schema(self):
-#         ins = SchemaManager.getInstance()
+#         ins = SchemaManager.get_instance()
 #         self.assertRaises(Exception, ins.get, 'Fish')
 
 #     def test_get_existing_schema(self):
-#         ins = SchemaManager.getInstance()
+#         ins = SchemaManager.get_instance()
 #         self.assertEqual(ins.get('boardgames').name, 'Boardgames')
 
 

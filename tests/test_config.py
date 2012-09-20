@@ -10,7 +10,7 @@ class TestConfig(unittest.TestCase):
 
     def setUp(self):
         config.rebuild_constants()
-        config._config_instance = None
+        config.Config._instance = None
 
     def test_rebuild_constants(self):
         check = config.ISWINDOWS
@@ -19,7 +19,7 @@ class TestConfig(unittest.TestCase):
         self.assertEquals(config.ISWINDOWS, check)
 
     def test_resources_non_frozen_mac(self):
-        conf = config.Config(create_directory=False)
+        conf = config.Config()
         path = conf.get_resources_path()
         self.assertEquals(path, os.path.abspath(''))
 

@@ -46,7 +46,7 @@ class CollectorUI(QtGui.QMainWindow, Ui_MainWindow):
 
     def __init__(self, parent=None):
         super(CollectorUI,  self,).__init__(parent)
-        config = Config.getInstance()
+        config = Config.get_instance()
         config.build_data_directory()
         sys_plugin_path = config.get_appdata_path()
         sys_plugin_path = os.path.join(sys_plugin_path, 'user_plugins')
@@ -56,7 +56,7 @@ class CollectorUI(QtGui.QMainWindow, Ui_MainWindow):
             {'PluginBoardgamegeek': PluginBoardGameGeek()},
             paths=[sys_plugin_path])
 
-        self.collection = CollectionManager.getInstance()
+        self.collection = CollectionManager.get_instance()
 
         self.setupUi(self)
         self.setUnifiedTitleAndToolBarOnMac(False)
