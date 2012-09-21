@@ -41,7 +41,6 @@ ui2py: resources
 	pyuic4 -x ${UI_DIR}/fitxa_edit.ui -o ${BUILD_DIR}/fitxa_edit.py
 	pyuic4 -x ${UI_DIR}/search_results.ui -o ${BUILD_DIR}/search_results.py
 	pyuic4 -x ${UI_DIR}/search_quick.ui -o ${BUILD_DIR}/search_quick.py
-	pyuic4 -x ${UI_DIR}/info_dialog.ui -o ${BUILD_DIR}/info_dialog.py
 	pyuic4 -x ${UI_DIR}/collection_items.ui -o ${BUILD_DIR}/collection_items.py
 	pyuic4 -x ${UI_DIR}/plugins.ui -o ${BUILD_DIR}/plugins.py
 	pyuic4 -x ${UI_DIR}/toolbar.ui -o ${BUILD_DIR}/toolbar.py
