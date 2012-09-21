@@ -3,23 +3,9 @@
 <context>
     <name>Dialog</name>
     <message>
-        <location filename="info_dialog.ui" line="20"/>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="info_dialog.ui" line="37"/>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/info.png&quot; style=&quot;vertical-align: middle;&quot; /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="info_dialog.ui" line="78"/>
         <source>Close</source>
-        <translation>Tanca</translation>
+        <translation type="obsolete">Tanca</translation>
     </message>
     <message>
         <location filename="search_quick.ui" line="14"/>
@@ -192,43 +178,66 @@ p, li { white-space: pre-wrap; }
         <source>Properties</source>
         <translation>Propietats</translation>
     </message>
+    <message>
+        <location filename="mainWindow.ui" line="155"/>
+        <source>Ctrl+I</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Properties</name>
     <message>
-        <location filename="properties.ui" line="14"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="properties.ui" line="24"/>
-        <source>Info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="properties.ui" line="36"/>
+        <location filename="properties.ui" line="45"/>
         <source>Title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="properties.ui" line="52"/>
+        <location filename="properties.ui" line="61"/>
         <source>Author</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="properties.ui" line="68"/>
+        <location filename="properties.ui" line="77"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="properties.ui" line="78"/>
+        <location filename="properties.ui" line="87"/>
         <source>Persitence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="properties.ui" line="93"/>
-        <source>Fields</source>
+        <location filename="properties.ui" line="14"/>
+        <source>Properties</source>
+        <translation type="unfinished">Propietats</translation>
+    </message>
+    <message>
+        <location filename="properties.ui" line="33"/>
+        <source>Information</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="properties.ui" line="102"/>
+        <source>Files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="properties.ui" line="113"/>
+        <source>Details</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="properties.ui" line="127"/>
+        <source>Sorry, by now the fields are not editable.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PropertiesWidget</name>
+    <message>
+        <location filename="properties.py" line="28"/>
+        <source>Properties</source>
+        <translation type="unfinished">Propietats</translation>
     </message>
 </context>
 <context>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="es_ES" sourcelanguage="en">
+<!DOCTYPE TS>
+<TS version="2.0" language="es_ES" sourcelanguage="en">
 <context>
     <name>Dialog</name>
     <message>
@@ -13,23 +14,9 @@
         <translation>Termino de búsqueda:</translation>
     </message>
     <message>
-        <location filename="info_dialog.ui" line="20"/>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="info_dialog.ui" line="37"/>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;img src=&quot;:/info.png&quot; style=&quot;vertical-align: middle;&quot; /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="info_dialog.ui" line="78"/>
         <source>Close</source>
-        <translation>Cerrar</translation>
+        <translation type="obsolete">Cerrar</translation>
     </message>
 </context>
 <context>
@@ -67,12 +54,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="plugins.ui" line="60"/>
         <source>Disable selected &gt;&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Desactivar seleccionados &gt;&gt;</translation>
     </message>
     <message>
         <location filename="plugins.ui" line="87"/>
         <source>&lt;&lt; Enable selected</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;&lt; Activar seleccionados</translation>
     </message>
     <message>
         <location filename="widget_file.ui" line="23"/>
@@ -197,43 +184,66 @@ p, li { white-space: pre-wrap; }
         <source>Discover</source>
         <translation>Descubrir</translation>
     </message>
+    <message>
+        <location filename="mainWindow.ui" line="155"/>
+        <source>Ctrl+I</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Properties</name>
     <message>
-        <location filename="properties.ui" line="14"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="properties.ui" line="24"/>
-        <source>Info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="properties.ui" line="36"/>
+        <location filename="properties.ui" line="45"/>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Título</translation>
     </message>
     <message>
-        <location filename="properties.ui" line="52"/>
+        <location filename="properties.ui" line="61"/>
         <source>Author</source>
-        <translation type="unfinished"></translation>
+        <translation>Autor</translation>
     </message>
     <message>
-        <location filename="properties.ui" line="68"/>
+        <location filename="properties.ui" line="77"/>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Descripción</translation>
     </message>
     <message>
-        <location filename="properties.ui" line="78"/>
+        <location filename="properties.ui" line="87"/>
         <source>Persitence</source>
-        <translation type="unfinished"></translation>
+        <translation>Persistencia</translation>
     </message>
     <message>
-        <location filename="properties.ui" line="93"/>
-        <source>Fields</source>
-        <translation type="unfinished"></translation>
+        <location filename="properties.ui" line="14"/>
+        <source>Properties</source>
+        <translation>Propiedades</translation>
+    </message>
+    <message>
+        <location filename="properties.ui" line="33"/>
+        <source>Information</source>
+        <translation>Información</translation>
+    </message>
+    <message>
+        <location filename="properties.ui" line="102"/>
+        <source>Files</source>
+        <translation>Fichas</translation>
+    </message>
+    <message>
+        <location filename="properties.ui" line="113"/>
+        <source>Details</source>
+        <translation>Detalles</translation>
+    </message>
+    <message>
+        <location filename="properties.ui" line="127"/>
+        <source>Sorry, by now the fields are not editable.</source>
+        <translation>Por ahora los campos no son editables.</translation>
+    </message>
+</context>
+<context>
+    <name>PropertiesWidget</name>
+    <message>
+        <location filename="properties.py" line="28"/>
+        <source>Properties</source>
+        <translation>Propiedades</translation>
     </message>
 </context>
 <context>
@@ -263,12 +273,12 @@ Algo ha ocurrido y la búsquda no se ha completado.</translation>
     <message>
         <location filename="search.py" line="65"/>
         <source>Searching...</source>
-        <translation type="unfinished"></translation>
+        <translation>Búscando...</translation>
     </message>
     <message>
         <location filename="search.py" line="77"/>
         <source>Collector</source>
-        <translation type="unfinished">Collector</translation>
+        <translation>Collector</translation>
     </message>
 </context>
 <context>
@@ -295,12 +305,12 @@ Algo ha ocurrido y la búsquda no se ha completado.</translation>
     <message>
         <location filename="search.py" line="100"/>
         <source>Discover</source>
-        <translation type="unfinished">Descubrir</translation>
+        <translation>Descubrir</translation>
     </message>
     <message>
         <location filename="search.py" line="102"/>
         <source>Discover allows you find new objects for your collection, type somenthing in the searchbox and the plugins will do the hardwork.</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;Descubrir&quot; te permite encontrar objectos para tu colleción, escribe algo en la caja de búsqueda y los complementos aran el resto.</translation>
     </message>
 </context>
 </TS>

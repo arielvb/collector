@@ -3,6 +3,7 @@
 from PyQt4 import QtCore, QtGui
 from ui.gen.properties import Ui_Properties
 from ui.widgetprovider import WidgetProvider
+from ui.helpers.customtoolbar import Topbar
 
 
 try:
@@ -11,7 +12,7 @@ except AttributeError:
     _fromUtf8 = lambda s: s
 
 
-class PropertiesWidget(QtGui.QWidget, Ui_Properties):
+class PropertiesWidget(QtGui.QDialog, Ui_Properties):
     """Properties widget"""
 
     def __init__(self, parent=None, flags=None):
@@ -37,6 +38,28 @@ class PropertiesWidget(QtGui.QWidget, Ui_Properties):
         text = self.collection.get_persistence()
         self.persistence.setText(_fromUtf8(text))
 
+        # Fields list
+        font = QtGui.QFont()
+        font.setBold(True)
+
+        for collection in self.collection.collections.values():
+            # Files
+            list_item = QtGui.QListWidgetItem(collection.getName())
+            icon = collection.schema.image
+            if icon is None:
+                icon = ':/folder.png'
+            list_item.setIcon(QtGui.QIcon(_fromUtf8(icon)))
+            list_item.setFont(font)
+            self.fieldsList.addItem(list_item)
+            # Fields
+            for item in collection.schema.fields.values():
+                list_item = QtGui.QListWidgetItem(item['name'])
+                self.fieldsList.addItem(list_item)
+
+        # Buttons
+
+        cancel = self.buttonBox.button(QtGui.QDialogButtonBox.Cancel)
+        cancel.setDefault(True)
         QtCore.QObject.connect(
             self.buttonBox,
             QtCore.SIGNAL(_fromUtf8("accepted()")),
@@ -45,12 +68,14 @@ class PropertiesWidget(QtGui.QWidget, Ui_Properties):
         QtCore.QObject.connect(
             self.buttonBox,
             QtCore.SIGNAL(_fromUtf8("rejected()")),
-            lambda: self.parent().display_view('dashboard'))
+            lambda: self.reject())
         # TODO save method
 
 
 class PropertiesView(WidgetProvider):
     """Properties view"""
+
+    mode = WidgetProvider.DIALOG_WIDGET
 
     def getWidget(self, params):
         # collection = params['collection']
