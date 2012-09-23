@@ -4,6 +4,7 @@ from PyQt4 import QtCore, QtGui
 from ui.gen.fitxa import Ui_Form
 from ui.helpers.customtoolbar import CustomToolbar, Topbar
 from ui.widgetprovider import WidgetProvider
+from engine.fields import FieldImage
 
 
 try:
@@ -78,9 +79,12 @@ class Ui_Fitxa(QtGui.QWidget, Ui_Form):
         # TODO set image: we need to store it somewhere...
         #  but where is the best place?
         if 'image' in obj:
+            image = FieldImage('image', value=value)
+            image.setValue(obj['image'])
+            path = image.getValue()
             pixmap = None
-            if obj['image'] != '':
-                pixmap = QtGui.QPixmap(obj['image'])
+            if path != '':
+                pixmap = QtGui.QPixmap(path)
             # Check if the file doensn't have image or the image file
             #  doesn't exists
             if pixmap is None or pixmap.isNull():
