@@ -11,10 +11,11 @@ set QTPLUGINS="C:\Python27\Lib\site-packages\PyQt4\plugins\imageformats"
 set UI_DIR="ui\designer"
 set BUILD_DIR="ui\gen"
 set PYQT_PATH="C:\Python27\Lib\site-packages\PyQt4"
+set PYTHON="C:\Python27\python.exe"
 
 if "%1" == "" (
     echo # > %BUILD_DIR%\__init__.py
-    echo.Building widgets...
+    echo Building widgets...
     call %PYQT_PATH%\pyuic4 -x %UI_DIR%\mainWindow.ui -o %BUILD_DIR%\mainWindow.py
     call %PYQT_PATH%\pyuic4 -x %UI_DIR%\dashboard.ui -o %BUILD_DIR%\dashboard.py
     call %PYQT_PATH%\pyuic4 -x %UI_DIR%\fitxa_edit.ui -o %BUILD_DIR%\fitxa_edit.py
@@ -33,21 +34,21 @@ if "%1" == "" (
 )
 
 if "%1" == "dist" (
-    echo.Building distribution...
-    :: Carefull the next line calls to this file whitout params, if calls
-    ::  it whit installer -> infinite loop
+    echo Building distribution...
+    :: Carefull the next line calls to this file whitout params, don't call
+    ::  it whit dist -> infinite loop
     call make.bat
     DEL /S /Q dist
-    C:\Python27\python.exe setup.py py2exe
-    XCOPY "data" "dist\data" /I /S
-    XCOPY %QTPLUGINS% "dist\imageformats" /I /S
-    echo.Distribution finished
+    %PYTHON% setup.py py2exe
+    XCOPY "data" "dist\windows\data" /I /S
+    XCOPY %QTPLUGINS% "dist\windows\imageformats" /I /S
+    echo Distribution finished
     goto end
 )
 
 if "%1" == "installer" (
     echo.Building installer...
-    :: Carefull the next line calls to this file whit param dist, if calls
+    :: Carefull the next line calls to this file whit param dist, don't call
     ::  it whit installer -> infinite loop
     call make.bat dist
     call %ISCC% /Q /O"dist" /F"Collector Installer" "collector.iss"
@@ -55,6 +56,10 @@ if "%1" == "installer" (
     goto end
 )
 
-:: Rule clean
+if  "%1" == "test" (
+    %PYTHON% -m unittest discover tests
+)
+
+:: TOOD rule clean
 
 :end
