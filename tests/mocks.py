@@ -2,7 +2,7 @@
 from engine.config import Config
 from os import path
 config = Config.get_instance()
-BASE_PATH = path.join(config.get_appdata_path(), 'collections', 'demo')
+BASE_PATH = 'collector://collections/demo'
 
 
 boardgames = [
@@ -12,7 +12,7 @@ boardgames = [
         'year': "2007",
         'designer': ['people:1', 'peope:2'],
         'artist': ['people:3', 'people:4', 'people:5'],
-        'image': path.join(BASE_PATH, 'pilares.jpg')
+        'image': BASE_PATH + '/pilares.jpg'
     },
     {
         'id': 2,
@@ -20,7 +20,7 @@ boardgames = [
         'year': "2010",
         'designer': ['people:6'],
         'artist': ['people:7'],
-        'image': path.join(BASE_PATH, 'coney-island.jpg')
+        'image': BASE_PATH + '/coney-island.jpg'
     }
 ]
 
@@ -72,12 +72,12 @@ collections = {
                 'image': ':/author.png',
                 'ico': ':ico/author.png'
             },
-            'categories': {
-                'name': 'Categories',
-                'fields': {
-                    'name': {'class': 'text', 'name': 'Name'}
-                }
-            }
+            # 'categories': {
+            #     'name': 'Categories',
+            #     'fields': {
+            #         'name': {'class': 'text', 'name': 'Name'}
+            #     }
+            # }
         },
         'persistence': {
             'storage': 'pickle',

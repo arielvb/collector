@@ -62,6 +62,15 @@ class TestFieldInt(unittest.TestCase):
         self.assertRaises(ValueError, field.setValue, "1.0")
         self.assertRaises(ValueError, field.setValue, "asdfasdf")
 
+from engine.config import Config
+from os.path import join
+
+class TestFieldImage(unittest.TestCase):
+
+    def test_collector_scheme(self):
+        field = fields.FieldImage('image')
+        field.setValue('collector://collections/demo/demo.png')
+        self.assertEqual(join(Config.get_instance().get_data_path(),'collections', 'demo', 'demo.png'), field.getValue())
 
 class TestFieldLoader(unittest.TestCase):
 

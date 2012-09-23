@@ -19,15 +19,13 @@ class TestConfig(unittest.TestCase):
         self.assertEquals(config.ISWINDOWS, check)
 
     def test_resources_non_frozen_mac(self):
-        conf = config.Config()
+        conf = config.Config(platform=config.Config.OSX)
         path = conf.get_resources_path()
         self.assertEquals(path, os.path.abspath(''))
 
     def test_resources_frozen_mac(self):
-        sys.platform = "darwin"
         setattr(sys, 'frozen', 'macosx_app')
-        config.rebuild_constants()
-        conf = config.Config()
+        conf = config.Config(platform=config.Config.OSX)
         path = conf.get_resources_path()
         delattr(sys, 'frozen')
         ok = os.path.dirname(sys.executable).replace('MacOS',
@@ -35,29 +33,25 @@ class TestConfig(unittest.TestCase):
         self.assertEquals(path, ok)
 
     def test_resources_non_frozen_win(self):
-        sys.platform = "win"
+        sys.platform = "win32"
         config.rebuild_constants()
         conf = config.Config()
         path = conf.get_resources_path()
         self.assertEquals(path, os.path.abspath(''))
 
     def test_resources_frozen_win(self):
-        # TODO
-        sys.platform = "win"
         setattr(sys, 'frozen', 'windows')
-        config.rebuild_constants()
-        conf = config.Config()
+        conf = config.Config(platform=config.Config.WINDOWS)
         path = conf.get_resources_path()
         delattr(sys, 'frozen')
         ok = os.path.dirname(sys.executable)
         self.assertEquals(path, ok)
 
     def test_config_directory_win(self):
-        sys.plataform = "darwin"
-        conf = config.Config()
+        conf = config.Config(platform=config.Config.WINDOWS)
         self.assertEquals(
             conf.config_dir,
-            os.path.expanduser('~/Library/Application Support/Collector'))
+            os.path.join(os.path.expanduser('~'), 'Collector'))
 
     #TODO linux config!
 
