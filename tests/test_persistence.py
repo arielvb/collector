@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import unittest
 from engine.persistence import PersistenceDict
 from mocks import boardgames
@@ -6,8 +7,8 @@ from mocks import boardgames
 class TestPersistence(unittest.TestCase):
 
     def setUp(self):
-        self.manager = PersistenceDict('demo', 'boardgames',
-                data=boardgames)
+        self.manager = PersistenceDict('demo', 'boardgames', path=None,
+                params={'data': boardgames})
 
     def tearDown(self):
         pass

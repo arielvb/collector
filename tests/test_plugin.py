@@ -19,17 +19,20 @@ class TestPluginManager(unittest.TestCase):
         self.assertRaises(TypeError, self.manager.enable, 'PluginHello')
 
     def test_boot_enabled(self):
-        self.assertTrue('PluginHello' in self.manager.getEnabled())
+        self.assertTrue('PluginHello' in self.manager.get_enabled())
 
     def test_disable_item(self):
         self.manager.disable(['PluginHello'])
-        self.assertFalse('PluginHello' in self.manager.getEnabled())
+        self.assertFalse('PluginHello' in self.manager.get_enabled())
+        self.assertTrue('PluginHello' in self.manager.get_disabled())
 
     def test_enable_item(self):
         self.manager.disable(['PluginHello'])
-        self.assertFalse('PluginHello' in self.manager.getEnabled())
+        self.assertFalse('PluginHello' in self.manager.get_enabled())
         self.manager.enable(['PluginHello'])
-        self.assertTrue('PluginHello' in self.manager.getEnabled())
+        self.assertTrue('PluginHello' in self.manager.get_enabled())
+        self.assertFalse('PluginHello' in self.manager.get_disabled())
+
 
     def test_load_enabled_and_run(self):
         path = os.path.join(os.path.dirname(__file__),

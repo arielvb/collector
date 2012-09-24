@@ -43,7 +43,7 @@ class TestBGGPlugin(unittest.TestCase):
          are parsed correctly"""
         filename = self.data_path + 'mice-and-mystics.html'
         provider = FileProvider(filename)
-        fields = self.plugin.attr_filter(provider.get('mocked'))
+        fields = self.plugin.file_filter(provider.get('mocked'))
 
         self.assertItemsEqual(fields, {
                 'publisher': [u'Plaid Hat Games'],
