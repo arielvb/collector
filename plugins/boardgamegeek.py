@@ -17,12 +17,9 @@ class PluginBoardGameGeek(PluginCollector):
     name = 'Boardgamegeek'
     description = "Search and import Boardgames from the BGG website."
 
-    search_query = ("http://boardgamegeek.com/geeksearch.php" +
-     "?action=search&objecttype=boardgame&q=%s&B1=Go")
-
     schema = Schema({
             'name': 'Boargamegeek',
-                'fields': {
+            'fields': {
                 'title': {
                     'class': 'text',
                     'name': 'Title',
@@ -86,7 +83,11 @@ class PluginBoardGameGeek(PluginCollector):
         return self.name
 
     def get_author(self):
-        return 'Ariel'
+        return 'Ariel von Barnekow'
+
+    def search_uri(self):
+        return ("http://boardgamegeek.com/geeksearch.php" +
+                "?action=search&objecttype=boardgame&q=%s&B1=Go")
 
     def search_filter(self, html):
         """ Parses the html to obtain all the results of the search """
@@ -101,7 +102,7 @@ class PluginBoardGameGeek(PluginCollector):
                 ])
         return output
 
-    def attr_filter(self, html):
+    def file_filter(self, html):
         """ Parses the html to obtain all the fields defeined in the schema """
         #FIXME # of Players has a dummy encoding,
         #  after beautifulsoup... modify the original string
