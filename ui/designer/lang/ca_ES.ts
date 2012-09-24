@@ -19,6 +19,44 @@
     </message>
 </context>
 <context>
+    <name>FieldDetails</name>
+    <message>
+        <location filename="field_details.ui" line="20"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="field_details.ui" line="32"/>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="field_details.ui" line="39"/>
+        <source>[Name]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="field_details.ui" line="52"/>
+        <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="field_details.ui" line="59"/>
+        <source>[Class]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="field_details.ui" line="72"/>
+        <source>Multivalue:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="field_details.ui" line="79"/>
+        <source>[Multivalue]</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Form</name>
     <message>
         <location filename="widget_ref.ui" line="14"/>
@@ -187,22 +225,22 @@
 <context>
     <name>Properties</name>
     <message>
-        <location filename="properties.ui" line="45"/>
+        <location filename="properties.ui" line="42"/>
         <source>Title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="properties.ui" line="61"/>
+        <location filename="properties.ui" line="58"/>
         <source>Author</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="properties.ui" line="77"/>
+        <location filename="properties.ui" line="74"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="properties.ui" line="87"/>
+        <location filename="properties.ui" line="84"/>
         <source>Persitence</source>
         <translation type="unfinished"></translation>
     </message>
@@ -212,22 +250,22 @@
         <translation type="unfinished">Propietats</translation>
     </message>
     <message>
-        <location filename="properties.ui" line="33"/>
+        <location filename="properties.ui" line="30"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="properties.ui" line="102"/>
+        <location filename="properties.ui" line="99"/>
         <source>Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="properties.ui" line="113"/>
+        <location filename="properties.ui" line="132"/>
         <source>Details</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="properties.ui" line="127"/>
+        <location filename="properties.ui" line="142"/>
         <source>Sorry, by now the fields are not editable.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -237,7 +275,7 @@
     <message>
         <location filename="properties.py" line="28"/>
         <source>Properties</source>
-        <translation type="unfinished">Propietats</translation>
+        <translation type="obsolete">Propietats</translation>
     </message>
 </context>
 <context>
@@ -246,6 +284,39 @@
         <location filename="dashboard.py" line="82"/>
         <source>Dashboard</source>
         <translation>Tauler principal</translation>
+    </message>
+</context>
+<context>
+    <name>Ui_Fitxa</name>
+    <message>
+        <location filename="fitxa.py" line="100"/>
+        <source>Dashboard</source>
+        <translation type="unfinished">Tauler principal</translation>
+    </message>
+    <message>
+        <location filename="fitxa.py" line="107"/>
+        <source>Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="fitxa.py" line="118"/>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="fitxa.py" line="118"/>
+        <source>Edit file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="fitxa.py" line="127"/>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="fitxa.py" line="127"/>
+        <source>Delete file</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

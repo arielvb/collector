@@ -20,6 +20,44 @@
     </message>
 </context>
 <context>
+    <name>FieldDetails</name>
+    <message>
+        <location filename="field_details.ui" line="20"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="field_details.ui" line="32"/>
+        <source>Name:</source>
+        <translation>Nombre:</translation>
+    </message>
+    <message>
+        <location filename="field_details.ui" line="39"/>
+        <source>[Name]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="field_details.ui" line="52"/>
+        <source>Type</source>
+        <translation>Tipo</translation>
+    </message>
+    <message>
+        <location filename="field_details.ui" line="59"/>
+        <source>[Class]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="field_details.ui" line="72"/>
+        <source>Multivalue:</source>
+        <translation>Multivalor:</translation>
+    </message>
+    <message>
+        <location filename="field_details.ui" line="79"/>
+        <source>[Multivalue]</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Form</name>
     <message>
         <location filename="widget_ref.ui" line="14"/>
@@ -193,22 +231,22 @@
 <context>
     <name>Properties</name>
     <message>
-        <location filename="properties.ui" line="45"/>
+        <location filename="properties.ui" line="42"/>
         <source>Title</source>
         <translation>Título</translation>
     </message>
     <message>
-        <location filename="properties.ui" line="61"/>
+        <location filename="properties.ui" line="58"/>
         <source>Author</source>
         <translation>Autor</translation>
     </message>
     <message>
-        <location filename="properties.ui" line="77"/>
+        <location filename="properties.ui" line="74"/>
         <source>Description</source>
         <translation>Descripción</translation>
     </message>
     <message>
-        <location filename="properties.ui" line="87"/>
+        <location filename="properties.ui" line="84"/>
         <source>Persitence</source>
         <translation>Persistencia</translation>
     </message>
@@ -218,22 +256,22 @@
         <translation>Propiedades</translation>
     </message>
     <message>
-        <location filename="properties.ui" line="33"/>
+        <location filename="properties.ui" line="30"/>
         <source>Information</source>
         <translation>Información</translation>
     </message>
     <message>
-        <location filename="properties.ui" line="102"/>
+        <location filename="properties.ui" line="99"/>
         <source>Files</source>
         <translation>Fichas</translation>
     </message>
     <message>
-        <location filename="properties.ui" line="113"/>
+        <location filename="properties.ui" line="132"/>
         <source>Details</source>
         <translation>Detalles</translation>
     </message>
     <message>
-        <location filename="properties.ui" line="127"/>
+        <location filename="properties.ui" line="142"/>
         <source>Sorry, by now the fields are not editable.</source>
         <translation>Por ahora los campos no son editables.</translation>
     </message>
@@ -243,7 +281,7 @@
     <message>
         <location filename="properties.py" line="28"/>
         <source>Properties</source>
-        <translation>Propiedades</translation>
+        <translation type="obsolete">Propiedades</translation>
     </message>
 </context>
 <context>
@@ -252,6 +290,39 @@
         <location filename="dashboard.py" line="82"/>
         <source>Dashboard</source>
         <translation>Panel principal</translation>
+    </message>
+</context>
+<context>
+    <name>Ui_Fitxa</name>
+    <message>
+        <location filename="fitxa.py" line="100"/>
+        <source>Dashboard</source>
+        <translation>Panel principal</translation>
+    </message>
+    <message>
+        <location filename="fitxa.py" line="107"/>
+        <source>Options</source>
+        <translation>Opciones</translation>
+    </message>
+    <message>
+        <location filename="fitxa.py" line="118"/>
+        <source>Edit</source>
+        <translation>Editar</translation>
+    </message>
+    <message>
+        <location filename="fitxa.py" line="118"/>
+        <source>Edit file</source>
+        <translation>Editar ficha</translation>
+    </message>
+    <message>
+        <location filename="fitxa.py" line="127"/>
+        <source>Delete</source>
+        <translation>Eliminar</translation>
+    </message>
+    <message>
+        <location filename="fitxa.py" line="127"/>
+        <source>Delete file</source>
+        <translation>Eliminar ficha</translation>
     </message>
 </context>
 <context>
@@ -310,7 +381,7 @@ Algo ha ocurrido y la búsquda no se ha completado.</translation>
     <message>
         <location filename="search.py" line="102"/>
         <source>Discover allows you find new objects for your collection, type somenthing in the searchbox and the plugins will do the hardwork.</source>
-        <translation>&quot;Descubrir&quot; te permite encontrar objectos para tu colleción, escribe algo en la caja de búsqueda y los complementos aran el resto.</translation>
+        <translation>&quot;Descubrir&quot; te permite encontrar objectos para tu colección, escribe algo en la caja de búsqueda y los complementos aran el resto.</translation>
     </message>
 </context>
 </TS>
