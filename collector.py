@@ -12,7 +12,13 @@ from ui.application import CollectorApplication
 
 def main():
     """ Starts the application"""
-    logging.basicConfig(filename='collector.log', level=logging.DEBUG)
+    FORMAT = '%(asctime)s - %(levelname)s - %(message)s'
+
+    logging.basicConfig(
+        filename='collector.log',
+        level=logging.DEBUG,
+        format=FORMAT)
+
     app = CollectorApplication(sys.argv)
 
     sys.exit(app.exec_())
