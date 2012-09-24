@@ -14,8 +14,9 @@ set PYQT_PATH="C:\Python27\Lib\site-packages\PyQt4"
 set PYTHON="C:\Python27\python.exe"
 
 if "%1" == "" (
-    echo # > %BUILD_DIR%\__init__.py
     echo Building widgets...
+    :: Make the destination folder a python package
+    echo # > %BUILD_DIR%\__init__.py
     call %PYQT_PATH%\pyuic4 -x %UI_DIR%\mainWindow.ui -o %BUILD_DIR%\mainWindow.py
     call %PYQT_PATH%\pyuic4 -x %UI_DIR%\dashboard.ui -o %BUILD_DIR%\dashboard.py
     call %PYQT_PATH%\pyuic4 -x %UI_DIR%\fitxa_edit.ui -o %BUILD_DIR%\fitxa_edit.py
@@ -27,6 +28,8 @@ if "%1" == "" (
     call %PYQT_PATH%\pyuic4 -x %UI_DIR%\toolbar.ui -o %BUILD_DIR%\toolbar.py
     call %PYQT_PATH%\pyuic4 -x %UI_DIR%\topbar.ui -o %BUILD_DIR%\topbar.py
     call %PYQT_PATH%\pyuic4 -x %UI_DIR%\properties.ui -o %BUILD_DIR%\properties.py
+    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\field_details.ui -o %BUILD_DIR%\field_details.py
+    :: Resources
     call %PYQT_PATH%\pyrcc4 -o %BUILD_DIR%\resources_rc.py %UI_DIR%\resources.qrc
     call %PYQT_PATH%\pyrcc4 -o %BUILD_DIR%\lang_rc.py %UI_DIR%\lang.qrc
     echo.Widgets finished

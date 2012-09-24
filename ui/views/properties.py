@@ -2,14 +2,32 @@
 
 from PyQt4 import QtCore, QtGui
 from ui.gen.properties import Ui_Properties
+from ui.gen.field_details import Ui_FieldDetails
 from ui.widgetprovider import WidgetProvider
-from ui.helpers.customtoolbar import Topbar
+from ui.helpers.items import ObjectListItem
 
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
     _fromUtf8 = lambda s: s
+
+
+class DetailsWidget(QtGui.QWidget, Ui_FieldDetails):
+
+    def __init__(self, parent=None, flags=None):
+        if flags is None:
+            flags = QtCore.Qt.WindowFlags(0)
+        super(DetailsWidget, self).__init__(parent, flags)
+        # self.collection = self.parent().collection.getName()
+        self.setupUi(self)
+
+    @QtCore.pyqtSlot(str, str, bool)
+    def updateDetails(self, name, type, multivalue):
+        self.detail_name.setText(name)
+        self.detail_class.setText(type)
+        self.detail_value.hide()
+        self.detail_value.setText(str(multivalue))
 
 
 class PropertiesWidget(QtGui.QDialog, Ui_Properties):
@@ -53,13 +71,18 @@ class PropertiesWidget(QtGui.QDialog, Ui_Properties):
             self.fieldsList.addItem(list_item)
             # Fields
             for item in collection.schema.fields.values():
-                list_item = QtGui.QListWidgetItem(item['name'])
+                list_item = ObjectListItem(item, item['name'])
                 self.fieldsList.addItem(list_item)
+        self.field_details = DetailsWidget(self)
+        self.verticalLayout_3.addWidget(self.field_details)
+        self.field_details.hide()
 
         # Buttons
 
         cancel = self.buttonBox.button(QtGui.QDialogButtonBox.Cancel)
         cancel.setDefault(True)
+
+        # Connections
         QtCore.QObject.connect(
             self.buttonBox,
             QtCore.SIGNAL(_fromUtf8("accepted()")),
@@ -69,7 +92,23 @@ class PropertiesWidget(QtGui.QDialog, Ui_Properties):
             self.buttonBox,
             QtCore.SIGNAL(_fromUtf8("rejected()")),
             lambda: self.reject())
+
+        QtCore.QObject.connect(
+            self.fieldsList,
+            QtCore.SIGNAL("currentItemChanged(QListWidgetItem*, QListWidgetItem*)"),
+            self._itemSelected)
+
+    def _itemSelected(self, item, old):
+        if (getattr(item, 'obj', False)):
+            # TODO multivalue detail
+            self.field_details.updateDetails(item.obj['name'], item.obj['class'], False)
+            self.field_details.show()
+        else:
+            self.field_details.hide()
+
+    def save(self):
         # TODO save method
+        self.accept()
 
 
 class PropertiesView(WidgetProvider):
