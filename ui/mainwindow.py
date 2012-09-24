@@ -112,6 +112,8 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
          if view doesn't exist throws an exception"""
         if not name in self.views:
             raise ViewNotFound('View "%s" not found' % name)
+        if params is None:
+            params = {}
         self.views[name].run(params)
 
     def switch_fullscreen(self):

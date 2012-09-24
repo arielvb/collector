@@ -29,14 +29,14 @@ class CollectorApplication(QtGui.QApplication):
         # Show main window
         self.main.show()
 
-        if argv is not None:
-            self.parse_args(argv)
-
         # Hide splash
         self.splash.finish(self.main)
 
         # Bring window to front
         self.main.raise_()
+
+        if argv is not None:
+            self.parse_args(argv)
 
     def parse_args(self, argv):
         """Parse argv, the input arguments"""
