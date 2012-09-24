@@ -97,27 +97,49 @@ class Ui_Fitxa(QtGui.QWidget, Ui_Form):
 
     def _loadToolbar(self):
         quick = [
-            {'class':'link', 'name': 'Dashboard',
+            {'class':'link', 'name': self.tr('Dashboard'),
              'path': 'view/dashboard', 'image': ':/dashboard.png'},
             {'class':'link', 'name': self.collection.schema.name,
              'path': 'view/collection/collection/' + self.collection.name,
              'image': ':/boards.png'},
             {'class': 'spacer'},
             {'class': 'line'},
-            {'class':'link', 'name': 'Delete', 'path': 'action/delete',
-             'image': ':/delete.png'},
-            {'class':'link', 'name': 'Edit', 'path': 'view/edit/collection/' +
-             self.collection.name + '/item/' + str(self.item),
-             'image': ':/edit.png'},
+            {'class':'link', 'name':self.tr('Options'),
+             'path': 'action/options',
+             'image': ':/add.png'},
+            # {'class':'link', 'name': 'Delete', 'path': 'action/delete',
+             # 'image': ':/delete.png'},
+            # {'class':'link', 'name': 'Edit', 'path': 'view/edit/collection/' +
+            #  self.collection.name + '/item/' + str(self.item),
+            #  'image': ':/edit.png'},
         ]
         CustomToolbar(self.toolbar, quick, self._linkactivated)
+        menu = QtGui.QMenu(self.topbar)
+        menu.addAction(QtGui.QAction(
+            QtGui.QIcon(':/edit.png'),
+            self.tr("Edit"), self,
+            statusTip=self.tr("Edit file"),
+            triggered=lambda: self.parent().display_view(
+                'edit',
+                params={"collection": self.collection.name,
+                        "item": str(self.item)}))
+        )
+        menu.addAction(QtGui.QAction(
+            QtGui.QIcon(':/delete.png'),
+            self.tr("Delete"), self,
+            statusTip=self.tr("Delete file"),
+            triggered=lambda: self.delete())
+        )
+        self.actions_menu = menu
 
     def _linkactivated(self, uri):
         params = self.parent().collector_uri_call(uri)
         if params is not None:
             action = params['action']
-            if action == 'delete':
-                self.delete()
+            if action == 'options':
+                self.actions_menu.popup(QtGui.QCursor.pos())
+            # if action == 'delete':
+            #     self.delete()
 
     def delete(self):
         self.collection.delete(self.item)
