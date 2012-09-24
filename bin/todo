@@ -1,0 +1,20 @@
+#!/bin/bash
+###############################################################################
+# TODO
+# ----------------------------------------------
+# List the all the pending work (TO DO)
+#
+# Usage: todo [-c]
+#
+#       -c  prints the count of todos
+#
+###############################################################################
+
+if [[ $BASH_ARGC > 0 ]]; then
+    if [[ $1 == "-c" ]]; then
+        grep --colour=auto -n -r TODO --exclude todo . | wc -l
+    fi
+else
+        grep --colour=auto -n -r TODO --exclude todo .
+fi
+
