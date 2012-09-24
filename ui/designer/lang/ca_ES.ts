@@ -31,28 +31,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="field_details.ui" line="39"/>
-        <source>[Name]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="field_details.ui" line="52"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="field_details.ui" line="59"/>
-        <source>[Class]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="field_details.ui" line="72"/>
         <source>Multivalue:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="field_details.ui" line="79"/>
-        <source>[Multivalue]</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -316,6 +301,19 @@
     <message>
         <location filename="fitxa.py" line="127"/>
         <source>Delete file</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Ui_PluginCollectorFitxa</name>
+    <message>
+        <location filename="plugincollector_fitxa.py" line="101"/>
+        <source>Dashboard</source>
+        <translation type="unfinished">Tauler principal</translation>
+    </message>
+    <message>
+        <location filename="plugincollector_fitxa.py" line="108"/>
+        <source>Options</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

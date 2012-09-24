@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="es_ES" sourcelanguage="en">
+<!DOCTYPE TS><TS version="2.0" language="es_ES" sourcelanguage="en">
 <context>
     <name>Dialog</name>
     <message>
@@ -32,29 +31,14 @@
         <translation>Nombre:</translation>
     </message>
     <message>
-        <location filename="field_details.ui" line="39"/>
-        <source>[Name]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="field_details.ui" line="52"/>
         <source>Type</source>
         <translation>Tipo</translation>
     </message>
     <message>
-        <location filename="field_details.ui" line="59"/>
-        <source>[Class]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="field_details.ui" line="72"/>
         <source>Multivalue:</source>
         <translation>Multivalor:</translation>
-    </message>
-    <message>
-        <location filename="field_details.ui" line="79"/>
-        <source>[Multivalue]</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -326,6 +310,39 @@
     </message>
 </context>
 <context>
+    <name>Ui_PluginCollectorFitxa</name>
+    <message>
+        <location filename="plugincollector_fitxa.py" line="101"/>
+        <source>Dashboard</source>
+        <translation type="unfinished">Panel principal</translation>
+    </message>
+    <message>
+        <location filename="plugincollector_fitxa.py" line="108"/>
+        <source>Options</source>
+        <translation type="unfinished">Opciones</translation>
+    </message>
+    <message>
+        <location filename="plugincollector_fitxa.py" line="119"/>
+        <source>Edit</source>
+        <translation type="obsolete">Editar</translation>
+    </message>
+    <message>
+        <location filename="plugincollector_fitxa.py" line="119"/>
+        <source>Edit file</source>
+        <translation type="obsolete">Editar ficha</translation>
+    </message>
+    <message>
+        <location filename="plugincollector_fitxa.py" line="128"/>
+        <source>Delete</source>
+        <translation type="obsolete">Eliminar</translation>
+    </message>
+    <message>
+        <location filename="plugincollector_fitxa.py" line="128"/>
+        <source>Delete file</source>
+        <translation type="obsolete">Eliminar ficha</translation>
+    </message>
+</context>
+<context>
     <name>Ui_Search</name>
     <message>
         <location filename="search.py" line="73"/>
@@ -381,7 +398,7 @@ Algo ha ocurrido y la búsquda no se ha completado.</translation>
     <message>
         <location filename="search.py" line="102"/>
         <source>Discover allows you find new objects for your collection, type somenthing in the searchbox and the plugins will do the hardwork.</source>
-        <translation>&quot;Descubrir&quot; te permite encontrar objectos para tu colección, escribe algo en la caja de búsqueda y los complementos aran el resto.</translation>
+        <translation>&quot;Descubrir&quot; te permite encontrar objectos para tu colección, escribe algo en la caja de búsqueda y los complementos harán el resto.</translation>
     </message>
 </context>
 </TS>
