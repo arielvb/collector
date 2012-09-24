@@ -2,7 +2,7 @@
 
 from PyQt4 import QtCore, QtGui
 from ui.gen.fitxa_edit import Ui_Form
-from ui.helpers.customtoolbar import CustomToolbar
+from ui.helpers.customtoolbar import CustomToolbar, Topbar
 from PyQt4.Qt import qDebug
 from ui.widgetprovider import WidgetProvider
 
@@ -34,8 +34,8 @@ class Ui_Fitxa_Edit(QtGui.QWidget, Ui_Form):
         self.fontLabel.setBold(True)
         self.fontLabel.setWeight(75)
         schema = self.collection.schema
-        self.lWindowTitle.setText(schema.name.upper() + ' > ')
-        self.lTitle.setText(obj['name'])
+        Topbar(widget=self.topbar, icon=schema.ico,
+               title=schema.name.upper() + ' > ' + obj['name'])
         self.fitxa_fields = {}
         for field in schema.order:
             value = field in obj and obj[field] or ''
