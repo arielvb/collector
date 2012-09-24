@@ -63,6 +63,8 @@ i18n:
 
 release_i18n:
 	/Applications/QtSDK/Desktop/Qt/4.8.1/gcc/bin/lrelease ${UI_DIR}/lang/es_ES.ts ${UI_DIR}/lang/ca_ES.ts
+	#TODO how to deal with recursion?
+	make resources
 
 gitexport:
 	rm -rf ${EXPORT}
