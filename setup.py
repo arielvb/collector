@@ -47,7 +47,7 @@ if ISOSX:
         ]
     }
     REQUIRES.append('py2app')
-    EXTRAOPTIONS = dict(app=["collector.py"])
+    EXTRAOPTIONS = dict(app=["main.py"])
 
 if ISWINDOWS:
     __import__('py2exe')
@@ -64,7 +64,7 @@ if ISWINDOWS:
     }
     REQUIRES.append('py2exe')
     EXTRAOPTIONS = dict(windows=[{
-        "script": "collector.py",
+        "script": "main.py",
         "dest_base": "Collector",
         'icon_resources':[(1, 'collection.ico')]
     }])
@@ -73,7 +73,7 @@ setup(
     name=NAME,
     version=VERSION,
     description="Collector is a management application",
-    long_description=(read('README.rst')),
+    long_description=(read('README.txt')),
     # TODO search classifiers
     classifiers=['Intended Auidence:: Developers, Collectors'],
     author="Ariel von Barnekow",
@@ -81,6 +81,9 @@ setup(
     url="http://www.arielvb.com",
     license="GPL2",
     zip_safe=False,
+    packages=["engine", "plugins", "ui", "ui.views",
+     "ui.helpers", "ui.gen", "tests", "ui.workers"],
+    # data_files=[('data', 'data/*')],
     options=OPTIONS,
     setup_requires=REQUIRES,
     **EXTRAOPTIONS

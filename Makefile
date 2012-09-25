@@ -8,7 +8,7 @@ VM_SHARED=~/Desktop/mv/collector
 all: ui2py
 
 run: all
-	./collector.py
+	./main.py
 
 test:
 	clear
@@ -78,3 +78,4 @@ clean:
 	rm -f $(BUILD_DIR)/*
 	rm -rf dist build
 	rm -rf ${EXPORT}
+	rm -f collector.log
