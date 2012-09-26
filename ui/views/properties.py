@@ -26,8 +26,14 @@ class DetailsWidget(QtGui.QWidget, Ui_FieldDetails):
     def updateDetails(self, name, type, multivalue):
         self.detail_name.setText(name)
         self.detail_class.setText(type)
-        self.detail_value.hide()
-        self.detail_value.setText(str(multivalue))
+        # self.detail_value.hide()
+        value = ''
+        if multivalue:
+            value = self.tr('True')
+        else:
+            value = self.tr('False')
+
+        self.detail_value.setText(value)
 
 
 class PropertiesWidget(QtGui.QDialog, Ui_Properties):
@@ -70,8 +76,9 @@ class PropertiesWidget(QtGui.QDialog, Ui_Properties):
             list_item.setFont(font)
             self.fieldsList.addItem(list_item)
             # Fields
-            for item in collection.schema.fields.values():
-                list_item = ObjectListItem(item, item['name'])
+            for field_id in collection.schema.order:
+                item = collection.schema.file.get(field_id)
+                list_item = ObjectListItem(item, item.name)
                 self.fieldsList.addItem(list_item)
         self.field_details = DetailsWidget(self)
         self.verticalLayout_3.addWidget(self.field_details)
@@ -95,13 +102,17 @@ class PropertiesWidget(QtGui.QDialog, Ui_Properties):
 
         QtCore.QObject.connect(
             self.fieldsList,
-            QtCore.SIGNAL("currentItemChanged(QListWidgetItem*, QListWidgetItem*)"),
+            QtCore.SIGNAL("currentItemChanged(QListWidgetItem*, " +
+                "QListWidgetItem*)"),
             self._itemSelected)
 
     def _itemSelected(self, item, old):
         if (getattr(item, 'obj', False)):
             # TODO multivalue detail
-            self.field_details.updateDetails(item.obj['name'], item.obj['class'], False)
+            self.field_details.updateDetails(
+                item.obj.name,
+                item.obj.get_pretty_type(),
+                item.obj.is_multivalue())
             self.field_details.show()
         else:
             self.field_details.hide()

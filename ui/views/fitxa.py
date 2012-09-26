@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from PyQt4 import QtCore, QtGui
-from ui.gen.fitxa import Ui_Form
+from ui.gen.fitxa import Ui_File
 from ui.helpers.customtoolbar import CustomToolbar, Topbar
 from ui.widgetprovider import WidgetProvider
-from engine.fields import FieldImage
+from ui.helpers.filedata import FileDataWidget
 
 
 try:
@@ -13,7 +13,7 @@ except AttributeError:
     _fromUtf8 = lambda s: s
 
 
-class Ui_Fitxa(QtGui.QWidget, Ui_Form):
+class Ui_Fitxa(QtGui.QWidget, Ui_File):
 
     row = 0
 
@@ -26,35 +26,6 @@ class Ui_Fitxa(QtGui.QWidget, Ui_Form):
         self.collection = self.parent().collection.getCollection(collection)
         self.setupUi()
 
-    def createLabel(self, text, label=False):
-        item = QtGui.QLabel(self)
-        if label:
-            item.setFont(self.fontLabel)
-        else:
-            item.setTextInteractionFlags(QtCore.Qt.LinksAccessibleByMouse |
-                                         QtCore.Qt.TextSelectableByMouse)
-        item.setText(text)
-        item.setObjectName(_fromUtf8(text))
-        return item
-
-    def createField(self, label, text):
-        columnspan = 1
-        column = 0
-        rowspan = 1
-        #TODO add support for multiavalue fields
-        itemLabel = self.createLabel(label, True)
-        self.fieldsLayout.addWidget(itemLabel, self.row, column,
-                                    rowspan, columnspan)
-        column += 1
-        if not isinstance(text, list):
-            text = [text]
-        for i in text:
-            item = self.createLabel(i)
-            self.fieldsLayout.addWidget(item, self.row, column,
-                                        rowspan, columnspan)
-            self.row += 1
-        self.row += 1
-
     def setupUi(self):
         super(Ui_Fitxa, self).setupUi(self)
         item = self.item
@@ -65,34 +36,36 @@ class Ui_Fitxa(QtGui.QWidget, Ui_Form):
         self.fontLabel.setWeight(75)
         schema = self.collection.schema
         Topbar(widget=self.topbar, icon=self.collection.schema.ico,
-               title=self.collection.schema.name.upper() + ' > ' + obj['name'])
-        # self.lWindowTitle.setText(schema.name.upper() + ' > ')
-        # self.lTitle.setText(obj['name'])
-        for field in schema.order:
-            if field != 'image':
-                value = field in obj and obj[field] or ''
-                self.createField(schema.fields[field]['name'], value)
-        # self.createField('Name', obj['name'])
-        # self.createField('Designer/s', obj['designer'])
-        # self.createField('Artist/s', obj['artist'])
+               title=self.collection.schema.name.upper() + ' > ' +
+                obj[schema.default])
+        self.progressBar.hide()
+        self.data_widget = FileDataWidget(schema, obj)
+        self.scrollArea.setWidget(self.data_widget)
+        # for field in schema.order:
+        #     if field != 'image':
+        #         value = field in obj and obj[field] or ''
+        #         self.createField(schema.fields[field]['name'], value)
 
-        # TODO set image: we need to store it somewhere...
-        #  but where is the best place?
-        if 'image' in obj:
-            image = FieldImage('image', value=value)
-            image.setValue(obj['image'])
-            path = image.getValue()
-            pixmap = None
-            if path != '':
-                pixmap = QtGui.QPixmap(path)
-            # Check if the file doensn't have image or the image file
-            #  doesn't exists
-            if pixmap is None or pixmap.isNull():
-                pixmap = QtGui.QPixmap(_fromUtf8(':box.png'))
-            scaled = pixmap.scaled(150, 150, QtCore.Qt.KeepAspectRatio)
-            self.image.setPixmap(scaled)
-        else:
-            self.image.hide()
+        # # TODO set image: we need to store it somewhere...
+        # #  but where is the best place?
+        # if 'image' in obj:
+        #     image = schema.get_field('image')
+        #     image.set_value(obj['image'])
+        #     path = image.get_value()
+        #     pixmap = None
+        #     # Check if the file doesn't have image or the image file
+        #     #  doesn't exists
+        #     if path != '':
+        #         pixmap = QtGui.QPixmap(path)
+        #     else:
+        #         pixmap = QtGui.QPixmap(_fromUtf8(':box.png'))
+
+        #     if pixmap.isNull():
+        #         pixmap.load(_fromUtf8(':box.png'))
+        #     scaled = pixmap.scaled(350, 250, QtCore.Qt.KeepAspectRatio)
+        #     self.image.setPixmap(scaled)
+        # else:
+        #     self.image.hide()
         self._loadToolbar()
 
     def _loadToolbar(self):

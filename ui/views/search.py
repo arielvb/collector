@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
+"""
+Search
+------
 
+Search related views: item search, quick search and discover.
+
+"""
 # This is only needed for Python v2 but is harmless for Python v3.
 from PyQt4 import QtCore
 from PyQt4.QtGui import QWidget, QApplication, QMessageBox, QDialog
@@ -7,7 +13,7 @@ from ui.gen.search_results import Ui_Form
 from ui.workers.search import Worker_Search, Worker_Discover, STATUS_OK
 from ui.gen.search_quick import Ui_Dialog as Ui_Dialog_Search
 from ui.helpers.customtoolbar import Topbar
-from ui.helpers.items import FitxaListItem
+from ui.helpers.items import ObjectListItem, FitxaListItem
 from ui.widgetprovider import WidgetProvider
 
 
@@ -26,14 +32,18 @@ class Ui_Search(QWidget, Ui_Form):
                                    None, QApplication.UnicodeUTF8)
     description = None
 
-    def __init__(self, query, parent, flags=None):
+    def __init__(self, query, results, parent, flags=None):
         """ Creates a new search view"""
         if flags is None:
             flags = QtCore.Qt.WindowFlags(0)
         super(Ui_Search, self).__init__(parent, flags)
-        self.setupUi(query)
+        self.results = []
+        self.query = query
+        if results is None:
+            results = []
+        self.setupUi(query, results)
 
-    def setupUi(self, query):
+    def setupUi(self, query, results):
         super(Ui_Search, self).setupUi(self)
 
         Topbar(widget=self.topbar, icon=':ico/search.png',
@@ -52,10 +62,12 @@ class Ui_Search(QWidget, Ui_Form):
         self.worker.searchComplete.connect(lambda r: self.searchComplete(r))
         if isinstance(query, QtCore.QString):
             query = query.toUtf8()
-        if query != u'':
+        if query != u'' and len(results) == 0:
             self.search(str(query))
         else:
             self.progressBar.hide()
+            if len(results) > 0:
+                self.addResults(results)
 
     def search(self, text):
         self.bSearch.setDisabled(True)
@@ -87,6 +99,7 @@ class Ui_Search(QWidget, Ui_Form):
             item = FitxaListItem(result['id'], result['name'])
             self.listWidget.addItem(item)
             del item
+        self.results.extend(listResults)
 
     def itemSelected(self, listItem):
         self.parent().display_view(
@@ -95,32 +108,33 @@ class Ui_Search(QWidget, Ui_Form):
         )
 
 
-class Ui_SearchPlugin(Ui_Search):
+class Ui_Discover(Ui_Search):
 
-    title = QApplication.translate("Ui_SearchPlugin", "Discover",
+    title = QApplication.translate("Ui_Discover", "Discover",
                                    None, QApplication.UnicodeUTF8)
-    description = QApplication.translate("Ui_SearchPlugin",
+    description = QApplication.translate("Ui_Discover",
         "Discover allows you find new objects for your collection,"
-        " type somenthing in the searchbox and the plugins"
+        " type something in the searchbox and the plugins"
         " will do the hardwork.", None, QApplication.UnicodeUTF8)
 
     worker = Worker_Discover()
 
     def addResults(self, results):
         """Overrides the default addResults because the results from plugins
-         are a little bit differnt"""
+         are a little bit different"""
         # TODO the results of a plugin must be in the same format of the search
         for result in results:
-            item = FitxaListItem(1, result[0])
+            item = ObjectListItem(result, result['name'])
             self.listWidget.addItem(item)
             del item
+        self.results.extend(results)
 
     def itemSelected(self, listItem):
         self.parent().display_view(
-            'fitxa',
+            'pluginfile',
             {
-                'item': listItem.id,
-                'collection': 'plugin:PluginBoardgamegeek',
+                'id': listItem.obj['id'],
+                'plugin': listItem.obj['plugin'],
                 'referer': {
                     'view': 'discover',
                     'params': {'term': self.query, 'results': self.results}
@@ -135,7 +149,10 @@ class DiscoverView(WidgetProvider):
         term = ''
         if 'term' in params:
             term = params['term']
-        widget = Ui_SearchPlugin(term, self.parent)
+        results = None
+        if 'results' in params:
+            results = params['results']
+        widget = Ui_Discover(term, results, self.parent)
         return widget
 
 
@@ -145,7 +162,10 @@ class SearchView(WidgetProvider):
         term = ''
         if 'term' in params:
             term = params['term']
-        widget = Ui_Search(term, self.parent)
+        results = None
+        if 'results' in params:
+            results = params['results']
+        widget = Ui_Search(term, results, self.parent)
         return widget
 
 

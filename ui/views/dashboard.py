@@ -56,14 +56,17 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
                  'image': image}
                 )
         # TODO allow personalization of the new entry button?
+        main_collection = collections.values()[0]
         items.extend([
             {'class': 'spacer'},
             {'class': 'line'},
-            {'class': 'link', 'name': 'New <b>Boardgame</b>',
-             'path': 'view/add/collection/boardgames', 'image': ':/add.png'}
+            {'class': 'link',
+             'name': str(self.tr('New <b>%s</b>')) % main_collection.getName(),
+             'path': 'view/add/collection/' + main_collection.name,
+             'image': ':/add.png'}
         ])
         settings['items'] = items
-        settings['lastcollection'] = collections.values()[0].name
+        settings['lastcollection'] = main_collection.name
         return settings
 
     def setupUi(self):
@@ -104,7 +107,7 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
         collection = self.parent().collection.getCollection(
             self.settings['lastcollection'])
         label = collection.getName()
-        self.lLastItems.setText("Last %s" % label)
+        self.lLastItems.setText(str(self.tr("Last %s")) % label)
         lastObjects = collection.getLast()
         for i in lastObjects:
             item = FitxaListItem(i['id'], i['name'])

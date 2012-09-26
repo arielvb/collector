@@ -2,15 +2,19 @@
 # pylint: disable-msg=E1101,W0403,E0611
 # E0611: No name 'QtCore' in module 'PyQt4'
 # E1101: Module 'PyQt4.QtCore' has no 'SIGNAL' member
+"""The GUI Application for Collector using QT"""
 from PyQt4 import QtCore, QtGui
 from splashscreen import SplashScreen
+from engine.collector import Collector
+from mainwindow import MainWindow
 
 
 class CollectorApplication(QtGui.QApplication):
-    """The GUI Aplication for Collector"""
+    """The GUI Application for Collector"""
 
     translators = {}
     current = None
+    collector = None
 
     def __init__(self, argv):
         super(CollectorApplication, self).__init__(argv)
@@ -21,9 +25,11 @@ class CollectorApplication(QtGui.QApplication):
         self.processEvents()
         __import__("ui.gen.lang_rc")
         self.load_translations(":/lang")
-
+        # Launch collector
+        self.collector = Collector()
+        man = self.collector.get_manager('plugin')
+        from PyQt4.Qt import qDebug; qDebug(str(man.get_enabled()))
         # Create main window
-        from mainwindow import MainWindow
         self.main = MainWindow()
 
         # Show main window

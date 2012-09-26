@@ -2,7 +2,7 @@
 
 from PyQt4 import QtCore, QtGui
 from ui.gen.fitxa_edit import Ui_Form
-from ui.helpers.customtoolbar import CustomToolbar
+from ui.helpers.customtoolbar import CustomToolbar, Topbar
 from ui.widgetprovider import WidgetProvider
 from PyQt4.Qt import qDebug
 
@@ -32,8 +32,9 @@ class Ui_Fitxa_New(QtGui.QWidget, Ui_Form):
         self.fontLabel.setBold(True)
         self.fontLabel.setWeight(75)
         schema = self.collection.schema
-        self.lWindowTitle.setText(schema.name.upper() + ' > ')
-        self.lTitle.setText('New entry')
+        Topbar(widget=self.topbar, icon=schema.ico,
+               title=schema.name.upper() + ' > ' + self.tr('New entry'))
+
         self.fitxa_fields = {}
         for field in schema.order:
             widgets = self.createField(schema.fields[field]['name'], '')
@@ -102,24 +103,18 @@ class Ui_Fitxa_New(QtGui.QWidget, Ui_Form):
                                       {'collection': self.collection.name})
 
     def save(self):
-        qDebug('Saving!')
         schema = self.collection.schema
         data = {}
         for field in schema.order:
             fields = self.fitxa_fields[field]
-            # TODO compression list
-            values = []
-            for i in fields:
-                values.append(str(i.text()))
+            values = [str(value.text()) for value in fields]
             if not schema.isMultivalue(field):
                 values = values[0]
             data[field] = values
-        # data['id'] = self.obj['id']
         self.collection.save(data)
         self.parent().display_view('fitxa',
                                   {'item': data['id'],
                                   'collection': self.collection.name})
-        qDebug(str(data))
 
 
 class FitxaNewView(WidgetProvider):

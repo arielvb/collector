@@ -110,6 +110,9 @@ class Topbar(TopbarUi):
         else:
             self.description.setText(description)
 
+    def set_title(self, text):
+        self.title.setText(text)
+
 
 class ToolBarManager():
     #TODO what to do whit this class?

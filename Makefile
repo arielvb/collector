@@ -47,6 +47,7 @@ ui2py: resources
 	pyuic4 -x ${UI_DIR}/topbar.ui -o ${BUILD_DIR}/topbar.py
 	pyuic4 -x ${UI_DIR}/properties.ui -o ${BUILD_DIR}/properties.py
 	pyuic4 -x ${UI_DIR}/field_details.ui -o ${BUILD_DIR}/field_details.py
+	pyuic4 -x ${UI_DIR}/file_data.ui -o ${BUILD_DIR}/file_data.py
 
 
 resources:

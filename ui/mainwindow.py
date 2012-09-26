@@ -15,16 +15,11 @@ from views.search import SearchView, DiscoverView, SearchDialog
 from views.fitxa_new import FitxaNewView
 from views.plugins import PluginsView
 from views.properties import PropertiesView
+from views.plugincollector_fitxa import PluginFileView
 from views import ViewNotFound
-
 
 from engine.collection import CollectionManager
 from engine.plugin import PluginManager
-from engine.config import Config
-from plugins.boardgamegeek import PluginBoardGameGeek
-
-import os
-
 
 try:
     _from_utf8 = QtCore.QString.fromUtf8
@@ -40,15 +35,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
 
     def __init__(self, parent=None):
         super(MainWindow,  self,).__init__(parent)
-        config = Config.get_instance()
-        config.build_data_directory()
-        sys_plugin_path = config.get_appdata_path()
-        sys_plugin_path = os.path.join(sys_plugin_path, 'user_plugins')
-
-        self.plugin_manager = PluginManager(
-            ['PluginHellouser', 'PluginBoardgamegeek'],
-            {'PluginBoardgamegeek': PluginBoardGameGeek()},
-            paths=[sys_plugin_path])
+        self.plugin_manager = PluginManager.get_instance()
 
         self.collection = CollectionManager.get_instance()
 
@@ -104,7 +91,8 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
             'discover': DiscoverView(self),
             'plugins': PluginsView(self),
             'quicksearch': SearchDialog(self),
-            'properties': PropertiesView(self)
+            'properties': PropertiesView(self),
+            'pluginfile': PluginFileView(self),
         }
 
     def display_view(self, name, params=None):
@@ -114,7 +102,14 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
             raise ViewNotFound('View "%s" not found' % name)
         if params is None:
             params = {}
+        #TODO why this worker makes the view too slow????
+        if name == 'pluginfile':
+            from ui.workers.search import Worker_FileLoader
+            self.worker = Worker_FileLoader()
         self.views[name].run(params)
+
+        if name == 'pluginfile':
+            self.worker.search(params['id'], params['plugin'])
 
     def switch_fullscreen(self):
         """Display fullscreen mode if isn't not active or shows the previous

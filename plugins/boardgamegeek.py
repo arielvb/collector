@@ -18,7 +18,7 @@ class PluginBoardGameGeek(PluginCollector):
     description = "Search and import Boardgames from the BGG website."
 
     schema = Schema({
-            'name': 'Boargamegeek',
+            'name': 'Boardgamegeek',
             'fields': {
                 'title': {
                     'class': 'text',
@@ -50,11 +50,11 @@ class PluginBoardGameGeek(PluginCollector):
                     },
                 'min_players': {
                     'class': 'int',
-                    'name': 'Minimun number of players'
+                    'name': 'Min. number of players'
                 },
                 'max_players': {
                     'class': 'int',
-                    'name': 'Max number of players'
+                    'name': 'Max. number of players'
                 },
                 'playing': {
                     'class': 'text',
@@ -75,9 +75,12 @@ class PluginBoardGameGeek(PluginCollector):
                     'multivalue': True
                 }
 
-                },
-                'default': 'title'}
-            )
+            },
+            'order': ['title', 'designer', 'artist', 'publisher',
+                      'year', 'min_players', 'max_players', 'playing',
+                      'min_age', 'categories', 'mechanic'],
+            'default': 'title'
+        })
 
     def get_name(self):
         return self.name
@@ -95,11 +98,13 @@ class PluginBoardGameGeek(PluginCollector):
         soup = BeautifulSoup(html)
         results = soup.select(selector)
         output = []
+        p_id = self.get_id()
         for element in results:
-            output.append([
-                    element.get_text().replace("\n", ''),
-                    element.find('a').get('href')
-                ])
+            output.append({
+                'name': element.get_text().replace("\n", ''),
+                'id': element.find('a').get('href'),
+                'plugin': p_id
+                })
         return output
 
     def file_filter(self, html):
