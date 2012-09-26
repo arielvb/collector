@@ -27,15 +27,18 @@ class TestBGGPlugin(unittest.TestCase):
 
         self.assertEquals(results,
          [
-            [u'The Pillars of the Earth(2006)',
-             u'http://boardgamegeek.com/boardgame/24480/' +
-             'the-pillars-of-the-earth'],
-            [u'The Pillars of the Earth Expansion Set(2007)',
-             u'http://boardgamegeek.com/boardgameexpansion/31753/' +
-             'the-pillars-of-the-earth-expansion-set'],
-            [u'Die S\xe4ulen der Erde: das Kartenspiel(2010)',
-                u'http://boardgamegeek.com/boardgame/67593/' +
-                'die-saulen-der-erde-das-kartenspiel']
+            {'plugin': 'PluginBoardGameGeek',
+             'name': u'The Pillars of the Earth(2006)',
+             'id': u'http://boardgamegeek.com/boardgame/24480/' +
+             'the-pillars-of-the-earth'},
+            {'plugin': 'PluginBoardGameGeek',
+             'name': u'The Pillars of the Earth Expansion Set(2007)',
+             'id': u'http://boardgamegeek.com/boardgameexpansion/31753/' +
+             'the-pillars-of-the-earth-expansion-set'},
+            {'plugin': 'PluginBoardGameGeek',
+             'name': u'Die S\xe4ulen der Erde: das Kartenspiel(2010)',
+             'id': u'http://boardgamegeek.com/boardgame/67593/' +
+                'die-saulen-der-erde-das-kartenspiel'}
          ])
 
     def test_obtain_data_backup(self):

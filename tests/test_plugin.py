@@ -8,6 +8,7 @@ from engine.plugin import PluginManager
 class TestPluginManager(unittest.TestCase):
 
     def setUp(self):
+        PluginManager._instance = None
         self.manager = PluginManager(
             ['PluginHello'],
             {'PluginHello': 'mocked plugin'})
@@ -22,6 +23,7 @@ class TestPluginManager(unittest.TestCase):
         self.assertTrue('PluginHello' in self.manager.get_enabled())
 
     def test_disable_item(self):
+        self.assertTrue('PluginHello' in self.manager.get_enabled())
         self.manager.disable(['PluginHello'])
         self.assertFalse('PluginHello' in self.manager.get_enabled())
         self.assertTrue('PluginHello' in self.manager.get_disabled())
@@ -32,7 +34,6 @@ class TestPluginManager(unittest.TestCase):
         self.manager.enable(['PluginHello'])
         self.assertTrue('PluginHello' in self.manager.get_enabled())
         self.assertFalse('PluginHello' in self.manager.get_disabled())
-
 
     def test_load_enabled_and_run(self):
         path = os.path.join(os.path.dirname(__file__),

@@ -51,13 +51,13 @@ class TestSchema(unittest.TestCase):
         }
         self.assertRaises(Exception, self.schema.loadFromDict, schema)
 
-    def test_schema_missing_ref_field_ref(self):
-        schema = {'name': 'Wrong ref', 'fields': {
-                'author': {'class': 'ref', 'name': 'name'}
-            }
-        }
+    # def test_schema_missing_ref_field_ref(self):
+    #     schema = {'name': 'Wrong ref', 'fields': {
+    #             'author': {'class': 'ref', 'name': 'name'}
+    #         }
+    #     }
 
-        self.assertRaises(Exception, self.schema.loadFromDict, schema)
+    #     self.assertRaises(Exception, self.schema.loadFromDict, schema)
 
     def test_is_multivalue(self):
         in_values = self.in_values
