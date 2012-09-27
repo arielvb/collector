@@ -56,7 +56,7 @@ class Ui_Search(QWidget, Ui_Form):
             lambda: self.search(self.lSearch.text()))
         self.listWidget.connect(
             self.listWidget,
-            QtCore.SIGNAL(_fromUtf8("itemClicked(QListWidgetItem *)")),
+            QtCore.SIGNAL(_fromUtf8("itemDoubleClicked(QListWidgetItem *)")),
             self.itemSelected)
 
         self.worker.searchComplete.connect(lambda r: self.searchComplete(r))
@@ -82,7 +82,7 @@ class Ui_Search(QWidget, Ui_Form):
     def searchComplete(self, results):
         """Process the results of a search, *results* must be instance of
          WorkerResult"""
-        self.parent().statusBar().clearMessage()
+        # self.parent().statusBar().clearMessage()
         self.bSearch.setEnabled(True)
         self.progressBar.hide()
         if results.status != STATUS_OK:

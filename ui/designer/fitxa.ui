@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>File</class>
+ <widget class="QWidget" name="File">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,64 +11,44 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>File</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QWidget" name="topbar" native="true"/>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="headerLayout">
-     <item>
-      <layout class="QGridLayout" name="fieldsLayout"/>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QLabel" name="image">
-       <property name="text">
-        <string notr="true">image</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
+    <widget class="QProgressBar" name="progressBar">
+     <property name="maximum">
+      <number>0</number>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+    </widget>
    </item>
    <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
      </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>69</height>
-      </size>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
      </property>
-    </spacer>
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>491</width>
+        <height>291</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
    </item>
    <item>
     <widget class="QWidget" name="toolbar" native="true"/>

@@ -49,6 +49,8 @@ class CollectorApplication(QtGui.QApplication):
         if '--view' in argv:
             view = argv[argv.index('--view') + 1]
             self.main.display_view(view)
+        elif '--uri' in argv:
+            self.main.collector_uri_call(argv[argv.index('--uri') + 1])
 
     # The language code selector is from:
     # switch translations dynamically in a PyQt4 application

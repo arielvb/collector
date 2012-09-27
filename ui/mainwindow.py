@@ -102,14 +102,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
             raise ViewNotFound('View "%s" not found' % name)
         if params is None:
             params = {}
-        #TODO why this worker makes the view too slow????
-        if name == 'pluginfile':
-            from ui.workers.search import Worker_FileLoader
-            self.worker = Worker_FileLoader()
         self.views[name].run(params)
-
-        if name == 'pluginfile':
-            self.worker.search(params['id'], params['plugin'])
 
     def switch_fullscreen(self):
         """Display fullscreen mode if isn't not active or shows the previous

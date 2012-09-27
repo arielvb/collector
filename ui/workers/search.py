@@ -53,6 +53,9 @@ class Worker_Discover(QThread):
     searchComplete = pyqtSignal(WorkerResult)
     partialResult = pyqtSignal([dict])
 
+    def __init__(self, parent=None):
+        QThread.__init__(self, parent)
+
     def search(self, text):
         self.params = {'query': text}
         self.start()
@@ -63,6 +66,8 @@ class Worker_Discover(QThread):
         provider = FileProvider(
             '/Users/arkow/universidad/pfc/collector/tests/data/bgg/' +
             'geeksearch.php.html')
+        provider = FileProvider(
+            '/Users/arkow/munchkinsearch.html')
         # bgg = PluginBoardGameGeek(provider)
         collector = Collector.get_instance()
         # TODO call all the plugins
@@ -84,7 +89,10 @@ class Worker_Discover(QThread):
 
 class Worker_FileLoader(QThread):
 
-    complete = pyqtSignal(WorkerResult)
+    load_complete = pyqtSignal(WorkerResult)
+
+    def __init__(self, parent=None):
+        QThread.__init__(self, parent)
 
     def search(self, uri, plugin_id):
         self.uri = uri
@@ -94,18 +102,18 @@ class Worker_FileLoader(QThread):
     def run(self):
         # TODO remove this provider
         provider = None
-        provider = FileProvider(
-            '/Users/arkow/universidad/pfc/collector/tests/data/bgg/' +
-            'the-pillars-of-the-earth.html')
+        # provider = FileProvider(
+        #     '/Users/arkow/universidad/pfc/collector/tests/data/bgg/' +
+        #     'the-pillars-of-the-earth.html')
         collector = Collector.get_instance()
         try:
             results = collector.get_plugin_file(
                          self.uri,
                          self.plugin_id, provider)
-            self.complete.emit(WorkerResult(STATUS_OK, results))
+            self.load_complete.emit(WorkerResult(STATUS_OK, results))
         except Exception as e:
             logging.exception(e)
-            self.complete.emit(
+            self.load_complete.emit(
                 WorkerResult(
                     STATUS_ERROR,
                     msg="Plugin %s file load failed with uri %s" %

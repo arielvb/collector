@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from PyQt4 import QtCore, QtGui
+from PyQt4.QtNetwork import QNetworkAccessManager, QNetworkRequest
+
 from ui.gen.file_data import Ui_Form
 
 try:
@@ -30,7 +32,9 @@ class FileDataWidget(QtGui.QWidget, Ui_Form):
                                          QtCore.Qt.TextSelectableByMouse)
         #TODO deal whit encoding
         try:
-            item.setText(str(text))
+            if isinstance(text, int):
+                text = str(text)
+            item.setText(_fromUtf8(text))
         except Exception:
             item.setText("Error")
 
@@ -55,6 +59,13 @@ class FileDataWidget(QtGui.QWidget, Ui_Form):
             self.row += 1
         self.row += 1
 
+    def image_complete(self, reply):
+        img = QtGui.QImage()
+        img.loadFromData(reply.readAll())
+        pixmap = QtGui.QPixmap(img)
+        scaled = pixmap.scaled(250, 250, QtCore.Qt.KeepAspectRatio)
+        self.image.setPixmap(scaled)
+
     def setupUi(self):
         super(FileDataWidget, self).setupUi(self)
 
@@ -71,6 +82,7 @@ class FileDataWidget(QtGui.QWidget, Ui_Form):
         # TODO set image: we need to store it somewhere...
         #  but where is the best place?
         if 'image' in obj:
+            from PyQt4.Qt import qDebug; qDebug(obj['image'])
             image = schema.get_field('image')
             image.set_value(obj['image'])
             path = image.get_value()
@@ -81,6 +93,10 @@ class FileDataWidget(QtGui.QWidget, Ui_Form):
             #  doesn't exists
             if pixmap is None or pixmap.isNull():
                 pixmap = QtGui.QPixmap(_fromUtf8(':box.png'))
+            if obj['image'].startswith('http'):
+                self.nam = QNetworkAccessManager()
+                self.nam.finished.connect(lambda r: self.image_complete(r))
+                self.nam.get(QNetworkRequest(QtCore.QUrl(obj['image'])))
             scaled = pixmap.scaled(250, 250, QtCore.Qt.KeepAspectRatio)
             self.image.setPixmap(scaled)
         else:

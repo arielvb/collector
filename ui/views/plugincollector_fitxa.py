@@ -7,6 +7,7 @@ from ui.helpers.customtoolbar import CustomToolbar, Topbar
 from ui.widgetprovider import WidgetProvider
 from ui.helpers.filedata import FileDataWidget
 from ui.workers.search import Worker_FileLoader, STATUS_OK
+import webbrowser
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -16,6 +17,7 @@ except AttributeError:
 
 class Ui_PluginFile(QWidget, Ui_File):
 
+    worker = Worker_FileLoader()
 
     def __init__(self, file_id, plugin, referer, parent=None, flags=None):
         if flags is None:
@@ -32,15 +34,17 @@ class Ui_PluginFile(QWidget, Ui_File):
         self.scrollArea.show()
 
         schema = self.plugin.schema
-        # TODO use plugin ico
+        # TODO use plugin ico or see:
+        # http://www.riverbankcomputing.co.uk/static/Docs/PyQt4/html/qwebsettings.html#iconForUrl
         self.topbarHelper = Topbar(widget=self.topbar, icon=":/ico/folder.png",
                title=schema.name.upper() + ' > ' + self.tr("Loading..."))
 
-        self.parent().worker.complete.connect(lambda r: self.load_complete(r))
-
+        self.worker.load_complete.connect(self.load_complete)
         self._loadToolbar()
+        self.search()
 
     def search(self):
+        self.progressBar.show()
         self.worker.search(self.id, self.plugin.get_id())
 
     def _loadToolbar(self):
@@ -50,13 +54,25 @@ class Ui_PluginFile(QWidget, Ui_File):
             {'class':'link', 'name': self.tr('Dashboard'),
              'path': 'view/dashboard', 'image': ':/dashboard.png'},
             {'class': 'spacer'},
+            {'class':'link', 'name': self.tr('View in browser'),
+             'path': 'action/browser', 'image': ':/add.png'},
+            {'class':'link', 'name': self.tr('Reload'),
+             'path': 'action/reload', 'image': ':/add.png'},
         ]
         CustomToolbar(self.toolbar, quick, self._linkactivated)
 
     def _linkactivated(self, uri):
         params = self.parent().collector_uri_call(uri)
         #TODO check action is go back
-        self.parent().display_view(self.referer['view'], self.referer['params'])
+        if params is not None:
+            action = params['action']
+            if action == 'back':
+                self.parent().display_view(self.referer['view'],
+                                           self.referer['params'])
+            elif action == 'reload':
+                self.search()
+            elif action == 'browser':
+                webbrowser.open(self.id)
 
     def load_complete(self, results):
         """Updates the view with the results of the worker"""
@@ -67,6 +83,7 @@ class Ui_PluginFile(QWidget, Ui_File):
                 self.tr("Ooops!\nSomething happened and the search" +
                         " could'nt be completed."))
         else:
+            self.results = results.results
             schema = self.plugin.schema
             self.data_widget = FileDataWidget(schema,
              results.results)
@@ -74,7 +91,6 @@ class Ui_PluginFile(QWidget, Ui_File):
             self.scrollArea.show()
             self.topbarHelper.set_title(schema.name.upper() +
              ' > ' + results.results[schema.default])
-
 
 
 class PluginFileView(WidgetProvider):

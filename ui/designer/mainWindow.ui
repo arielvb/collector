@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>585</width>
-    <height>507</height>
+    <width>650</width>
+    <height>500</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -129,6 +129,10 @@
    </property>
   </action>
   <action name="actionDiscover">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/ico/search.png</normaloff>:/ico/search.png</iconset>
+   </property>
    <property name="text">
     <string>Discover</string>
    </property>
@@ -148,6 +152,10 @@
    </property>
   </action>
   <action name="actionProperties">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/ico/info.png</normaloff>:/ico/info.png</iconset>
+   </property>
    <property name="text">
     <string>Properties</string>
    </property>
