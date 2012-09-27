@@ -102,6 +102,7 @@ class Ui_Search(QWidget, Ui_Form):
         self.results.extend(listResults)
 
     def itemSelected(self, listItem):
+        self.worker.searchComplete.disconnect()
         self.parent().display_view(
             'fitxa',
             {'item': listItem.id, 'collection': 'boardgames'}
@@ -130,6 +131,7 @@ class Ui_Discover(Ui_Search):
         self.results.extend(results)
 
     def itemSelected(self, listItem):
+        self.worker.searchComplete.disconnect()
         self.parent().display_view(
             'pluginfile',
             {
