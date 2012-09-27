@@ -57,14 +57,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="image">
-       <property name="text">
-        <string notr="true">image</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-       </property>
-      </widget>
+      <layout class="QVBoxLayout" name="image_layout"/>
      </item>
      <item>
       <spacer name="horizontalSpacer">

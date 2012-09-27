@@ -15,8 +15,6 @@ except AttributeError:
 
 class Ui_Fitxa(QtGui.QWidget, Ui_File):
 
-    row = 0
-
     def __init__(self, item, collection, parent=None, flags=None):
         if flags is None:
             flags = QtCore.Qt.WindowFlags(0)
@@ -41,31 +39,7 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
         self.progressBar.hide()
         self.data_widget = FileDataWidget(schema, obj)
         self.scrollArea.setWidget(self.data_widget)
-        # for field in schema.order:
-        #     if field != 'image':
-        #         value = field in obj and obj[field] or ''
-        #         self.createField(schema.fields[field]['name'], value)
 
-        # # TODO set image: we need to store it somewhere...
-        # #  but where is the best place?
-        # if 'image' in obj:
-        #     image = schema.get_field('image')
-        #     image.set_value(obj['image'])
-        #     path = image.get_value()
-        #     pixmap = None
-        #     # Check if the file doesn't have image or the image file
-        #     #  doesn't exists
-        #     if path != '':
-        #         pixmap = QtGui.QPixmap(path)
-        #     else:
-        #         pixmap = QtGui.QPixmap(_fromUtf8(':box.png'))
-
-        #     if pixmap.isNull():
-        #         pixmap.load(_fromUtf8(':box.png'))
-        #     scaled = pixmap.scaled(350, 250, QtCore.Qt.KeepAspectRatio)
-        #     self.image.setPixmap(scaled)
-        # else:
-        #     self.image.hide()
         self._loadToolbar()
 
     def _loadToolbar(self):
