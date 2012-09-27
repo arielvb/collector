@@ -48,9 +48,6 @@ class TestBGGPlugin(unittest.TestCase):
         provider = FileProvider(filename)
         fields = self.plugin.file_filter(provider.get('mocked'))
 
-        import pprint
-        pprint.pprint(fields)
-
         self.assertItemsEqual(fields, {
                 'publisher': [u'Plaid Hat Games'],
                 'designer': [u'Jerry Hawthorne'],
@@ -67,6 +64,8 @@ class TestBGGPlugin(unittest.TestCase):
                 'mechanic':
                  [u'Area Movement', u'Co-operative Play', u'Dice Rolling',
                   u'Role PlayingStorytelling', u'Variable Player Powers'],
+                 'image': 'http://boardgamegeek.com/mice-and-mystics_files/' +
+                          'pic1312072_md.jpg',
                 })
         self.assertItemsEqual(fields.keys(), self.plugin.schema.fields.keys())
 
