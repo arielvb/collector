@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="es_ES" sourcelanguage="en">
+<!DOCTYPE TS>
+<TS version="2.0" language="es_ES" sourcelanguage="en">
+<context>
+    <name>DetailsWidget</name>
+    <message>
+        <location filename="properties.py" line="32"/>
+        <source>True</source>
+        <translation>Sí</translation>
+    </message>
+    <message>
+        <location filename="properties.py" line="34"/>
+        <source>False</source>
+        <translation>No</translation>
+    </message>
+</context>
 <context>
     <name>Dialog</name>
     <message>
@@ -23,7 +37,7 @@
     <message>
         <location filename="field_details.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulario</translation>
     </message>
     <message>
         <location filename="field_details.ui" line="32"/>
@@ -42,26 +56,29 @@
     </message>
 </context>
 <context>
+    <name>File</name>
+    <message>
+        <location filename="fitxa.ui" line="14"/>
+        <source>File</source>
+        <translation>Ficha</translation>
+    </message>
+</context>
+<context>
     <name>Form</name>
     <message>
         <location filename="widget_ref.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulario</translation>
     </message>
     <message>
-        <location filename="search.py" line="25"/>
+        <location filename="search.py" line="31"/>
         <source>Search</source>
         <translation>Buscar</translation>
     </message>
     <message>
         <location filename="plugins.ui" line="27"/>
         <source>Enabled</source>
-        <translation>Activados</translation>
-    </message>
-    <message>
-        <location filename="plugins.ui" line="34"/>
-        <source>BGG</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Activados</translation>
     </message>
     <message>
         <location filename="search_results.ui" line="39"/>
@@ -71,32 +88,32 @@
     <message>
         <location filename="plugins.ui" line="73"/>
         <source>Disabled</source>
-        <translation>Desactivados</translation>
+        <translation type="obsolete">Desactivados</translation>
     </message>
     <message>
         <location filename="plugins.ui" line="60"/>
         <source>Disable selected &gt;&gt;</source>
-        <translation>Desactivar seleccionados &gt;&gt;</translation>
+        <translation type="obsolete">Desactivar seleccionados &gt;&gt;</translation>
     </message>
     <message>
         <location filename="plugins.ui" line="87"/>
         <source>&lt;&lt; Enable selected</source>
-        <translation>&lt;&lt; Activar seleccionados</translation>
+        <translation type="obsolete">&lt;&lt; Activar seleccionados</translation>
     </message>
     <message>
         <location filename="widget_file.ui" line="23"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="widget_multivalue.ui" line="26"/>
         <source>Add value</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadir valor</translation>
     </message>
     <message>
         <location filename="widget_ref.ui" line="23"/>
         <source>Add new</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadir nuevo</translation>
     </message>
     <message>
         <location filename="search.py" line="100"/>
@@ -134,7 +151,7 @@
     <message>
         <location filename="mainWindow.ui" line="86"/>
         <source>Ctrl+F</source>
-        <translation type="unfinished">Ctrl+F</translation>
+        <translation>Ctrl+F</translation>
     </message>
     <message>
         <location filename="mainWindow.ui" line="91"/>
@@ -144,7 +161,7 @@
     <message>
         <location filename="mainWindow.ui" line="94"/>
         <source>Ctrl+W</source>
-        <translation type="unfinished">Ctrl+W</translation>
+        <translation>Ctrl+W</translation>
     </message>
     <message>
         <location filename="mainWindow.ui" line="106"/>
@@ -159,15 +176,15 @@
     <message>
         <location filename="mainWindow.ui" line="128"/>
         <source>Ctrl+Shift+F</source>
-        <translation type="unfinished">Ctrl+Shift+F</translation>
+        <translation>Ctrl+Shift+F</translation>
     </message>
     <message>
-        <location filename="mainWindow.ui" line="138"/>
+        <location filename="mainWindow.ui" line="142"/>
         <source>Manage plugins</source>
         <translation>Gestionar complementos</translation>
     </message>
     <message>
-        <location filename="mainWindow.ui" line="147"/>
+        <location filename="mainWindow.ui" line="151"/>
         <source>Advanced search</source>
         <translation>Búsqueda avanzada</translation>
     </message>
@@ -192,7 +209,7 @@
         <translation>Exportar</translation>
     </message>
     <message>
-        <location filename="mainWindow.ui" line="152"/>
+        <location filename="mainWindow.ui" line="160"/>
         <source>Properties</source>
         <translation>Propiedades</translation>
     </message>
@@ -202,14 +219,47 @@
         <translation type="obsolete">Editar</translation>
     </message>
     <message>
-        <location filename="mainWindow.ui" line="133"/>
+        <location filename="mainWindow.ui" line="137"/>
         <source>Discover</source>
         <translation>Descubrir</translation>
     </message>
     <message>
-        <location filename="mainWindow.ui" line="155"/>
+        <location filename="mainWindow.ui" line="163"/>
         <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+I</translation>
+    </message>
+</context>
+<context>
+    <name>PluginDialog</name>
+    <message>
+        <location filename="plugins.ui" line="14"/>
+        <source>Plug-in Manager</source>
+        <translation>Gestor de complementos</translation>
+    </message>
+    <message>
+        <location filename="plugins.ui" line="27"/>
+        <source>Enabled</source>
+        <translation>Activados</translation>
+    </message>
+    <message>
+        <location filename="plugins.ui" line="34"/>
+        <source>BGG</source>
+        <translation>BGG</translation>
+    </message>
+    <message>
+        <location filename="plugins.ui" line="57"/>
+        <source>Disable selected &gt;&gt;</source>
+        <translation>Desactivar seleccionados &gt;&gt;</translation>
+    </message>
+    <message>
+        <location filename="plugins.ui" line="73"/>
+        <source>Disabled</source>
+        <translation>Desactivados</translation>
+    </message>
+    <message>
+        <location filename="plugins.ui" line="84"/>
+        <source>&lt;&lt; Enable selected</source>
+        <translation>&lt;&lt; Activar seleccionados</translation>
     </message>
 </context>
 <context>
@@ -271,42 +321,73 @@
 <context>
     <name>Ui_Dashboard</name>
     <message>
-        <location filename="dashboard.py" line="82"/>
+        <location filename="dashboard.py" line="85"/>
         <source>Dashboard</source>
         <translation>Panel principal</translation>
+    </message>
+    <message>
+        <location filename="dashboard.py" line="60"/>
+        <source>New &lt;b&gt;%s&lt;/b&gt;</source>
+        <translation>Nuevo &lt;b&gt;%s&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location filename="dashboard.py" line="110"/>
+        <source>Last %s</source>
+        <translation>Ultimos %s</translation>
+    </message>
+</context>
+<context>
+    <name>Ui_Discover</name>
+    <message>
+        <location filename="search.py" line="113"/>
+        <source>Discover</source>
+        <translation>Descubrir</translation>
+    </message>
+    <message>
+        <location filename="search.py" line="115"/>
+        <source>Discover allows you find new objects for your collection, type something in the searchbox and the plugins will do the hardwork.</source>
+        <translation>&quot;Descubrir&quot; te permite encontrar objectos para tu colección, escribe algo en la caja de búsqueda y los complementos harán el resto.</translation>
     </message>
 </context>
 <context>
     <name>Ui_Fitxa</name>
     <message>
-        <location filename="fitxa.py" line="100"/>
+        <location filename="fitxa.py" line="73"/>
         <source>Dashboard</source>
         <translation>Panel principal</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="107"/>
+        <location filename="fitxa.py" line="80"/>
         <source>Options</source>
         <translation>Opciones</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="118"/>
+        <location filename="fitxa.py" line="91"/>
         <source>Edit</source>
         <translation>Editar</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="118"/>
+        <location filename="fitxa.py" line="91"/>
         <source>Edit file</source>
         <translation>Editar ficha</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="127"/>
+        <location filename="fitxa.py" line="100"/>
         <source>Delete</source>
         <translation>Eliminar</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="127"/>
+        <location filename="fitxa.py" line="100"/>
         <source>Delete file</source>
         <translation>Eliminar ficha</translation>
+    </message>
+</context>
+<context>
+    <name>Ui_Fitxa_New</name>
+    <message>
+        <location filename="fitxa_new.py" line="35"/>
+        <source>New entry</source>
+        <translation>Nueva entrada</translation>
     </message>
 </context>
 <context>
@@ -314,12 +395,12 @@
     <message>
         <location filename="plugincollector_fitxa.py" line="101"/>
         <source>Dashboard</source>
-        <translation type="unfinished">Panel principal</translation>
+        <translation type="obsolete">Panel principal</translation>
     </message>
     <message>
         <location filename="plugincollector_fitxa.py" line="108"/>
         <source>Options</source>
-        <translation type="unfinished">Opciones</translation>
+        <translation type="obsolete">Opciones</translation>
     </message>
     <message>
         <location filename="plugincollector_fitxa.py" line="119"/>
@@ -343,6 +424,46 @@
     </message>
 </context>
 <context>
+    <name>Ui_PluginFile</name>
+    <message>
+        <location filename="plugincollector_fitxa.py" line="39"/>
+        <source>Loading...</source>
+        <translation>Cargando...</translation>
+    </message>
+    <message>
+        <location filename="plugincollector_fitxa.py" line="52"/>
+        <source>Go back</source>
+        <translation>Atras</translation>
+    </message>
+    <message>
+        <location filename="plugincollector_fitxa.py" line="54"/>
+        <source>Dashboard</source>
+        <translation>Panel principal</translation>
+    </message>
+    <message>
+        <location filename="plugincollector_fitxa.py" line="57"/>
+        <source>View in browser</source>
+        <translation>Ver en el navegador</translation>
+    </message>
+    <message>
+        <location filename="plugincollector_fitxa.py" line="59"/>
+        <source>Reload</source>
+        <translation>Recargar</translation>
+    </message>
+    <message>
+        <location filename="plugincollector_fitxa.py" line="81"/>
+        <source>Collector</source>
+        <translation>Collector</translation>
+    </message>
+    <message>
+        <location filename="plugincollector_fitxa.py" line="81"/>
+        <source>Ooops!
+Something happened and the search could&apos;nt be completed.</source>
+        <translation>Ooops!
+Algo ha ocurrido y la búsquda no se ha completado.</translation>
+    </message>
+</context>
+<context>
     <name>Ui_Search</name>
     <message>
         <location filename="search.py" line="73"/>
@@ -352,19 +473,19 @@ Something happened and the searchcould&apos;nt be completed.</source>
 Algo ha ocurrido y la búsquda no se ha completado.</translation>
     </message>
     <message>
-        <location filename="search.py" line="77"/>
+        <location filename="search.py" line="89"/>
         <source>Ooops!
 Something happened and the search could&apos;nt be completed.</source>
         <translation>Ooops!
 Algo ha ocurrido y la búsquda no se ha completado.</translation>
     </message>
     <message>
-        <location filename="search.py" line="65"/>
+        <location filename="search.py" line="77"/>
         <source>Searching...</source>
         <translation>Búscando...</translation>
     </message>
     <message>
-        <location filename="search.py" line="77"/>
+        <location filename="search.py" line="89"/>
         <source>Collector</source>
         <translation>Collector</translation>
     </message>
@@ -393,12 +514,12 @@ Algo ha ocurrido y la búsquda no se ha completado.</translation>
     <message>
         <location filename="search.py" line="100"/>
         <source>Discover</source>
-        <translation>Descubrir</translation>
+        <translation type="obsolete">Descubrir</translation>
     </message>
     <message>
         <location filename="search.py" line="102"/>
         <source>Discover allows you find new objects for your collection, type somenthing in the searchbox and the plugins will do the hardwork.</source>
-        <translation>&quot;Descubrir&quot; te permite encontrar objectos para tu colección, escribe algo en la caja de búsqueda y los complementos harán el resto.</translation>
+        <translation type="obsolete">&quot;Descubrir&quot; te permite encontrar objectos para tu colección, escribe algo en la caja de búsqueda y los complementos harán el resto.</translation>
     </message>
 </context>
 </TS>
