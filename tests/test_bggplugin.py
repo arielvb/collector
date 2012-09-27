@@ -24,19 +24,19 @@ class TestBGGPlugin(unittest.TestCase):
         provider = FileProvider(filename)
 
         results = self.plugin.search_filter(provider.get('mocked'))
-
-        self.assertEquals(results,
+        self.assertItemsEqual(results,
          [
             {'plugin': 'PluginBoardGameGeek',
-             'name': u'The Pillars of the Earth(2006)',
+             'name': u'The Pillars of the Earth', 'year': '2006',
              'id': u'http://boardgamegeek.com/boardgame/24480/' +
              'the-pillars-of-the-earth'},
             {'plugin': 'PluginBoardGameGeek',
-             'name': u'The Pillars of the Earth Expansion Set(2007)',
+             'name': u'The Pillars of the Earth Expansion Set', 'year': '2007',
              'id': u'http://boardgamegeek.com/boardgameexpansion/31753/' +
              'the-pillars-of-the-earth-expansion-set'},
             {'plugin': 'PluginBoardGameGeek',
-             'name': u'Die S\xe4ulen der Erde: das Kartenspiel(2010)',
+             'name': u'Die S\xe4ulen der Erde: das Kartenspiel',
+             'year': '2010',
              'id': u'http://boardgamegeek.com/boardgame/67593/' +
                 'die-saulen-der-erde-das-kartenspiel'}
          ])
@@ -47,6 +47,9 @@ class TestBGGPlugin(unittest.TestCase):
         filename = self.data_path + 'mice-and-mystics.html'
         provider = FileProvider(filename)
         fields = self.plugin.file_filter(provider.get('mocked'))
+
+        import pprint
+        pprint.pprint(fields)
 
         self.assertItemsEqual(fields, {
                 'publisher': [u'Plaid Hat Games'],

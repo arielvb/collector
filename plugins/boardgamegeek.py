@@ -13,7 +13,7 @@ from engine.schema import Schema
 class PluginBoardGameGeek(PluginCollector):
     """Boardgamegeek pluginclass"""
 
-    website = 'http://boardgamegeek.com/'
+    website = 'http://boardgamegeek.com'
     name = 'Boardgamegeek'
     description = "Search and import Boardgames from the BGG website."
 
@@ -73,12 +73,16 @@ class PluginBoardGameGeek(PluginCollector):
                     'class': 'text',
                     'name': 'Mechanic',
                     'multivalue': True
+                },
+                'image': {
+                    'class': 'image',
+                    'name': 'Image',
                 }
 
             },
             'order': ['title', 'designer', 'artist', 'publisher',
                       'year', 'min_players', 'max_players', 'playing',
-                      'min_age', 'categories', 'mechanic'],
+                      'min_age', 'categories', 'mechanic', 'image'],
             'default': 'title'
         })
 
@@ -100,9 +104,22 @@ class PluginBoardGameGeek(PluginCollector):
         output = []
         p_id = self.get_id()
         for element in results:
+            name = 'Error'
+            name = element.find('a').get_text()
+            year = ''
+            try:
+                year = element.find('span').get_text()
+            except:
+                pass
+            uri = ''
+            uri = element.find('a').get('href')
+
+            if not uri.startswith('http'):
+                uri = self.website + uri
             output.append({
-                'name': element.get_text().replace("\n", ''),
-                'id': element.find('a').get('href'),
+                'name': name,
+                'year': year[1:-1],
+                'id': uri,
                 'plugin': p_id
                 })
         return output
@@ -111,8 +128,8 @@ class PluginBoardGameGeek(PluginCollector):
         """ Parses the html to obtain all the fields defeined in the schema """
         #FIXME # of Players has a dummy encoding,
         #  after beautifulsoup... modify the original string
-        html = html.replace('&nbsp;−&nbsp;', ' - ')
-        soup = BeautifulSoup(html)
+        html = html.replace('&nbsp;−&nbsp;', ' -     ').replace('&nbsp;&minus;&nbsp;',' - ')
+        soup = BeautifulSoup(html, 'lxml', from_encoding="utf-8")
         results = {}
         results['title'] = soup.select('.geekitem_title a span')[0].getText()
         taula = soup.select('.geekitem_infotable')[0]
@@ -136,6 +153,11 @@ class PluginBoardGameGeek(PluginCollector):
         results['categories'] = (
             self.remove_show_more(self.row_filter(rows[12])))
         results['mechanic'] = self.remove_show_more(self.row_filter(rows[13]))
+        # Load image size == medium and not _t
+        img = soup.select('link[rel=image_src]')[0].get('href').replace('_t', '_md')
+        if not img.startswith('http'):
+            img = self.website + '/' + img
+        results['image'] = img
 
         return results
 
@@ -151,5 +173,7 @@ class PluginBoardGameGeek(PluginCollector):
     def remove_show_more(cls, elements):
         """Removes the last element of the list if it's Show more"""
         if elements[-1] == u'Show More \xbb':
+            elements.pop()
+        elif elements[-1] == u'Show More &raquo':
             elements.pop()
         return elements
