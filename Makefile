@@ -1,6 +1,6 @@
-UI_DIR='./ui/designer'
-BUILD_DIR='./ui/gen'
-EXPORT='./export/'
+UI_DIR=./ui/designer
+BUILD_DIR=./ui/gen
+EXPORT=./export/
 VM_SHARED=~/Desktop/mv/collector
 
 .PHONY: clean
@@ -35,19 +35,19 @@ copy2win: clean
 	cp -r ./ ${VM_SHARED}
 
 ui2py: resources
-	pyuic4 -x ${UI_DIR}/mainWindow.ui -o ${BUILD_DIR}/mainWindow.py
-	pyuic4 -x ${UI_DIR}/dashboard.ui -o ${BUILD_DIR}/dashboard.py
-	pyuic4 -x ${UI_DIR}/fitxa.ui -o ${BUILD_DIR}/fitxa.py
-	pyuic4 -x ${UI_DIR}/fitxa_edit.ui -o ${BUILD_DIR}/fitxa_edit.py
-	pyuic4 -x ${UI_DIR}/search_results.ui -o ${BUILD_DIR}/search_results.py
-	pyuic4 -x ${UI_DIR}/search_quick.ui -o ${BUILD_DIR}/search_quick.py
-	pyuic4 -x ${UI_DIR}/collection_items.ui -o ${BUILD_DIR}/collection_items.py
-	pyuic4 -x ${UI_DIR}/plugins.ui -o ${BUILD_DIR}/plugins.py
-	pyuic4 -x ${UI_DIR}/toolbar.ui -o ${BUILD_DIR}/toolbar.py
-	pyuic4 -x ${UI_DIR}/topbar.ui -o ${BUILD_DIR}/topbar.py
-	pyuic4 -x ${UI_DIR}/properties.ui -o ${BUILD_DIR}/properties.py
-	pyuic4 -x ${UI_DIR}/field_details.ui -o ${BUILD_DIR}/field_details.py
-	pyuic4 -x ${UI_DIR}/file_data.ui -o ${BUILD_DIR}/file_data.py
+	pyuic4 ${UI_DIR}/mainWindow.ui -o ${BUILD_DIR}/mainWindow.py
+	pyuic4 ${UI_DIR}/dashboard.ui -o ${BUILD_DIR}/dashboard.py
+	pyuic4 ${UI_DIR}/fitxa.ui -o ${BUILD_DIR}/fitxa.py
+	pyuic4 ${UI_DIR}/fitxa_edit.ui -o ${BUILD_DIR}/fitxa_edit.py
+	pyuic4 ${UI_DIR}/search_results.ui -o ${BUILD_DIR}/search_results.py
+	pyuic4 ${UI_DIR}/search_quick.ui -o ${BUILD_DIR}/search_quick.py
+	pyuic4 ${UI_DIR}/collection_items.ui -o ${BUILD_DIR}/collection_items.py
+	pyuic4 ${UI_DIR}/plugins.ui -o ${BUILD_DIR}/plugins.py
+	pyuic4 ${UI_DIR}/toolbar.ui -o ${BUILD_DIR}/toolbar.py
+	pyuic4 ${UI_DIR}/topbar.ui -o ${BUILD_DIR}/topbar.py
+	pyuic4 ${UI_DIR}/properties.ui -o ${BUILD_DIR}/properties.py
+	pyuic4 ${UI_DIR}/field_details.ui -o ${BUILD_DIR}/field_details.py
+	pyuic4 ${UI_DIR}/file_data.ui -o ${BUILD_DIR}/file_data.py
 
 
 resources:
