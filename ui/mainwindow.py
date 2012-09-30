@@ -4,7 +4,7 @@
 # E1101: Module 'PyQt4.QtCore' has no 'SIGNAL' member
 # W0403: relative import
 """Collector main window"""
-
+import logging
 from PyQt4 import QtCore, QtGui
 from gen.mainWindow import Ui_MainWindow
 from views.dashboard import DashboardView
@@ -102,6 +102,8 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
             raise ViewNotFound('View "%s" not found' % name)
         if params is None:
             params = {}
+        logging.debug("Called display view, URI:" +
+                      self.viewcall2collectoruri(name, params))
         self.views[name].run(params)
 
     def switch_fullscreen(self):
@@ -118,6 +120,14 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
                 self.showMaximized()
             else:
                 self.showNormal()
+
+    def viewcall2collectoruri(self, view, params):
+        """Transform a view plus params in a uri"""
+        base = 'collector://view/' + view
+        if params is not None:
+            for param in params.items():
+                base += '/' + param[0] + "/" + str(param[1])
+        return base
 
     def collector_uri_call(self, uri):
         """Transforms an URI and launches the correct collector action."""
