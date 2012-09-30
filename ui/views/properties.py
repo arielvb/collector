@@ -68,7 +68,10 @@ class PropertiesWidget(QtGui.QDialog, Ui_Properties):
 
         for collection in self.collection.collections.values():
             # Files
-            list_item = QtGui.QListWidgetItem(collection.getName())
+            c_name = collection.getName()
+            list_item = QtGui.QListWidgetItem(c_name)
+            self.last_entry_combo.addItem(c_name)
+            self.new_entry_combo.addItem(c_name)
             icon = collection.schema.image
             if icon is None:
                 icon = ':/folder.png'
