@@ -4,6 +4,8 @@
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtNetwork import QNetworkAccessManager, QNetworkRequest
 
+from ui.gen.file_selector import Ui_FileSelector
+
 from abc import *
 
 try:
@@ -48,6 +50,7 @@ class FieldTextWidget(FieldWidget):
     def prepareWidgetEdit(self, parent, value):
         widget = QtGui.QLineEdit(parent)
         try:
+            # TODO custom widget for Int values
             if isinstance(value, int):
                 value = str(value)
             widget.setText(_fromUtf8(value))
@@ -88,6 +91,34 @@ class ImageWidget(QtGui.QLabel):
         self.setPixmap(scaled)
 
 
+class FileSelector(QtGui.QWidget, Ui_FileSelector):
+    """A file selector implementation"""
+
+    def __init__(self, parent=None, filter_=None):
+        super(FileSelector, self).__init__(parent)
+        self.filter = filter_
+        self.setupUi(self)
+        self.connect(
+            self.dialog,
+            QtCore.SIGNAL(_fromUtf8("clicked()")),
+            lambda: self.open_dialog())
+
+    def setText(self, text):
+        """Sets the path for the file"""
+        #TODO this is a slot
+        self.path.setText(text)
+
+    def text(self):
+        return self.path.text()
+
+    def open_dialog(self, filter=None):
+        file_name = QtGui.QFileDialog.getOpenFileName(self,
+                "Choose file",
+                self.path.text(),
+                self.filter)
+        self.setText(file_name)
+
+
 class FieldImageWidget(FieldWidget):
 
     def prepareWidget(self, parent, value):
@@ -97,9 +128,8 @@ class FieldImageWidget(FieldWidget):
 
     def prepareWidgetEdit(self, parent, value):
         #TODO this widget must be a file selector
-        widget = QtGui.QLineEdit(parent)
-        value = str(value)
-        widget.setText(_fromUtf8(value))
+        widget = FileSelector(parent, 'Images (*.jpg *.png)')
+        widget.setText(value)
         return widget
 
 
@@ -141,7 +171,7 @@ class FieldWidgetManager(object):
 
 
 def main():
-    aa = FieldWidgetManager()
+    manager = FieldWidgetManager()
 
 if __name__ == '__main__':
     main()

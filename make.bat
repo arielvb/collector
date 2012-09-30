@@ -29,6 +29,8 @@ if "%1" == "" (
     call %PYQT_PATH%\pyuic4 -x %UI_DIR%\topbar.ui -o %BUILD_DIR%\topbar.py
     call %PYQT_PATH%\pyuic4 -x %UI_DIR%\properties.ui -o %BUILD_DIR%\properties.py
     call %PYQT_PATH%\pyuic4 -x %UI_DIR%\field_details.ui -o %BUILD_DIR%\field_details.py
+    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\file_selector.ui -o %BUILD_DIR%\file_selector.py
+
     :: Resources
     call %PYQT_PATH%\pyrcc4 -o %BUILD_DIR%\resources_rc.py %UI_DIR%\resources.qrc
     call %PYQT_PATH%\pyrcc4 -o %BUILD_DIR%\lang_rc.py %UI_DIR%\lang.qrc
