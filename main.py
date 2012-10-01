@@ -9,10 +9,12 @@ import sip
 sip.setapi('QVariant', 2)
 from ui.application import CollectorApplication
 
+# The logging format
+FORMAT = '%(asctime)s - %(levelname)s - %(message)s'
+
 
 def main():
     """ Starts the application"""
-    FORMAT = '%(asctime)s - %(levelname)s - %(message)s'
 
     logging.basicConfig(
         filename='collector.log',
