@@ -17,7 +17,7 @@ class PluginBoardGameGeek(PluginCollector):
     name = 'Boardgamegeek'
     description = "Search and import Boardgames from the BGG website."
 
-    schema = Schema({
+    schema = Schema('plugin_bgg', 'boardgames', {
             'name': 'Boardgamegeek',
             'fields': {
                 'title': {
