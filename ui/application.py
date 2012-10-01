@@ -23,12 +23,13 @@ class CollectorApplication(QtGui.QApplication):
         self.splash = SplashScreen()
         self.splash.show()
         self.processEvents()
-        __import__("ui.gen.lang_rc")
-        self.load_translations(":/lang")
         # Launch collector
         self.collector = Collector()
         man = self.collector.get_manager('plugin')
-        from PyQt4.Qt import qDebug; qDebug(str(man.get_enabled()))
+
+        __import__("ui.gen.lang_rc")
+        self.load_translations(":/lang")
+
         # Create main window
         self.main = MainWindow()
 
@@ -79,9 +80,14 @@ class CollectorApplication(QtGui.QApplication):
                     CollectorApplication.translators[locale] = translator
 
         system = QtCore.QLocale.system()
-
+        # Get user language from collector.conf
+        user_language = self.collector.conf('lang')
+        # if user_language is ':system:' or is empty, use the system language
+        if user_language in [':system:', '']:
+            user_language = system.name()
+        # Look if the user_language exists, then set as current language
         for lang in CollectorApplication.available_languages():
-            if str(lang) == system.name():
+            if str(lang) == user_language:
                 # language match the current system
                 CollectorApplication.set_language(lang)
 
