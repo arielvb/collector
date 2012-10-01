@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from engine.config import Config
-from os import path
 config = Config.get_instance()
 BASE_PATH = 'collector://collections/demo'
 
@@ -8,18 +7,18 @@ BASE_PATH = 'collector://collections/demo'
 boardgames = [
     {
         'id': 1,
-        'name': 'The Pillars of the Earth',
-        'year': "2007",
-        'designer': ['people:1', 'peope:2'],
-        'artist': ['people:3', 'people:4', 'people:5'],
+        'title': 'The Pillars of the Earth',
+        'year': 2007,
+        'designer': [1, 2],
+        'artist': [3, 4, 5],
         'image': BASE_PATH + '/pilares.jpg'
     },
     {
         'id': 2,
-        'name': 'Coney Island',
-        'year': "2010",
-        'designer': ['people:6'],
-        'artist': ['people:7'],
+        'title': 'Coney Island',
+        'year': 2010,
+        'designer': [6],
+        'artist': [7],
         'image': BASE_PATH + '/coney-island.jpg'
     }
 ]
@@ -46,7 +45,7 @@ collections = {
             'boardgames': {
                 'name': 'Boardgames',
                 'fields': {
-                    'name': {'class': 'text', 'name': 'Title'},
+                    'title': {'class': 'text', 'name': 'Title'},
                     'year': {'class': 'int', 'name': 'Year'},
                     'designer': {'class': 'ref', 'name': 'Designer/s',
                                  'multiple': True,
@@ -57,8 +56,8 @@ collections = {
                     'image': {'class': 'image', 'name': 'Image'},
                     'originalidea': {'class': 'text', 'name': 'Original Idea'}
                 },
-                'default': 'name',
-                'order': ['name', 'year', 'designer', 'artist',
+                'default': 'title',
+                'order': ['title', 'year', 'designer', 'artist',
                           'image', 'originalidea'],
                 'image': ':/boards.png',
                 'ico': ':ico/boards.png'
@@ -81,6 +80,7 @@ collections = {
         },
         'persistence': {
             'storage': 'pickle',
+           # 'storage': 'sqlalchemy',
             # 'parameters': {'boardgames': boardgames, 'people': people}
         }
     }
