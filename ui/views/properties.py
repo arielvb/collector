@@ -70,6 +70,7 @@ class PropertiesWidget(QtGui.QDialog, Ui_Properties):
             # Files
             c_name = collection.getName()
             list_item = QtGui.QListWidgetItem(c_name)
+            self.search_combo.addItem(c_name)
             self.last_entry_combo.addItem(c_name)
             self.new_entry_combo.addItem(c_name)
             icon = collection.schema.image

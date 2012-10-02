@@ -4,6 +4,8 @@ from PyQt4 import QtCore, QtGui
 from ui.gen.fitxa_edit import Ui_Form
 from ui.helpers.customtoolbar import CustomToolbar, Topbar
 from ui.widgetprovider import WidgetProvider
+from ui.helpers.fields import FieldWidgetManager
+
 from PyQt4.Qt import qDebug
 
 try:
@@ -20,6 +22,8 @@ class Ui_Fitxa_New(QtGui.QWidget, Ui_Form):
         if flags is None:
             flags = QtCore.Qt.WindowFlags(0)
         super(Ui_Fitxa_New, self).__init__(parent, flags)
+        self.man = FieldWidgetManager.get_instance()
+
         self.item = None
         self.collection = self.parent().collection.getCollection(collection)
         self.setupUi()
@@ -37,46 +41,34 @@ class Ui_Fitxa_New(QtGui.QWidget, Ui_Form):
 
         self.fitxa_fields = {}
         for field in schema.order:
-            widgets = self.createField(schema.fields[field]['name'], '')
+            field_obj = schema.get_field(field)
+            widgets = self.createField(field_obj, '')
             self.fitxa_fields[field] = widgets
 
-    def createLabel(self, text, label=False):
+    def createLabel(self, text):
         item = QtGui.QLabel(self)
-        if label:
-            item.setFont(self.fontLabel)
-        else:
-            item.setTextInteractionFlags(
-                QtCore.Qt.LinksAccessibleByMouse |
-                QtCore.Qt.TextSelectableByMouse)
+        item.setFont(self.fontLabel)
         item.setText(text)
         item.setObjectName(_fromUtf8(text))
         return item
 
-    def createLineEdit(self, text, label=False):
-        item = QtGui.QLineEdit(self)
-        item.setText(text)
-        item.setObjectName(_fromUtf8(text))
-        return item
-
-    def createField(self, label, text):
+    def createField(self, field, value):
         columnspan = 1
         column = 0
         rowspan = 1
-        itemLabel = self.createLabel(label, True)
-        # TODO image schema must allow choose file from the os
-        # usign QtGui.QFileDialog()
-        self.fieldsLayout.addWidget(itemLabel,
-                                    self.row, column, rowspan, columnspan)
+        itemLabel = self.createLabel(field.name)
+        self.fieldsLayout.addWidget(itemLabel, self.row, column,
+                                    rowspan, columnspan)
         column += 1
-        if not isinstance(text, list):
-            text = [text]
-        # If is allowed multiple values for each field, an iteration is needed
+        if not isinstance(value, list):
+            value = [value]
         widgets = []
-        for i in text:
-            item = self.createLineEdit(i)
+        for i in value:
+            item = self.man.get_widget(field, self,
+                                   i, True)
             widgets.append(item)
-            self.fieldsLayout.addWidget(item,
-                                        self.row, column, rowspan, columnspan)
+            self.fieldsLayout.addWidget(item, self.row, column,
+                                        rowspan, columnspan)
             self.row += 1
         self.row += 1
         return widgets
@@ -107,10 +99,16 @@ class Ui_Fitxa_New(QtGui.QWidget, Ui_Form):
         data = {}
         for field in schema.order:
             fields = self.fitxa_fields[field]
-            values = [str(value.text()) for value in fields]
+            values = []
+            for widget in fields:
+                value = widget.text()
+                if isinstance(value, QtCore.QString):
+                    value = str(value)
+                values.append(value)
             if not schema.isMultivalue(field):
                 values = values[0]
             data[field] = values
+        from PyQt4.Qt import qDebug; qDebug(str(data))
         self.collection.save(data)
         self.parent().display_view('fitxa',
                                   {'item': data['id'],

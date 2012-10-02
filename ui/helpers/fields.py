@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 
-# TODO all the widgets for all the fields
+# TODO refractor this file must contain for each field:
+#  (provider, widget)
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtNetwork import QNetworkAccessManager, QNetworkRequest
-
+from engine.collection import CollectionManager
 from ui.gen.file_selector import Ui_FileSelector
+from ui.gen.widget_ref import Ui_Reference
+
 
 from abc import *
 
@@ -19,23 +22,23 @@ class FieldWidget:
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    def prepareWidget(self, parent, value):
+    def prepareWidget(self, parent, field, value):
         """Preperes a new widget in edit mode"""
 
     @abstractmethod
-    def prepareWidgetEdit(cls, parent, value):
+    def prepareWidgetEdit(cls, parent, field, value):
         """Preperes a new widget in edit mode"""
 
-    def getWidget(self, parent, value):
-        return self.prepareWidget(parent, value)
+    def getWidget(self, parent, field, value):
+        return self.prepareWidget(parent, field, value)
 
-    def getWidgetEdit(self, parent, value):
-        return self.prepareWidgetEdit(parent, value)
+    def getWidgetEdit(self, parent, field, value):
+        return self.prepareWidgetEdit(parent, field, value)
 
 
 class FieldTextWidget(FieldWidget):
 
-    def prepareWidget(self, parent, value):
+    def prepareWidget(self, parent, field, value):
         widget = QtGui.QLabel(parent)
         widget.setTextInteractionFlags(QtCore.Qt.LinksAccessibleByMouse |
                                    QtCore.Qt.TextSelectableByMouse)
@@ -47,7 +50,7 @@ class FieldTextWidget(FieldWidget):
             widget.setText("Error")
         return widget
 
-    def prepareWidgetEdit(self, parent, value):
+    def prepareWidgetEdit(self, parent, field, value):
         widget = QtGui.QLineEdit(parent)
         try:
             # TODO custom widget for Int values
@@ -121,16 +124,94 @@ class FileSelector(QtGui.QWidget, Ui_FileSelector):
 
 class FieldImageWidget(FieldWidget):
 
-    def prepareWidget(self, parent, value):
+    def prepareWidget(self, parent, field, value):
         widget = ImageWidget(parent)
         widget.set_image(value, 250, 250)
         return widget
 
-    def prepareWidgetEdit(self, parent, value):
+    def prepareWidgetEdit(self, parent, field, value):
         #TODO this widget must be a file selector
         widget = FileSelector(parent, 'Images (*.jpg *.png)')
         widget.setText(value)
         return widget
+
+
+class ReferenceWidget(QtGui.QWidget, Ui_Reference):
+    """ReferenceWidget, the edit widget for reference fields"""
+
+    def __init__(self, field, value, parent=None):
+        super(ReferenceWidget, self).__init__(parent)
+        self.man = CollectionManager.get_instance()
+        self.field = field
+        self.setupUi(self)
+        self.values = []
+        self.reload(value)
+
+    def text(self):
+        currentIndex = self.comboBox.currentIndex()
+        value = ''
+        if currentIndex > 0:
+            id_ = self.values[currentIndex].id
+            value = id_
+            return int(value)
+        return ''
+
+    def reload(self, value):
+        """Reloads the content of the widget"""
+        collection_id = self.field.ref_collection
+        dst_field = self.field.ref_field
+        dst_collection = self.man.get_collection(collection_id)
+        contents = dst_collection.get_all()
+        self.comboBox.clear()
+        self.values.append('')
+        self.comboBox.addItem('')
+        # TODO maybe is more eficinet use QStringList
+        i = 1
+        for reference in contents:
+            # TODO we need to store the object, because if the field is empty??
+            # or whe must make the field required in the dst collection?
+            self.values.append(reference)
+            item = reference[dst_field]
+            self.comboBox.addItem(item)
+            if reference['id'] == value:
+                self.comboBox.setCurrentIndex(i)
+            i += 1
+
+
+class FiedlReferenceWidget(FieldTextWidget):
+
+    def prepareWidgetEdit(self, parent, field, value):
+        #TODO this widget must be a file selector
+        widget = ReferenceWidget(field, value, parent)
+        return widget
+
+
+class IntWidget(QtGui.QSpinBox):
+
+    def __init__(self, parent=None):
+        super(IntWidget, self).__init__(parent)
+        self.setMaximum(9999)
+        self.setMinimum(-9999)
+
+    def setValue(self, value):
+        if isinstance(value, (str, unicode)):
+            if value == '':
+                value = 0
+            value = int(value)
+        super(IntWidget, self).setValue(value)
+
+    def text(self):
+        value = int(super(IntWidget, self).text())
+        return value
+
+
+class FieldIntWidget(FieldTextWidget):
+
+    def prepareWidgetEdit(self, parent, field, value):
+        #TODO this widget must be a file selector
+        w = IntWidget(parent)
+        w.setValue(value)
+        return w
 
 
 class FieldWidgetManager(object):
@@ -145,6 +226,8 @@ class FieldWidgetManager(object):
         self.default = FieldTextWidget()
         self.register['text'] = self.default
         self.register['image'] = FieldImageWidget()
+        self.register['ref'] = FiedlReferenceWidget()
+        self.register['int'] = FieldIntWidget()
 
     @staticmethod
     def get_instance():
@@ -155,19 +238,20 @@ class FieldWidgetManager(object):
     def get(self, id_):
         return self.register[id_]
 
-    def get_widget(self, id_, parent, value, edit=False):
+    def get_widget(self, field, parent, value, edit=False):
         provider = self.default
+        id_ = field._class
         if id_ in self.register:
             provider = self.register[id_]
         widget = None
         if not edit:
-            widget = provider.getWidget(parent, value)
+            widget = provider.getWidget(parent, field, value)
         else:
-            widget = provider.getWidgetEdit(parent, value)
+            widget = provider.getWidgetEdit(parent, field, value)
         return widget
 
-    def add(self, id, field):
-        self.register[id] = field
+    def add(self, field_type, widget_provider):
+        self.register[field_type] = widget_provider
 
 
 def main():

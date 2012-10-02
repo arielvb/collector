@@ -38,7 +38,6 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
         if flags is None:
             flags = QtCore.Qt.WindowFlags(0)
         super(Ui_Dashboard, self).__init__(parent, flags)
-        global dashboard_settings
         self.settings = self.get_dashboard_settings()
         self.setupUi()
 
@@ -56,17 +55,21 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
                  'image': image}
                 )
         # TODO allow personalization of the new entry button?
-        main_collection = collections.values()[0]
-        items.extend([
-            {'class': 'spacer'},
-            {'class': 'line'},
-            {'class': 'link',
-             'name': str(self.tr('New <b>%s</b>')) % main_collection.getName(),
-             'path': 'view/add/collection/' + main_collection.name,
-             'image': ':/add.png'}
-        ])
+        if len(collections) > 0:
+            main_collection = collections.values()[0]
+            settings['lastcollection'] = main_collection.name
+            items.extend([
+                {'class': 'spacer'},
+                {'class': 'line'},
+                {'class': 'link',
+                 'name': str(self.tr('New <b>%s</b>')) % main_collection.getName(),
+                 'path': 'view/add/collection/' + main_collection.name,
+                 'image': ':/add.png'}
+            ])
+        else:
+            settings['lastcollection'] = None
+
         settings['items'] = items
-        settings['lastcollection'] = main_collection.name
         return settings
 
     def setupUi(self):
@@ -74,7 +77,7 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
         This function overrides the Ui_Form function creating thinks that
         aren't easy to do with the QT Designer"""
         super(Ui_Dashboard, self).setupUi(self)
-        self.loadLastGames(self.listWidget)
+        self.last_files(self.listWidget)
         self.bSearch.connect(
             self.bSearch,
             QtCore.SIGNAL(_fromUtf8("clicked()")),
@@ -103,15 +106,19 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
     def _toolbarCallback(self, uri):
         self.parent().collector_uri_call(uri)
 
-    def loadLastGames(self, listContainer):
-        collection = self.parent().collection.getCollection(
-            self.settings['lastcollection'])
-        label = collection.getName()
-        self.lLastItems.setText(str(self.tr("Last %s")) % label)
-        lastObjects = collection.getLast()
-        for i in lastObjects:
-            item = FitxaListItem(i['id'], i['name'])
-            listContainer.addItem(item)
+    def last_files(self, listContainer):
+        collection_id = self.settings['lastcollection']
+        if collection_id is not None:
+            collection = self.parent().collection.getCollection(collection_id)
+            label = collection.getName()
+            self.lLastItems.setText(str(self.tr("Last %s")) % label)
+            lastObjects = collection.getLast()
+            for i in lastObjects:
+                text = i[collection.schema.default]
+                item = FitxaListItem(i['id'], text != '' and text or str(self.tr('Entry %d')) % i['id'] )
+                listContainer.addItem(item)
+        else:
+            self.lLastItems.setText(self.tr("Warning: No collection available!"))
 
 
 class DashboardView():

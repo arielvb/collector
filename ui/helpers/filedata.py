@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from PyQt4 import QtCore, QtGui
-from PyQt4.QtNetwork import QNetworkAccessManager, QNetworkRequest
 
 from ui.gen.file_data import Ui_Form
 from ui.helpers.fields import FieldWidgetManager
@@ -28,25 +27,25 @@ class FileDataWidget(QtGui.QWidget, Ui_Form):
         self.fontLabel.setWeight(75)
         self.setupUi()
 
-    def createLabel(self, text, label=False):
-        #item = QtGui.QLabel(self)
-        item = self.man.get_widget('text', self, text)
-        if label:
-            item.setFont(self.fontLabel)
+    def createLabel(self, text):
+        item = QtGui.QLabel(self)
+        item.setText(text)
+        item.setFont(self.fontLabel)
         return item
 
     def createField(self, field, value):
         columnspan = 1
         column = 0
         rowspan = 1
-        itemLabel = self.createLabel(field.name, True)
+        itemLabel = self.createLabel(field.name)
         self.fieldsLayout.addWidget(itemLabel, self.row, column,
                                     rowspan, columnspan)
         column += 1
         if not isinstance(value, list):
             value = [value]
         for i in value:
-            item = self.createLabel(i)
+            item = self.man.get_widget(field, self,
+                                   i, False)
             self.fieldsLayout.addWidget(item, self.row, column,
                                         rowspan, columnspan)
             self.row += 1
@@ -72,5 +71,5 @@ class FileDataWidget(QtGui.QWidget, Ui_Form):
             image = schema.get_field('image')
             image.set_value(src)
             path = image.get_value()
-            widget = self.man.get_widget('image', self, path)
+            widget = self.man.get_widget(image, self, path)
             self.image_layout.addWidget(widget)

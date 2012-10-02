@@ -96,7 +96,7 @@ class Ui_Search(QWidget, Ui_Form):
     def addResults(self, listResults):
         """Adds the each elelemt of listResults to the results list widget"""
         for result in listResults:
-            item = FitxaListItem(result['id'], result['name'])
+            item = FitxaListItem(result['id'], result['title'])
             self.listWidget.addItem(item)
             del item
         self.results.extend(listResults)
