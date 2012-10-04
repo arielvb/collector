@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import unittest
 from engine.persistence import PersistenceDict
+from engine.fields import *
+from engine.schema import Schema
 import sqlalchemy
 from mocks import boardgames
 from engine.persistence_sql import Alchemy, PersistenceAlchemy
@@ -40,7 +42,10 @@ class TestAlchemy(unittest.TestCase):
 
     def setUp(self):
         Alchemy.destroy()
+        # To enable the echo option of SQLAlchemy just change this to True
+        Alchemy.echo = False
         self.alchemy = Alchemy()
+
 
     def tearDown(self):
         Alchemy.destroy()
@@ -69,33 +74,158 @@ class TestAlchemy(unittest.TestCase):
 class TestPersistenceAlchemy(unittest.TestCase):
 
     def setUp(self):
-        field = type("Field", (object, ), {'name': '', '_class': '',
-                           'get_id': lambda s: 'field1'})
-        field1 = field()
-        field1.name = 'Name'
-        field1._class = 'ref'
+        field1 = FieldText('Name')
 
-        self.schema = type("Schema", (object,), {'collection': 'test',
-                           'id': 'browser',
-                           'file': {'field1': field1}})
+        self.schema = Schema('test', 'browser')
+        self.schema.add_field(field1)
+        self.pers = PersistenceAlchemy(self.schema, ':memory:')
 
     def test_add_using_memory(self):
         """Using :memory: no file is create in the filesystem"""
-        pers = PersistenceAlchemy(self.schema(), ':memory:')
+        pers = self.pers
+        pers.all_created()
         nuevo = pers._class({'name': 'No, gracias'})
         pers._session.add(nuevo)
         pers._session.commit()
         self.assertEqual(nuevo.id, 1)
         result = pers._session.query(pers._class).first()
-        # self.assertEqual(nuevo, result)
+        self.assertEqual(nuevo, result)
 
     def test_add_using_save(self):
-        pers = PersistenceAlchemy(self.schema(), ':memory:')
-
-        result = pers.save({'name': 'John'})
-        self.assertEqual(result.name, 'John')
+        pers = self.pers
+        pers.all_created()
+        obj = pers.save({'name': 'John'})
+        self.assertEqual(obj.name, 'John')
+        self.assertEqual(obj.id, 1)
         result = pers._session.query(pers._class).first()
+        self.assertEquals(obj, result)
 
+    def test_search(self):
+        pers = self.pers
+        pers.all_created()
+        pers.save({'name': 'John'})
+        pers.save({'name': 'Jonas'})
+        pers.save({'name': 'Ralph'})
+        # lower
+        results = pers.search('jo')
+        names = [i.name for i in results]
+        self.assertEquals(names, [u'John', u'Jonas'])
+        # upper
+        results = pers.search('JO')
+        names = [i.name for i in results]
+        self.assertEquals(names, [u'John', u'Jonas'])
+        # exact
+        results = pers.search('Jo')
+        names = [i.name for i in results]
+        self.assertEquals(names, [u'John', u'Jonas'])
+
+    def test_text_multivalue(self):
+
+        field1 = FieldText('Name', True)
+
+        schema = Schema('test', 'boardgames')
+        schema.add_field(field1)
+        pers = PersistenceAlchemy(schema, ':memory:')
+        pers.all_created()
+
+        obj = pers.save({'name': ['Rufus', 'Karl']})
+        self.assertEquals(obj.name, ['Rufus', 'Karl'])
+
+        # Also you can append a name after construct
+        obj.name.append('Julius')
+        self.assertEquals(obj.name, ['Rufus', 'Karl', 'Julius'])
+        # Update the existing entry
+        obj2 = pers.save({'name': 'Homer', 'id': obj.id})
+        self.assertEquals(obj.name, ['Homer'])
+        # The first object and the last are the same
+        self.assertEqual(obj, obj2)
+
+    def test_int_multivalue(self):
+
+        field1 = FieldInt('Count', True)
+
+        schema = Schema('test', 'boardgames')
+        schema.add_field(field1)
+        pers = PersistenceAlchemy(schema, ':memory:')
+        pers.all_created()
+        obj = pers.save({'count': [1, 2]})
+        self.assertEquals(obj.count, [1, 2])
+
+    def tearDown(self):
+        Alchemy.destroy()
+
+
+class TestPersistenceAlchemyReferences(unittest.TestCase):
+
+    def setUp(self):
+        field1 = FieldText('Name')
+
+        schema = Schema('test', 'browser')
+        schema.add_field(field1)
+        self.pers = PersistenceAlchemy(schema, ':memory:')
+        field2 = FieldRef('Designer', params={'ref': 'browser.name'})
+
+        field1 = FieldText('Name')
+
+        field3 = FieldRef('Artist', params={'ref': 'browser.name'})
+
+        schema = Schema('test', 'designers')
+        schema.add_field(field1)
+        schema.add_field(field2)
+        schema.add_field(field3)
+
+        self.pers2 = PersistenceAlchemy(schema, ':memory:')
+        self.pers2.all_created()
+        self.pers.save({'name': 'John'})
+        self.pers.save({'name': 'Julius'})
+
+    def test_ref_save(self):
+        pers2 = self.pers2
+        ref = pers2.save({'name': 'Game1', 'designer': 1, 'artist': 2})
+        self.assertEqual(ref.name, 'Game1')
+        self.assertEqual(ref.designer, 1)
+        self.assertEqual(ref.designer_relation.name, 'John')
+        db = pers2.engine.execute("SELECT * FROM designers").fetchall()
+        self.assertEquals(db, [(1, 1, u'Game1', 2)])
+
+    def test_ref_update_existing(self):
+        pers2 = self.pers2
+        ref = pers2.save({'name': 'Game1', 'designer': 1, 'artist': 2})
+        new_value = {'id': ref.id, 'name': 'Pilares',
+                     'designer': 2, 'artist': 1}
+        pers2.save(new_value)
+        db = pers2.engine.execute("SELECT * FROM designers").fetchall()
+        self.assertEquals(db, [(1, 2, u'Pilares', 1)])
+
+    def test_ref_load_references(self):
+        pers2 = self.pers2
+        ref = pers2.save({'name': 'Game1', 'designer': 1, 'artist': 2})
+        ref_loaded = pers2.load_references(None, ref)
+        self.assertEquals(ref_loaded, {'refLoaded': True, 'designer': u'John',
+                                       'name': u'Game1', 'artist': u'Julius'})
+
+    def test_ref_multivalue(self):
+        field2 = FieldRef('Designer',
+                          multiple=True,
+                          params={'ref': 'browser.name'})
+
+        field1 = FieldText('Name')
+
+        schema = Schema('test', 'designers')
+        schema.add_field(field1)
+        self.assertRaises(Exception, PersistenceAlchemy, [schema, ':memory:'])
+        # pers2.all_created()
+        # person1 = self.pers.save({'name': 'John'})
+        # person2 = self.pers.save({'name': 'Julius'})
+        # ref = pers2.save({'name': 'Game1'})
+        # ref.designer_relation.append(person2)
+        # self.assertEqual(ref.name, 'Game1')
+        # self.assertEqual(ref.designer, '[1, 2]')
+        # db = pers2.engine.execute("SELECT * FROM designers").fetchall()
+        # self.assertEquals(db, [(1, '[1, 2]', u'Game1')])
+
+    def tearDown(self):
+        Alchemy.destroy()
 
 
 if __name__ == '__main__':
