@@ -37,7 +37,7 @@ class Worker_Search(QThread):
     def run(self):
         self.error = None
         man = CollectionManager.get_instance()
-        collection = man.getCollection('boardgames')
+        collection = man.get_collection('boardgames')
         self.results = collection.query(self.params['query'])
         self.searchComplete.emit(WorkerResult(STATUS_OK, self.results))
 

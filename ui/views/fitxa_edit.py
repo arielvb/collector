@@ -23,7 +23,7 @@ class Ui_Fitxa_Edit(QtGui.QWidget, Ui_Form):
         super(Ui_Fitxa_Edit, self).__init__(parent, flags)
         self.man = FieldWidgetManager.get_instance()
         self.item = item
-        self.collection = self.parent().collection.getCollection(collection)
+        self.collection = self.parent().collection.get_collection(collection)
         # Obtain the object
         self.obj = self.collection.get(item)
 
@@ -94,7 +94,7 @@ class Ui_Fitxa_Edit(QtGui.QWidget, Ui_Form):
             elif action == 'cancel':
                 self.parent().display_view(
                     'fitxa',
-                    {'item': self.item, 'collection': self.collection.name})
+                    {'item': self.item, 'collection': self.collection.get_id()})
 
     def save(self):
         schema = self.collection.schema
@@ -108,7 +108,7 @@ class Ui_Fitxa_Edit(QtGui.QWidget, Ui_Form):
                 if isinstance(value, QtCore.QString):
                     value = str(value)
                 values.append(value)
-            if not schema.isMultivalue(field):
+            if not field_obj.is_multivalue():
                 values = values[0]
             data[field_obj.get_id()] = values
         data['id'] = self.obj['id']
@@ -116,7 +116,7 @@ class Ui_Fitxa_Edit(QtGui.QWidget, Ui_Form):
         self.collection.save(data)
         self.parent().display_view(
             'fitxa',
-            {'item': data['id'], 'collection': self.collection.name})
+            {'item': data['id'], 'collection': self.collection.get_id()})
 
 
 class FitxaEditView(WidgetProvider):

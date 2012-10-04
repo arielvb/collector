@@ -19,13 +19,13 @@ class DetailsWidget(QtGui.QWidget, Ui_FieldDetails):
         if flags is None:
             flags = QtCore.Qt.WindowFlags(0)
         super(DetailsWidget, self).__init__(parent, flags)
-        # self.collection = self.parent().collection.getName()
+        # self.collection = self.parent().collection.get_id()
         self.setupUi(self)
 
     @QtCore.pyqtSlot(str, str, bool)
     def updateDetails(self, name, type, multivalue):
         self.detail_name.setText(name)
-        self.detail_class.setText(type)
+        self.detailclass_.setText(type)
         # self.detail_value.hide()
         value = ''
         if multivalue:
@@ -43,7 +43,7 @@ class PropertiesWidget(QtGui.QDialog, Ui_Properties):
         if flags is None:
             flags = QtCore.Qt.WindowFlags(0)
         super(PropertiesWidget, self).__init__(parent, flags)
-        # self.collection = self.parent().collection.getName()
+        # self.collection = self.parent().collection.get_id()
         self.collection = self.parent().collection
         self.setupUi()
 
@@ -68,7 +68,7 @@ class PropertiesWidget(QtGui.QDialog, Ui_Properties):
 
         for collection in self.collection.collections.values():
             # Files
-            c_name = collection.getName()
+            c_name = collection.get_id()
             list_item = QtGui.QListWidgetItem(c_name)
             self.search_combo.addItem(c_name)
             self.last_entry_combo.addItem(c_name)

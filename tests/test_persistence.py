@@ -84,11 +84,11 @@ class TestPersistenceAlchemy(unittest.TestCase):
         """Using :memory: no file is create in the filesystem"""
         pers = self.pers
         pers.all_created()
-        nuevo = pers._class({'name': 'No, gracias'})
+        nuevo = pers.class_({'name': 'No, gracias'})
         pers._session.add(nuevo)
         pers._session.commit()
         self.assertEqual(nuevo.id, 1)
-        result = pers._session.query(pers._class).first()
+        result = pers._session.query(pers.class_).first()
         self.assertEqual(nuevo, result)
 
     def test_add_using_save(self):
@@ -97,7 +97,7 @@ class TestPersistenceAlchemy(unittest.TestCase):
         obj = pers.save({'name': 'John'})
         self.assertEqual(obj.name, 'John')
         self.assertEqual(obj.id, 1)
-        result = pers._session.query(pers._class).first()
+        result = pers._session.query(pers.class_).first()
         self.assertEquals(obj, result)
 
     def test_search(self):

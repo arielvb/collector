@@ -21,14 +21,14 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
         super(Ui_Fitxa, self).__init__(parent, flags)
         # TODO obtain full item, not only the title
         self.item = item
-        self.collection = self.parent().collection.getCollection(collection)
+        self.collection = self.parent().collection.get_collection(collection)
         self.setupUi()
 
     def setupUi(self):
         super(Ui_Fitxa, self).setupUi(self)
         item = self.item
         obj = self.collection.get(item)
-        obj = self.collection.loadReferences(obj)
+        obj = self.collection.load_references(obj)
         self.fontLabel = QtGui.QFont()
         self.fontLabel.setBold(True)
         self.fontLabel.setWeight(75)
@@ -47,7 +47,7 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
             {'class':'link', 'name': self.tr('Dashboard'),
              'path': 'view/dashboard', 'image': ':/dashboard.png'},
             {'class':'link', 'name': self.collection.schema.name,
-             'path': 'view/collection/collection/' + self.collection.name,
+             'path': 'view/collection/collection/' + self.collection.get_id(),
              'image': ':/boards.png'},
             {'class': 'spacer'},
             {'class': 'line'},
@@ -57,7 +57,7 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
             # {'class':'link', 'name': 'Delete', 'path': 'action/delete',
              # 'image': ':/delete.png'},
             # {'class':'link', 'name': 'Edit', 'path': 'view/edit/collection/' +
-            #  self.collection.name + '/item/' + str(self.item),
+            #  self.collection.get_id() + '/item/' + str(self.item),
             #  'image': ':/edit.png'},
         ]
         CustomToolbar(self.toolbar, quick, self._linkactivated)
@@ -68,7 +68,7 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
             statusTip=self.tr("Edit file"),
             triggered=lambda: self.parent().display_view(
                 'edit',
-                params={"collection": self.collection.name,
+                params={"collection": self.collection.get_id(),
                         "item": str(self.item)}))
         )
         menu.addAction(QtGui.QAction(
@@ -76,6 +76,12 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
             self.tr("Delete"), self,
             statusTip=self.tr("Delete file"),
             triggered=lambda: self.delete())
+        )
+        menu.addAction(QtGui.QAction(
+            QtGui.QIcon(':/add.png'),
+            self.tr("New entry"), self,
+            statusTip=self.tr("New entry"),
+            triggered=lambda: self.parent().display_view('add', {'collection': self.collection.get_id()}))
         )
         self.actions_menu = menu
 

@@ -25,7 +25,7 @@ class Ui_Fitxa_New(QtGui.QWidget, Ui_Form):
         self.man = FieldWidgetManager.get_instance()
 
         self.item = None
-        self.collection = self.parent().collection.getCollection(collection)
+        self.collection = self.parent().collection.get_collection(collection)
         self.setupUi()
 
     def setupUi(self):
@@ -92,7 +92,7 @@ class Ui_Fitxa_New(QtGui.QWidget, Ui_Form):
         elif action == 'cancel':
             # TODO return to referer parameter?
             self.parent().display_view('collection',
-                                      {'collection': self.collection.name})
+                                      {'collection': self.collection.get_id()})
 
     def save(self):
         schema = self.collection.schema
@@ -112,7 +112,7 @@ class Ui_Fitxa_New(QtGui.QWidget, Ui_Form):
         self.collection.save(data)
         self.parent().display_view('fitxa',
                                   {'item': data['id'],
-                                  'collection': self.collection.name})
+                                  'collection': self.collection.get_id()})
 
 
 class FitxaNewView(WidgetProvider):

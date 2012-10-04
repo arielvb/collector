@@ -240,7 +240,7 @@ class FieldWidgetManager(object):
 
     def get_widget(self, field, parent, value, edit=False):
         provider = self.default
-        id_ = field._class
+        id_ = field.class_
         if id_ in self.register:
             provider = self.register[id_]
         widget = None

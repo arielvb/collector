@@ -50,20 +50,20 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
             if image is None:
                 image = ":folder.png"
             items.append(
-                {'class': 'link', 'name': collection.getName(),
-                 'path': 'view/collection/collection/' + collection.name,
+                {'class': 'link', 'name': collection.get_id(),
+                 'path': 'view/collection/collection/' + collection.get_id(),
                  'image': image}
                 )
         # TODO allow personalization of the new entry button?
         if len(collections) > 0:
             main_collection = collections.values()[0]
-            settings['lastcollection'] = main_collection.name
+            settings['lastcollection'] = main_collection.get_id()
             items.extend([
                 {'class': 'spacer'},
                 {'class': 'line'},
                 {'class': 'link',
-                 'name': str(self.tr('New <b>%s</b>')) % main_collection.getName(),
-                 'path': 'view/add/collection/' + main_collection.name,
+                 'name': str(self.tr('New <b>%s</b>')) % main_collection.get_id(),
+                 'path': 'view/add/collection/' + main_collection.get_id(),
                  'image': ':/add.png'}
             ])
         else:
@@ -109,10 +109,10 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
     def last_files(self, listContainer):
         collection_id = self.settings['lastcollection']
         if collection_id is not None:
-            collection = self.parent().collection.getCollection(collection_id)
-            label = collection.getName()
+            collection = self.parent().collection.get_collection(collection_id)
+            label = collection.get_id()
             self.lLastItems.setText(str(self.tr("Last %s")) % label)
-            lastObjects = collection.getLast()
+            lastObjects = collection.get_last()
             for i in lastObjects:
                 text = i[collection.schema.default]
                 item = FitxaListItem(i['id'], text != '' and text or str(self.tr('Entry %d')) % i['id'] )

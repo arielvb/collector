@@ -40,7 +40,7 @@ class TestSchema(unittest.TestCase):
 
     def test_loadFromDict_schema(self):
         in_values = self.in_values
-        self.schema.loadFromDict(in_values)
+        self.schema.read_params(in_values)
         self.assertItemsEqual(in_values['fields'], self.schema.fields)
         self.assertItemsEqual(in_values['order'], self.schema.order)
         self.assertEqual(in_values['name'], self.schema.name)
@@ -49,7 +49,7 @@ class TestSchema(unittest.TestCase):
         schema = {
             'fields': {}
         }
-        self.assertRaises(Exception, self.schema.loadFromDict, schema)
+        self.assertRaises(Exception, self.schema.read_params, schema)
 
     # def test_schema_missing_ref_field_ref(self):
     #     schema = {'name': 'Wrong ref', 'fields': {

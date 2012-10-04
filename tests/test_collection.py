@@ -2,6 +2,7 @@
 
 import unittest
 from engine.collection import CollectionManager
+from engine.persistence_sql import Alchemy
 import os
 
 
@@ -9,6 +10,8 @@ class TestCollectionManager(unittest.TestCase):
 
     def setUp(self):
         CollectionManager._instance = None
+        Alchemy.destroy()
+
         self.man = CollectionManager(autodiscover=False)
 
     def test_is_singleton(self):
@@ -20,6 +23,7 @@ class TestCollectionManager(unittest.TestCase):
         collections = self.man.discover_collections(
             os.path.realpath(os.path.join(__file__, "../../data/collections")))
         self.assertEquals(len(collections), 2)
+
 
 if __name__ == '__main__':
     unittest.main()

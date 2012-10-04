@@ -26,7 +26,7 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
             flags = QtCore.Qt.WindowFlags(0)
         super(Ui_Collection, self).__init__(parent, flags)
         self.setupUi(self)
-        self.collection = self.parent().collection.getCollection(collection)
+        self.collection = self.parent().collection.get_collection(collection)
         self.schema = self.collection.schema
         self.objects = self.collection.get_all()
         self.customize()
@@ -38,7 +38,7 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
         if icon is None:
             icon = ':ico/folder.png'
         Topbar(widget=self.topbar, icon=icon,
-               title=self.collection.getName().upper())
+               title=self.collection.get_id().upper())
 
         # Toolbar
         items = [
@@ -49,7 +49,7 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
             # TODO i10n
             {'class':'link', 'name':
              'New <b>' + self.collection.schema.name + '</b> entry',
-             'path': 'view/add/collection/' + self.collection.name,
+             'path': 'view/add/collection/' + self.collection.get_id(),
              'image': ':/add.png'},
         ]
         CustomToolbar(self.toolbar, items, self._toolbarCallback)
@@ -104,7 +104,7 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
         self.parent().display_view(
             'fitxa',
             {'item': tableItem.getObjectId(),
-             'collection': self.collection.name})
+             'collection': self.collection.get_id()})
 
 
 class CollectionView(WidgetProvider):
