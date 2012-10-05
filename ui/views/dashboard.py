@@ -50,7 +50,7 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
             if image is None:
                 image = ":folder.png"
             items.append(
-                {'class': 'link', 'name': collection.get_id(),
+                {'class': 'link', 'name': collection.get_name(),
                  'path': 'view/collection/collection/' + collection.get_id(),
                  'image': image}
                 )
@@ -62,7 +62,7 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
                 {'class': 'spacer'},
                 {'class': 'line'},
                 {'class': 'link',
-                 'name': str(self.tr('New <b>%s</b>')) % main_collection.get_id(),
+                 'name': str(self.tr('New <b>%s</b>')) % main_collection.get_name(),
                  'path': 'view/add/collection/' + main_collection.get_id(),
                  'image': ':/add.png'}
             ])

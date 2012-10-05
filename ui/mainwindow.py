@@ -40,7 +40,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.collection = CollectionManager.get_instance()
 
         self.setupUi(self)
-        self.setUnifiedTitleAndToolBarOnMac(False)
+        self.setUnifiedTitleAndToolBarOnMac(True)
         # TODO clean toolbar code?
         # self.createToolbar()
         self.views = self.init_views()

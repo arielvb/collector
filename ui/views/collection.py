@@ -38,17 +38,16 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
         if icon is None:
             icon = ':ico/folder.png'
         Topbar(widget=self.topbar, icon=icon,
-               title=self.collection.get_id().upper())
+               title=self.collection.get_name().upper())
 
         # Toolbar
         items = [
-            {'class':'link', 'name': 'Dashboard',
+            {'class':'link', 'name': self.tr('Dashboard'),
              'path': 'view/dashboard', 'image': ':/dashboard.png'},
             {'class': 'spacer'},
             {'class': 'line'},
-            # TODO i10n
             {'class':'link', 'name':
-             'New <b>' + self.collection.schema.name + '</b> entry',
+             str(self.tr('New <b>%s</b>')) % self.collection.get_name(),
              'path': 'view/add/collection/' + self.collection.get_id(),
              'image': ':/add.png'},
         ]

@@ -82,9 +82,10 @@ class Ui_Search(QWidget, Ui_Form):
     def searchComplete(self, results):
         """Process the results of a search, *results* must be instance of
          WorkerResult"""
-        # self.parent().statusBar().clearMessage()
+        self.parent().statusBar().clearMessage()
         self.bSearch.setEnabled(True)
         self.progressBar.hide()
+
         if results.status != STATUS_OK:
             QMessageBox.warning(self,
                 self.tr("Collector"),
