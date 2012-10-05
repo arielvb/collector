@@ -47,12 +47,17 @@
     <message>
         <location filename="field_details.ui" line="52"/>
         <source>Type</source>
-        <translation>Tipo</translation>
+        <translation type="obsolete">Tipo</translation>
     </message>
     <message>
         <location filename="field_details.ui" line="72"/>
         <source>Multivalue:</source>
         <translation>Multivalor:</translation>
+    </message>
+    <message>
+        <location filename="field_details.ui" line="52"/>
+        <source>Type:</source>
+        <translation>Tipo:</translation>
     </message>
 </context>
 <context>
@@ -64,9 +69,17 @@
     </message>
 </context>
 <context>
+    <name>FileSelector</name>
+    <message>
+        <location filename="file_selector.ui" line="14"/>
+        <source>File selector</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Form</name>
     <message>
-        <location filename="widget_ref.ui" line="14"/>
+        <location filename="topbar.ui" line="14"/>
         <source>Form</source>
         <translation>Formulario</translation>
     </message>
@@ -103,17 +116,17 @@
     <message>
         <location filename="widget_file.ui" line="23"/>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="obsolete">...</translation>
     </message>
     <message>
         <location filename="widget_multivalue.ui" line="26"/>
         <source>Add value</source>
-        <translation>Añadir valor</translation>
+        <translation type="obsolete">Añadir valor</translation>
     </message>
     <message>
         <location filename="widget_ref.ui" line="23"/>
         <source>Add new</source>
-        <translation>Añadir nuevo</translation>
+        <translation type="obsolete">Añadir nuevo</translation>
     </message>
     <message>
         <location filename="search.py" line="100"/>
@@ -230,6 +243,19 @@
     </message>
 </context>
 <context>
+    <name>Multivalue</name>
+    <message>
+        <location filename="widget_multivalue.ui" line="20"/>
+        <source>Form</source>
+        <translation type="unfinished">Formulario</translation>
+    </message>
+    <message>
+        <location filename="widget_multivalue.ui" line="60"/>
+        <source>Add value</source>
+        <translation>Añadir valor</translation>
+    </message>
+</context>
+<context>
     <name>PluginDialog</name>
     <message>
         <location filename="plugins.ui" line="14"/>
@@ -237,29 +263,34 @@
         <translation>Gestor de complementos</translation>
     </message>
     <message>
-        <location filename="plugins.ui" line="27"/>
+        <location filename="plugins.ui" line="34"/>
         <source>Enabled</source>
         <translation>Activados</translation>
     </message>
     <message>
-        <location filename="plugins.ui" line="34"/>
+        <location filename="plugins.ui" line="41"/>
         <source>BGG</source>
         <translation>BGG</translation>
     </message>
     <message>
-        <location filename="plugins.ui" line="57"/>
+        <location filename="plugins.ui" line="64"/>
         <source>Disable selected &gt;&gt;</source>
         <translation>Desactivar seleccionados &gt;&gt;</translation>
     </message>
     <message>
-        <location filename="plugins.ui" line="73"/>
+        <location filename="plugins.ui" line="80"/>
         <source>Disabled</source>
         <translation>Desactivados</translation>
     </message>
     <message>
-        <location filename="plugins.ui" line="84"/>
+        <location filename="plugins.ui" line="91"/>
         <source>&lt;&lt; Enable selected</source>
         <translation>&lt;&lt; Activar seleccionados</translation>
+    </message>
+    <message>
+        <location filename="plugins.ui" line="20"/>
+        <source>Manage the plugins that will be globally available or disabled.</source>
+        <translation>Gestiona los complementos que estaran activados o desactivados globalmente.</translation>
     </message>
 </context>
 <context>
@@ -309,6 +340,26 @@
         <source>Sorry, by now the fields are not editable.</source>
         <translation>Por ahora los campos no son editables.</translation>
     </message>
+    <message>
+        <location filename="properties.ui" line="150"/>
+        <source>Dashboard</source>
+        <translation>Panel principal</translation>
+    </message>
+    <message>
+        <location filename="properties.ui" line="166"/>
+        <source>New entry button for:</source>
+        <translation>Botón de nueva entrada para:</translation>
+    </message>
+    <message>
+        <location filename="properties.ui" line="156"/>
+        <source>Last entrys for:</source>
+        <translation>Últimas entradas de:</translation>
+    </message>
+    <message>
+        <location filename="properties.ui" line="176"/>
+        <source>Quick search for:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PropertiesWidget</name>
@@ -319,32 +370,73 @@
     </message>
 </context>
 <context>
-    <name>Ui_Dashboard</name>
+    <name>Reference</name>
     <message>
-        <location filename="dashboard.py" line="85"/>
+        <location filename="widget_ref.ui" line="6"/>
+        <source>Reference Field</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="widget_ref.ui" line="24"/>
+        <source>Add new</source>
+        <translation>Añadir nuevo</translation>
+    </message>
+</context>
+<context>
+    <name>Ui_Collection</name>
+    <message>
+        <location filename="collection.py" line="45"/>
         <source>Dashboard</source>
         <translation>Panel principal</translation>
     </message>
     <message>
-        <location filename="dashboard.py" line="60"/>
+        <location filename="collection.py" line="50"/>
+        <source>New &lt;b&gt;%s&lt;/b&gt;</source>
+        <translation>Nuevo &lt;b&gt;%s&lt;/b&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>Ui_Dashboard</name>
+    <message>
+        <location filename="dashboard.py" line="88"/>
+        <source>Dashboard</source>
+        <translation>Panel principal</translation>
+    </message>
+    <message>
+        <location filename="dashboard.py" line="61"/>
         <source>New &lt;b&gt;%s&lt;/b&gt;</source>
         <translation>Nuevo &lt;b&gt;%s&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="dashboard.py" line="110"/>
+        <location filename="dashboard.py" line="114"/>
         <source>Last %s</source>
         <translation>Ultimos %s</translation>
+    </message>
+    <message>
+        <location filename="dashboard.py" line="118"/>
+        <source>Entry %d</source>
+        <translation>Endrada %d</translation>
+    </message>
+    <message>
+        <location filename="dashboard.py" line="121"/>
+        <source>Warning: No collection avaible!</source>
+        <translation type="obsolete">¡Aviso: no hay ninguna colección disponible!</translation>
+    </message>
+    <message>
+        <location filename="dashboard.py" line="121"/>
+        <source>Warning: No collection available!</source>
+        <translation>¡Aviso: no hay ninguna colección disponible!</translation>
     </message>
 </context>
 <context>
     <name>Ui_Discover</name>
     <message>
-        <location filename="search.py" line="113"/>
+        <location filename="search.py" line="115"/>
         <source>Discover</source>
         <translation>Descubrir</translation>
     </message>
     <message>
-        <location filename="search.py" line="115"/>
+        <location filename="search.py" line="117"/>
         <source>Discover allows you find new objects for your collection, type something in the searchbox and the plugins will do the hardwork.</source>
         <translation>&quot;Descubrir&quot; te permite encontrar objectos para tu colección, escribe algo en la caja de búsqueda y los complementos harán el resto.</translation>
     </message>
@@ -352,40 +444,45 @@
 <context>
     <name>Ui_Fitxa</name>
     <message>
-        <location filename="fitxa.py" line="73"/>
+        <location filename="fitxa.py" line="47"/>
         <source>Dashboard</source>
         <translation>Panel principal</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="80"/>
+        <location filename="fitxa.py" line="54"/>
         <source>Options</source>
         <translation>Opciones</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="91"/>
+        <location filename="fitxa.py" line="65"/>
         <source>Edit</source>
         <translation>Editar</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="91"/>
+        <location filename="fitxa.py" line="65"/>
         <source>Edit file</source>
         <translation>Editar ficha</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="100"/>
+        <location filename="fitxa.py" line="74"/>
         <source>Delete</source>
         <translation>Eliminar</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="100"/>
+        <location filename="fitxa.py" line="74"/>
         <source>Delete file</source>
         <translation>Eliminar ficha</translation>
+    </message>
+    <message>
+        <location filename="fitxa.py" line="80"/>
+        <source>New entry</source>
+        <translation>Nueva entrada</translation>
     </message>
 </context>
 <context>
     <name>Ui_Fitxa_New</name>
     <message>
-        <location filename="fitxa_new.py" line="35"/>
+        <location filename="fitxa_new.py" line="39"/>
         <source>New entry</source>
         <translation>Nueva entrada</translation>
     </message>
@@ -473,7 +570,7 @@ Something happened and the searchcould&apos;nt be completed.</source>
 Algo ha ocurrido y la búsquda no se ha completado.</translation>
     </message>
     <message>
-        <location filename="search.py" line="89"/>
+        <location filename="search.py" line="90"/>
         <source>Ooops!
 Something happened and the search could&apos;nt be completed.</source>
         <translation>Ooops!
@@ -485,7 +582,7 @@ Algo ha ocurrido y la búsquda no se ha completado.</translation>
         <translation>Búscando...</translation>
     </message>
     <message>
-        <location filename="search.py" line="89"/>
+        <location filename="search.py" line="90"/>
         <source>Collector</source>
         <translation>Collector</translation>
     </message>
