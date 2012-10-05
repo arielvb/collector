@@ -45,18 +45,20 @@ class Ui_Fitxa_New(QtGui.QWidget, Ui_Form):
             widgets = self.createField(field_obj, '')
             self.fitxa_fields[field] = widgets
 
-    def createLabel(self, text):
+    def createLabel(self, text, multiline=False):
         item = QtGui.QLabel(self)
         item.setFont(self.fontLabel)
         item.setText(text)
         item.setObjectName(_fromUtf8(text))
+        if multiline:
+            item.setAlignment(QtCore.Qt.AlignTop)
         return item
 
     def createField(self, field, value):
         columnspan = 1
         column = 0
         rowspan = 1
-        itemLabel = self.createLabel(field.name)
+        itemLabel = self.createLabel(field.name, field.is_multivalue())
         self.fieldsLayout.addWidget(itemLabel, self.row, column,
                                     rowspan, columnspan)
         column += 1
@@ -84,7 +86,6 @@ class Ui_Fitxa_New(QtGui.QWidget, Ui_Form):
         CustomToolbar(self.toolbar, quick, self._linkactivated)
 
     def _linkactivated(self, uri):
-        qDebug('Uri called: ' + uri)
         params = self.parent().collector_uri_call(uri)
         action = params['action']
         if action == 'save':
@@ -99,15 +100,12 @@ class Ui_Fitxa_New(QtGui.QWidget, Ui_Form):
         data = {}
         for field in schema.order:
             fields = self.fitxa_fields[field]
-            values = []
+            value = None
             for widget in fields:
                 value = widget.text()
                 if isinstance(value, QtCore.QString):
                     value = str(value)
-                values.append(value)
-            if not schema.isMultivalue(field):
-                values = values[0]
-            data[field] = values
+            data[field] = value
         from PyQt4.Qt import qDebug; qDebug(str(data))
         self.collection.save(data)
         self.parent().display_view('fitxa',

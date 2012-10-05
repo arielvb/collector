@@ -48,32 +48,28 @@ class Ui_Fitxa_Edit(QtGui.QWidget, Ui_Form):
             widgets = self.createField(field_obj, value)
             self.fitxa_fields[field] = widgets
 
-    def createLabel(self, text):
+    def createLabel(self, text, multiline=False):
         item = QtGui.QLabel(self)
         item.setText(text)
         item.setFont(self.fontLabel)
+        if multiline:
+            item.setAlignment(QtCore.Qt.AlignTop)
         return item
 
     def createField(self, field, value):
         columnspan = 1
         column = 0
         rowspan = 1
-        itemLabel = self.createLabel(field.name)
+        itemLabel = self.createLabel(field.name, field.is_multivalue())
         self.fieldsLayout.addWidget(itemLabel, self.row, column,
                                     rowspan, columnspan)
         column += 1
-        if not isinstance(value, list):
-            value = [value]
-        widgets = []
-        for i in value:
-            item = self.man.get_widget(field, self,
-                                   i, True)
-            widgets.append(item)
-            self.fieldsLayout.addWidget(item, self.row, column,
-                                        rowspan, columnspan)
-            self.row += 1
+        item = self.man.get_widget(field, self,
+                               value, True)
+        self.fieldsLayout.addWidget(item, self.row, column,
+                                    rowspan, columnspan)
         self.row += 1
-        return widgets
+        return item
 
     def _loadToolbar(self):
         quick = [
@@ -100,17 +96,12 @@ class Ui_Fitxa_Edit(QtGui.QWidget, Ui_Form):
         schema = self.collection.schema
         data = {}
         for field in schema.order:
-            widgets = self.fitxa_fields[field]
+            widget = self.fitxa_fields[field]
             field_obj = schema.get_field(field)
-            values = []
-            for i in widgets:
-                value = i.text()
-                if isinstance(value, QtCore.QString):
-                    value = str(value)
-                values.append(value)
-            if not field_obj.is_multivalue():
-                values = values[0]
-            data[field_obj.get_id()] = values
+            value = widget.text()
+            if isinstance(value, QtCore.QString):
+                value = str(value)
+            data[field_obj.get_id()] = value
         data['id'] = self.obj['id']
 
         self.collection.save(data)

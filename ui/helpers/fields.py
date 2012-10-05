@@ -2,17 +2,19 @@
 
 # TODO refractor this file must contain for each field:
 #  (provider, widget)
-from PyQt4 import QtGui, QtCore
+from PyQt4 import QtGui
+from PyQt4.QtCore import pyqtSlot, Qt, QString, SIGNAL
 from PyQt4.QtNetwork import QNetworkAccessManager, QNetworkRequest
 from engine.collection import CollectionManager
 from ui.gen.file_selector import Ui_FileSelector
 from ui.gen.widget_ref import Ui_Reference
+from ui.gen.widget_multivalue import Ui_Multivalue
 
 
 from abc import *
 
 try:
-    _fromUtf8 = QtCore.QString.fromUtf8
+    _fromUtf8 = QString.fromUtf8
 except AttributeError:
     _fromUtf8 = lambda s: s
 
@@ -40,8 +42,8 @@ class FieldTextWidget(FieldWidget):
 
     def prepareWidget(self, parent, field, value):
         widget = QtGui.QLabel(parent)
-        widget.setTextInteractionFlags(QtCore.Qt.LinksAccessibleByMouse |
-                                   QtCore.Qt.TextSelectableByMouse)
+        widget.setTextInteractionFlags(Qt.LinksAccessibleByMouse |
+                                   Qt.TextSelectableByMouse)
         try:
             if isinstance(value, int):
                 value = str(value)
@@ -80,17 +82,17 @@ class ImageWidget(QtGui.QLabel):
         if value.startswith('http'):
             logging.debug('FILEDATA loading image from url %s', value)
             self.nam.finished.connect(lambda r: self.image_complete(r))
-            self.nam.get(QNetworkRequest(QtCore.QUrl(value)))
-        scaled = pixmap.scaled(max_x, max_y, QtCore.Qt.KeepAspectRatio)
+            self.nam.get(QNetworkRequest(QUrl(value)))
+        scaled = pixmap.scaled(max_x, max_y, Qt.KeepAspectRatio)
         self.setPixmap(scaled)
-        self.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft |
-                          QtCore.Qt.AlignTop)
+        self.setAlignment(Qt.AlignLeading | Qt.AlignLeft |
+                          Qt.AlignTop)
 
     def image_complete(self, reply):
         img = QtGui.QImage()
         img.loadFromData(reply.readAll())
         pixmap = QtGui.QPixmap(img)
-        scaled = pixmap.scaled(250, 250, QtCore.Qt.KeepAspectRatio)
+        scaled = pixmap.scaled(250, 250, Qt.KeepAspectRatio)
         self.setPixmap(scaled)
 
 
@@ -103,23 +105,25 @@ class FileSelector(QtGui.QWidget, Ui_FileSelector):
         self.setupUi(self)
         self.connect(
             self.dialog,
-            QtCore.SIGNAL(_fromUtf8("clicked()")),
+            SIGNAL(_fromUtf8("clicked()")),
             lambda: self.open_dialog())
 
-    def setText(self, text):
+    @pyqtSlot()
+    def set_value(self, text):
         """Sets the path for the file"""
-        #TODO this is a slot
         self.path.setText(text)
 
-    def text(self):
+    def get_value(self):
         return self.path.text()
+
+    text = get_value
 
     def open_dialog(self, filter=None):
         file_name = QtGui.QFileDialog.getOpenFileName(self,
                 "Choose file",
                 self.path.text(),
                 self.filter)
-        self.setText(file_name)
+        self.set_value(file_name)
 
 
 class FieldImageWidget(FieldWidget):
@@ -132,7 +136,7 @@ class FieldImageWidget(FieldWidget):
     def prepareWidgetEdit(self, parent, field, value):
         #TODO this widget must be a file selector
         widget = FileSelector(parent, 'Images (*.jpg *.png)')
-        widget.setText(value)
+        widget.set_value(value)
         return widget
 
 
@@ -147,7 +151,7 @@ class ReferenceWidget(QtGui.QWidget, Ui_Reference):
         self.values = []
         self.reload(value)
 
-    def text(self):
+    def get_value(self):
         currentIndex = self.comboBox.currentIndex()
         value = ''
         if currentIndex > 0:
@@ -155,6 +159,8 @@ class ReferenceWidget(QtGui.QWidget, Ui_Reference):
             value = id_
             return int(value)
         return ''
+    #TODO remove shortcut
+    text = get_value
 
     def reload(self, value):
         """Reloads the content of the widget"""
@@ -200,9 +206,12 @@ class IntWidget(QtGui.QSpinBox):
             value = int(value)
         super(IntWidget, self).setValue(value)
 
-    def text(self):
+    def get_value(self):
         value = int(super(IntWidget, self).text())
         return value
+
+    # TODO remove this shortcut
+    text = get_value
 
 
 class FieldIntWidget(FieldTextWidget):
@@ -210,8 +219,43 @@ class FieldIntWidget(FieldTextWidget):
     def prepareWidgetEdit(self, parent, field, value):
         #TODO this widget must be a file selector
         w = IntWidget(parent)
-        w.setValue(value)
+        if value is not None:
+            w.setValue(value)
         return w
+
+
+class MultivalueWidget(QtGui.QWidget, Ui_Multivalue):
+
+    def __init__(self, widgetprovider, parent, field, values):
+        super(MultivalueWidget, self).__init__(parent)
+        self.widgetprovider = widgetprovider
+        self.setupUi(self)
+        self.widgets = []
+        self.field = field
+        i = 0
+        for value in values:
+            i +=1
+            self.add_value(value)
+        if i == 0:
+            self.add_value()
+
+        self.connect(
+            self.addValue,
+            SIGNAL(_fromUtf8("clicked()")),
+            self.add_value)
+
+    def add_value(self, default=None):
+        widget = self.widgetprovider.getWidgetEdit(self, self.field, default)
+        self.fields.addWidget(widget)
+        self.widgets.append(widget)
+
+    def get_values(self):
+        values = []
+        for widget in self.widgets:
+            values.append(widget.get_value())
+        return values
+
+    text = get_values
 
 
 class FieldWidgetManager(object):
@@ -247,7 +291,10 @@ class FieldWidgetManager(object):
         if not edit:
             widget = provider.getWidget(parent, field, value)
         else:
-            widget = provider.getWidgetEdit(parent, field, value)
+            if field.is_multivalue():
+                widget = MultivalueWidget(provider, parent, field, value)
+            else:
+                widget = provider.getWidgetEdit(parent, field, value)
         return widget
 
     def add(self, field_type, widget_provider):
