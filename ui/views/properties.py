@@ -5,6 +5,7 @@ from ui.gen.properties import Ui_Properties
 from ui.gen.field_details import Ui_FieldDetails
 from ui.widgetprovider import WidgetProvider
 from ui.helpers.items import ObjectListItem
+from ui.views.dashboard import Ui_Dashboard
 
 
 try:
@@ -25,7 +26,7 @@ class DetailsWidget(QtGui.QWidget, Ui_FieldDetails):
     @QtCore.pyqtSlot(str, str, bool)
     def updateDetails(self, name, type, multivalue):
         self.detail_name.setText(name)
-        self.detailclass_.setText(type)
+        self.detail_class.setText(type)
         # self.detail_value.hide()
         value = ''
         if multivalue:
@@ -85,8 +86,11 @@ class PropertiesWidget(QtGui.QDialog, Ui_Properties):
                 list_item = ObjectListItem(item, item.name)
                 self.fieldsList.addItem(list_item)
         self.field_details = DetailsWidget(self)
-        self.verticalLayout_3.addWidget(self.field_details)
+        self.details_layout.addWidget(self.field_details)
         self.field_details.hide()
+        preview = Ui_Dashboard(self.parent());
+        preview.setDisabled(True)
+        self.preview_layout.addWidget(preview)
 
         # Buttons
 

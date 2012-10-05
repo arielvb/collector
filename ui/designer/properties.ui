@@ -131,7 +131,7 @@
            <property name="title">
             <string>Details</string>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_3"/>
+           <layout class="QVBoxLayout" name="details_layout"/>
           </widget>
          </item>
         </layout>
@@ -149,36 +149,59 @@
       <attribute name="title">
        <string>Dashboard</string>
       </attribute>
-      <layout class="QFormLayout" name="formLayout">
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Last entrys for:</string>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <layout class="QFormLayout" name="formLayout">
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Last entrys for:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>New entry button for:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>Quick search for:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QComboBox" name="last_entry_combo"/>
+         </item>
+         <item row="2" column="1">
+          <widget class="QComboBox" name="new_entry_combo"/>
+         </item>
+         <item row="3" column="1">
+          <widget class="QComboBox" name="search_combo"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QComboBox" name="last_entry_combo"/>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>New entry button for:</string>
+       <item>
+        <widget class="QGroupBox" name="preview">
+         <property name="title">
+          <string>Preview</string>
          </property>
+         <layout class="QVBoxLayout" name="preview_layout">
+          <property name="margin">
+           <number>0</number>
+          </property>
+         </layout>
         </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QComboBox" name="new_entry_combo"/>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Quick search for:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QComboBox" name="search_combo"/>
        </item>
       </layout>
      </widget>

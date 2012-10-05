@@ -19,7 +19,6 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
         if flags is None:
             flags = QtCore.Qt.WindowFlags(0)
         super(Ui_Fitxa, self).__init__(parent, flags)
-        # TODO obtain full item, not only the title
         self.item = item
         self.collection = self.parent().collection.get_collection(collection)
         self.setupUi()

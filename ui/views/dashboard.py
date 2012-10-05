@@ -110,7 +110,7 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
         collection_id = self.settings['lastcollection']
         if collection_id is not None:
             collection = self.parent().collection.get_collection(collection_id)
-            label = collection.get_id()
+            label = collection.get_name()
             self.lLastItems.setText(str(self.tr("Last %s")) % label)
             lastObjects = collection.get_last()
             for i in lastObjects:
