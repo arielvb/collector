@@ -68,7 +68,7 @@ class PropertiesWidget(QtGui.QDialog, Ui_Properties):
 
         for collection in self.collection.collections.values():
             # Files
-            c_name = collection.get_id()
+            c_name = collection.get_name()
             list_item = QtGui.QListWidgetItem(c_name)
             self.search_combo.addItem(c_name)
             self.last_entry_combo.addItem(c_name)
