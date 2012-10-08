@@ -50,7 +50,7 @@ class TestConfig(unittest.TestCase):
     def test_config_directory_win(self):
         conf = config.Config(platform=config.Config.WINDOWS)
         self.assertEquals(
-            conf.config_dir,
+            conf.get_data_path(),
             os.path.join(os.path.expanduser('~'), 'Collector'))
 
     #TODO linux config!

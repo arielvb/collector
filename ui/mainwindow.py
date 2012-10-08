@@ -102,7 +102,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
             raise ViewNotFound('View "%s" not found' % name)
         if params is None:
             params = {}
-        logging.debug("Called display view, URI:" +
+        logging.debug("Called display view, URI: " +
                       self.viewcall2collectoruri(name, params))
         self.views[name].run(params)
 

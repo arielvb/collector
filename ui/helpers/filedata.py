@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
-
+# pylint: disable-msg=E0611,E1101,C0103
+"""
+FileDataWidget
+--------------
+The layout for a file
+"""
 from PyQt4 import QtCore, QtGui
 
 from ui.gen.file_data import Ui_Form
 from ui.helpers.fields import FieldWidgetManager
 
-try:
-    _fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    _fromUtf8 = lambda s: s
-
 
 class FileDataWidget(QtGui.QWidget, Ui_Form):
-
+    """The widget that renders a file"""
     row = 0
 
     def __init__(self, schema, data, parent=None, flags=None):
@@ -22,25 +22,30 @@ class FileDataWidget(QtGui.QWidget, Ui_Form):
         self.man = FieldWidgetManager.get_instance()
         self.schema = schema
         self.data = data
-        self.fontLabel = QtGui.QFont()
-        self.fontLabel.setBold(True)
-        self.fontLabel.setWeight(75)
-        self.setupUi()
+        self.font = QtGui.QFont()
+        self.font.setBold(True)
+        self.font.setWeight(75)
+        self.setupUi(self)
 
-    def createLabel(self, text):
+    def create_label(self, text):
+        """Creates a widget label, is used to display the field name"""
         item = QtGui.QLabel(self)
         item.setText(text)
-        item.setFont(self.fontLabel)
+        item.setFont(self.font)
         return item
 
-    def createField(self, field, value):
+    def create_field(self, field, value):
+        """Creates the widget who renders the received *field* and displays
+         the received value"""
         columnspan = 1
         column = 0
         rowspan = 1
-        itemLabel = self.createLabel(field.name)
-        self.fieldsLayout.addWidget(itemLabel, self.row, column,
+        # The label
+        item = self.create_label(field.name)
+        self.fieldsLayout.addWidget(item, self.row, column,
                                     rowspan, columnspan)
         column += 1
+        # The widget
         if not isinstance(value, list):
             value = [value]
         for i in value:
@@ -51,8 +56,9 @@ class FileDataWidget(QtGui.QWidget, Ui_Form):
             self.row += 1
         self.row += 1
 
-    def setupUi(self):
-        super(FileDataWidget, self).setupUi(self)
+    def setupUi(self, form):
+        """Renders all the widget ui"""
+        super(FileDataWidget, self).setupUi(form)
 
         obj = self.data
         schema = self.schema
@@ -60,16 +66,15 @@ class FileDataWidget(QtGui.QWidget, Ui_Form):
             if field != 'image':
                 value = field in obj and obj[field] or ''
                 field_obj = schema.get_field(field)
-                self.createField(field_obj, value)
+                self.create_field(field_obj, value)
 
-        # TODO set image: we need to store it somewhere...
-        #  but where is the best place?
         if 'image' in obj:
             src = obj['image']
-            # TODO maybe set_value must be validate and get_value must
-            #  translate the value
             image = schema.get_field('image')
             image.set_value(src)
             path = image.get_value()
             widget = self.man.get_widget(image, self, path)
             self.image_layout.addWidget(widget)
+
+        if len(obj) < 3:
+            self.line.hide()

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# pylint: disable=C0301,C0103
+# pylint: disable=C0301,C0103, R0904
 # C013 Camecase
 """Test for all the included plugins"""
 import unittest
@@ -15,6 +15,7 @@ class TestBGGPlugin(unittest.TestCase):
         """Creates the plugin instance and other common values"""
         self.plugin = PluginBoardGameGeek()
         self.data_path = dirname(__file__) + '/data/bgg/'
+        self.maxDiff = None
 
     def test_obtain_search_backup(self):
         """Checks that the results from the offline version of the search are
@@ -41,6 +42,35 @@ class TestBGGPlugin(unittest.TestCase):
                 'die-saulen-der-erde-das-kartenspiel'}
          ])
 
+    def test_obtain_data_backup_pillars(self):
+        """ Checks that all the attributes of the offline version
+         are parsed correctly"""
+        filename = self.data_path + 'the-pillars-of-the-earth.html'
+        provider = FileProvider(filename)
+        fields = self.plugin.file_filter(provider.get('mocked'))
+        self.assertEquals(fields, {
+            'publisher': [u'999 Games', u'Albi',
+                          u'Cappelen', u'Competo / MarektoyDevir',
+                          u'Filosofia \xc9dition', u'Galakta',
+                          u'Kaissa Chess & Games', u'KOSMOS',
+                          u'Mayfair Games', u'Stupor Mundi'],
+            'designer': [u'Michael Rieneck', u'Stefan Stadler'],
+            'bgg_rank': '141',
+            'artist': [u'Michael Menzel', u'Anke Pohl', u'Thilo Rick'],
+            'image': 'http://boardgamegeek.com/the-pillars-of-the-earth_files/'
+                      'pic212815_md.jpg',
+            'title': u'The Pillars of the Earth',
+            'min_players': 2,
+            'min_age': 12,
+            'average': 7.33,
+            'mechanic': [u'Worker Placement'],
+            'year': 2006,
+            'max_players': 4,
+            'playing': u'120  minutes',
+            'categories': [u'Economic', u'Medieval', u'Novel-based']
+        })
+        self.assertItemsEqual(fields.keys(), self.plugin.schema.fields.keys())
+
     def test_obtain_data_backup(self):
         """ Checks that all the attributes of the offline version
          are parsed correctly"""
@@ -48,9 +78,10 @@ class TestBGGPlugin(unittest.TestCase):
         provider = FileProvider(filename)
         fields = self.plugin.file_filter(provider.get('mocked'))
 
-        self.assertItemsEqual(fields, {
+        self.assertEquals(fields, {
                 'publisher': [u'Plaid Hat Games'],
                 'designer': [u'Jerry Hawthorne'],
+                'bgg_rank': 'N/A',
                 'artist': [u'John Ariosa'],
                 'title': u'Mice and Mystics',
                 'year': 2012,
@@ -66,6 +97,7 @@ class TestBGGPlugin(unittest.TestCase):
                   u'Role PlayingStorytelling', u'Variable Player Powers'],
                  'image': 'http://boardgamegeek.com/mice-and-mystics_files/' +
                           'pic1312072_md.jpg',
+                'average': 0.00,
                 })
         self.assertItemsEqual(fields.keys(), self.plugin.schema.fields.keys())
 

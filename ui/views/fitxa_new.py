@@ -6,8 +6,6 @@ from ui.helpers.customtoolbar import CustomToolbar, Topbar
 from ui.widgetprovider import WidgetProvider
 from ui.helpers.fields import FieldWidgetManager
 
-from PyQt4.Qt import qDebug
-
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:

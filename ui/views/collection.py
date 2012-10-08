@@ -57,7 +57,7 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
         self.tableWidget.setRowCount(len(self.objects))
         header = self.schema.order
         for item in header:
-                self.createHeaderItem(self.schema.fields[item]['name'])
+            self.createHeaderItem(self.schema.get_field(item).name)
         for item in self.objects:
             self.createTableRow(item, header)
 
@@ -93,7 +93,7 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
                 more = len(value) - 1
                 more_text = ''
                 if more > 0:
-                    more_text = " and " + str(more) + " more"
+                    more_text = "\n" + str(more) + " more"
                 item.setText(str(value[0]) + more_text)
             self.tableWidget.setItem(row, column, item)
             column += 1

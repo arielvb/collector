@@ -3,13 +3,13 @@
 # TODO refractor this file must contain for each field:
 #  (provider, widget)
 from PyQt4 import QtGui
-from PyQt4.QtCore import pyqtSlot, Qt, QString, SIGNAL
+from PyQt4.QtCore import pyqtSlot, Qt, QString, SIGNAL, QUrl
 from PyQt4.QtNetwork import QNetworkAccessManager, QNetworkRequest
 from engine.collection import CollectionManager
 from ui.gen.file_selector import Ui_FileSelector
 from ui.gen.widget_ref import Ui_Reference
 from ui.gen.widget_multivalue import Ui_Multivalue
-
+import logging
 
 from abc import *
 
@@ -45,7 +45,7 @@ class FieldTextWidget(FieldWidget):
         widget.setTextInteractionFlags(Qt.LinksAccessibleByMouse |
                                    Qt.TextSelectableByMouse)
         try:
-            if isinstance(value, int):
+            if not isinstance(value, str):
                 value = str(value)
             widget.setText(_fromUtf8(value))
         except Exception:
@@ -71,7 +71,7 @@ class ImageWidget(QtGui.QLabel):
         super(ImageWidget, self).__init__(parent)
         self.nam = QNetworkAccessManager()
 
-    def set_image(self, value, max_x, max_y):
+    def set_image(self, value, max_x=350, max_y=350):
         pixmap = None
         if value != '':
             pixmap = QtGui.QPixmap(value)
@@ -81,18 +81,19 @@ class ImageWidget(QtGui.QLabel):
             pixmap = QtGui.QPixmap(_fromUtf8(':box.png'))
         if value.startswith('http'):
             logging.debug('FILEDATA loading image from url %s', value)
-            self.nam.finished.connect(lambda r: self.image_complete(r))
+            self.nam.finished.connect(lambda r: self.image_complete(r, max_x, max_y))
             self.nam.get(QNetworkRequest(QUrl(value)))
-        scaled = pixmap.scaled(max_x, max_y, Qt.KeepAspectRatio)
-        self.setPixmap(scaled)
-        self.setAlignment(Qt.AlignLeading | Qt.AlignLeft |
-                          Qt.AlignTop)
+        else:
+            scaled = pixmap.scaled(max_x, max_y, Qt.KeepAspectRatio)
+            self.setPixmap(scaled)
+            self.setAlignment(Qt.AlignLeading | Qt.AlignLeft |
+                              Qt.AlignTop)
 
-    def image_complete(self, reply):
+    def image_complete(self, reply, max_x, max_y):
         img = QtGui.QImage()
         img.loadFromData(reply.readAll())
         pixmap = QtGui.QPixmap(img)
-        scaled = pixmap.scaled(250, 250, Qt.KeepAspectRatio)
+        scaled = pixmap.scaled(max_x, max_y, Qt.KeepAspectRatio)
         self.setPixmap(scaled)
 
 
@@ -130,7 +131,7 @@ class FieldImageWidget(FieldWidget):
 
     def prepareWidget(self, parent, field, value):
         widget = ImageWidget(parent)
-        widget.set_image(value, 250, 250)
+        widget.set_image(value, 350, 350)
         return widget
 
     def prepareWidgetEdit(self, parent, field, value):

@@ -11,25 +11,6 @@ except AttributeError:
     _fromUtf8 = lambda s: s
 
 
-# TODO store settings in a config file
-dashboard_settings = {
-
-    'items': [
-        {'class':'link', 'name': 'Boardgames',
-         'path': 'view/collection/collection/boardgames',
-         'image': ':/boards.png'},
-        {'class':'link', 'name': 'Authors & Designers',
-         'path': 'view/collection/collection/people',
-         'image': ':/author.png'},
-        {'class': 'spacer'},
-        {'class': 'line'},
-        {'class': 'link', 'name': 'New <b>Boardgame</b>',
-         'path': 'view/add/collection/boardgames', 'image': ':/add.png'},
-    ],
-
-    'lastcollection': 'boardgames',
-}
-
 
 class Ui_Dashboard(QtGui.QWidget, Ui_Form):
 

@@ -24,8 +24,13 @@ class CollectorApplication(QtGui.QApplication):
         self.splash.show()
         self.processEvents()
         # Launch collector
-        self.collector = Collector()
-        man = self.collector.get_manager('plugin')
+        # TODO this configuration must be a path to the config file
+        self.collector = Collector({
+            'home': ':resources:',
+            'plugins_enabled': [
+                'PluginHellouser',
+                'PluginBoardGameGeek']
+            })
 
         __import__("ui.gen.lang_rc")
         self.load_translations(":/lang")

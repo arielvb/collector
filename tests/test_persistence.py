@@ -149,6 +149,7 @@ class TestPersistenceAlchemy(unittest.TestCase):
         pers = PersistenceAlchemy(schema, ':memory:')
         pers.all_created()
         obj = pers.save({'count': [1, 2]})
+        self.assertEquals(obj['count'], [1, 2])
         self.assertEquals(obj.count, [1, 2])
 
     def tearDown(self):

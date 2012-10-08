@@ -88,7 +88,7 @@ class PropertiesWidget(QtGui.QDialog, Ui_Properties):
         self.field_details = DetailsWidget(self)
         self.details_layout.addWidget(self.field_details)
         self.field_details.hide()
-        preview = Ui_Dashboard(self.parent());
+        preview = Ui_Dashboard(self.parent())
         preview.setDisabled(True)
         self.preview_layout.addWidget(preview)
 

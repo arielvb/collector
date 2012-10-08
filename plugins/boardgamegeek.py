@@ -77,22 +77,29 @@ class PluginBoardGameGeek(PluginCollector):
                 'image': {
                     'class': 'image',
                     'name': 'Image',
-                }
+                },
+                'average': {'name': 'Rating', 'class': 'float'},
+                'bgg_rank': {'name': 'BGG Rank'},
 
             },
-            'order': ['title', 'designer', 'artist', 'publisher',
+            'order': ['title', 'average','bgg_rank', 'designer', 'artist', 'publisher',
                       'year', 'min_players', 'max_players', 'playing',
                       'min_age', 'categories', 'mechanic', 'image'],
             'default': 'title'
         })
 
     def get_name(self):
+        """Returns the name of the plugin"""
         return self.name
 
-    def get_author(self):
+    @classmethod
+    def get_author(cls):
+        """Returns the author of the plugin"""
         return 'Ariel von Barnekow'
 
-    def search_uri(self):
+    @classmethod
+    def search_uri(cls):
+        """Returns the search uri pattern"""
         return ("http://boardgamegeek.com/geeksearch.php" +
                 "?action=search&objecttype=boardgame&q=%s&B1=Go")
 
@@ -107,21 +114,21 @@ class PluginBoardGameGeek(PluginCollector):
             name = 'Error'
             name = element.find('a').get_text()
             year = ''
-            try:
-                year = element.find('span').get_text()
-            except:
-                pass
-            uri = ''
-            uri = element.find('a').get('href')
+            year_el = element.find('span')
+            # Items without year are articles and not boardgames
+            if year_el:
+                year = year_el.get_text()
+                uri = ''
+                uri = element.find('a').get('href')
 
-            if not uri.startswith('http'):
-                uri = self.website + uri
-            output.append({
-                'name': name,
-                'year': year[1:-1],
-                'id': uri,
-                'plugin': p_id
-                })
+                if not uri.startswith('http'):
+                    uri = self.website + uri
+                output.append({
+                    'name': name,
+                    'year': year[1:-1],
+                    'id': uri,
+                    'plugin': p_id
+                    })
         return output
 
     def file_filter(self, html):
@@ -158,6 +165,11 @@ class PluginBoardGameGeek(PluginCollector):
         if not img.startswith('http'):
             img = self.website + '/' + img
         results['image'] = img
+        try:
+            results['bgg_rank'] = soup.select('.mf.nw.b a')[0].get_text()
+        except IndexError:
+            results['bgg_rank'] = 'N/A'
+        results['average'] = float(soup.select('.b span')[0].get_text())
 
         return results
 

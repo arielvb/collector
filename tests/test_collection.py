@@ -11,7 +11,6 @@ class TestCollectionManager(unittest.TestCase):
     def setUp(self):
         CollectionManager._instance = None
         Alchemy.destroy()
-
         self.man = CollectionManager(autodiscover=False)
 
     def test_is_singleton(self):

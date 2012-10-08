@@ -42,12 +42,13 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
         self._loadToolbar()
 
     def _loadToolbar(self):
+        image = self.collection.get_image() or ':folder.png'
         quick = [
             {'class':'link', 'name': self.tr('Dashboard'),
              'path': 'view/dashboard', 'image': ':/dashboard.png'},
             {'class':'link', 'name': self.collection.schema.name,
              'path': 'view/collection/collection/' + self.collection.get_id(),
-             'image': ':/boards.png'},
+             'image': image},
             {'class': 'spacer'},
             {'class': 'line'},
             {'class':'link', 'name':self.tr('Options'),
@@ -80,11 +81,15 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
             QtGui.QIcon(':/add.png'),
             self.tr("New entry"), self,
             statusTip=self.tr("New entry"),
-            triggered=lambda: self.parent().display_view('add', {'collection': self.collection.get_id()}))
+            triggered=lambda: self.parent().display_view(
+                'add',
+                {'collection': self.collection.get_id()})
+            )
         )
         self.actions_menu = menu
 
     def _linkactivated(self, uri):
+        """Callback called when a link of the toolbar is activated"""
         params = self.parent().collector_uri_call(uri)
         if params is not None:
             action = params['action']
@@ -94,6 +99,8 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
             #     self.delete()
 
     def delete(self):
+        """Deletes the current item from the collection"""
+        # TODO! ask confirmation to the user.
         self.collection.delete(self.item)
         self.parent().display_view('dashboard')
 

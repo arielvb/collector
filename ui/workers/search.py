@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from PyQt4.QtCore import QThread, pyqtSignal
-from engine.collection import CollectionManager
 from engine.collector import Collector
 from engine.provider import FileProvider
 import logging
@@ -36,9 +35,10 @@ class Worker_Search(QThread):
 
     def run(self):
         self.error = None
-        man = CollectionManager.get_instance()
-        collection = man.get_collection('boardgames')
-        self.results = collection.query(self.params['query'])
+        collector = Collector.get_instance()
+        # TODO allow user select the quicksearch collection
+        self.results = collector.quick_search(self.params['query'],
+                                              'boardgames')
         self.searchComplete.emit(WorkerResult(STATUS_OK, self.results))
 
     def getLastResult(self):
@@ -70,6 +70,8 @@ class Worker_Discover(QThread):
             '/Users/arkow/munchkinsearch.html')
         # bgg = PluginBoardGameGeek(provider)
         collector = Collector.get_instance()
+        provider = None
+
         # TODO call all the plugins
         plugin = 'PluginBoardGameGeek'
         try:
