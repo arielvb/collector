@@ -171,12 +171,14 @@ class TestPersistenceAlchemyReferences(unittest.TestCase):
         field3 = FieldRef('Artist', params={'ref': 'browser.name'})
 
         schema = Schema('test', 'designers')
+
         schema.add_field(field1)
         schema.add_field(field2)
         schema.add_field(field3)
 
         self.pers2 = PersistenceAlchemy(schema, ':memory:')
         self.pers2.all_created()
+
         self.pers.save({'name': 'John'})
         self.pers.save({'name': 'Julius'})
 
@@ -205,16 +207,55 @@ class TestPersistenceAlchemyReferences(unittest.TestCase):
         self.assertEquals(ref_loaded, {'refLoaded': True, 'designer': u'John',
                                        'name': u'Game1', 'artist': u'Julius'})
 
+    def tearDown(self):
+        Alchemy.destroy()
+
+
+class TestPersistenceAlchemyReferencesMany(unittest.TestCase):
+
+    def setUp(self):
+        field1 = FieldText('Name')
+
+        schema = Schema('test', 'browser')
+        schema.add_field(field1)
+        self.pers = PersistenceAlchemy(schema,':memory:')
+        field2 = FieldRef('Designer', params={'ref': 'browser.name',
+            'multiple': True})
+
+        field1 = FieldText('Name')
+
+        field3 = FieldRef('Artist', params={'ref': 'browser.name'})
+
+        schema = Schema('test', 'designers')
+
+        schema.add_field(field1)
+        schema.add_field(field2)
+        schema.add_field(field3)
+
+        self.pers2 = PersistenceAlchemy(schema, ':memory:')
+        self.pers2.all_created()
+
+        self.pers.save({'name': 'John'})
+        self.pers.save({'name': 'Julius'})
+
     def test_ref_multivalue(self):
         field2 = FieldRef('Designer',
                           multiple=True,
                           params={'ref': 'browser.name'})
 
         field1 = FieldText('Name')
-
-        schema = Schema('test', 'designers')
+        schema = Schema('test', 'boardgames')
+        schema.add_field(field2)
         schema.add_field(field1)
-        self.assertRaises(Exception, PersistenceAlchemy, [schema, ':memory:'])
+        pers2 = PersistenceAlchemy(schema, ':memory:')
+        pers2.all_created()
+        board2 = pers2.save({'designer': [1, 2], 'name': 'Pilares'})
+        obj = pers2.load_references([],board2)
+        self.assertEquals(obj, 
+            { 'designer': [u'John', u'Julius'],
+            'name': u'Pilares', 'refLoaded': True}
+        )
+        # self.assertEqual(board2.)
         # pers2.all_created()
         # person1 = self.pers.save({'name': 'John'})
         # person2 = self.pers.save({'name': 'Julius'})

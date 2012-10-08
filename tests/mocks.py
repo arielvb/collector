@@ -48,10 +48,10 @@ collections = {
                     'title': {'class': 'text', 'name': 'Title'},
                     'year': {'class': 'int', 'name': 'Year'},
                     'designers': {'class': 'ref', 'name': 'Designer/s',
-                                 'multiple': False,
+                                 'multiple': True,
                                  'params': {'ref': 'people.name'}},
                     'artists': {'class': 'ref', 'name': 'Artist/s',
-                                 'multiple': False,
+                                 'multiple': True,
                                  'params': {'ref': 'people.name'}},
                     'image': {'class': 'image', 'name': 'Image'},
                     'originalidea': {'class': 'text', 'name': 'Original Idea'}
