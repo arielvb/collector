@@ -69,7 +69,7 @@ class TestBGGPlugin(unittest.TestCase):
             'playing': u'120  minutes',
             'categories': [u'Economic', u'Medieval', u'Novel-based']
         })
-        self.assertItemsEqual(fields.keys(), self.plugin.schema.fields.keys())
+        self.assertItemsEqual(fields.keys(), self.plugin.schema.file.keys())
 
     def test_obtain_data_backup(self):
         """ Checks that all the attributes of the offline version
@@ -99,7 +99,7 @@ class TestBGGPlugin(unittest.TestCase):
                           'pic1312072_md.jpg',
                 'average': 0.00,
                 })
-        self.assertItemsEqual(fields.keys(), self.plugin.schema.fields.keys())
+        self.assertItemsEqual(fields.keys(), self.plugin.schema.file.keys())
 
 
 if __name__ == '__main__':

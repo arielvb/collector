@@ -47,17 +47,17 @@ collections = {
                 'fields': {
                     'title': {'class': 'text', 'name': 'Title'},
                     'year': {'class': 'int', 'name': 'Year'},
-                    'designer': {'class': 'ref', 'name': 'Designer/s',
-                                 'multiple': True,
+                    'designers': {'class': 'ref', 'name': 'Designer/s',
+                                 'multiple': False,
                                  'params': {'ref': 'people.name'}},
-                    'artist': {'class': 'ref', 'name': 'Artist/s',
-                               'multiple': True,
-                               'params': {'ref': 'people.name'}},
+                    'artists': {'class': 'ref', 'name': 'Artist/s',
+                                 'multiple': False,
+                                 'params': {'ref': 'people.name'}},
                     'image': {'class': 'image', 'name': 'Image'},
                     'originalidea': {'class': 'text', 'name': 'Original Idea'}
                 },
                 'default': 'title',
-                'order': ['title', 'year', 'designer', 'artist',
+                'order': ['title', 'year', 'designers', 'artists',
                           'image', 'originalidea'],
                 'image': ':/boards.png',
                 'ico': ':ico/boards.png'
@@ -79,8 +79,8 @@ collections = {
             # }
         },
         'persistence': {
-            'storage': 'pickle',
-           # 'storage': 'sqlalchemy',
+            # 'storage': 'pickle',
+           'storage': 'sqlalchemy',
             # 'parameters': {'boardgames': boardgames, 'people': people}
         }
     }

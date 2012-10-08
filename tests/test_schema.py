@@ -41,7 +41,7 @@ class TestSchema(unittest.TestCase):
     def test_loadFromDict_schema(self):
         in_values = self.in_values
         self.schema.read_params(in_values)
-        self.assertItemsEqual(in_values['fields'], self.schema.fields)
+        self.assertItemsEqual(in_values['fields'], self.schema.file)
         self.assertItemsEqual(in_values['order'], self.schema.order)
         self.assertEqual(in_values['name'], self.schema.name)
 
