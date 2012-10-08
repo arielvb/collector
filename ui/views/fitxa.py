@@ -7,12 +7,6 @@ from ui.widgetprovider import WidgetProvider
 from ui.helpers.filedata import FileDataWidget
 
 
-try:
-    _fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    _fromUtf8 = lambda s: s
-
-
 class Ui_Fitxa(QtGui.QWidget, Ui_File):
 
     def __init__(self, item, collection, parent=None, flags=None):

@@ -6,11 +6,6 @@ from ui.helpers.customtoolbar import CustomToolbar, Topbar
 from ui.widgetprovider import WidgetProvider
 from ui.helpers.fields import FieldWidgetManager
 
-try:
-    _fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    _fromUtf8 = lambda s: s
-
 
 class Ui_Fitxa_New(QtGui.QWidget, Ui_Form):
 

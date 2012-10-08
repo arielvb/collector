@@ -1,16 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from PyQt4 import QtCore, QtGui
-from ui.gen.plugins import Ui_PluginDialog
+from ui.gen.plugins import Ui_PluginDialog, _fromUtf8
 from ui.widgetprovider import WidgetProvider
 from ui.helpers.items import ObjectListItem
-
 from engine.collector import Collector
-
-try:
-    _fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    _fromUtf8 = lambda s: s
 
 
 class Ui_ManagePlugins(QtGui.QDialog, Ui_PluginDialog):

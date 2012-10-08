@@ -1,15 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from PyQt4 import QtCore, QtGui
-from ui.gen.dashboard import Ui_Form
+from ui.gen.dashboard import Ui_Form, _fromUtf8
 from ui.helpers.customtoolbar import CustomToolbar, Topbar
 from ui.helpers.items import FitxaListItem
-
-try:
-    _fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    _fromUtf8 = lambda s: s
-
 
 
 class Ui_Dashboard(QtGui.QWidget, Ui_Form):

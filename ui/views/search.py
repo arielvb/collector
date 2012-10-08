@@ -9,18 +9,12 @@ Search related views: item search, quick search and discover.
 # This is only needed for Python v2 but is harmless for Python v3.
 from PyQt4 import QtCore
 from PyQt4.QtGui import QWidget, QApplication, QMessageBox, QDialog
-from ui.gen.search_results import Ui_Form
+from ui.gen.search_results import Ui_Form, _fromUtf8
 from ui.workers.search import Worker_Search, Worker_Discover, STATUS_OK
 from ui.gen.search_quick import Ui_Dialog as Ui_Dialog_Search
 from ui.helpers.customtoolbar import Topbar
 from ui.helpers.items import ObjectListItem, FitxaListItem
 from ui.widgetprovider import WidgetProvider
-
-
-try:
-    _fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    _fromUtf8 = lambda s: s
 
 
 class Ui_Search(QWidget, Ui_Form):

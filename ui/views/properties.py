@@ -1,17 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from PyQt4 import QtCore, QtGui
-from ui.gen.properties import Ui_Properties
+from ui.gen.properties import Ui_Properties, _fromUtf8
 from ui.gen.field_details import Ui_FieldDetails
 from ui.widgetprovider import WidgetProvider
 from ui.helpers.items import ObjectListItem
 from ui.views.dashboard import Ui_Dashboard
-
-
-try:
-    _fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    _fromUtf8 = lambda s: s
 
 
 class DetailsWidget(QtGui.QWidget, Ui_FieldDetails):

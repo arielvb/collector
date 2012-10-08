@@ -9,11 +9,6 @@ from ui.helpers.filedata import FileDataWidget
 from ui.workers.search import Worker_FileLoader, STATUS_OK
 import webbrowser
 
-try:
-    _fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    _fromUtf8 = lambda s: s
-
 
 class Ui_PluginFile(QWidget, Ui_File):
 
