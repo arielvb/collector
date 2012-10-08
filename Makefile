@@ -51,6 +51,7 @@ ui2py: resources
 	pyuic4 ${UI_DIR}/file_data.ui -o ${BUILD_DIR}/file_data.py
 	pyuic4 ${UI_DIR}/file_selector.ui -o ${BUILD_DIR}/file_selector.py
 	pyuic4 ${UI_DIR}/widget_ref.ui -o ${BUILD_DIR}/widget_ref.py
+	pyuic4 ${UI_DIR}/widget_multivalue.ui -o ${BUILD_DIR}/widget_multivalue.py
 
 
 resources:
@@ -83,3 +84,4 @@ clean:
 	rm -rf dist build
 	rm -rf ${EXPORT}
 	rm -f collector.log
+	rm -rf Collector.egg-info

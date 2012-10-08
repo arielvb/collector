@@ -17,7 +17,7 @@ def deploy():
 
     json_it(CONFIG_FILE, collections['demo'])
     for item in DATA_FILES:
-        pickle_it(item[0] + '.p', item[1])
+        json_it(item[0] + '.json', item[1])
 
 
 def json_it(filename, obj):
