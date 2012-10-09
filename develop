@@ -1,2 +1,2 @@
 #!/bin/bash
-./main.py -h `pwd`/data
+./main.py -h `pwd`/data $@

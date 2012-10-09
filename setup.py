@@ -6,7 +6,7 @@ import os
 from engine.config import ISWINDOWS, ISOSX
 
 NAME = 'Collector'
-VERSION = "0.1"
+VERSION = "0.2"
 
 
 def read(*rnames):
@@ -15,7 +15,7 @@ def read(*rnames):
 
 
 OPTIONS = {}
-REQUIRES = ["beautifulsoup4"]
+REQUIRES = ["beautifulsoup4", 'sqlalchemy']
 
 if ISOSX:
     OPTIONS['py2app'] = {
@@ -85,6 +85,7 @@ setup(
      "ui.helpers", "ui.gen", "tests", "ui.workers"],
     # data_files=[('data', 'data/*')],
     options=OPTIONS,
+    test_suite='tests',
     setup_requires=REQUIRES,
     **EXTRAOPTIONS
 )

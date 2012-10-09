@@ -2,6 +2,7 @@
 from PyQt4.QtCore import QThread, pyqtSignal
 from engine.collector import Collector
 from engine.provider import FileProvider
+from engine.plugin import PluginCollector
 import logging
 
 STATUS_OK = 0
@@ -68,25 +69,27 @@ class Worker_Discover(QThread):
             'geeksearch.php.html')
         provider = FileProvider(
             '/Users/arkow/munchkinsearch.html')
-        # bgg = PluginBoardGameGeek(provider)
         collector = Collector.get_instance()
-        provider = None
+        # provider = None
 
         # TODO call all the plugins
         plugin = 'PluginBoardGameGeek'
-        try:
-            results = collector.discover(self.params['query'],
-             plugin,
-             provider)
-            self.searchComplete.emit(WorkerResult(STATUS_OK, results))
-        except Exception as e:
-            logging.debug(e)
-            self.searchComplete.emit(
-                WorkerResult(
-                    STATUS_ERROR,
-                    msg="Plugin %s has failed" % plugin
+        plugins = collector.get_manager('plugin').filter(PluginCollector)
+        logging.debug("Discover using: " + str(plugins))
+        for plugin in plugins:
+            try:
+                results = collector.discover(self.params['query'],
+                 plugin,
+                 provider)
+                self.searchComplete.emit(WorkerResult(STATUS_OK, results))
+            except Exception as e:
+                logging.debug(e)
+                self.searchComplete.emit(
+                    WorkerResult(
+                        STATUS_ERROR,
+                        msg="Plugin %s has failed" % plugin
+                        )
                     )
-                )
 
 
 class Worker_FileLoader(QThread):
@@ -103,10 +106,10 @@ class Worker_FileLoader(QThread):
 
     def run(self):
         # TODO remove this provider
-        provider = None
-        # provider = FileProvider(
-        #     '/Users/arkow/universidad/pfc/collector/tests/data/bgg/' +
-        #     'the-pillars-of-the-earth.html')
+        provider = FileProvider(
+            '/Users/arkow/universidad/pfc/collector/tests/data/bgg/' +
+            'the-pillars-of-the-earth.html')
+        # provider = None
         collector = Collector.get_instance()
         try:
             results = collector.get_plugin_file(

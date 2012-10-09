@@ -2,7 +2,9 @@
 *.pyo
 *.egg
 *.log
+*.egg-info
 build
 dist
 ui/gen
 data/collections
+data/settings.json

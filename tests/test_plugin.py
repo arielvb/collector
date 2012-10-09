@@ -11,7 +11,7 @@ class TestPluginManager(unittest.TestCase):
         PluginManager._instance = None
         self.manager = PluginManager(
             ['PluginHello'],
-            {'PluginHello': 'mocked plugin'})
+            {'PluginHello': type('mock', (str,), {})()})
 
     def test_disable_not_a_list(self):
         self.assertRaises(TypeError, self.manager.disable, 'PluginHello')
@@ -41,6 +41,10 @@ class TestPluginManager(unittest.TestCase):
         self.manager.look_for_plugins([path])
         execution_result = self.manager.get('PluginHello').results
         self.assertEqual(execution_result, 'Hello world')
+
+    def test_filter(self):
+        result = self.manager.filter(str)
+        self.assertEquals(result, ['PluginHello'])
 
 if __name__ == '__main__':
     unittest.main()

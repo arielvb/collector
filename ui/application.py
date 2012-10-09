@@ -29,10 +29,7 @@ class CollectorApplication(QtGui.QApplication):
         if argv is not None:
             self.parse_args(argv)
         # Launch collector
-        config = {}
-        if self.home is not None:
-            config['home'] = self.home
-        self.collector = Collector(config)
+        self.collector = Collector(self.home)
 
         __import__("ui.gen.lang_rc")
         self.load_translations(":/lang")

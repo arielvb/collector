@@ -1,0 +1,6 @@
+include make.bat Makefile
+include collection.icns collection.ico
+include main.py builddemo.py
+graft data
+graft tests/data
+graft ui/designer
