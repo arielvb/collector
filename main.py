@@ -4,10 +4,10 @@
 # W0403: relative import
 """Collector main script"""
 import sys
-import logging
 import sip
 sip.setapi('QVariant', 2)
-from ui.application import CollectorApplication
+import logging
+
 
 # The logging format
 FORMAT = '%(asctime)s - %(levelname)s - %(message)s'
@@ -20,6 +20,9 @@ def main():
         filename='collector.log',
         level=logging.DEBUG,
         format=FORMAT)
+    # logging does bizzard things if this import is
+    #  before the call logging.basicConfig
+    from ui.application import CollectorApplication
 
     app = CollectorApplication(sys.argv)
 
