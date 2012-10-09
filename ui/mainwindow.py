@@ -13,7 +13,7 @@ from views.fitxa import FitxaView
 from views.collection import CollectionView
 from views.search import SearchView, DiscoverView, SearchDialog
 from views.fitxa_new import FitxaNewView
-from views.plugins import PluginsView
+from views.preferences import PreferencesView
 from views.properties import PropertiesView
 from views.plugincollector_fitxa import PluginFileView
 from views import ViewNotFound
@@ -40,6 +40,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.collection = CollectionManager.get_instance()
 
         self.setupUi(self)
+        self.showMaximized()
         self.setUnifiedTitleAndToolBarOnMac(True)
         # TODO clean toolbar code?
         # self.createToolbar()
@@ -71,9 +72,9 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
             QtCore.SIGNAL(_from_utf8("triggered()")),
             lambda: self.display_view('discover'))
         QtCore.QObject.connect(
-            self.actionManage_plugins,
+            self.actionPreferences,
             QtCore.SIGNAL(_from_utf8("triggered()")),
-            lambda: self.display_view('plugins'))
+            lambda: self.display_view('preferences'))
         QtCore.QObject.connect(
             self.actionProperties,
             QtCore.SIGNAL(_from_utf8("triggered()")),
@@ -89,7 +90,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
             'add': FitxaNewView(self),
             'search': SearchView(self),
             'discover': DiscoverView(self),
-            'plugins': PluginsView(self),
+            'preferences': PreferencesView(self),
             'quicksearch': SearchDialog(self),
             'properties': PropertiesView(self),
             'pluginfile': PluginFileView(self),

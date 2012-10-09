@@ -1,28 +1,28 @@
 # -*- coding: utf-8 -*-
 
 from PyQt4 import QtCore, QtGui
-from ui.gen.plugins import Ui_PluginDialog, _fromUtf8
+from ui.gen.preferences import Ui_PreferencesDialog, _fromUtf8
 from ui.widgetprovider import WidgetProvider
 from ui.helpers.items import ObjectListItem
 from engine.collector import Collector
 
 
-class Ui_ManagePlugins(QtGui.QDialog, Ui_PluginDialog):
+class Ui_Preferences(QtGui.QDialog, Ui_PreferencesDialog):
 
     def __init__(self, parent, flags=None):
-        """ Creates a new dashboard view"""
+        """ Creates a new dialog to render the application preferences"""
         if flags is None:
             flags = QtCore.Qt.WindowFlags(0)
-        super(Ui_ManagePlugins, self).__init__(parent, flags)
+        super(Ui_Preferences, self).__init__(parent, flags)
         self.manager = Collector.get_instance().get_manager("plugin")
 
         self.setupUi()
 
     def setupUi(self):
-        """Creates the ui elements for the dashboard.
+        """Creates the ui elements for the preferences.
         This function overrides the Ui_Form function creating thinks that
         aren't easy to do with the QT Designer"""
-        super(Ui_ManagePlugins, self).setupUi(self)
+        super(Ui_Preferences, self).setupUi(self)
         self.refresh()
         self.connect(
             self.b_disable,
@@ -68,10 +68,9 @@ class Ui_ManagePlugins(QtGui.QDialog, Ui_PluginDialog):
             self.listWidget_2.addItem(item)
 
 
-
-class PluginsView(WidgetProvider):
+class PreferencesView(WidgetProvider):
 
     mode = WidgetProvider.DIALOG_WIDGET
 
     def getWidget(self, params):
-        return Ui_ManagePlugins(self.parent)
+        return Ui_Preferences(self.parent)

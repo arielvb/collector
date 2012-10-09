@@ -24,7 +24,7 @@ if "%1" == "" (
     call %PYQT_PATH%\pyuic4 -x %UI_DIR%\search_results.ui -o %BUILD_DIR%\search_results.py
     call %PYQT_PATH%\pyuic4 -x %UI_DIR%\search_quick.ui -o %BUILD_DIR%\search_quick.py
     call %PYQT_PATH%\pyuic4 -x %UI_DIR%\collection_items.ui -o %BUILD_DIR%\collection_items.py
-    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\plugins.ui -o %BUILD_DIR%\plugins.py
+    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\preferences.ui -o %BUILD_DIR%\preferences.py
     call %PYQT_PATH%\pyuic4 -x %UI_DIR%\toolbar.ui -o %BUILD_DIR%\toolbar.py
     call %PYQT_PATH%\pyuic4 -x %UI_DIR%\topbar.ui -o %BUILD_DIR%\topbar.py
     call %PYQT_PATH%\pyuic4 -x %UI_DIR%\properties.ui -o %BUILD_DIR%\properties.py

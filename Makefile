@@ -42,7 +42,7 @@ ui2py: resources
 	pyuic4 ${UI_DIR}/search_results.ui -o ${BUILD_DIR}/search_results.py
 	pyuic4 ${UI_DIR}/search_quick.ui -o ${BUILD_DIR}/search_quick.py
 	pyuic4 ${UI_DIR}/collection_items.ui -o ${BUILD_DIR}/collection_items.py
-	pyuic4 ${UI_DIR}/plugins.ui -o ${BUILD_DIR}/plugins.py
+	pyuic4 ${UI_DIR}/preferences.ui -o ${BUILD_DIR}/preferences.py
 	pyuic4 ${UI_DIR}/toolbar.ui -o ${BUILD_DIR}/toolbar.py
 	pyuic4 ${UI_DIR}/topbar.ui -o ${BUILD_DIR}/topbar.py
 	pyuic4 ${UI_DIR}/properties.ui -o ${BUILD_DIR}/properties.py

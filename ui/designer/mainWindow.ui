@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>650</width>
-    <height>500</height>
+    <width>750</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,6 +16,9 @@
   <property name="windowIcon">
    <iconset resource="resources.qrc">
     <normaloff>:/collection.png</normaloff>:/collection.png</iconset>
+  </property>
+  <property name="unifiedTitleAndToolBarOnMac">
+   <bool>true</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -29,7 +32,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>585</width>
+     <width>750</width>
      <height>22</height>
     </rect>
    </property>
@@ -38,8 +41,6 @@
      <string>Collection</string>
     </property>
     <addaction name="actionProperties"/>
-    <addaction name="separator"/>
-    <addaction name="actionClose"/>
     <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menuSearch">
@@ -53,23 +54,16 @@
     <property name="title">
      <string>Tools</string>
     </property>
-    <widget class="QMenu" name="menuPlugins">
-     <property name="title">
-      <string>Plugins</string>
-     </property>
-     <addaction name="separator"/>
-     <addaction name="actionManage_plugins"/>
-    </widget>
-    <addaction name="menuPlugins"/>
-    <addaction name="actionOpen_Collection"/>
+    <addaction name="actionDiscover"/>
     <addaction name="actionBackup"/>
+    <addaction name="actionOpen_Collection"/>
+    <addaction name="actionPreferences"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
      <string>View</string>
     </property>
     <addaction name="actionView_Dashboard"/>
-    <addaction name="actionDiscover"/>
     <addaction name="actionFullscreen"/>
    </widget>
    <addaction name="menuFile"/>
@@ -84,17 +78,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+F</string>
-   </property>
-  </action>
-  <action name="actionClose">
-   <property name="text">
-    <string>Close</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+W</string>
-   </property>
-   <property name="shortcutContext">
-    <enum>Qt::ApplicationShortcut</enum>
    </property>
   </action>
   <action name="actionView_Dashboard">
@@ -137,9 +120,9 @@
     <string>Discover</string>
    </property>
   </action>
-  <action name="actionManage_plugins">
+  <action name="actionPreferences">
    <property name="text">
-    <string>Manage plugins</string>
+    <string>Preferences</string>
    </property>
   </action>
   <action name="actionAdvanced_Search">
@@ -168,22 +151,5 @@
   <include location="resources.qrc"/>
   <include location="lang.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>actionClose</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>399</x>
-     <y>299</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>
