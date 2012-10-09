@@ -33,9 +33,9 @@ class TestConfig(unittest.TestCase):
         self.assertEquals(path, ok)
 
     def test_resources_non_frozen_win(self):
-        sys.platform = "win32"
+        # sys.platform = "win32"
         config.rebuild_constants()
-        conf = config.Config()
+        conf = config.Config(platform=config.Config.WINDOWS)
         path = conf.get_resources_path()
         self.assertEquals(path, os.path.abspath(''))
 
@@ -53,6 +53,10 @@ class TestConfig(unittest.TestCase):
             conf.get_data_path(),
             os.path.join(os.path.expanduser('~'), 'Collector'))
 
+    def test_set_setting(self):
+        conf = config.Config()
+        conf.set_settings({'home': ':resources:'})
+        self.assertEqual(conf.get_home(), conf.get_appdata_path())
     #TODO linux config!
 
 

@@ -23,14 +23,16 @@ class CollectorApplication(QtGui.QApplication):
         self.splash = SplashScreen()
         self.splash.show()
         self.processEvents()
+        self.view = None
+        self.uri = None
+        self.home = None
+        if argv is not None:
+            self.parse_args(argv)
         # Launch collector
-        # TODO this configuration must be a path to the config file
-        self.collector = Collector({
-            'home': ':resources:',
-            'plugins_enabled': [
-                'PluginHellouser',
-                'PluginBoardGameGeek']
-            })
+        config = {}
+        if self.home is not None:
+            config['home'] = self.home
+        self.collector = Collector(config)
 
         __import__("ui.gen.lang_rc")
         self.load_translations(":/lang")
@@ -47,19 +49,24 @@ class CollectorApplication(QtGui.QApplication):
         # Bring window to front
         self.main.raise_()
 
-        if argv is not None:
-            self.parse_args(argv)
+        if self.view is not None:
+            self.main.display_view(self.view)
+        elif self.uri is not None:
+            self.main.collector_uri_call(self.uri)
 
     def parse_args(self, argv):
         """Parse argv, the input arguments"""
         if '--view' in argv:
-            view = argv[argv.index('--view') + 1]
-            self.main.display_view(view)
+            self.view = argv[argv.index('--view') + 1]
         elif '--uri' in argv:
-            self.main.collector_uri_call(argv[argv.index('--uri') + 1])
+            self.uri = argv[argv.index('--uri') + 1]
+        if '--home' in argv:
+            self.home = argv[argv.index('--home') + 1]
+        elif '-h' in argv:
+            self.home = argv[argv.index('-h') + 1]
 
     # The language code selector is from:
-    # switch translations dynamically in a PyQt4 application
+    # "switch translations dynamically in a PyQt4 application"
     #
     # PyQt version by Hans-Peter Jansen <hpj@urpla.net>
 

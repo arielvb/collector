@@ -31,6 +31,7 @@ class Ui_ManagePlugins(QtGui.QDialog, Ui_PluginDialog):
             self.b_enable,
             QtCore.SIGNAL(_fromUtf8("clicked()")), self.enable)
 
+
     @QtCore.pyqtSlot()
     def disable(self):
         selected = self.listWidget.selectedItems()
@@ -38,6 +39,7 @@ class Ui_ManagePlugins(QtGui.QDialog, Ui_PluginDialog):
         for item in selected:
             to_disable.append(item.obj.get_id())
         self.manager.disable(to_disable)
+        self.manager.save()
         self.refresh()
 
     @QtCore.pyqtSlot()
@@ -47,6 +49,7 @@ class Ui_ManagePlugins(QtGui.QDialog, Ui_PluginDialog):
         for item in selected:
             to_enable.append(item.obj.get_id())
         self.manager.enable(to_enable)
+        self.manager.save()
         self.refresh()
 
     def refresh(self):
@@ -63,6 +66,7 @@ class Ui_ManagePlugins(QtGui.QDialog, Ui_PluginDialog):
             obj = self.manager.get(plugin)
             item = ObjectListItem(obj, obj.get_name())
             self.listWidget_2.addItem(item)
+
 
 
 class PluginsView(WidgetProvider):
