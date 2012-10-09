@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from PyQt4 import QtCore
-from PyQt4.QtGui import QWidget, QMessageBox
+from PyQt4.QtGui import QWidget, QMessageBox, QMenu, QAction, QIcon, QCursor
 from ui.gen.fitxa import Ui_File
 from ui.helpers.customtoolbar import CustomToolbar, Topbar
 from ui.widgetprovider import WidgetProvider
@@ -38,7 +38,9 @@ class Ui_PluginFile(QWidget, Ui_File):
         self._loadToolbar()
         self.search()
 
+    @QtCore.pyqtSlot()
     def search(self):
+        """Loads the content"""
         self.progressBar.show()
         self.worker.search(self.id, self.plugin.get_id())
 
@@ -49,25 +51,53 @@ class Ui_PluginFile(QWidget, Ui_File):
             {'class':'link', 'name': self.tr('Dashboard'),
              'path': 'view/dashboard', 'image': ':/dashboard.png'},
             {'class': 'spacer'},
-            {'class':'link', 'name': self.tr('View in browser'),
-             'path': 'action/browser', 'image': ':/add.png'},
-            {'class':'link', 'name': self.tr('Reload'),
-             'path': 'action/reload', 'image': ':/add.png'},
+            # {'class':'link', 'name': self.tr('View in browser'),
+            #  'path': 'action/browser', 'image': ':/add.png'},
+            # {'class':'link', 'name': self.tr('Reload'),
+            #  'path': 'action/reload', 'image': ':/add.png'},
+            {'class':'link', 'name': self.tr('Options'),
+             'path': 'action/options', 'image': ':/add.png'},
         ]
         CustomToolbar(self.toolbar, quick, self._linkactivated)
+        menu = QMenu(self.topbar)
+        #TODO change icons, implment add to my collection action
+        menu.addAction(QAction(
+            QIcon(':/add.png'),
+            self.tr("Add"), self,
+            statusTip=self.tr("Add to my collection"),
+            triggered=lambda: "a")
+        )
+        menu.addAction(QAction(
+            QIcon(':/fullscreen.png'),
+            self.tr("Reload"), self,
+            statusTip=self.tr("Reload the file."),
+            triggered=self.search)
+        )
+
+        menu.addAction(QAction(
+            QIcon(':/search.png'),
+            self.tr("View in browser"), self,
+            statusTip=self.tr("View in your browser"),
+            triggered=lambda: webbrowser.open(self.id))
+        )
+        self.actions_menu = menu
+
 
     def _linkactivated(self, uri):
         params = self.parent().collector_uri_call(uri)
         #TODO check action is go back
         if params is not None:
             action = params['action']
+            if action == 'options':
+                self.actions_menu.popup(QCursor.pos())
+            # action = params['action']
             if action == 'back':
                 self.parent().display_view(self.referer['view'],
                                            self.referer['params'])
-            elif action == 'reload':
-                self.search()
-            elif action == 'browser':
-                webbrowser.open(self.id)
+            # elif action == 'reload':
+            #     self.search()
+            # elif action == 'browser':
+            #     webbrowser.open(self.id)
 
     def load_complete(self, results):
         """Updates the view with the results of the worker"""
