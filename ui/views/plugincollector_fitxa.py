@@ -60,7 +60,7 @@ class Ui_PluginFile(QWidget, Ui_File):
         ]
         CustomToolbar(self.toolbar, quick, self._linkactivated)
         menu = QMenu(self.topbar)
-        #TODO change icons, implment add to my collection action
+        #TODO implement add to my collection action
         menu.addAction(QAction(
             QIcon(':/add.png'),
             self.tr("Add"), self,
@@ -68,14 +68,14 @@ class Ui_PluginFile(QWidget, Ui_File):
             triggered=lambda: "a")
         )
         menu.addAction(QAction(
-            QIcon(':/fullscreen.png'),
+            QIcon(':/reload.png'),
             self.tr("Reload"), self,
             statusTip=self.tr("Reload the file."),
             triggered=self.search)
         )
 
         menu.addAction(QAction(
-            QIcon(':/search.png'),
+            QIcon(':/browser.png'),
             self.tr("View in browser"), self,
             statusTip=self.tr("View in your browser"),
             triggered=lambda: webbrowser.open(self.id))

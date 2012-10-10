@@ -70,7 +70,7 @@ class Worker_Discover(QThread):
         provider = FileProvider(
             '/Users/arkow/munchkinsearch.html')
         collector = Collector.get_instance()
-        # provider = None
+        provider = None
 
         # TODO call all the plugins
         plugin = 'PluginBoardGameGeek'
@@ -109,7 +109,7 @@ class Worker_FileLoader(QThread):
         provider = FileProvider(
             '/Users/arkow/universidad/pfc/collector/tests/data/bgg/' +
             'the-pillars-of-the-earth.html')
-        # provider = None
+        provider = None
         collector = Collector.get_instance()
         try:
             results = collector.get_plugin_file(

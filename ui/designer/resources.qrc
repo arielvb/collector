@@ -21,5 +21,9 @@
     <file>author.png</file>
     <file>folder.png</file>
     <file>ico/folder.png</file>
+    <file>reload.png</file>
+    <file>ico/reload.png</file>
+    <file>browser.png</file>
+    <file>ico/browser.png</file>
   </qresource>
 </RCC>

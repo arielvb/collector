@@ -136,7 +136,7 @@ class PluginBoardGameGeek(PluginCollector):
         #FIXME # of Players has a dummy encoding,
         #  after beautifulsoup... modify the original string
         html = html.replace('&nbsp;−&nbsp;', ' -     ').replace('&nbsp;&minus;&nbsp;',' - ')
-        soup = BeautifulSoup(html, 'lxml', from_encoding="utf-8")
+        soup = BeautifulSoup(html, from_encoding="utf-8")
         results = {}
         results['title'] = soup.select('.geekitem_title a span')[0].getText()
         taula = soup.select('.geekitem_infotable')[0]

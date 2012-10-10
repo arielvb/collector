@@ -6,3 +6,5 @@ fullscreen.png http://www.iconfinder.com/icondetails/15328/32/fullscreen_view_ic
 edit.png http://www.iconfinder.com/icondetails/50835/128/edit_pencil_write_icon
 search.png http://www.iconfinder.com/icondetails/7186/128/kfind_search_icon
 delete.png http://www.iconfinder.com/icondetails/62114/128/delete_garbage_remove_trash_icon
+reload.png http://www.iconfinder.com/icondetails/17009/128/arrows_interact_refresh_reload_sync_update_icon
+browser.png http://www.iconfinder.com/icondetails/10442/128/blue_earth_globe_internet_world_icon
