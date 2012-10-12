@@ -100,6 +100,12 @@ class TestPersistenceAlchemy(unittest.TestCase):
         result = pers._session.query(pers.class_).first()
         self.assertEquals(obj, result)
 
+    def test_delete(self):
+        self.pers.all_created()
+        obj = self.pers.save({'name': 'John'})
+        self.pers.delete(obj.id)
+        self.assertEqual(self.pers.get(obj.id), None)
+
     def test_search(self):
         pers = self.pers
         pers.all_created()
