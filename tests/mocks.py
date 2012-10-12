@@ -82,6 +82,12 @@ collections = {
             # 'storage': 'pickle',
            'storage': 'sqlalchemy',
             # 'parameters': {'boardgames': boardgames, 'people': people}
+        },
+        'mappings': {
+            'PluginBoardGameGeek': {
+                'title': {'field': 'title', 'folder': 'boardgames'},
+                'year': {'field': 'year', 'folder': 'boardgames'},
+            }
         }
     }
 }

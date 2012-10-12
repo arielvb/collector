@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
+# pylint: disable-msg=C0103,E1101
+# C0103:
 
 from PyQt4 import QtCore, QtGui
 from ui.gen.dashboard import Ui_Form, _fromUtf8
 from ui.helpers.customtoolbar import CustomToolbar, Topbar
 from ui.helpers.items import FitxaListItem
+from ui.widgetprovider import WidgetProvider
 
 
 class Ui_Dashboard(QtGui.QWidget, Ui_Form):
+    """The dashboard widget"""
 
     def __init__(self, parent, flags=None):
         """ Creates a new dashboard view"""
@@ -17,6 +21,7 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
         self.setupUi()
 
     def get_dashboard_settings(self):
+        """Calculates the dashboard settings"""
         settings = {}
         collections = self.parent().collection.collections
         items = []
@@ -37,7 +42,8 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
                 {'class': 'spacer'},
                 {'class': 'line'},
                 {'class': 'link',
-                 'name': str(self.tr('New <b>%s</b>')) % main_collection.get_name(),
+                 'name': str(self.tr('New <b>%s</b>')) %
+                         main_collection.get_name(),
                  'path': 'view/add/collection/' + main_collection.get_id(),
                  'image': ':/add.png'}
             ])
@@ -63,14 +69,10 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
         Topbar(widget=self.topbar, icon=':ico/dashboard.png',
                title=self.tr("Dashboard").toUpper())
         self._loadToolbar()
-        # TODO lastgames must be a widget and will ofer a way to choose
-        #  the collection to display and the title
         self.listWidget.connect(
             self.listWidget,
             QtCore.SIGNAL(_fromUtf8("itemClicked(QListWidgetItem *)")),
-            lambda s: self.parent().display_view(
-                'fitxa',
-                {'item': s.id, 'collection': 'boardgames'}))
+            self.goto_selected)
 
     def _loadToolbar(self):
         """ Creates the toolbar for the view, this function must be
@@ -79,9 +81,11 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
         CustomToolbar(self.toolbar, items, self._toolbarCallback)
 
     def _toolbarCallback(self, uri):
+        """Callback for the toolbar"""
         self.parent().collector_uri_call(uri)
 
     def last_files(self, listContainer):
+        """Renders the last files"""
         collection_id = self.settings['lastcollection']
         if collection_id is not None:
             collection = self.parent().collection.get_collection(collection_id)
@@ -90,18 +94,32 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
             lastObjects = collection.get_last()
             for i in lastObjects:
                 text = i[collection.schema.default]
-                item = FitxaListItem(i['id'], text != '' and text or str(self.tr('Entry %d')) % i['id'] )
+                item = FitxaListItem(i['id'], text != '' and
+                                     text or str(self.tr('Entry %d')) %
+                                     i['id'])
                 listContainer.addItem(item)
         else:
-            self.lLastItems.setText(self.tr("Warning: No collection available!"))
+            self.lLastItems.setText(
+                self.tr("Warning: No collection available!"))
+
+    @QtCore.pyqtSlot()
+    def reload(self):
+        """Reloads the dashboard view"""
+        #TODO test and try!
+        self.settings = self.get_dashboard_settings()
+        self.listWidget.clear()
+        self.last_files(self.listWidget)
+
+    def goto_selected(self, s):
+        """Goes to the selected item"""
+        self.parent().display_view(
+            'fitxa',
+            {'item': s.id, 'collection': self.settings['lastcollection']})
 
 
-class DashboardView():
+class DashboardView(WidgetProvider):
+    """Dashboard view"""
 
-    def __init__(self, parent):
-        self.parent = parent
-
-    def run(self, params={}):
-        self.parent.fitxa = None
+    def getWidget(self, params):
         dashboardWidget = Ui_Dashboard(self.parent)
-        self.parent.setCentralWidget(dashboardWidget)
+        return dashboardWidget

@@ -5,7 +5,7 @@
 from PyQt4 import QtGui
 from PyQt4.QtCore import pyqtSlot, Qt, QString, SIGNAL, QUrl
 from PyQt4.QtNetwork import QNetworkAccessManager, QNetworkRequest
-from engine.collection import CollectionManager
+from engine.collection import Collection
 from ui.gen.file_selector import Ui_FileSelector
 from ui.gen.widget_ref import Ui_Reference
 from ui.gen.widget_multivalue import Ui_Multivalue
@@ -146,7 +146,7 @@ class ReferenceWidget(QtGui.QWidget, Ui_Reference):
 
     def __init__(self, field, value, parent=None):
         super(ReferenceWidget, self).__init__(parent)
-        self.man = CollectionManager.get_instance()
+        self.man = Collection.get_instance()
         self.field = field
         self.setupUi(self)
         self.values = []

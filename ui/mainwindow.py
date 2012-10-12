@@ -18,7 +18,7 @@ from views.properties import PropertiesView
 from views.plugincollector_fitxa import PluginFileView
 from views import ViewNotFound
 
-from engine.collection import CollectionManager
+from engine.collection import Collection
 from engine.plugin import PluginManager
 
 try:
@@ -37,7 +37,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         super(MainWindow,  self,).__init__(parent)
         self.plugin_manager = PluginManager.get_instance()
 
-        self.collection = CollectionManager.get_instance()
+        self.collection = Collection.get_instance()
 
         self.setupUi(self)
         self.showMaximized()

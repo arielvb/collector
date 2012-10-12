@@ -31,7 +31,6 @@ class Ui_Preferences(QtGui.QDialog, Ui_PreferencesDialog):
             self.b_enable,
             QtCore.SIGNAL(_fromUtf8("clicked()")), self.enable)
 
-
     @QtCore.pyqtSlot()
     def disable(self):
         selected = self.listWidget.selectedItems()

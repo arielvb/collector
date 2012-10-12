@@ -1,27 +1,42 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from engine.collection import CollectionManager
+from engine.collection import Collection
 from engine.persistence_sql import Alchemy
 import os
 
 
-class TestCollectionManager(unittest.TestCase):
+class TestCollection(unittest.TestCase):
 
     def setUp(self):
-        CollectionManager._instance = None
+        Collection._instance = None
         Alchemy.destroy()
-        self.man = CollectionManager(autodiscover=False)
+        self.man = Collection(autodiscover=False)
 
     def test_is_singleton(self):
         """Checks that obtain the instance again returns the existing one"""
-        self.assertEquals(self.man, CollectionManager.get_instance())
+        self.assertEquals(self.man, Collection.get_instance())
 
-    def test_get_app_path(self):
+    def test_discover(self):
+        """Tries to discover collections"""
+        # TODO move to test_collector
         # ../../data
-        collections = self.man.discover_collections(
+        collections = self.man.load_collections(
             os.path.realpath(os.path.join(__file__, "../../data/collections")))
         self.assertEquals(len(collections), 2)
+
+    def test_set_properties(self):
+        """Test the method set_properties of a collection"""
+        name = "A mocked collection"
+        author = "Test User"
+        description = "Test or not to test"
+        self.man.set_properties({'title': name})
+        self.assertEqual(self.man.get_title(), name)
+        self.man.set_properties({'author': author})
+        self.assertEqual(self.man.get_author(), author)
+
+        self.man.set_properties({'description': description})
+        self.assertEqual(self.man.get_description(), description)
 
 
 if __name__ == '__main__':

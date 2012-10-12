@@ -120,8 +120,18 @@ class PropertiesWidget(QtGui.QDialog, Ui_Properties):
             self.field_details.hide()
 
     def save(self):
-        # TODO save method
-        self.accept()
+        """Stores the properties"""
+        # Info tab
+        valid = True
+        info = {
+            'title': str(self.title.text()),
+            'author': str(self.author.text()),
+            'description': str(self.description.toPlainText())
+        }
+        self.collection.set_properties(info)
+        # TODO save all the tabs
+        if valid:
+            self.accept()
 
 
 class PropertiesView(WidgetProvider):

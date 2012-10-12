@@ -62,8 +62,7 @@ class Worker_Discover(QThread):
         self.start()
 
     def run(self):
-        # TODO remove this line
-        provider = None
+        # TODO remove this provider
         provider = FileProvider(
             '/Users/arkow/universidad/pfc/collector/tests/data/bgg/' +
             'geeksearch.php.html')
@@ -72,7 +71,6 @@ class Worker_Discover(QThread):
         collector = Collector.get_instance()
         provider = None
 
-        # TODO call all the plugins
         plugin = 'PluginBoardGameGeek'
         plugins = collector.get_manager('plugin').filter(PluginCollector)
         logging.debug("Discover using: " + str(plugins))
@@ -81,6 +79,7 @@ class Worker_Discover(QThread):
                 results = collector.discover(self.params['query'],
                  plugin,
                  provider)
+                # TODO partial signal
                 self.searchComplete.emit(WorkerResult(STATUS_OK, results))
             except Exception as e:
                 logging.debug(e)
