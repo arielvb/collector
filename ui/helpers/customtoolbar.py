@@ -40,6 +40,10 @@ class CustomToolbar(CustomToolbarUi):
         self.links = []
         self.Form = Form
         self.setupUi(Form)
+        # TODO background or not background?
+        # Form.setStyleSheet("background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\
+        #                           stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,\
+        #                           stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);    ")
         for i in items:
             self.createItem(i, callback)
 
@@ -63,6 +67,7 @@ class CustomToolbar(CustomToolbarUi):
             The items spacer/line doesn't have any parameter
         """
         Form = self.Form
+
         # Link
         if config['class'] == 'link':
             content = self.template % {
