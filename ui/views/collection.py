@@ -3,16 +3,7 @@ from ui.gen.collection_items import Ui_Form
 from PyQt4 import QtCore, QtGui
 from ui.helpers.customtoolbar import CustomToolbar, Topbar
 from ui.widgetprovider import WidgetProvider
-
-
-class FitxaTableItem(QtGui.QTableWidgetItem):
-
-    def __init__(self, itemId):
-        self.id = itemId
-        super(FitxaTableItem, self).__init__()
-
-    def getObjectId(self):
-        return self.id
+from ui.helpers.items import FitxaTableItem
 
 
 class Ui_Collection(QtGui.QWidget, Ui_Form):
@@ -59,7 +50,7 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
         for item in header:
             self.createHeaderItem(self.schema.get_field(item).name)
         for item in self.objects:
-            self.createTableRow(item, header)
+            self.createTableRow(self.collection.load_references(item), header)
 
         # Connections
         QtCore.QObject.connect(
@@ -83,6 +74,7 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
         column = 0
         for key in orderedKeys:
             item = FitxaTableItem(items['id'])
+            # items = self.collection.load_references(items)
             #TODO allow list elements
             value = ''
             if key in items:
@@ -93,7 +85,7 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
                 more = len(value) - 1
                 more_text = ''
                 if more > 0:
-                    more_text = "\n" + str(more) + " more"
+                    more_text = str(self.tr(" ( %d more)")) % more
                 item.setText(str(value[0]) + more_text)
             self.tableWidget.setItem(row, column, item)
             column += 1
