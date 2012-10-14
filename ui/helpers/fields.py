@@ -38,6 +38,12 @@ class FieldWidget:
         return self.prepareWidgetEdit(parent, field, value)
 
 
+class TextWidget(QtGui.QLineEdit):
+    """FiedText, overrides QLineEdit to add the get_value method"""
+
+    get_value = lambda self: unicode(self.text())
+
+
 class FieldTextWidget(FieldWidget):
 
     def prepareWidget(self, parent, field, value):
@@ -45,24 +51,22 @@ class FieldTextWidget(FieldWidget):
         widget.setTextInteractionFlags(Qt.LinksAccessibleByMouse |
                                    Qt.TextSelectableByMouse)
         try:
-            if not isinstance(value, str):
-                value = str(value)
+            if not isinstance(value, (str, unicode)):
+                value = unicode(value)
             widget.setText(_fromUtf8(value))
         except Exception:
             widget.setText("Error")
         return widget
 
     def prepareWidgetEdit(self, parent, field, value):
-        widget = QtGui.QLineEdit(parent)
+        widget = TextWidget(parent)
         try:
-            # TODO custom widget for Int values
-            if isinstance(value, int):
-                value = str(value)
+            if not isinstance(value, (str, unicode)):
+                value = unicode(value)
             widget.setText(_fromUtf8(value))
         except Exception:
             widget.setText("Error")
         return widget
-        # w.setObjectName(_fromUtf8(text))
 
 
 class ImageWidget(QtGui.QLabel):
@@ -73,12 +77,13 @@ class ImageWidget(QtGui.QLabel):
 
     def set_image(self, value, max_x=350, max_y=350):
         pixmap = None
-        if value != '':
+        if value != '' and not value is None:
             pixmap = QtGui.QPixmap(value)
         # Check if the file doensn't have image or the image file
         #  doesn't exists
         if pixmap is None or pixmap.isNull():
-            pixmap = QtGui.QPixmap(_fromUtf8(':box.png'))
+            value = ':box.png'
+            pixmap = QtGui.QPixmap(_fromUtf8(value))
         if value.startswith('http'):
             logging.debug('FILEDATA loading image from url %s', value)
             self.nam.finished.connect(lambda r: self.image_complete(r, max_x, max_y))
