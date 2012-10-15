@@ -82,9 +82,9 @@ class PluginBoardGameGeek(PluginCollector):
                 'bgg_rank': {'name': 'BGG Rank'},
 
             },
-            'order': ['title', 'average','bgg_rank', 'designer', 'artist', 'publisher',
-                      'year', 'min_players', 'max_players', 'playing',
-                      'min_age', 'categories', 'mechanic', 'image'],
+            'order': ['title', 'average', 'bgg_rank', 'designer', 'artist',
+                      'publisher', 'year', 'min_players', 'max_players',
+                      'playing', 'min_age', 'categories', 'mechanic', 'image'],
             'default': 'title'
         })
 
@@ -135,7 +135,9 @@ class PluginBoardGameGeek(PluginCollector):
         """ Parses the html to obtain all the fields defeined in the schema """
         #FIXME # of Players has a dummy encoding,
         #  after beautifulsoup... modify the original string
-        html = html.replace('&nbsp;−&nbsp;', ' -     ').replace('&nbsp;&minus;&nbsp;',' - ')
+        html = html.replace('&nbsp;−&nbsp;', ' -     ').replace(
+            '&nbsp;&minus;&nbsp;', ' - '
+            )
         soup = BeautifulSoup(html, from_encoding="utf-8")
         results = {}
         results['title'] = soup.select('.geekitem_title a span')[0].getText()
@@ -161,7 +163,8 @@ class PluginBoardGameGeek(PluginCollector):
             self.remove_show_more(self.row_filter(rows[12])))
         results['mechanic'] = self.remove_show_more(self.row_filter(rows[13]))
         # Load image size == medium and not _t
-        img = soup.select('link[rel=image_src]')[0].get('href').replace('_t', '_md')
+        img = soup.select('link[rel=image_src]')[0].get('href').replace(
+            '_t', '_md')
         if not img.startswith('http'):
             img = self.website + '/' + img
         results['image'] = img

@@ -44,19 +44,18 @@ class PropertiesWidget(QtGui.QDialog, Ui_Properties):
 
     def setupUi(self):
         super(PropertiesWidget, self).setupUi(self)
-        # Title
-        text = self.collection.get_title()
-        self.title.setText(_fromUtf8(text))
-        # Author
-        text = self.collection.get_author()
-        self.author.setText(_fromUtf8(text))
-        # Description
-        text = self.collection.get_description()
-        self.description.setPlainText(_fromUtf8(text))
-        # Persistence
+        # Info tab {
+        info = self.collection.get_properties()
+        # > Title
+        self.title.setText(_fromUtf8(info['title']))
+        # > Author
+        self.author.setText(_fromUtf8(info['author']))
+        # > Description
+        self.description.setPlainText(_fromUtf8(info['description']))
+        # > Persistence
         text = self.collection.get_persistence()
         self.persistence.setText(_fromUtf8(text))
-
+        # } End info tab
         # Fields list
         font = QtGui.QFont()
         font.setBold(True)

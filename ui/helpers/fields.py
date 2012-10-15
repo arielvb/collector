@@ -1,25 +1,28 @@
 # -*- coding: utf-8 -*-
+"""
+Fields - Widgets and providers
+==============================
 
-# TODO refractor this file must contain for each field:
-#  (provider, widget)
+This module is formed by the basic fields supported by Collector. For every
+ field a edit widget and a reaonly widget are defiened.
+
+The access to a widget a manager has been defiened, the FieldWidgetManager,
+ that has a registry of every existing widget and allows create new instances
+ of each one in both modes (readlony, write).
+"""
+from abc import ABCMeta, abstractmethod
 from PyQt4 import QtGui
-from PyQt4.QtCore import pyqtSlot, Qt, QString, SIGNAL, QUrl
+from PyQt4.QtCore import pyqtSlot, Qt, SIGNAL, QUrl
 from PyQt4.QtNetwork import QNetworkAccessManager, QNetworkRequest
 from engine.collection import Collection
-from ui.gen.file_selector import Ui_FileSelector
+from ui.gen.file_selector import Ui_FileSelector, _fromUtf8
 from ui.gen.widget_ref import Ui_Reference
 from ui.gen.widget_multivalue import Ui_Multivalue
 import logging
 
-from abc import *
 
-try:
-    _fromUtf8 = QString.fromUtf8
-except AttributeError:
-    _fromUtf8 = lambda s: s
-
-
-class FieldWidget:
+class FieldWidget(object):
+    """The base class for a widget providers"""
 
     __metaclass__ = ABCMeta
 
@@ -32,19 +35,22 @@ class FieldWidget:
         """Preperes a new widget in edit mode"""
 
     def getWidget(self, parent, field, value):
+        """Creates a new widget for the field in readonly mode"""
         return self.prepareWidget(parent, field, value)
 
     def getWidgetEdit(self, parent, field, value):
+        """Creates a new widget for the field in edit mode"""
         return self.prepareWidgetEdit(parent, field, value)
 
 
 class TextWidget(QtGui.QLineEdit):
-    """FiedText, overrides QLineEdit to add the get_value method"""
+    """TextWidget, overrides QLineEdit to add the get_value method"""
 
     get_value = lambda self: unicode(self.text())
 
 
 class FieldTextWidget(FieldWidget):
+    """Provides a field text widget"""
 
     def prepareWidget(self, parent, field, value):
         widget = QtGui.QLabel(parent)
@@ -61,6 +67,8 @@ class FieldTextWidget(FieldWidget):
     def prepareWidgetEdit(self, parent, field, value):
         widget = TextWidget(parent)
         try:
+            if value is None:
+                value = ''
             if not isinstance(value, (str, unicode)):
                 value = unicode(value)
             widget.setText(_fromUtf8(value))
@@ -74,8 +82,11 @@ class ImageWidget(QtGui.QLabel):
     def __init__(self, parent=None):
         super(ImageWidget, self).__init__(parent)
         self.nam = QNetworkAccessManager()
+        self.src = ''
 
     def set_image(self, value, max_x=350, max_y=350):
+        """Changes the current image to the new one, and resizes the widget
+         if the size is different."""
         pixmap = None
         if value != '' and not value is None:
             pixmap = QtGui.QPixmap(value)
@@ -86,15 +97,19 @@ class ImageWidget(QtGui.QLabel):
             pixmap = QtGui.QPixmap(_fromUtf8(value))
         if value.startswith('http'):
             logging.debug('FILEDATA loading image from url %s', value)
-            self.nam.finished.connect(lambda r: self.image_complete(r, max_x, max_y))
+            self.nam.finished.connect(lambda r:
+                                      self._image_complete(r, max_x, max_y))
             self.nam.get(QNetworkRequest(QUrl(value)))
         else:
             scaled = pixmap.scaled(max_x, max_y, Qt.KeepAspectRatio)
             self.setPixmap(scaled)
             self.setAlignment(Qt.AlignLeading | Qt.AlignLeft |
                               Qt.AlignTop)
+        self.src = value
 
-    def image_complete(self, reply, max_x, max_y):
+    def _image_complete(self, reply, max_x, max_y):
+        """This function is called when the image has been loadded from the
+         network"""
         img = QtGui.QImage()
         img.loadFromData(reply.readAll())
         pixmap = QtGui.QPixmap(img)
@@ -120,11 +135,12 @@ class FileSelector(QtGui.QWidget, Ui_FileSelector):
         self.path.setText(text)
 
     def get_value(self):
+        """Returns the value of the field"""
         return self.path.text()
 
     text = get_value
 
-    def open_dialog(self, filter=None):
+    def open_dialog(self):
         file_name = QtGui.QFileDialog.getOpenFileName(self,
                 "Choose file",
                 self.path.text(),
@@ -223,7 +239,6 @@ class IntWidget(QtGui.QSpinBox):
 class FieldIntWidget(FieldTextWidget):
 
     def prepareWidgetEdit(self, parent, field, value):
-        #TODO this widget must be a file selector
         w = IntWidget(parent)
         if value is not None:
             w.setValue(value)
@@ -240,7 +255,7 @@ class MultivalueWidget(QtGui.QWidget, Ui_Multivalue):
         self.field = field
         i = 0
         for value in values:
-            i +=1
+            i += 1
             self.add_value(value)
         if i == 0:
             self.add_value()
@@ -265,6 +280,7 @@ class MultivalueWidget(QtGui.QWidget, Ui_Multivalue):
 
 
 class FieldWidgetManager(object):
+    """The field provider manager"""
 
     register = {}
     _instance = None
@@ -281,14 +297,18 @@ class FieldWidgetManager(object):
 
     @staticmethod
     def get_instance():
+        """Obtains the manager instance"""
         if FieldWidgetManager._instance is None:
             FieldWidgetManager._instance = FieldWidgetManager()
         return FieldWidgetManager._instance
 
     def get(self, id_):
+        """Obtains a widget provider by id"""
         return self.register[id_]
 
     def get_widget(self, field, parent, value, edit=False):
+        """Returns the widget associated to the field in
+         readonly or edit mode."""
         provider = self.default
         id_ = field.class_
         if id_ in self.register:
@@ -304,11 +324,6 @@ class FieldWidgetManager(object):
         return widget
 
     def add(self, field_type, widget_provider):
+        """Registers a provider for the defeined field_type, overriding any
+         previous definition."""
         self.register[field_type] = widget_provider
-
-
-def main():
-    manager = FieldWidgetManager()
-
-if __name__ == '__main__':
-    main()
