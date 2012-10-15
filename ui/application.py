@@ -6,7 +6,6 @@
 from PyQt4 import QtCore, QtGui
 from splashscreen import SplashScreen
 from engine.collector import Collector
-from mainwindow import MainWindow
 
 
 class CollectorApplication(QtGui.QApplication):
@@ -34,7 +33,11 @@ class CollectorApplication(QtGui.QApplication):
         __import__("ui.gen.lang_rc")
         self.load_translations(":/lang")
 
-        # Create main window
+        # Create the main window
+        # FIXME: Some view variables are language dependent,
+        # is needed to import them after load the language settings
+        from mainwindow import MainWindow
+
         self.main = MainWindow()
 
         # Show main window
