@@ -54,11 +54,18 @@ collections = {
                                  'multiple': True,
                                  'params': {'ref': 'people.name'}},
                     'image': {'class': 'image', 'name': 'Image'},
-                    'originalidea': {'class': 'text', 'name': 'Original Idea'}
+                    'publisher': {'class': 'text', 'name': 'Publisher',
+                                  'multiple': True},
+                    'categories': {'class': 'text', 'name': 'Categories',
+                                   'multiple': True},
+                    'mechanic': {'class': 'text', 'name': 'Mechanic',
+                                 'multiple': True},
+                    'rating': {'class': 'float', 'name': 'Rating'},
                 },
                 'default': 'title',
                 'order': ['title', 'year', 'designers', 'artists',
-                          'image', 'originalidea'],
+                          'image', 'publisher', 'categories', 'mechanic',
+                          'rating'],
                 'image': ':/boards.png',
                 'ico': ':ico/boards.png'
             },
@@ -71,12 +78,7 @@ collections = {
                 'image': ':/author.png',
                 'ico': ':ico/author.png'
             },
-            # 'categories': {
-            #     'name': 'Categories',
-            #     'fields': {
-            #         'name': {'class': 'text', 'name': 'Name'}
-            #     }
-            # }
+
         },
         'persistence': {
             # 'storage': 'pickle',
@@ -85,8 +87,14 @@ collections = {
         },
         'mappings': {
             'PluginBoardGameGeek': {
-                'title': {'field': 'title', 'folder': 'boardgames'},
-                'year': {'field': 'year', 'folder': 'boardgames'},
+                'title': 'title',
+                'designer': 'designers',
+                'artist': 'artists',
+                'publisher': 'publisher',
+                'year': 'year',
+                'categories': 'categories',
+                'mechanic': 'mechanic',
+                'average': 'rating',
             }
         }
     }

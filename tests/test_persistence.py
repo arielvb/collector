@@ -211,7 +211,8 @@ class TestPersistenceAlchemyReferences(unittest.TestCase):
         ref = pers2.save({'name': 'Game1', 'designer': 1, 'artist': 2})
         ref_loaded = pers2.load_references(None, ref)
         self.assertEquals(ref_loaded, {'refLoaded': True, 'designer': u'John',
-                                       'name': u'Game1', 'artist': u'Julius'})
+                                       'name': u'Game1', 'artist': u'Julius',
+                                       'id': 1})
 
     def tearDown(self):
         Alchemy.destroy()
@@ -224,7 +225,7 @@ class TestPersistenceAlchemyReferencesMany(unittest.TestCase):
 
         schema = Schema('test', 'browser')
         schema.add_field(field1)
-        self.pers = PersistenceAlchemy(schema,':memory:')
+        self.pers = PersistenceAlchemy(schema, ':memory:')
         field2 = FieldRef('Designer', params={'ref': 'browser.name',
             'multiple': True})
 
@@ -259,7 +260,7 @@ class TestPersistenceAlchemyReferencesMany(unittest.TestCase):
         obj = pers2.load_references([],board2)
         self.assertEquals(obj, 
             { 'designer': [u'John', u'Julius'],
-            'name': u'Pilares', 'refLoaded': True}
+            'name': u'Pilares', 'refLoaded': True, 'id': 1}
         )
         # self.assertEqual(board2.)
         # pers2.all_created()

@@ -30,13 +30,19 @@ class TestCollection(unittest.TestCase):
         name = "A mocked collection"
         author = "Test User"
         description = "Test or not to test"
-        self.man.set_properties({'title': name})
-        self.assertEqual(self.man.get_title(), name)
+        self.man._raw = {
+            'title': '',
+            'author': '',
+            'description': '',
+        }
+        self.man.set_properties({'title': name, 'author': author,
+                                 'description': description})
+        self.assertEqual(self.man.get_property('title'), name)
         self.man.set_properties({'author': author})
-        self.assertEqual(self.man.get_author(), author)
+        self.assertEqual(self.man.get_property('author'), author)
 
         self.man.set_properties({'description': description})
-        self.assertEqual(self.man.get_description(), description)
+        self.assertEqual(self.man.get_property('description'), description)
 
 
 if __name__ == '__main__':
