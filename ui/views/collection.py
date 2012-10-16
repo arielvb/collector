@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from ui.gen.collection_items import Ui_Form
+from ui.gen.collection_items import Ui_Form, _fromUtf8
 from PyQt4 import QtCore, QtGui
 from ui.helpers.customtoolbar import CustomToolbar, Topbar
 from ui.widgetprovider import WidgetProvider
@@ -51,7 +51,7 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
             self.createHeaderItem(self.schema.get_field(item).name)
         for item in self.objects:
             self.createTableRow(self.collection.load_references(item), header)
-
+        self.tableWidget.resizeColumnToContents(0)
         # Connections
         QtCore.QObject.connect(
             self.tableWidget,
@@ -79,14 +79,18 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
             value = ''
             if key in items:
                 value = items[key]
-            if not isinstance(value, list):
-                item.setText(str(value))
-            else:
+            if isinstance(value, (unicode, str)):
+                item.setText(_fromUtf8(value))
+            elif isinstance(value, list):
                 more = len(value) - 1
                 more_text = ''
                 if more > 0:
                     more_text = str(self.tr(" ( %d more)")) % more
-                item.setText(str(value[0]) + more_text)
+                item.setText(unicode(value[0]) + more_text)
+            else:
+                if value is None:
+                    value = ''
+                item.setText(_fromUtf8(unicode(value)))
             self.tableWidget.setItem(row, column, item)
             column += 1
         self._table_items += 1
