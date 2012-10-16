@@ -77,8 +77,8 @@ class Worker_Discover(QThread):
         for plugin in plugins:
             try:
                 results = collector.discover(self.params['query'],
-                 plugin,
-                 provider)
+                                             plugin,
+                                             provider)
                 # TODO partial signal
                 self.searchComplete.emit(WorkerResult(STATUS_OK, results))
             except Exception as e:
@@ -87,8 +87,8 @@ class Worker_Discover(QThread):
                     WorkerResult(
                         STATUS_ERROR,
                         msg="Plugin %s has failed" % plugin
-                        )
                     )
+                )
 
 
 class Worker_FileLoader(QThread):
@@ -108,12 +108,16 @@ class Worker_FileLoader(QThread):
         provider = FileProvider(
             '/Users/arkow/universidad/pfc/collector/tests/data/bgg/' +
             'the-pillars-of-the-earth.html')
+        provider = FileProvider(
+            '/Users/arkow/universidad/pfc/collector/tests/data/bgg/' +
+            'mice-and-mystics.html')
         provider = None
         collector = Collector.get_instance()
         try:
             results = collector.get_plugin_file(
-                         self.uri,
-                         self.plugin_id, provider)
+                self.uri,
+                self.plugin_id, provider
+            )
             self.load_complete.emit(WorkerResult(STATUS_OK, results))
         except Exception as e:
             logging.exception(e)
@@ -121,8 +125,6 @@ class Worker_FileLoader(QThread):
                 WorkerResult(
                     STATUS_ERROR,
                     msg="Plugin %s file load failed with uri %s" %
-                     (self.plugin_id, self.uri)
-                    )
+                    (self.plugin_id, self.uri)
                 )
-
-
+            )
