@@ -15,7 +15,7 @@ class FileDataWidget(QtGui.QWidget, Ui_Form):
     """The widget that renders a file"""
     row = 0
 
-    def __init__(self, schema, data, parent=None, flags=None):
+    def __init__(self, schema, data, parent, flags=None):
         if flags is None:
             flags = QtCore.Qt.WindowFlags(0)
         super(FileDataWidget, self).__init__(parent, flags)
@@ -50,7 +50,7 @@ class FileDataWidget(QtGui.QWidget, Ui_Form):
             value = [value]
         for i in value:
             item = self.man.get_widget(field, self,
-                                   i, False)
+                                       i, False)
             self.fieldsLayout.addWidget(item, self.row, column,
                                         rowspan, columnspan)
             self.row += 1
@@ -73,7 +73,10 @@ class FileDataWidget(QtGui.QWidget, Ui_Form):
             image = schema.get_field('image')
             image.set_value(src)
             path = image.get_value()
-            widget = self.man.get_widget(image, self, path)
+            widget = self.man.get_widget(image, self, {
+                'src': path,
+                'x': self.parent().width() / 3,
+                'y': self.parent().height()})
             self.image_layout.addWidget(widget)
 
         if len(obj) < 3:
