@@ -27,35 +27,35 @@ class FieldWidget(object):
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    def prepareWidget(self, parent, field, value):
+    def prepare(self, parent, field, value):
         """Preperes a new widget in edit mode"""
 
     @abstractmethod
-    def prepareWidgetEdit(cls, parent, field, value):
+    def prepare_edit(self, parent, field, value):
         """Preperes a new widget in edit mode"""
 
     def getWidget(self, parent, field, value):
         """Creates a new widget for the field in readonly mode"""
-        return self.prepareWidget(parent, field, value)
+        return self.prepare(parent, field, value)
 
     def getWidgetEdit(self, parent, field, value):
         """Creates a new widget for the field in edit mode"""
-        return self.prepareWidgetEdit(parent, field, value)
+        return self.prepare_edit(parent, field, value)
 
 
 class TextWidget(QtGui.QLineEdit):
     """TextWidget, overrides QLineEdit to add the get_value method"""
 
-    get_value = lambda self: unicode(self.text())
+    get_value = lambda self: unicode(self.text().toUtf8())
 
 
 class FieldTextWidget(FieldWidget):
     """Provides a field text widget"""
 
-    def prepareWidget(self, parent, field, value):
+    def prepare(self, parent, field, value):
         widget = QtGui.QLabel(parent)
         widget.setTextInteractionFlags(Qt.LinksAccessibleByMouse |
-                                   Qt.TextSelectableByMouse)
+                                       Qt.TextSelectableByMouse)
         try:
             if not isinstance(value, (str, unicode)):
                 value = unicode(value)
@@ -64,7 +64,7 @@ class FieldTextWidget(FieldWidget):
             widget.setText("Error")
         return widget
 
-    def prepareWidgetEdit(self, parent, field, value):
+    def prepare_edit(self, parent, field, value):
         widget = TextWidget(parent)
         try:
             if value is None:
@@ -78,36 +78,38 @@ class FieldTextWidget(FieldWidget):
 
 
 class ImageWidget(QtGui.QLabel):
+    """ImageWidget extends QLabel adding the special method set_image,
+    who allows load images from disk or network"""
+
+    default_src = ':box.png'
 
     def __init__(self, parent=None):
         super(ImageWidget, self).__init__(parent)
         self.nam = QNetworkAccessManager()
         self.src = ''
 
-    def set_image(self, value, max_x=350, max_y=350):
+    def set_image(self, value, max_x=450, max_y=450):
         """Changes the current image to the new one, and resizes the widget
          if the size is different."""
         pixmap = None
-        if value != '' and not value is None:
-            pixmap = QtGui.QPixmap(value)
-        # Check if the file doensn't have image or the image file
-        #  doesn't exists
-        if pixmap is None or pixmap.isNull():
-            value = ':box.png'
-            pixmap = QtGui.QPixmap(_fromUtf8(value))
+        if value is None or value == '':
+            value = self.default_src
         if value.startswith('http'):
             logging.debug('FILEDATA loading image from url %s', value)
             self.nam.finished.connect(lambda r:
-                                      self._image_complete(r, max_x, max_y))
+                                      self.image_complete(r, max_x, max_y))
             self.nam.get(QNetworkRequest(QUrl(value)))
         else:
+            pixmap = QtGui.QPixmap(value)
+            if pixmap.isNull():
+                pixmap = QtGui.QPixmap(_fromUtf8(self.default_src))
             scaled = pixmap.scaled(max_x, max_y, Qt.KeepAspectRatio)
             self.setPixmap(scaled)
             self.setAlignment(Qt.AlignLeading | Qt.AlignLeft |
                               Qt.AlignTop)
         self.src = value
 
-    def _image_complete(self, reply, max_x, max_y):
+    def image_complete(self, reply, max_x, max_y):
         """This function is called when the image has been loadded from the
          network"""
         img = QtGui.QImage()
@@ -127,7 +129,8 @@ class FileSelector(QtGui.QWidget, Ui_FileSelector):
         self.connect(
             self.dialog,
             SIGNAL(_fromUtf8("clicked()")),
-            lambda: self.open_dialog())
+            self.open_dialog
+        )
 
     @pyqtSlot()
     def set_value(self, text):
@@ -140,22 +143,40 @@ class FileSelector(QtGui.QWidget, Ui_FileSelector):
 
     text = get_value
 
+    @pyqtSlot()
     def open_dialog(self):
-        file_name = QtGui.QFileDialog.getOpenFileName(self,
-                "Choose file",
-                self.path.text(),
-                self.filter)
+        """Opens the file selector dialog"""
+        file_name = QtGui.QFileDialog.getOpenFileName(
+            self,
+            "Choose file",
+            self.path.text(),
+            self.filter)
         self.set_value(file_name)
 
 
 class FieldImageWidget(FieldWidget):
+    """Provider for ImageWidgets"""
 
-    def prepareWidget(self, parent, field, value):
+    def prepare(self, parent, field, value):
+        """
+        Creates a new ImageWidget.
+        The value of the widget *value* can be a dictionary
+        with the keys:
+            src   path to the image
+            x     max x image size
+            y     max y image size
+        Or a string, that will be the path of the image.
+        """
         widget = ImageWidget(parent)
-        widget.set_image(value, 350, 350)
+        if isinstance(value, str):
+            widget.set_image(value, 450, 450)
+        elif isinstance(value, dict):
+            widget.set_image(value['src'], value['x'], value['y'])
+        else:
+            raise ValueError()
         return widget
 
-    def prepareWidgetEdit(self, parent, field, value):
+    def prepare_edit(self, parent, field, value):
         #TODO this widget must be a file selector
         widget = FileSelector(parent, 'Images (*.jpg *.png)')
         widget.set_value(value)
@@ -170,6 +191,7 @@ class ReferenceWidget(QtGui.QWidget, Ui_Reference):
         self.man = Collection.get_instance()
         self.field = field
         self.setupUi(self)
+        self.addValue.hide()
         self.values = []
         self.reload(value)
 
@@ -208,7 +230,7 @@ class ReferenceWidget(QtGui.QWidget, Ui_Reference):
 
 class FiedlReferenceWidget(FieldTextWidget):
 
-    def prepareWidgetEdit(self, parent, field, value):
+    def prepare_edit(self, parent, field, value):
         #TODO this widget must be a file selector
         widget = ReferenceWidget(field, value, parent)
         return widget
@@ -238,7 +260,7 @@ class IntWidget(QtGui.QSpinBox):
 
 class FieldIntWidget(FieldTextWidget):
 
-    def prepareWidgetEdit(self, parent, field, value):
+    def prepare_edit(self, parent, field, value):
         w = IntWidget(parent)
         if value is not None:
             w.setValue(value)
