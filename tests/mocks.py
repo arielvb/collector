@@ -95,6 +95,7 @@ collections = {
                 'categories': 'categories',
                 'mechanic': 'mechanic',
                 'average': 'rating',
+                'image': 'image',
             }
         }
     }

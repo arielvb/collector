@@ -15,6 +15,16 @@ class TestCollector(unittest.TestCase):
         newdata = Collector.remap(data, mapping)
         self.assertEquals(newdata, control)
 
+    def test_to_single_single(self):
+        """Test the multivalue to single conversion, case single value"""
+        result = Collector.to_single('a')
+        assert result == 'a'
+
+    def test_to_single_from_multivalue(self):
+        """Test the multivalue to single conversion, case multivalue value"""
+        result = Collector.to_single(['a', 'b', 'c'])
+        assert result == 'a'
+
 
 if __name__ == '__main__':
     unittest.main()

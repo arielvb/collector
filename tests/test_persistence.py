@@ -158,6 +158,26 @@ class TestPersistenceAlchemy(unittest.TestCase):
         self.assertEquals(obj['count'], [1, 2])
         self.assertEquals(obj.count, [1, 2])
 
+    def test_filter_equal(self):
+        """Test the Equals filter"""
+        self.pers.all_created()
+        self.pers.save({'name': 'John'})
+        self.pers.save({'name': 'Robert'})
+
+        params = {'equals': ['name', 'John']}
+        results = self.pers.filter(params)
+        self.assertEquals([i.name for i in results], ['John'])
+
+    def test_filter_like(self):
+        """Test the like filter, a text is contained inside other"""
+        self.pers.all_created()
+        self.pers.save({'name': 'John'})
+        self.pers.save({'name': 'Robert'})
+        params = {'like': ['name', 'o']}
+
+        results = self.pers.filter(params)
+        self.assertEquals([i.name for i in results], ['John', 'Robert'])
+
     def tearDown(self):
         Alchemy.destroy()
 
@@ -257,21 +277,11 @@ class TestPersistenceAlchemyReferencesMany(unittest.TestCase):
         pers2 = PersistenceAlchemy(schema, ':memory:')
         pers2.all_created()
         board2 = pers2.save({'designer': [1, 2], 'name': 'Pilares'})
-        obj = pers2.load_references([],board2)
-        self.assertEquals(obj, 
-            { 'designer': [u'John', u'Julius'],
+        obj = pers2.load_references([], board2)
+        self.assertEquals(obj,
+            {'designer': [u'John', u'Julius'],
             'name': u'Pilares', 'refLoaded': True, 'id': 1}
         )
-        # self.assertEqual(board2.)
-        # pers2.all_created()
-        # person1 = self.pers.save({'name': 'John'})
-        # person2 = self.pers.save({'name': 'Julius'})
-        # ref = pers2.save({'name': 'Game1'})
-        # ref.designer_relation.append(person2)
-        # self.assertEqual(ref.name, 'Game1')
-        # self.assertEqual(ref.designer, '[1, 2]')
-        # db = pers2.engine.execute("SELECT * FROM designers").fetchall()
-        # self.assertEquals(db, [(1, '[1, 2]', u'Game1')])
 
     def tearDown(self):
         Alchemy.destroy()
