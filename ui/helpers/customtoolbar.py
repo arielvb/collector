@@ -1,14 +1,10 @@
 from PyQt4 import QtCore, QtGui
-from ui.gen.toolbar import Ui_Form as CustomToolbarUi
+from ui.gen.toolbar import Ui_Form as CustomToolbarUi, _fromUtf8
 from ui.gen.topbar import Ui_Form as TopbarUi
-
-try:
-    _fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    _fromUtf8 = lambda s: s
 
 
 class CustomToolbar(CustomToolbarUi):
+    """A custom toolbar with image, text and a URI based callback system"""
 
     # Template for the link item of the toolbar
     template = (
@@ -30,7 +26,7 @@ class CustomToolbar(CustomToolbarUi):
         "</a></p></body>"
         "</html>")
 
-    def __init__(self, Form, items, callback):
+    def __init__(self, widget, items, callback):
         """ Creates a new toolbar in the QWidget Form and add the items defined
          in the parameter items (array).
          Foreach item in items calls the function self.createItem(item,
@@ -38,16 +34,17 @@ class CustomToolbar(CustomToolbarUi):
          """
         super(CustomToolbar, self).__init__()
         self.links = []
-        self.Form = Form
-        self.setupUi(Form)
+        self.widget = widget
+        self.setupUi(widget)
         # TODO background or not background?
-        # Form.setStyleSheet("background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\
+        # Form.setStyleSheet(
+        #    "background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\
         #                           stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,\
-        #                           stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);    ")
+        #                           stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);")
         for i in items:
-            self.createItem(i, callback)
+            self.create_item(i, callback)
 
-    def createItem(self, config, callback):
+    def create_item(self, config, callback):
         """createItem adds a new item to the toolbar, the allowed items are:
 
             - *link*: a clicable element formed with an image,
@@ -66,7 +63,7 @@ class CustomToolbar(CustomToolbarUi):
         .. note::
             The items spacer/line doesn't have any parameter
         """
-        Form = self.Form
+        widget = self.widget
 
         # Link
         if config['class'] == 'link':
@@ -75,7 +72,7 @@ class CustomToolbar(CustomToolbarUi):
                 'title': config['name'],
                 'image': config['image']
             }
-            item = QtGui.QLabel(Form)
+            item = QtGui.QLabel(widget)
             item.setText(content)
             item.connect(
                 item,
@@ -90,7 +87,7 @@ class CustomToolbar(CustomToolbarUi):
             )
         # Line
         elif config['class'] == 'line':
-            item = QtGui.QFrame(Form)
+            item = QtGui.QFrame(widget)
             item.setFrameShape(QtGui.QFrame.VLine)
             item.setFrameShadow(QtGui.QFrame.Sunken)
 
@@ -105,8 +102,11 @@ class CustomToolbar(CustomToolbarUi):
 
 
 class Topbar(TopbarUi):
+    """Topbar renders the view header, formed by a icon, title and optionaly
+     a description."""
 
     def __init__(self, widget, icon, title, description=None):
+        super(Topbar, self).__init__()
         self.setupUi(widget)
         self.icon.setPixmap(QtGui.QPixmap(_fromUtf8(icon)))
         self.title.setText(title)
@@ -115,29 +115,32 @@ class Topbar(TopbarUi):
         else:
             self.description.setText(description)
 
+    @QtCore.pyqtSlot(QtCore.QString)
     def set_title(self, text):
+        """Sets the topbar title"""
         self.title.setText(text)
 
 
 class ToolBarManager():
+    """ToolBarManager is a wrapper to the default QT toolbar. Isn't used."""
     #TODO what to do whit this class?
     def __init__(self, parent):
         self.parent = parent
         toolbars = {}
         self.parent.setUnifiedTitleAndToolBarOnMac(True)
-        toolBar = QtGui.QToolBar("Navigation")
-        self.parent.addToolBar(toolBar)
+        toolbar = QtGui.QToolBar("Navigation")
+        self.parent.addToolBar(toolbar)
         # Notify unified title and toolbar on mac (displays collapse button at
         #  the right corner)
-        toolbars['navigation'] = toolBar
+        toolbars['navigation'] = toolbar
         self.dashToolbarAction = QtGui.QAction(
             QtGui.QIcon(':/dashboard.png'),
             "&Dashboard", self.parent, shortcut="Ctrl+D",
             statusTip="View dashboard",
             triggered=lambda: self.parent.displatView('dashboard'))
-        toolBar.addAction(self.dashToolbarAction)
-        toolBar = QtGui.QToolBar("Edition")
-        toolbars['edition'] = toolBar
+        toolbar.addAction(self.dashToolbarAction)
+        toolbar = QtGui.QToolBar("Edition")
+        toolbars['edition'] = toolbar
         self.editToolbarAction = QtGui.QAction(
             QtGui.QIcon(':/edit.png'),
             "&Edit", self.parent, shortcut="Ctrl+E",
