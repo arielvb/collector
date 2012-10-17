@@ -116,7 +116,6 @@ class Ui_PluginFile(QWidget, Ui_File):
         ]
         CustomToolbar(self.toolbar, quick, self._linkactivated)
 
-
     def _linkactivated(self, uri):
         """Callback for the toolbar"""
         params = self.parent().collector_uri_call(uri)
@@ -142,7 +141,7 @@ class Ui_PluginFile(QWidget, Ui_File):
             self.data = results.results
             schema = self.plugin.schema
             self.data_widget = FileDataWidget(schema,
-             self.data)
+             self.data, self.parent())
             self.scrollArea.setWidget(self.data_widget)
             self.scrollArea.show()
             self.topbarHelper.set_title(schema.name.upper() +

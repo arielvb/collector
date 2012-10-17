@@ -63,7 +63,11 @@
         <enum>Qt::LeftToRight</enum>
        </property>
        <property name="text">
-        <string>Add value</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="resources.qrc">
+         <normaloff>:/ico/add.png</normaloff>:/ico/add.png</iconset>
        </property>
       </widget>
      </item>

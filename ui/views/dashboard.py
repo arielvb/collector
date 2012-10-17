@@ -64,7 +64,7 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
             QtCore.SIGNAL(_fromUtf8("clicked()")),
             lambda: self.parent().display_view(
                 'search',
-                {'term': self.lSearch.text()}))
+                {'term': self.lSearch.text().toUtf8()}))
 
         Topbar(widget=self.topbar, icon=':ico/dashboard.png',
                title=self.tr("Dashboard").toUpper())

@@ -12,7 +12,7 @@ from PyQt4.QtGui import QWidget, QApplication, QMessageBox, QDialog
 from ui.gen.search_results import Ui_Form, _fromUtf8
 from ui.workers.search import Worker_Search, Worker_Discover, STATUS_OK
 from ui.gen.search_quick import Ui_Dialog as Ui_Dialog_Search
-from ui.helpers.customtoolbar import Topbar
+from ui.helpers.customtoolbar import Topbar, CustomToolbar
 from ui.helpers.items import ObjectListItem, FitxaListItem
 from ui.widgetprovider import WidgetProvider
 
@@ -42,6 +42,15 @@ class Ui_Search(QWidget, Ui_Form):
 
         Topbar(widget=self.topbar, icon=':ico/search.png',
                title=self.title.toUpper(), description=self.description)
+
+        # Toolbar
+        items = [
+            {'class':'link', 'name': self.tr('Dashboard'),
+             'path': 'view/dashboard', 'image': ':/dashboard.png'},
+            {'class': 'spacer'}
+        ]
+        CustomToolbar(self.toolbar, items, self.parent().collector_uri_call)
+
         if query:
             self.lSearch.setText(_fromUtf8(query))
         self.bSearch.connect(
@@ -71,7 +80,7 @@ class Ui_Search(QWidget, Ui_Form):
         self.parent().statusBar().showMessage(self.tr('Searching...'))
         if isinstance(text, QtCore.QString):
             text = text.toUtf8()
-        self.worker.search(str(text))
+        self.worker.search(unicode(text, 'utf-8'))
 
     def searchComplete(self, results):
         """Process the results of a search, *results* must be instance of

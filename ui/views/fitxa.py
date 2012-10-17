@@ -30,9 +30,8 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
                title=self.collection.schema.name.upper() + ' > ' +
                 obj[schema.default])
         self.progressBar.hide()
-        self.data_widget = FileDataWidget(schema, obj)
+        self.data_widget = FileDataWidget(schema, obj, self.parent())
         self.scrollArea.setWidget(self.data_widget)
-
         self._loadToolbar()
 
     def _loadToolbar(self):
@@ -48,11 +47,6 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
             {'class':'link', 'name':self.tr('Options'),
              'path': 'action/options',
              'image': ':/add.png'},
-            # {'class':'link', 'name': 'Delete', 'path': 'action/delete',
-             # 'image': ':/delete.png'},
-            # {'class':'link', 'name': 'Edit', 'path': 'view/edit/collection/' +
-            #  self.collection.get_id() + '/item/' + str(self.item),
-            #  'image': ':/edit.png'},
         ]
         CustomToolbar(self.toolbar, quick, self._linkactivated)
         menu = QtGui.QMenu(self.topbar)
