@@ -15,7 +15,8 @@ class Ui_Preferences(QtGui.QDialog, Ui_PreferencesDialog):
             flags = QtCore.Qt.WindowFlags(0)
         super(Ui_Preferences, self).__init__(parent, flags)
         self.manager = Collector.get_instance().get_manager("plugin")
-
+        self.current_lang = None
+        self.codes = ['ca_ES', 'en_UK', 'es_ES']
         self.setupUi()
 
     def setupUi(self):
@@ -24,15 +25,30 @@ class Ui_Preferences(QtGui.QDialog, Ui_PreferencesDialog):
         aren't easy to do with the QT Designer"""
         super(Ui_Preferences, self).setupUi(self)
         self.refresh()
+        self.connect(self.buttonBox,
+            QtCore.SIGNAL(_fromUtf8("accepted()")), self.saveandclose)
+
         self.connect(
             self.b_disable,
             QtCore.SIGNAL(_fromUtf8("clicked()")), self.disable)
         self.connect(
             self.b_enable,
             QtCore.SIGNAL(_fromUtf8("clicked()")), self.enable)
+        # Language selector
+        self.current_lang = Collector.get_instance().conf('lang')
+        if not self.current_lang is None:
+            index = 1
+            try:
+                index = self.codes.index(str(self.current_lang))
+            except ValueError:
+                index = 1
+            self.lang_combo.setCurrentIndex(index)
+
+
 
     @QtCore.pyqtSlot()
     def disable(self):
+        """Disable selecte plugins"""
         selected = self.listWidget.selectedItems()
         to_disable = []
         for item in selected:
@@ -43,6 +59,7 @@ class Ui_Preferences(QtGui.QDialog, Ui_PreferencesDialog):
 
     @QtCore.pyqtSlot()
     def enable(self):
+        """Enables selected plugins"""
         selected = self.listWidget_2.selectedItems()
         to_enable = []
         for item in selected:
@@ -65,6 +82,14 @@ class Ui_Preferences(QtGui.QDialog, Ui_PreferencesDialog):
             obj = self.manager.get(plugin)
             item = ObjectListItem(obj, obj.get_name())
             self.listWidget_2.addItem(item)
+
+    def saveandclose(self):
+        """Saves unsaved data and closes"""
+        config = Collector.get_instance().get_manager('config')
+        config.set('lang', self.codes[self.lang_combo.currentIndex()])
+        config.save()
+        self.close()
+
 
 
 class PreferencesView(WidgetProvider):
