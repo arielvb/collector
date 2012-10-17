@@ -47,7 +47,7 @@ class PropertiesWidget(QtGui.QDialog, Ui_Properties):
         # Info tab {
         info = self.collection.get_properties()
         # > Title
-        self.title.setText(_fromUtf8(info['title']))
+        self.title.setText(_fromUtf8(info['name']))
         # > Author
         self.author.setText(_fromUtf8(info['author']))
         # > Description
@@ -123,7 +123,7 @@ class PropertiesWidget(QtGui.QDialog, Ui_Properties):
         # Info tab
         valid = True
         info = {
-            'title': str(self.title.text()),
+            'name': str(self.title.text()),
             'author': str(self.author.text()),
             'description': str(self.description.toPlainText())
         }
