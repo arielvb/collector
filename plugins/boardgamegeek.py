@@ -146,15 +146,23 @@ class PluginBoardGameGeek(PluginCollector):
         results['designer'] = self.row_filter(rows[0])
         results['artist'] = self.row_filter(rows[1])
         results['publisher'] = self.remove_show_more(self.row_filter(rows[2]))
-        results['year'] = int(self.row_filter(rows[3])[0])
+        value = self.intfilter(self.row_filter(rows[3])[0])
+        if value is not None:
+            results['year'] = value
         num_of_player = self.row_filter(rows[4])[0].split('-')
-        results['min_players'] = int(num_of_player[0])
-        results['max_players'] = int(num_of_player[1])
+        value = self.intfilter(num_of_player[0])
+        if value is not None:
+            results['min_players'] = value
+        value = self.intfilter(num_of_player[1])
+        if value is not None:
+            results['max_players'] = value
         # TODO user_suggested_players field (row 5)
         # TODO unify playing time to minutes
         results['playing'] = ' '.join(self.row_filter(
                                     rows[6])).replace('\t', '')
-        results['min_age'] = int(self.row_filter(rows[7])[0])
+        min_age = self.intfilter(self.row_filter(rows[7])[0])
+        if min_age is not None:
+            results['min_age'] = int(min_age)
         # TODO user_suggested_age field (row 8)
         # TODO language_dependence field (row 9)
         # TODO Honors (row 10)
@@ -175,6 +183,20 @@ class PluginBoardGameGeek(PluginCollector):
         results['average'] = float(soup.select('.b span')[0].get_text())
 
         return results
+
+    @classmethod
+    def intfilter(cls, value):
+        """Int filter, returns the int representation of value or None"""
+        if isinstance(value, (str, unicode)):
+            value = value.strip()
+            if value.isdigit():
+                return int(value)
+            else:
+                return None
+        elif isinstance(value, int):
+            return value
+        else:
+            return None
 
     @classmethod
     def row_filter(cls, row):

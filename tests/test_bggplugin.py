@@ -55,7 +55,7 @@ class TestBGGPlugin(unittest.TestCase):
                           u'Kaissa Chess & Games', u'KOSMOS',
                           u'Mayfair Games', u'Stupor Mundi'],
             'designer': [u'Michael Rieneck', u'Stefan Stadler'],
-            'bgg_rank': '141',
+            'bgg_rank': u'141',
             'artist': [u'Michael Menzel', u'Anke Pohl', u'Thilo Rick'],
             'image': 'http://boardgamegeek.com/the-pillars-of-the-earth_files/'
                       'pic212815_md.jpg',
@@ -100,6 +100,44 @@ class TestBGGPlugin(unittest.TestCase):
                 'average': 0.00,
                 })
         self.assertItemsEqual(fields.keys(), self.plugin.schema.file.keys())
+
+    def test_min_age_especial_case(self):
+        """ Checks that all the attributes of the offline version
+         are parsed correctly"""
+        filename = self.data_path + 'raze-the-castle.html'
+        provider = FileProvider(filename)
+        fields = self.plugin.file_filter(provider.get('mocked'))
+        self.assertEquals(fields, {
+            'publisher': [u'Youngdale Productions'],
+            'designer': [u'Jason Youngdale'],
+            'artist': [u''],
+            'bgg_rank': 'N/A',
+            'image': 'http://cf.geekdo-images.com/images/pic432665_md.jpg',
+            'title': u'Raze the Castle!',
+            'min_players': 2,
+            'average': 3.83,
+            'mechanic': [u'Dice Rolling', u'Paper-and-Pencil'],
+            'year': 2004,
+            'max_players': 4,
+            'playing': u'120  minutes',
+            'categories': [u'Economic', u'Fantasy']
+        })
+        # self.assertItemsEqual(fields.keys(), self.plugin.schema.file.keys())
+
+    def test_int_filter(self):
+        """Checks the results of the int filter"""
+        self.assertEqual(self.plugin.intfilter('1a'), None)
+        self.assertEqual(self.plugin.intfilter('1.1'), None)
+        self.assertEqual(self.plugin.intfilter('1'), 1)
+        self.assertEqual(self.plugin.intfilter('0'), 0)
+        self.assertEqual(self.plugin.intfilter(''), None)
+        #Unicode
+        self.assertEqual(self.plugin.intfilter(u'100'), 100)
+
+
+
+
+
 
 
 if __name__ == '__main__':
