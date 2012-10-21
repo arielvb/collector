@@ -3,6 +3,7 @@
 
 from PyQt4.QtGui import QPixmap, QSplashScreen
 from PyQt4.QtCore import Qt
+import time
 
 
 class SplashScreen(object):
@@ -17,7 +18,7 @@ class SplashScreen(object):
     def show(self):
         """Displays the splash screen"""
         self.splash.show()
-        import time
+        self.splash.showMessage('Loading...', Qt.AlignBottom | Qt.AlignHCenter, Qt.white)
         # ensure at least its visible one second
         time.sleep(1)
 
