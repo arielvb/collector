@@ -20,10 +20,18 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
         self.settings = self.get_dashboard_settings()
         self.setupUi()
 
+    def dosearch(self):
+        """Call to search view"""
+        self.parent().display_view(
+                'search',
+                {'term': self.lSearch.text().toUtf8(),
+                'collection': self.settings['quicksearch']})
+
     def get_dashboard_settings(self):
         """Calculates the dashboard settings"""
         settings = {}
         collections = self.parent().collection.collections
+        stored = self.parent().collection.get_property('dashboard')
         items = []
         for collection in collections.values():
             image = collection.get_image()
@@ -36,7 +44,13 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
                 )
         # TODO allow personalization of the new entry button?
         if len(collections) > 0:
-            main_collection = collections.values()[0]
+            if stored is not None:
+                main_collection = collections[stored['lastcollection']]
+                settings['quicksearch'] = stored['quicksearch']
+
+            else:
+                main_collection = collections.values()[0]
+                settings['quicksearch'] = main_collection.get_id()
             settings['lastcollection'] = main_collection.get_id()
             items.extend([
                 {'class': 'spacer'},
@@ -51,6 +65,8 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
             settings['lastcollection'] = None
 
         settings['items'] = items
+        # Override with stored settings:
+
         return settings
 
     def setupUi(self):
@@ -62,9 +78,7 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
         self.bSearch.connect(
             self.bSearch,
             QtCore.SIGNAL(_fromUtf8("clicked()")),
-            lambda: self.parent().display_view(
-                'search',
-                {'term': self.lSearch.text().toUtf8()}))
+            self.dosearch)
 
         Topbar(widget=self.topbar, icon=':ico/dashboard.png',
                title=self.tr("Dashboard").toUpper())
@@ -120,6 +134,6 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
 class DashboardView(WidgetProvider):
     """Dashboard view"""
 
-    def getWidget(self, params):
+    def get_widget(self, params):
         dashboardWidget = Ui_Dashboard(self.parent)
         return dashboardWidget

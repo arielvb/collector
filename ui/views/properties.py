@@ -63,10 +63,11 @@ class PropertiesWidget(QtGui.QDialog, Ui_Properties):
         for collection in self.collection.collections.values():
             # Files
             c_name = collection.get_name()
+            id_ = collection.get_id()
             list_item = QtGui.QListWidgetItem(c_name)
-            self.search_combo.addItem(c_name)
-            self.last_entry_combo.addItem(c_name)
-            self.new_entry_combo.addItem(c_name)
+            self.search_combo.addItem(c_name, id_)
+            self.last_entry_combo.addItem(c_name, id_)
+            self.new_entry_combo.addItem(c_name, id_)
             icon = collection.schema.image
             if icon is None:
                 icon = ':/folder.png'
@@ -91,21 +92,24 @@ class PropertiesWidget(QtGui.QDialog, Ui_Properties):
         cancel.setDefault(True)
 
         # Connections
-        QtCore.QObject.connect(
+        self.connect(
             self.buttonBox,
             QtCore.SIGNAL(_fromUtf8("accepted()")),
-            lambda: self.save())
+            self.save
+        )
 
-        QtCore.QObject.connect(
+        self.connect(
             self.buttonBox,
             QtCore.SIGNAL(_fromUtf8("rejected()")),
-            lambda: self.reject())
+            self.reject
+        )
 
-        QtCore.QObject.connect(
+        self.connect(
             self.fieldsList,
             QtCore.SIGNAL("currentItemChanged(QListWidgetItem*, " +
                 "QListWidgetItem*)"),
-            self._itemSelected)
+            self._itemSelected
+        )
 
     def _itemSelected(self, item, old):
         if (getattr(item, 'obj', False)):
@@ -123,12 +127,22 @@ class PropertiesWidget(QtGui.QDialog, Ui_Properties):
         # Info tab
         valid = True
         info = {
-            'name': str(self.title.text()),
-            'author': str(self.author.text()),
-            'description': str(self.description.toPlainText())
+            'name': unicode(self.title.text().toUtf8()),
+            'author': unicode(self.author.text().toUtf8()),
+            'description': unicode(self.description.toPlainText().toUtf8())
         }
-        self.collection.set_properties(info)
+        #Dashboard tab
+        dashboard = {
+            'lastcollection': unicode(self.last_entry_combo.itemData(
+                self.last_entry_combo.currentIndex()).toUtf8()),
+            'newbutton': unicode(self.new_entry_combo.itemData(
+                self.new_entry_combo.currentIndex()).toUtf8()),
+            'quicksearch': unicode(self.search_combo.itemData(
+                self.search_combo.currentIndex()).toUtf8()),
+        }
+        info['dashboard'] = dashboard
         # TODO save all the tabs
+        self.collection.set_properties(info)
         if valid:
             self.accept()
 
@@ -138,6 +152,6 @@ class PropertiesView(WidgetProvider):
 
     mode = WidgetProvider.DIALOG_WIDGET
 
-    def getWidget(self, params):
+    def get_widget(self, params):
         # collection = params['collection']
         return PropertiesWidget(self.parent)
