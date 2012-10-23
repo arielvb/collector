@@ -6,7 +6,7 @@
 """Collector main window"""
 import logging
 from PyQt4 import QtCore, QtGui
-from gen.mainWindow import Ui_MainWindow
+from gen.mainWindow import Ui_MainWindow, _fromUtf8
 from views.dashboard import DashboardView
 from views.fitxa_edit import FitxaEditView
 from views.fitxa import FitxaView
@@ -16,15 +16,12 @@ from views.fitxa_new import FitxaNewView
 from views.preferences import PreferencesView
 from views.properties import PropertiesView
 from views.plugincollector_fitxa import PluginFileView
+from views.advanced_search import AdvancedSearch
+
 from views import ViewNotFound
 
 from engine.collection import Collection
 from engine.plugin import PluginManager
-
-try:
-    _from_utf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    _from_utf8 = lambda s: s
 
 
 class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
@@ -55,30 +52,34 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
             triggered=self.about)
         self.help_menu.addAction(self.about_action)
         # Connect menu actions
-        QtCore.QObject.connect(
+        self.connect(
             self.actionView_Dashboard,
-            QtCore.SIGNAL(_from_utf8("triggered()")),
+            QtCore.SIGNAL(_fromUtf8("triggered()")),
             lambda: self.display_view('dashboard'))
-        QtCore.QObject.connect(
+        self.connect(
             self.actionQuick_search,
-            QtCore.SIGNAL(_from_utf8("triggered()")),
+            QtCore.SIGNAL(_fromUtf8("triggered()")),
             lambda: self.display_view('quicksearch'))
-        QtCore.QObject.connect(
+        self.connect(
             self.actionFullscreen,
-            QtCore.SIGNAL(_from_utf8("triggered()")),
+            QtCore.SIGNAL(_fromUtf8("triggered()")),
             self.switch_fullscreen)
-        QtCore.QObject.connect(
+        self.connect(
             self.actionDiscover,
-            QtCore.SIGNAL(_from_utf8("triggered()")),
+            QtCore.SIGNAL(_fromUtf8("triggered()")),
             lambda: self.display_view('discover'))
-        QtCore.QObject.connect(
+        self.connect(
             self.actionPreferences,
-            QtCore.SIGNAL(_from_utf8("triggered()")),
+            QtCore.SIGNAL(_fromUtf8("triggered()")),
             lambda: self.display_view('preferences'))
-        QtCore.QObject.connect(
+        self.connect(
             self.actionProperties,
-            QtCore.SIGNAL(_from_utf8("triggered()")),
+            QtCore.SIGNAL(_fromUtf8("triggered()")),
             lambda: self.display_view('properties'))
+        self.connect(
+            self.actionAdvanced_Search,
+            QtCore.SIGNAL(_fromUtf8("triggered()")),
+            lambda: self.display_view('filters'))
 
     def init_views(self):
         """ Initialize the avaible views, each view is loaded by a provider"""
@@ -94,6 +95,8 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
             'quicksearch': SearchDialog(self),
             'properties': PropertiesView(self),
             'pluginfile': PluginFileView(self),
+            'filters': AdvancedSearch(self),
+
         }
 
     def display_view(self, name, params=None):
@@ -156,7 +159,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
 
     def about(self):
         """Creates the about window"""
-        about_msg = _from_utf8("""collector |kəˈlektər|
+        about_msg = _fromUtf8("""collector |kəˈlektər|
 noun a person or thing that collects something, in particular.
  - New Oxford dictionary
 

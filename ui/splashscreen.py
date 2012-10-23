@@ -18,7 +18,8 @@ class SplashScreen(object):
     def show(self):
         """Displays the splash screen"""
         self.splash.show()
-        self.splash.showMessage('Loading...', Qt.AlignBottom | Qt.AlignHCenter, Qt.white)
+        self.splash.showMessage('Loading...', Qt.AlignBottom | Qt.AlignHCenter,
+                                Qt.white)
         # ensure at least its visible one second
         time.sleep(1)
 
