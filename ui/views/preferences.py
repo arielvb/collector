@@ -45,7 +45,6 @@ class Ui_Preferences(QtGui.QDialog, Ui_PreferencesDialog):
             self.lang_combo.setCurrentIndex(index)
 
 
-
     @QtCore.pyqtSlot()
     def disable(self):
         """Disable selecte plugins"""
@@ -91,10 +90,9 @@ class Ui_Preferences(QtGui.QDialog, Ui_PreferencesDialog):
         self.close()
 
 
-
 class PreferencesView(WidgetProvider):
 
     mode = WidgetProvider.DIALOG_WIDGET
 
-    def getWidget(self, params):
+    def get_widget(self, params):
         return Ui_Preferences(self.parent)

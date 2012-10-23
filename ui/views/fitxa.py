@@ -95,7 +95,7 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
 
 class FitxaView(WidgetProvider):
 
-    def getWidget(self, params):
+    def get_widget(self, params):
         collection = params['collection']
         item = params['item']
         return Ui_Fitxa(item, collection, self.parent)

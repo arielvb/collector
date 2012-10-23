@@ -106,7 +106,7 @@ class Ui_Fitxa_Edit(QtGui.QWidget, Ui_Form):
 
 class FitxaEditView(WidgetProvider):
 
-    def getWidget(self, params):
+    def get_widget(self, params):
         item = params['item']
         collection = params['collection']
         return Ui_Fitxa_Edit(item, collection, self.parent)

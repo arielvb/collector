@@ -108,6 +108,6 @@ class Ui_Fitxa_New(QtGui.QWidget, Ui_Form):
 
 class FitxaNewView(WidgetProvider):
 
-    def getWidget(self, params):
+    def get_widget(self, params):
         collection = params['collection']
         return Ui_Fitxa_New(collection, self.parent)
