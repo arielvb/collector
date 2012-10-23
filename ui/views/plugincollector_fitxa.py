@@ -57,7 +57,7 @@ class Ui_PluginFile(QWidget, Ui_File):
             collector = Collector.get_instance()
             result = collector.add(self.data, self.collection,
                           use_mapping=self.plugin.get_id())
-            if result > 0:
+            if result is not None:
                 #Ok
                 # TODO notify and ask to go?
                 pass
@@ -150,7 +150,7 @@ class Ui_PluginFile(QWidget, Ui_File):
 
 class PluginFileView(WidgetProvider):
 
-    def getWidget(self, params):
+    def get_widget(self, params):
         plugin = params['plugin']
         item = params['id']
         referer = params['referer']

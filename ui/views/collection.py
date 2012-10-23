@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+# pylint: disable-msg=E1101,E0611
+# E0611: No name 'QtCore' in module 'PyQt4'
+# E1101: Module ___ has no ___ member
 from ui.gen.collection_items import Ui_Form, _fromUtf8
 from PyQt4 import QtCore, QtGui
 from ui.helpers.customtoolbar import CustomToolbar, Topbar
@@ -11,7 +14,7 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
     _table_headers = 0
     _table_items = 0
 
-    def __init__(self, parent, collection, flags=None):
+    def __init__(self, parent, collection, filters=None, flags=None):
         """ Creates a new dashboard view"""
         if flags is None:
             flags = QtCore.Qt.WindowFlags(0)
@@ -19,17 +22,25 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
         self.setupUi(self)
         self.collection = self.parent().collection.get_collection(collection)
         self.schema = self.collection.schema
-        self.objects = self.collection.get_all()
+        if filters is None:
+            self.objects = self.collection.get_all()
+            self.filters = None
+        else:
+            self.filters = filters
+            self.objects = self.collection.filter(filters)
         self.customize()
 
     def customize(self):
+        """After setup the Ui customize some elements"""
         #Topbar
-        # TODO title collection name must be a parameter
         icon = self.collection.schema.ico
         if icon is None:
             icon = ':ico/folder.png'
+        title = self.collection.get_name().upper()
+        if self.filters is not None:
+            title += ' ' + self.tr('(filtered)')
         Topbar(widget=self.topbar, icon=icon,
-               title=self.collection.get_name().upper())
+               title=title)
 
         # Toolbar
         items = [
@@ -38,11 +49,15 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
             {'class': 'spacer'},
             {'class': 'line'},
             {'class':'link', 'name':
+             self.tr('Search'),
+             'path': 'view/filters/collection/' + self.collection.get_id(),
+             'image': ':/search.png'},
+            {'class':'link', 'name':
              str(self.tr('New <b>%s</b>')) % self.collection.get_name(),
              'path': 'view/add/collection/' + self.collection.get_id(),
              'image': ':/add.png'},
         ]
-        CustomToolbar(self.toolbar, items, self._toolbarCallback)
+        CustomToolbar(self.toolbar, items, self.uritoaction)
         # +1 (id field)
         self.tableWidget.setColumnCount(len(self.schema.order))
         self.tableWidget.setRowCount(len(self.objects))
@@ -58,7 +73,8 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
             QtCore.SIGNAL("itemDoubleClicked(QTableWidgetItem*)"),
             self._itemSelected)
 
-    def _toolbarCallback(self, uri):
+    def uritoaction(self, uri):
+        """Extends the collector uri call adding extra options"""
         self.parent().collector_uri_call(uri)
 
     def createHeaderItem(self, text):
@@ -104,5 +120,7 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
 
 class CollectionView(WidgetProvider):
 
-    def getWidget(self, params):
-        return Ui_Collection(self.parent, collection=params['collection'])
+    def get_widget(self, params):
+        filters = params.get('filter', None)
+        return Ui_Collection(self.parent, collection=params['collection'],
+                             filters=filters)

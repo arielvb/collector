@@ -19,31 +19,26 @@ class WorkerResult(object):
 
 
 class Worker_Search(QThread):
+    """Quick search worker"""
 
     searchComplete = pyqtSignal(WorkerResult)
     partialResult = pyqtSignal([dict])
 
-    action = ''
-
     def __init__(self, parent=None):
         QThread.__init__(self, parent)
         self.results = {}
+        self.params = None
 
-    def search(self, text):
-        self.action = 'search'
-        self.params = {'query': text}
+    def search(self, filter_, collection):
+        self.params = {'filter': filter_, 'collection': collection}
         self.start()
 
     def run(self):
         self.error = None
         collector = Collector.get_instance()
-        # TODO allow user select the quicksearch collection
-        self.results = collector.quick_search(self.params['query'],
-                                              'boardgames')
+        self.results = collector.filter(self.params['collection'],
+                                        self.params['filter'])
         self.searchComplete.emit(WorkerResult(STATUS_OK, self.results))
-
-    def getLastResult(self):
-        return self.results
 
     def __del__(self):
         self.wait()

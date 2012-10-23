@@ -52,6 +52,8 @@ ui2py: resources
 	pyuic4 ${UI_DIR}/file_selector.ui -o ${BUILD_DIR}/file_selector.py
 	pyuic4 ${UI_DIR}/widget_ref.ui -o ${BUILD_DIR}/widget_ref.py
 	pyuic4 ${UI_DIR}/widget_multivalue.ui -o ${BUILD_DIR}/widget_multivalue.py
+	pyuic4 ${UI_DIR}/advanced_search.ui -o ${BUILD_DIR}/advanced_search.py
+	pyuic4 ${UI_DIR}/widget_filter.ui -o ${BUILD_DIR}/widget_filter.py
 
 
 resources:

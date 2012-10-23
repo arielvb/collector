@@ -14,6 +14,7 @@ from abc import ABCMeta, abstractmethod
 from PyQt4 import QtGui
 from PyQt4.QtCore import pyqtSlot, Qt, SIGNAL, QUrl
 from PyQt4.QtNetwork import QNetworkAccessManager, QNetworkRequest
+from PyQt4.QtNetwork import QNetworkReply
 from engine.collection import Collection
 from ui.gen.file_selector import Ui_FileSelector, _fromUtf8
 from ui.gen.widget_ref import Ui_Reference
@@ -112,11 +113,20 @@ class ImageWidget(QtGui.QLabel):
     def image_complete(self, reply, max_x, max_y):
         """This function is called when the image has been loadded from the
          network"""
-        img = QtGui.QImage()
-        img.loadFromData(reply.readAll())
-        pixmap = QtGui.QPixmap(img)
+        pixmap = None
+        if reply.error() == QNetworkReply.NoError:
+            img = QtGui.QImage()
+            img.loadFromData(reply.readAll())
+            pixmap = QtGui.QPixmap(img)
+        else:
+            logging.info("NETWORK failed to obtain image %s:",
+                         reply.errorString())
+            pixmap = QtGui.QPixmap(_fromUtf8(self.default_src))
         scaled = pixmap.scaled(max_x, max_y, Qt.KeepAspectRatio)
         self.setPixmap(scaled)
+
+    def __del__(self):
+        self.nam.finished.disconnect()
 
 
 class FileSelector(QtGui.QWidget, Ui_FileSelector):

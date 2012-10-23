@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# pylint: disable-msg=C0103,E1101
 """
 Search
 ------
@@ -6,7 +7,6 @@ Search
 Search related views: item search, quick search and discover.
 
 """
-# This is only needed for Python v2 but is harmless for Python v3.
 from PyQt4 import QtCore
 from PyQt4.QtGui import QWidget, QApplication, QMessageBox, QDialog
 from ui.gen.search_results import Ui_Form, _fromUtf8
@@ -15,9 +15,11 @@ from ui.gen.search_quick import Ui_Dialog as Ui_Dialog_Search
 from ui.helpers.customtoolbar import Topbar, CustomToolbar
 from ui.helpers.items import ObjectListItem, FitxaListItem
 from ui.widgetprovider import WidgetProvider
+from engine.collector import Collector
 
 
 class Ui_Search(QWidget, Ui_Form):
+    """Search widget"""
 
     # TODO don't call worker directly, move to parent and this will
     #  define wich workers must exit when a view is being destroyed
@@ -26,16 +28,29 @@ class Ui_Search(QWidget, Ui_Form):
                                    None, QApplication.UnicodeUTF8)
     description = None
 
-    def __init__(self, query, results, parent, flags=None):
+    def __init__(self, query, results, parent, collection=None, flags=None):
         """ Creates a new search view"""
         if flags is None:
             flags = QtCore.Qt.WindowFlags(0)
         super(Ui_Search, self).__init__(parent, flags)
         self.results = []
+        self.collection = None
+        collections = Collector.get_instance().get_manager('collection')
+        if collection is not None:
+            self.collection = collections.get_collection(collection)
+            self.pretty = self._firstprettyfield()
         self.query = query
         if results is None:
             results = []
         self.setupUi(query, results)
+
+    def _firstprettyfield(self):
+        """Returns the first text field"""
+        for i in self.collection.schema.order:
+            if self.collection.schema.get_field(i).class_ == 'text':
+                return i
+        # No text found, return id
+        return 'id'
 
     def setupUi(self, query, results):
         super(Ui_Search, self).setupUi(self)
@@ -53,16 +68,16 @@ class Ui_Search(QWidget, Ui_Form):
 
         if query:
             self.lSearch.setText(_fromUtf8(query))
-        self.bSearch.connect(
+        self.connect(
             self.bSearch,
             QtCore.SIGNAL(_fromUtf8("clicked()")),
             lambda: self.search(self.lSearch.text()))
         self.listWidget.connect(
             self.listWidget,
             QtCore.SIGNAL(_fromUtf8("itemDoubleClicked(QListWidgetItem *)")),
-            self.itemSelected)
+            self.item_selected)
 
-        self.worker.searchComplete.connect(lambda r: self.searchComplete(r))
+        self.worker.searchComplete.connect(self.searchComplete)
         if isinstance(query, QtCore.QString):
             query = query.toUtf8()
         if query != u'' and len(results) == 0:
@@ -73,6 +88,7 @@ class Ui_Search(QWidget, Ui_Form):
                 self.addResults(results)
 
     def search(self, text):
+        """Search slot"""
         self.bSearch.setDisabled(True)
         self.listWidget.clear()
         self.progressBar.show()
@@ -80,7 +96,8 @@ class Ui_Search(QWidget, Ui_Form):
         self.parent().statusBar().showMessage(self.tr('Searching...'))
         if isinstance(text, QtCore.QString):
             text = text.toUtf8()
-        self.worker.search(unicode(text, 'utf-8'))
+        self.worker.search({'like': [self.pretty, unicode(text, 'utf-8')]},
+                           self.collection.get_id())
 
     def searchComplete(self, results):
         """Process the results of a search, *results* must be instance of
@@ -99,13 +116,15 @@ class Ui_Search(QWidget, Ui_Form):
 
     def addResults(self, listResults):
         """Adds the each elelemt of listResults to the results list widget"""
+
         for result in listResults:
-            item = FitxaListItem(result['id'], result['title'])
+            item = FitxaListItem(result['id'], result[self.pretty])
             self.listWidget.addItem(item)
             del item
         self.results.extend(listResults)
 
-    def itemSelected(self, listItem):
+    def item_selected(self, listItem):
+        "item selected"
         self.worker.searchComplete.disconnect()
         self.parent().display_view(
             'fitxa',
@@ -114,6 +133,7 @@ class Ui_Search(QWidget, Ui_Form):
 
 
 class Ui_Discover(Ui_Search):
+    """Discover widget"""
 
     title = QApplication.translate("Ui_Discover", "Discover",
                                    None, QApplication.UnicodeUTF8)
@@ -134,7 +154,7 @@ class Ui_Discover(Ui_Search):
             del item
         self.results.extend(results)
 
-    def itemSelected(self, listItem):
+    def item_selected(self, listItem):
         self.worker.searchComplete.disconnect()
         self.parent().display_view(
             'pluginfile',
@@ -150,8 +170,9 @@ class Ui_Discover(Ui_Search):
 
 
 class DiscoverView(WidgetProvider):
+    """Discover view"""
 
-    def getWidget(self, params):
+    def get_widget(self, params):
         term = ''
         if 'term' in params:
             term = params['term']
@@ -163,32 +184,39 @@ class DiscoverView(WidgetProvider):
 
 
 class SearchView(WidgetProvider):
+    """Quick search view"""
 
-    def getWidget(self, params):
-        term = ''
-        if 'term' in params:
-            term = params['term']
-        results = None
-        if 'results' in params:
-            results = params['results']
-        widget = Ui_Search(term, results, self.parent)
+    def get_widget(self, params):
+        term = params.get('term', '')
+        results = params.get('results', None)
+        collection = params.get('collection', None)
+        if collection == None:
+            raise ValueError()
+        widget = Ui_Search(term, results, self.parent, collection)
         return widget
 
 
 class SearchDialog(WidgetProvider):
+    """Quick Search dialog view"""
 
-        mode = WidgetProvider.DIALOG_WIDGET
+    mode = WidgetProvider.DIALOG_WIDGET
+    dialog = None
+    collection = None
 
-        def getWidget(self, params):
-            dialog = QDialog(self.parent)
-            self.ui = Ui_Dialog_Search()
-            self.ui.setupUi(dialog)
-            return dialog
+    def get_widget(self, params):
+        dialog = QDialog(self.parent)
+        self.dialog = Ui_Dialog_Search()
+        self.collection = params['collection']
+        self.ui.setupUi(dialog)
+        return dialog
 
-        def after_exec(self, widget):
-            result = widget.result()
-            if result == 1:
-                # Accepted
-                self.parent.display_view(
-                    'search',
-                    {'term': self.ui.lineEdit.text().toUtf8()})
+    def after_exec(self, widget):
+        result = widget.result()
+        if result == 1:
+            # Accepted
+            self.parent.display_view(
+                'search',
+                {
+                 'term': self.ui.lineEdit.text().toUtf8(),
+                 'collection': self.collection
+                })
