@@ -153,7 +153,8 @@ class PluginBoardGameGeek(PluginCollector):
         value = self.intfilter(num_of_player[0])
         if value is not None:
             results['min_players'] = value
-        value = self.intfilter(num_of_player[1])
+        if len(num_of_player) > 1:
+            value = self.intfilter(num_of_player[1])
         if value is not None:
             results['max_players'] = value
         # TODO user_suggested_players field (row 5)
@@ -171,11 +172,13 @@ class PluginBoardGameGeek(PluginCollector):
             self.remove_show_more(self.row_filter(rows[12])))
         results['mechanic'] = self.remove_show_more(self.row_filter(rows[13]))
         # Load image size == medium and not _t
-        img = soup.select('link[rel=image_src]')[0].get('href').replace(
-            '_t', '_md')
-        if not img.startswith('http'):
-            img = self.website + '/' + img
-        results['image'] = img
+        image = soup.select('link[rel=image_src]')
+        if image != []:
+            img = soup.select('link[rel=image_src]')[0].get('href').replace(
+                '_t', '_md')
+            if not img.startswith('http'):
+                img = self.website + '/' + img
+            results['image'] = img
         try:
             results['bgg_rank'] = soup.select('.mf.nw.b a')[0].get_text()
         except IndexError:
