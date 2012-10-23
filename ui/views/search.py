@@ -144,6 +144,17 @@ class Ui_Discover(Ui_Search):
 
     worker = Worker_Discover()
 
+    def search(self, text):
+        """Search slot"""
+        self.bSearch.setDisabled(True)
+        self.listWidget.clear()
+        self.progressBar.show()
+        self.query = text
+        self.parent().statusBar().showMessage(self.tr('Searching...'))
+        if isinstance(text, QtCore.QString):
+            text = text.toUtf8()
+        self.worker.search(unicode(text, 'utf-8'))
+
     def addResults(self, results):
         """Overrides the default addResults because the results from plugins
          are a little bit different"""
