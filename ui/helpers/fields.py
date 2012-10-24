@@ -47,7 +47,7 @@ class FieldWidget(object):
 class TextWidget(QtGui.QLineEdit):
     """TextWidget, overrides QLineEdit to add the get_value method"""
 
-    get_value = lambda self: unicode(self.text().toUtf8())
+    get_value = lambda self: unicode(self.text().toUtf8(), 'utf-8')
 
 
 class FieldTextWidget(FieldWidget):
@@ -87,18 +87,21 @@ class ImageWidget(QtGui.QLabel):
     def __init__(self, parent=None):
         super(ImageWidget, self).__init__(parent)
         self.nam = QNetworkAccessManager()
+        self.nam.finished.connect(self.http_image_complete)
         self.src = ''
+        self.max_x = None
+        self.max_y = None
 
     def set_image(self, value, max_x=450, max_y=450):
         """Changes the current image to the new one, and resizes the widget
          if the size is different."""
+        self.max_x = max_x
+        self.max_y = max_y
         pixmap = None
         if value is None or value == '':
             value = self.default_src
         if value.startswith('http'):
             logging.debug('FILEDATA loading image from url %s', value)
-            self.nam.finished.connect(lambda r:
-                                      self.image_complete(r, max_x, max_y))
             self.nam.get(QNetworkRequest(QUrl(value)))
         else:
             pixmap = QtGui.QPixmap(value)
@@ -106,11 +109,11 @@ class ImageWidget(QtGui.QLabel):
                 pixmap = QtGui.QPixmap(_fromUtf8(self.default_src))
             scaled = pixmap.scaled(max_x, max_y, Qt.KeepAspectRatio)
             self.setPixmap(scaled)
-            self.setAlignment(Qt.AlignLeading | Qt.AlignLeft |
-                              Qt.AlignTop)
+        self.setAlignment(Qt.AlignLeading | Qt.AlignLeft |
+                          Qt.AlignTop)
         self.src = value
 
-    def image_complete(self, reply, max_x, max_y):
+    def http_image_complete(self, reply):
         """This function is called when the image has been loadded from the
          network"""
         pixmap = None
@@ -122,8 +125,11 @@ class ImageWidget(QtGui.QLabel):
             logging.info("NETWORK failed to obtain image %s:",
                          reply.errorString())
             pixmap = QtGui.QPixmap(_fromUtf8(self.default_src))
-        scaled = pixmap.scaled(max_x, max_y, Qt.KeepAspectRatio)
-        self.setPixmap(scaled)
+        if self.max_x is not None and self.max_y is not None:
+            scaled = pixmap.scaled(self.max_x, self.max_y, Qt.KeepAspectRatio)
+            del pixmap
+            pixmap = scaled
+        self.setPixmap(pixmap)
 
     def __del__(self):
         self.nam.finished.disconnect()

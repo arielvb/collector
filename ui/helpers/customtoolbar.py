@@ -147,7 +147,7 @@ class ToolBarManager():
             statusTip="Edit",
             triggered=lambda: self.parent.editFitxa())
         # self.editToolbarAction.setEnabled(False)
-        toolBar.addAction(self.editToolbarAction)
+        toolbar.addAction(self.editToolbarAction)
         self.toolbars = toolbars
 
     def hiddeToolBar(self, toolbar):

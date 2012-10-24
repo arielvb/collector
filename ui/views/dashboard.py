@@ -105,7 +105,7 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
             collection = self.parent().collection.get_collection(collection_id)
             label = collection.get_name()
             self.lLastItems.setText(str(self.tr("Last %s")) % label)
-            lastObjects = collection.get_last()
+            lastObjects = collection.get_last(20)
             for i in lastObjects:
                 text = i[collection.schema.default]
                 item = FitxaListItem(i['id'], text != '' and
@@ -123,6 +123,7 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
         self.settings = self.get_dashboard_settings()
         self.listWidget.clear()
         self.last_files(self.listWidget)
+        #TODO reload the new entry button
 
     def goto_selected(self, s):
         """Goes to the selected item"""

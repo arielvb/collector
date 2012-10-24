@@ -141,9 +141,11 @@ class PropertiesWidget(QtGui.QDialog, Ui_Properties):
                 self.search_combo.currentIndex()).toUtf8()),
         }
         info['dashboard'] = dashboard
-        # TODO save all the tabs
+        # TODO save all the tabs: files, plugins
         self.collection.set_properties(info)
         if valid:
+            if self.parent().view == 'dashboard':
+                self.parent().centralWidget().reload()
             self.accept()
 
 

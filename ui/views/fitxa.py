@@ -59,6 +59,15 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
                 params={"collection": self.collection.get_id(),
                         "item": str(self.item)}))
         )
+        # menu.addAction(QtGui.QAction(
+        #     None,
+        #     self.tr("Autocomplete"), self,
+        #     statusTip=self.tr("Autocomplete using plugins"),
+        #     triggered=lambda: self.parent().display_view(
+        #         'add',
+        #         {'collection': self.collection.get_id()})
+        #     )
+        # )
         menu.addAction(QtGui.QAction(
             QtGui.QIcon(':/delete.png'),
             self.tr("Delete"), self,

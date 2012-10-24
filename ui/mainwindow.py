@@ -41,6 +41,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.setUnifiedTitleAndToolBarOnMac(True)
         # TODO clean toolbar code?
         # self.createToolbar()
+        self.view = None
         self.views = self.init_views()
         self.display_view('dashboard')
         # Menu actions
@@ -109,6 +110,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         logging.debug("Called display view, URI: " +
                       self.viewcall2collectoruri(name, params))
         self.views[name].run(params)
+        self.view = name
 
     def switch_fullscreen(self):
         """Display fullscreen mode if isn't not active or shows the previous
