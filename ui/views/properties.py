@@ -84,6 +84,8 @@ class PropertiesWidget(QtGui.QDialog, Ui_Properties):
         self.field_details.hide()
         preview = Ui_Dashboard(self.parent())
         preview.setDisabled(True)
+        # TODO remove preview or apply combo changes
+        self.preview.hide()
         self.preview_layout.addWidget(preview)
 
         # Buttons
@@ -110,6 +112,7 @@ class PropertiesWidget(QtGui.QDialog, Ui_Properties):
                 "QListWidgetItem*)"),
             self._itemSelected
         )
+
 
     def _itemSelected(self, item, old):
         if (getattr(item, 'obj', False)):
