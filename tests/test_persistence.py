@@ -9,18 +9,18 @@ from engine.persistence_sql import Alchemy, PersistenceAlchemy
 
 
 class TestPersistence(unittest.TestCase):
+    """Persistence class tests"""
 
     def setUp(self):
+        """Test setup"""
         schema = type('Schema', (object,),
                  dict(collection='demo', id='boardgames'))
 
         self.manager = PersistenceDict(schema, path=None,
                 params={'data': boardgames})
 
-    def tearDown(self):
-        pass
-
     def test_get_by_id(self):
+        """Cheks the get_id method"""
         self.assertEquals(self.manager.get(1)['id'], 1)
         self.assertEquals(self.manager.get(2)['id'], 2)
         # Using strings
@@ -28,6 +28,7 @@ class TestPersistence(unittest.TestCase):
         self.assertEquals(self.manager.get("2")['id'], 2)
 
     def test_search(self):
+        """Test the search method"""
         items = self.manager.search('The Pillars of the Earth')
         self.assertEqual(len(items), 1)
         # Search multple items (e appears in the 2 demo objects)
@@ -41,33 +42,39 @@ class TestAlchemy(unittest.TestCase):
     """TestAlchemy, testcase for the Alchemy class of persistence_sql"""
 
     def setUp(self):
+        """Test setup"""
         Alchemy.destroy()
         # To enable the echo option of SQLAlchemy just change this to True
         Alchemy.echo = False
         self.alchemy = Alchemy()
 
-
     def tearDown(self):
+        """Test teardown"""
         Alchemy.destroy()
 
     def test_alchemy_singleton(self):
+        """Check alchemy is a manager"""
         self.assertEquals(Alchemy.get_instance(), self.alchemy)
 
-    def test_exception_when_called_constructor(self):
+    def test_exception_constructor(self):
+        """Check that only one isnstace of alchemy can be created"""
         self.assertRaises(Exception, Alchemy)
 
     def test_get_engine(self):
+        """Creation and retrival of an engine"""
         engine = self.alchemy.get_engine(":memory:")
         engine2 = self.alchemy.get_engine(":memory:")
         self.assertTrue(isinstance(engine, sqlalchemy.engine.base.Engine))
         self.assertEqual(engine, engine2)
 
     def test_get_session(self):
+        """Creation and retrival of a session"""
         self.alchemy.get_engine(":memory:")
         self.alchemy.get_session(":memory:")
         #TODO check results of get_session
 
-    def test_exception_get_session_non_existing_engine(self):
+    def test_exception_get_session(self):
+        """Exception if we try to retrieve session for a non exising engine"""
         self.assertRaises(Exception, self.alchemy.get_session, ":memory:")
 
 
@@ -230,7 +237,7 @@ class TestPersistenceAlchemyReferences(unittest.TestCase):
         pers2 = self.pers2
         ref = pers2.save({'name': 'Game1', 'designer': 1, 'artist': 2})
         ref_loaded = pers2.load_references(None, ref)
-        self.assertEquals(ref_loaded, {'refLoaded': True, 'designer': u'John',
+        self.assertEquals(ref_loaded, {'_refLoaded': True, 'designer': u'John',
                                        'name': u'Game1', 'artist': u'Julius',
                                        'id': 1})
 
@@ -280,7 +287,7 @@ class TestPersistenceAlchemyReferencesMany(unittest.TestCase):
         obj = pers2.load_references([], board2)
         self.assertEquals(obj,
             {'designer': [u'John', u'Julius'],
-            'name': u'Pilares', 'refLoaded': True, 'id': 1}
+            'name': u'Pilares', '_refLoaded': True, 'id': 1}
         )
 
     def tearDown(self):

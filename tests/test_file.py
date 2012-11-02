@@ -31,6 +31,11 @@ class TestFile(unittest.TestCase):
         self.assertEquals(self.file['fruit'], 'orange')
         self.assertEquals(self.file.fruit, 'orange')
 
+    def test_copy(self):
+        self.file['fruit'] = 'apple'
+        copy = self.file.copy()
+        self.assertEquals(copy, {'fruit': 'apple'})
+
 
 if __name__ == '__main__':
     unittest.main()
