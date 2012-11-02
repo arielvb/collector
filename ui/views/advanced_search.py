@@ -49,8 +49,8 @@ class AdvancedSearchWidget(QtGui.QWidget, Ui_Form):
         self.query = query
         self.filters = None
         self.fields = None
+        self.filters_w = []
         self.collection = collection
-        from PyQt4.QtCore import pyqtRemoveInputHook; pyqtRemoveInputHook(); import ipdb; ipdb.set_trace()
         self.setupUi()
 
     def setupUi(self):
@@ -74,8 +74,9 @@ class AdvancedSearchWidget(QtGui.QWidget, Ui_Form):
         fields.sort(cmp=lambda x, y: cmp(x.name, y.name))
         self.fields = fields
         self.filters = self.collection.persistence.get_filters().values()
-        self.filter = FilterWidget(self.fields,self.filters)
-        self.filters_layout.addWidget(self.filter)
+        filter_ = FilterWidget(self.fields,self.filters)
+        self.filters_w.append(filter_)
+        self.filters_layout.addWidget(filter_)
         Topbar(widget=self.topbar, icon=':ico/search.png',
                title=self.tr("Advanced Search"))
         # Toolbar
@@ -91,21 +92,18 @@ class AdvancedSearchWidget(QtGui.QWidget, Ui_Form):
         ]
         CustomToolbar(self.toolbar, items, self._toolbar_callback)
 
-        self.connect(
-            self.add_button,
-            QtCore.SIGNAL(_fromUtf8("clicked()")),
-            lambda: self.addfilter()
-        )
+        self.add_button.clicked.connect(self.addfilter)
 
     def _toolbar_callback(self, uri):
         """Toolbar actions callback"""
         params = self.parent().collector_uri_call(uri)
         action = params.get('action', None)
         if action == 'dofilter':
+            index = self.filters_w[0].filter_combo.currentIndex()
             query = {
-                self.filters[self.filter.filter_combo.currentIndex()].get_id(): [
-                    self.fields[self.filter.field_combo.currentIndex()].get_id(),
-                    unicode(self.filter.value_text.text().toUtf8())
+                self.filters[index].get_id(): [
+                    self.fields[index].get_id(),
+                    unicode(self.filters_w[0].value_text.text().toUtf8())
                 ]
             }
             self.parent().display_view('collection', params={
@@ -119,7 +117,6 @@ class AdvancedSearchWidget(QtGui.QWidget, Ui_Form):
         """Adds a empty filter to de filter query"""
         # TODO whe need to store the filters...
         self.filters_layout.addWidget(FilterWidget(self.fields, self.filters))
-
 
 
 class AdvancedSearch(WidgetProvider):
