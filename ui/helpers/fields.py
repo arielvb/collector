@@ -311,7 +311,8 @@ class MultivalueWidget(QtGui.QWidget, Ui_Multivalue):
     def get_values(self):
         values = []
         for widget in self.widgets:
-            values.append(widget.get_value())
+            if widget.get_value() is not None:
+                values.append(widget.get_value())
         return values
 
     text = get_values
