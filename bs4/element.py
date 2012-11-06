@@ -987,7 +987,7 @@ class Tag(PageElement):
                     if isinstance(val, list) or isinstance(val, tuple):
                         val = ' '.join(val)
                     elif not isinstance(val, basestring):
-                        val = str(val)
+                        val = unicode(val)
                     elif (
                         isinstance(val, AttributeValueWithCharsetSubstitution)
                         and eventual_encoding is not None):
@@ -995,7 +995,7 @@ class Tag(PageElement):
 
                     text = self.format_string(val, formatter)
                     decoded = (
-                        str(key) + '='
+                        unicode(key) + '='
                         + EntitySubstitution.quoted_attribute_value(text))
                 attrs.append(decoded)
         close = ''
@@ -1169,6 +1169,12 @@ class SoupStrainer(object):
             # attribute.
             kwargs['class'] = attrs
             attrs = None
+
+        if 'class_' in kwargs:
+            # Treat class_="foo" as a search for the 'class'
+            # attribute, overriding any non-dict value for attrs.
+            kwargs['class'] = kwargs['class_']
+            del kwargs['class_']
 
         if kwargs:
             if attrs:
