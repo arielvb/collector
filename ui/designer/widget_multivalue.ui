@@ -66,7 +66,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="resources.qrc">
+        <iconset resource="img/img.qrc">
          <normaloff>:/ico/add.png</normaloff>:/ico/add.png</iconset>
        </property>
       </widget>
@@ -89,7 +89,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="img/img.qrc"/>
  </resources>
  <connections/>
 </ui>

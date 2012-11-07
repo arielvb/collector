@@ -59,7 +59,7 @@ ui2py: resources
 resources:
 	mkdir -p ${BUILD_DIR}
 	echo '#' > ${BUILD_DIR}/__init__.py
-	pyrcc4 -o ${BUILD_DIR}/resources_rc.py ${UI_DIR}/resources.qrc
+	pyrcc4 -o ${BUILD_DIR}/img_rc.py ${UI_DIR}/img/img.qrc
 	pyrcc4 -o ${BUILD_DIR}/lang_rc.py ${UI_DIR}/lang.qrc
 
 

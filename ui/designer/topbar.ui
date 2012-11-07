@@ -34,7 +34,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="resources.qrc">:/ico/dashboard.png</pixmap>
+        <pixmap resource="img/img.qrc">:/ico/dashboard.png</pixmap>
        </property>
       </widget>
      </item>
@@ -92,7 +92,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="img/img.qrc"/>
  </resources>
  <connections/>
 </ui>

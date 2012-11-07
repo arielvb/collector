@@ -14,7 +14,7 @@
    <string>Collector</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resources.qrc">
+   <iconset resource="img/img.qrc">
     <normaloff>:/collection.png</normaloff>:/collection.png</iconset>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
@@ -55,8 +55,8 @@
      <string>Tools</string>
     </property>
     <addaction name="actionDiscover"/>
-    <addaction name="actionBackup"/>
-    <addaction name="actionOpen_Collection"/>
+    <addaction name="actionExport"/>
+    <addaction name="actionImport"/>
     <addaction name="actionPreferences"/>
    </widget>
    <widget class="QMenu" name="menuView">
@@ -82,26 +82,26 @@
   </action>
   <action name="actionView_Dashboard">
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="img/img.qrc">
      <normaloff>:/dashboard.png</normaloff>:/dashboard.png</iconset>
    </property>
    <property name="text">
     <string>Dashboard</string>
    </property>
   </action>
-  <action name="actionOpen_Collection">
+  <action name="actionImport">
    <property name="text">
     <string>Import</string>
    </property>
   </action>
-  <action name="actionBackup">
+  <action name="actionExport">
    <property name="text">
     <string>Export</string>
    </property>
   </action>
   <action name="actionFullscreen">
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="img/img.qrc">
      <normaloff>:/fullscreen.png</normaloff>:/fullscreen.png</iconset>
    </property>
    <property name="text">
@@ -113,7 +113,7 @@
   </action>
   <action name="actionDiscover">
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="img/img.qrc">
      <normaloff>:/ico/search.png</normaloff>:/ico/search.png</iconset>
    </property>
    <property name="text">
@@ -127,7 +127,7 @@
   </action>
   <action name="actionAdvanced_Search">
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="img/img.qrc">
      <normaloff>:/ico/search.png</normaloff>:/ico/search.png</iconset>
    </property>
    <property name="text">
@@ -136,7 +136,7 @@
   </action>
   <action name="actionProperties">
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset resource="img/img.qrc">
      <normaloff>:/ico/info.png</normaloff>:/ico/info.png</iconset>
    </property>
    <property name="text">
@@ -148,7 +148,7 @@
   </action>
  </widget>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="img/img.qrc"/>
   <include location="lang.qrc"/>
  </resources>
  <connections/>
