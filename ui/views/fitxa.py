@@ -5,6 +5,8 @@ from ui.gen.fitxa import Ui_File
 from ui.helpers.customtoolbar import CustomToolbar, Topbar
 from ui.widgetprovider import WidgetProvider
 from ui.helpers.filedata import FileDataWidget
+from ui.workers.search import Worker_Discover, Worker_Queue
+from engine.collector import Collector
 
 
 class Ui_Fitxa(QtGui.QWidget, Ui_File):
@@ -16,12 +18,15 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
         self.item = item
         self.collection = self.parent().collection.get_collection(collection)
         self.setupUi()
+        self.worker = Worker_Discover()
+        self.workerQ = None
 
     def setupUi(self):
         super(Ui_Fitxa, self).setupUi(self)
         item = self.item
         obj = self.collection.get(item)
         obj = self.collection.load_references(obj)
+        self.obj = obj
         self.fontLabel = QtGui.QFont()
         self.fontLabel.setBold(True)
         self.fontLabel.setWeight(75)
@@ -59,20 +64,18 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
                 params={"collection": self.collection.get_id(),
                         "item": str(self.item)}))
         )
-        # menu.addAction(QtGui.QAction(
-        #     None,
-        #     self.tr("Autocomplete"), self,
-        #     statusTip=self.tr("Autocomplete using plugins"),
-        #     triggered=lambda: self.parent().display_view(
-        #         'add',
-        #         {'collection': self.collection.get_id()})
-        #     )
-        # )
+        menu.addAction(QtGui.QAction(
+            self.tr("Autocomplete"),
+            self,
+            statusTip=self.tr("Autocomplete"),
+            triggered=self.autocomplete
+            )
+        )
         menu.addAction(QtGui.QAction(
             QtGui.QIcon(':/delete.png'),
             self.tr("Delete"), self,
             statusTip=self.tr("Delete file"),
-            triggered=lambda: self.delete())
+            triggered=self.delete)
         )
         menu.addAction(QtGui.QAction(
             QtGui.QIcon(':/add.png'),
@@ -95,11 +98,82 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
             # if action == 'delete':
             #     self.delete()
 
+    def autocomplete(self):
+        """Launches to the autocomplete proces"""
+        self.progress = QtGui.QProgressDialog(
+                self.tr("Looking for data (Step 1/3)"),
+                self.tr("Abort"),
+                0,
+                0)
+        self.progress.canceled.connect(self.abortautocomplete)
+        self.progress.setWindowModality(QtCore.Qt.WindowModal)
+        self.progress.show()
+        self.worker.searchComplete.connect(self.showalternatives)
+        self.worker.search(self.obj[self.collection.schema.default])
+
+    def showalternatives(self, results):
+        """Choose the alternatives to autocomplete"""
+        # self.progress.hide()
+        self.progress.setLabelText("Loading data (Step 2/3)")
+        # self.progress = None
+        if len(results.results) > 0:
+            # TODO display alternatives window
+            alternatives = results.results
+
+            self.workerQ = Worker_Queue(alternatives)
+            self.workerQ.complete.connect(self.docomplete)
+            self.workerQ.start()
+            # Collector.getInstance().complete(
+            #     self.collection.get_id(),
+            #     self.obj['id'],
+            #     alternatives)
+            # self.parent().display_view(
+            #     'comparefile',
+            #     params={'source': self.obj,
+            #             'new': alternatives[0]}
+            # )
+        else:
+            QtGui.QMessageBox.warning(self, self.tr("Collector"),
+                self.tr("No data found"))
+
+    def docomplete(self, data):
+        """aaaaa"""
+        self.progress.setLabelText("Autocomplete running (Step 3/3)")
+        # self.progress.setCancelButton(0)
+        if isinstance(data, list):
+            # TODO allow multiple values
+            data = data[0]
+        if not isinstance(data, dict):
+            self.progress.hide()
+            # TODO raise error
+        Collector.get_instance().complete(
+            self.collection.get_id(),
+            self.obj['id'],
+            data)
+        self.progress.hide()
+        self.parent().display_view('fitxa', params={
+            'item': self.obj['id'],
+            'collection': self.collection.get_id()
+            }
+        )
+
+    def abortautocomplete(self):
+        if self.worker is not None:
+            self.worker.terminate()
+            self.worker.wait()
+
     def delete(self):
         """Deletes the current item from the collection"""
         # TODO! ask confirmation to the user.
-        self.collection.delete(self.item)
-        self.parent().display_view('dashboard')
+        result = QtGui.QMessageBox.question(
+            self,
+            self.tr("Delete item"),
+            self.tr("Are you sure you want to remove this file?"),
+            QtGui.QMessageBox.Yes,
+            QtGui.QMessageBox.No)
+        if result == QtGui.QMessageBox.Yes:
+            self.collection.delete(self.item)
+            self.parent().display_view('dashboard')
 
 
 class FitxaView(WidgetProvider):

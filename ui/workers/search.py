@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from PyQt4.QtCore import QThread, pyqtSignal
 from engine.collector import Collector
-from engine.provider import FileProvider
 from engine.plugin import PluginCollector
 import logging
 
@@ -57,14 +56,7 @@ class Worker_Discover(QThread):
         self.start()
 
     def run(self):
-        # TODO remove this provider
-        provider = FileProvider(
-            '/Users/arkow/universidad/pfc/collector/tests/data/bgg/' +
-            'geeksearch.php.html')
-        provider = FileProvider(
-            '/Users/arkow/munchkinsearch.html')
         collector = Collector.get_instance()
-        provider = None
 
         plugin = 'PluginBoardGameGeek'
         plugins = collector.get_manager('plugin').filter(PluginCollector)
@@ -72,8 +64,7 @@ class Worker_Discover(QThread):
         for plugin in plugins:
             try:
                 results = collector.discover(self.params['query'],
-                                             plugin,
-                                             provider)
+                                             plugin)
                 # TODO partial signal
                 self.searchComplete.emit(WorkerResult(STATUS_OK, results))
             except Exception as e:
@@ -99,19 +90,12 @@ class Worker_FileLoader(QThread):
         self.start()
 
     def run(self):
-        # TODO remove this provider
-        provider = FileProvider(
-            '/Users/arkow/universidad/pfc/collector/tests/data/bgg/' +
-            'the-pillars-of-the-earth.html')
-        provider = FileProvider(
-            '/Users/arkow/universidad/pfc/collector/tests/data/bgg/' +
-            'mice-and-mystics.html')
-        provider = None
+
         collector = Collector.get_instance()
         try:
             results = collector.get_plugin_file(
                 self.uri,
-                self.plugin_id, provider
+                self.plugin_id
             )
             self.load_complete.emit(WorkerResult(STATUS_OK, results))
         except Exception as e:
@@ -123,3 +107,45 @@ class Worker_FileLoader(QThread):
                     (self.plugin_id, self.uri)
                 )
             )
+
+from Queue import Queue
+
+
+class Worker_Queue(QThread):
+    """Worker to control all the Worker_FileLoader"""
+
+    complete = pyqtSignal(list)
+
+    def __init__(self, data, parent=None):
+        QThread.__init__(self, parent)
+        # MAX_THREAD = 2
+        self.queue = Queue()
+        self.workers = []
+        for i in data:
+            self.queue.put(i)
+        # for i in range(0, MAX_THREAD):
+            # worker = Worker_QueueFileLoader()
+            # self.workers.append(worker)
+            #TODO connect signals/slots
+            # worker.resultready.connect(self.subworker_end)
+            # worker.search(data['id'], data['plugin'])
+
+    def run(self):
+        """The run function"""
+        collector = Collector.get_instance()
+        results = []
+        while not self.queue.empty():
+            i = self.queue.get()
+            file_ = collector.get_plugin_file(
+                i['id'],
+                i['plugin'],
+            )
+            results.append(file_)
+            self.queue.task_done()
+        # q.join()
+        self.complete.emit(results)
+
+    def add(self, data):
+        """Add data to the queue"""
+        for i in data:
+            self.queue.put(i)
