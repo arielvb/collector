@@ -17,6 +17,9 @@ from views.preferences import PreferencesView
 from views.properties import PropertiesView
 from views.plugincollector_fitxa import PluginFileView
 from views.advanced_search import AdvancedSearch
+from views.alternatives import AlternativesView
+from plugins.csvimport import PluginCsvImport
+
 
 from views import ViewNotFound
 
@@ -41,7 +44,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.setUnifiedTitleAndToolBarOnMac(True)
         # TODO clean toolbar code?
         # self.createToolbar()
-        self.view = None
+        self.view = 'dashboard'
         self.views = self.init_views()
         self.display_view('dashboard')
         # Menu actions
@@ -53,10 +56,9 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
             triggered=self.about)
         self.help_menu.addAction(self.about_action)
         # Connect menu actions
-        self.connect(
-            self.actionView_Dashboard,
-            QtCore.SIGNAL(_fromUtf8("triggered()")),
-            lambda: self.display_view('dashboard'))
+        self.actionView_Dashboard.triggered.connect(
+            lambda: self.display_view('dashboard')
+        )
         self.connect(
             self.actionQuick_search,
             QtCore.SIGNAL(_fromUtf8("triggered()")),
@@ -81,6 +83,10 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
             self.actionAdvanced_Search,
             QtCore.SIGNAL(_fromUtf8("triggered()")),
             lambda: self.display_view('filters'))
+        self.connect(
+            self.actionImport,
+            QtCore.SIGNAL(_fromUtf8("triggered()")),
+            self.doimport)
 
     def init_views(self):
         """ Initialize the avaible views, each view is loaded by a provider"""
@@ -97,7 +103,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
             'properties': PropertiesView(self),
             'pluginfile': PluginFileView(self),
             'filters': AdvancedSearch(self),
-
+            # 'compare': CompareView(self),
         }
 
     def display_view(self, name, params=None):
@@ -111,6 +117,11 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
                       self.viewcall2collectoruri(name, params))
         self.views[name].run(params)
         self.view = name
+
+    def doimport(self):
+        """Start the import process"""
+        self.importplugin = PluginCsvImport()
+        self.importplugin.run()
 
     def switch_fullscreen(self):
         """Display fullscreen mode if isn't not active or shows the previous
