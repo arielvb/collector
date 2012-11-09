@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>405</width>
-    <height>35</height>
+    <width>447</width>
+    <height>119</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,7 +19,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_3">
    <property name="margin">
     <number>0</number>
    </property>
@@ -47,44 +47,24 @@
     </layout>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <property name="spacing">
-      <number>0</number>
+    <widget class="QPushButton" name="addValue">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
-     <item>
-      <widget class="QPushButton" name="addValue">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="layoutDirection">
-        <enum>Qt::LeftToRight</enum>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="img/img.qrc">
-         <normaloff>:/ico/add.png</normaloff>:/ico/add.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>0</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="img/img.qrc">
+       <normaloff>:/ico/add.png</normaloff>:/ico/add.png</iconset>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
