@@ -38,19 +38,11 @@ class Ui_Search(QWidget, Ui_Form):
         collections = Collector.get_instance().get_manager('collection')
         if collection is not None:
             self.collection = collections.get_collection(collection)
-            self.pretty = self._firstprettyfield()
+            self.pretty = self.collection.schema.default
         self.query = query
         if results is None:
             results = []
         self.setupUi(query, results)
-
-    def _firstprettyfield(self):
-        """Returns the first text field"""
-        for i in self.collection.schema.order:
-            if self.collection.schema.get_field(i).class_ == 'text':
-                return i
-        # No text found, return id
-        return 'id'
 
     def setupUi(self, query, results):
         super(Ui_Search, self).setupUi(self)
@@ -96,6 +88,7 @@ class Ui_Search(QWidget, Ui_Form):
         self.parent().statusBar().showMessage(self.tr('Searching...'))
         if isinstance(text, QtCore.QString):
             text = text.toUtf8()
+            self.query = text
         self.worker.search({'like': [self.pretty, unicode(text, 'utf-8')]},
                            self.collection.get_id())
 
@@ -153,6 +146,7 @@ class Ui_Discover(Ui_Search):
         self.parent().statusBar().showMessage(self.tr('Searching...'))
         if isinstance(text, QtCore.QString):
             text = text.toUtf8()
+            self.query = text
         self.worker.search(unicode(text, 'utf-8'))
 
     def addResults(self, results):
