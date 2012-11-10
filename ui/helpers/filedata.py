@@ -76,7 +76,7 @@ class FileDataWidget(QtGui.QWidget, Ui_Form):
             widget = self.man.get_widget(image, self, {
                 'src': path,
                 'x': self.parent().width() / 3,
-                'y': self.parent().height()})
+                'y': self.parent().height() - 200})
             self.image_layout.addWidget(widget)
 
         if len(obj) < 3:
