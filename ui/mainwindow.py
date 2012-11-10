@@ -17,8 +17,7 @@ from views.preferences import PreferencesView
 from views.properties import PropertiesView
 from views.plugincollector_fitxa import PluginFileView
 from views.advanced_search import AdvancedSearch
-from views.alternatives import AlternativesView
-from plugins.csvimport import PluginCsvImport
+from views.im_export import ImportView, ExportView
 
 
 from views import ViewNotFound
@@ -86,7 +85,11 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.connect(
             self.actionImport,
             QtCore.SIGNAL(_fromUtf8("triggered()")),
-            self.doimport)
+            lambda: self.display_view('import'))
+        self.connect(
+            self.actionExport,
+            QtCore.SIGNAL(_fromUtf8("triggered()")),
+            lambda: self.display_view('export'))
 
     def init_views(self):
         """ Initialize the avaible views, each view is loaded by a provider"""
@@ -103,7 +106,8 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
             'properties': PropertiesView(self),
             'pluginfile': PluginFileView(self),
             'filters': AdvancedSearch(self),
-            # 'compare': CompareView(self),
+            'import': ImportView(self),
+            'export': ExportView(self),
         }
 
     def display_view(self, name, params=None):
@@ -116,12 +120,8 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         logging.debug("Called display view, URI: " +
                       self.viewcall2collectoruri(name, params))
         self.views[name].run(params)
-        self.view = name
-
-    def doimport(self):
-        """Start the import process"""
-        self.importplugin = PluginCsvImport()
-        self.importplugin.run()
+        if self.views[name].mode != self.views[name].DIALOG_WIDGET:
+            self.view = name
 
     def switch_fullscreen(self):
         """Display fullscreen mode if isn't not active or shows the previous
