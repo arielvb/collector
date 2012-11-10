@@ -96,6 +96,17 @@ collections = {
                 'mechanic': 'mechanic',
                 'average': 'rating',
                 'image': 'image',
+            },
+            "PluginCsvImport": {
+                "publisher": "publisher",
+                "designer": "designers",
+                "title": "title",
+                "average": "rating",
+                "artist": "artists",
+                "mechanic": "mechanic",
+                "year": "year",
+                "image": "image",
+                "categories": "categories"
             }
         }
     }
