@@ -25,5 +25,7 @@
     <file>ico/reload.png</file>
     <file>browser.png</file>
     <file>ico/browser.png</file>
+    <file>csv.png</file>
+    <file>csvbgg.png</file>
   </qresource>
 </RCC>
