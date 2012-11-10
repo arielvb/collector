@@ -96,7 +96,7 @@
      </widget>
      <widget class="QWidget" name="files">
       <attribute name="title">
-       <string>Files</string>
+       <string>Fields</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
@@ -269,7 +269,7 @@
             <item row="1" column="0">
              <widget class="QLabel" name="label_5">
               <property name="text">
-               <string>File</string>
+               <string>Folder</string>
               </property>
              </widget>
             </item>
