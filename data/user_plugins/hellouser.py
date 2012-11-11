@@ -16,3 +16,7 @@ class PluginHellouser(PluginRunnable):
 
     def autorun(self):
         return True
+
+    @property
+    def icon(self):
+        return ''
