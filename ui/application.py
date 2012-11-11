@@ -15,12 +15,13 @@ class CollectorApplication(QtGui.QApplication):
     current = None
     collector = None
 
-    def __init__(self, argv):
+    def __init__(self, argv, hidden=False):
         super(CollectorApplication, self).__init__(argv)
 
         # Create and display the splash screen
-        self.splash = SplashScreen()
-        self.splash.show()
+        if not hidden:
+            self.splash = SplashScreen()
+            self.splash.show()
         self.processEvents()
         self.view = None
         self.uri = None
@@ -39,12 +40,12 @@ class CollectorApplication(QtGui.QApplication):
         from mainwindow import MainWindow
 
         self.main = MainWindow()
+        if not hidden:
+            # Show main window
+            self.main.show()
 
-        # Show main window
-        self.main.show()
-
-        # Hide splash
-        self.splash.finish(self.main)
+            # Hide splash
+            self.splash.finish(self.main)
 
         # Bring window to front
         self.main.raise_()
