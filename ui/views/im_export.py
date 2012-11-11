@@ -1,5 +1,5 @@
 # -* coding: utf-8 *-
-from PyQt4 import QtCore, QtGui
+from PyQt4 import QtGui
 from ui.gen.im_export import Ui_Dialog
 from ui.widgetprovider import WidgetProvider
 from ui.helpers.customtoolbar import CustomToolbar
