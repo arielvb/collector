@@ -1,15 +1,15 @@
 #!/usr/bin/evn python
 # -*- coding: utf-8 -*-
-
 """Plugin to Import the CSV from Boardgamegeek"""
-from PyQt4 import QtCore, QtGui
-from engine.plugin import PluginRunnable
-from ui.helpers.fields import FileSelector
 from boardgamegeek import PluginBoardGameGeek
-from engine.provider import UrlProvider
 from engine.collector import Collector
+from engine.plugin import PluginImporter
+from engine.provider import UrlProvider
+from ui.helpers.fields import FileSelector
+from PyQt4 import QtCore, QtGui
 import csv
 import logging
+import os
 
 
 QStringU8 = QtCore.QString.fromUtf8
@@ -20,12 +20,32 @@ class CSVFileSelector(QtGui.QDialog):
 
     def __init__(self, parent=None):
         super(CSVFileSelector, self).__init__()
+
+        self.file = None
+        self.collection = None
+
+        # Creating ui elements
+        self.resize(400, 135)
+        self.setWindowTitle(self.tr("Import - Boardgame CSV"))
         self.setObjectName(QStringU8("CSVFileSelector"))
-        self.layout = QtGui.QVBoxLayout(self)
-        self.label = QtGui.QLabel(QStringU8("Select the CSV file to import:"))
+        self.mainlayout = QtGui.QHBoxLayout(self)
+        self.icon = QtGui.QLabel()
+        self.icon.setPixmap(QtGui.QPixmap(':/csvbgg.png'))
+        self.mainlayout.addWidget(self.icon)
+
+        self.layout = QtGui.QVBoxLayout()
+        self.label = QtGui.QLabel(self.tr(
+            QStringU8("Select the CSV file to import:")))
         self.layout.addWidget(self.label)
         self.file_selector = FileSelector(self, 'CSV (*.csv)')
         self.layout.addWidget(self.file_selector)
+        self.label2 = QtGui.QLabel(self.tr(
+            QStringU8("To the folder:")))
+        self.layout.addWidget(self.label2)
+        self.collections = QtGui.QComboBox()
+
+        self.layout.addWidget(self.collections)
+        self.mainlayout.addLayout(self.layout)
         self.options = QtGui.QDialogButtonBox(self)
         self.options.setOrientation(QtCore.Qt.Horizontal)
         self.options.setStandardButtons(QtGui.QDialogButtonBox.Cancel |
@@ -33,14 +53,28 @@ class CSVFileSelector(QtGui.QDialog):
         self.options.setObjectName(QStringU8("options"))
         self.layout.addWidget(self.options)
 
+        # Add collections to the combo box
+        man = Collector.get_instance().get_manager('collection')
+        for i in man.collections.values():
+            self.collections.addItem(i.get_name(), i.get_id())
+        # Connect things
+        self.options.rejected.connect(self.reject)
         self.options.accepted.connect(self.accept)
-
-        self.file = None
 
     def accept(self):
         """Saves the file path and accept"""
         self.file = self.file_selector.get_value()
-        super(CSVFileSelector, self).accept()
+        self.collection = self.collections.itemData(
+            self.collections.currentIndex
+        )
+        if os.path.exists(self.file):
+            super(CSVFileSelector, self).accept()
+        else:
+            self.file = None
+            # Launch error message
+            QtGui.QMessageBox.warning(self,
+                self.tr("Collector"),
+                self.tr("Please select an existing file."))
 
 
 class CSVWorker(QtCore.QThread):
@@ -114,9 +148,10 @@ class CSVWorker(QtCore.QThread):
                     'quantity',
                     'privatecomment']
 
-    def __init__(self, path):
+    def __init__(self, path, folder):
         QtCore.QThread.__init__(self)
         self.path = path
+        self.folder = folder
         self.provider = UrlProvider("http://boardgamegeek.com/boardgame/%s")
         self.plugin = PluginBoardGameGeek()
         self.stopworking = False
@@ -124,20 +159,19 @@ class CSVWorker(QtCore.QThread):
     def run(self):
         self.stopworking = False
         #Open file
-        #TODO
-        #emit file readed
         reader = csv.reader(open(self.path))
-
-        # loop files
-        count = 0
+        # Check header and read rows (each row is a collection file)
         if not self.check_first_row(reader):
-            self.error.emit(self.tr("Not a valid csv File"))
+            self.error.emit(self.tr("The CSV isn't from Boardgamegeek"))
             return
         files = []
+        count = 0  # We need the count of rows for the dialog progress
         for row in reader:
             files.append(row)
             count += 1
+        # Emit end of the first step (read file)
         self.csvreaded.emit(count)
+        # Add the collections files to the deseired collection
         i = 1
         id = self.bgg_csv_schema.index('objectid')
         man = Collector.get_instance()
@@ -153,7 +187,6 @@ class CSVWorker(QtCore.QThread):
                 # from PyQt4.Qt import qDebug; qDebug(unicode(data))
             except Exception as e:
                 logging.exception(e)
-                # from PyQt4.Qt import qDebug; qDebug("Error obtaining data for:" + str(item))
             self.provider.flush()
             self.filecreated.emit(i)
             if self.stopworking:
@@ -161,6 +194,7 @@ class CSVWorker(QtCore.QThread):
             i += 1
 
     def check_first_row(self, reader):
+        """Checks that the first row of the CSV matches with a BGG CSV"""
         row = reader.next()
         return row == self.bgg_csv_schema
 
@@ -168,7 +202,7 @@ class CSVWorker(QtCore.QThread):
 class CSVProgress(QtGui.QProgressDialog):
     """Dialog to run the import process and show the status"""
 
-    def __init__(self, path):
+    def __init__(self, path, folder):
         super(CSVProgress, self).__init__(
             QtGui.QApplication.translate("Form", "Reading CSV...", None,
                                          QtGui.QApplication.UnicodeUTF8),
@@ -176,8 +210,9 @@ class CSVProgress(QtGui.QProgressDialog):
                                          QtGui.QApplication.UnicodeUTF8),
             0,
             0)
+        self.resize(400, 135)
         self.done = False
-        self.worker = CSVWorker(path)
+        self.worker = CSVWorker(path, folder)
         self.worker.csvreaded.connect(self.set_file_count)
         self.worker.filecreated.connect(self.filecreated)
         self.worker.finished.connect(self.finish)
@@ -211,36 +246,24 @@ class CSVProgress(QtGui.QProgressDialog):
         self.close()
 
 
-class PluginCsvImport(PluginRunnable):
+class PluginCsvImport(PluginImporter):
     """Defines the process to import files from a CSV,
      the expected format of the CSV is the export from Boardgamegeek"""
 
+    def icon(self):
+        return ':/csvbgg.png'
+
     def get_name(self):
-        return "Import from CSV..."
+        return "Boardgamegeek CSV"
 
     def get_author(self):
         return "Ariel"
 
     def run(self):
         #TODO the current collec. must be a parameter of the front controller
-        c_collection = 'demo'  # current collection
         widget = CSVFileSelector()
         widget.exec_()
         if widget.file is not None:
-            progress = CSVProgress(widget.file
+            progress = CSVProgress(widget.file, widget.collection
                 )
             progress.exec_()
-
-
-if __name__ == '__main__':
-    def main():
-        """Main"""
-        app = QtGui.QApplication([])
-        p = CSVProgress('/Users/arkow/universidad/pfc/csv_reader/mikiblo-2012-06-29.csv')
-        p.show()
-        # p.worker.run()
-        p.exec_()
-        # while not p.done:
-        #     time.sleep(2)
-        # app.exec_()
-    main()

@@ -92,6 +92,10 @@ class PluginBoardGameGeek(PluginCollector):
         """Returns the name of the plugin"""
         return self.name
 
+    @property
+    def icon(self):
+        return ":/browser.png"
+
     @classmethod
     def get_author(cls):
         """Returns the author of the plugin"""
