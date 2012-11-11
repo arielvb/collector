@@ -38,7 +38,7 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Select the desiered plugin</string>
+      <string>Select one of the avaible formats:</string>
      </property>
     </widget>
    </item>
@@ -60,7 +60,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Sorry, no plugins avaible. Check your settings.</string>
+      <string>Sorry, no formats avaible. Check your plugin settings.</string>
      </property>
     </widget>
    </item>

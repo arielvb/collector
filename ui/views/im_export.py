@@ -32,8 +32,7 @@ class BaseDialog(QtGui.QDialog, Ui_Dialog):
              'path': 'plugin/' + plugin.get_id(),
              'image': plugin.icon()}
             )
-        # for i in coll.collections.values():
-        #     self.folders.addItem(i.get_name(), i.get_id())
+
         # Toolbar
         items.append({'class': 'spacer'})
         CustomToolbar(self.toolbar, items, self.select_plugin)
