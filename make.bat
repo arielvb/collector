@@ -17,24 +17,28 @@ if "%1" == "" (
     echo Building widgets...
     :: Make the destination folder a python package
     echo # > %BUILD_DIR%\__init__.py
-    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\mainWindow.ui -o %BUILD_DIR%\mainWindow.py
-    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\dashboard.ui -o %BUILD_DIR%\dashboard.py
-    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\fitxa_edit.ui -o %BUILD_DIR%\fitxa_edit.py
-    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\fitxa.ui -o %BUILD_DIR%\fitxa.py
-    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\search_results.ui -o %BUILD_DIR%\search_results.py
-    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\search_quick.ui -o %BUILD_DIR%\search_quick.py
-    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\collection_items.ui -o %BUILD_DIR%\collection_items.py
-    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\preferences.ui -o %BUILD_DIR%\preferences.py
-    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\toolbar.ui -o %BUILD_DIR%\toolbar.py
-    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\topbar.ui -o %BUILD_DIR%\topbar.py
-    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\properties.ui -o %BUILD_DIR%\properties.py
-    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\field_details.ui -o %BUILD_DIR%\field_details.py
-    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\file_selector.ui -o %BUILD_DIR%\file_selector.py
-    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\widget_ref.ui -o %BUILD_DIR%\widget_ref.py
-    call %PYQT_PATH%\pyuic4 -x %UI_DIR%\widget_multivalue.ui -o %BUILD_DIR%\widget_multivalue.py
+    call %PYQT_PATH%\pyuic4 %UI_DIR%\mainWindow.ui -o %BUILD_DIR%\mainWindow.py
+    call %PYQT_PATH%\pyuic4 %UI_DIR%\dashboard.ui -o %BUILD_DIR%\dashboard.py
+    call %PYQT_PATH%\pyuic4 %UI_DIR%\fitxa.ui -o %BUILD_DIR%\fitxa.py
+    call %PYQT_PATH%\pyuic4 %UI_DIR%\fitxa_edit.ui -o %BUILD_DIR%\fitxa_edit.py
+    call %PYQT_PATH%\pyuic4 %UI_DIR%\search_results.ui -o %BUILD_DIR%\search_results.py
+    call %PYQT_PATH%\pyuic4 %UI_DIR%\search_quick.ui -o %BUILD_DIR%\search_quick.py
+    call %PYQT_PATH%\pyuic4 %UI_DIR%\collection_items.ui -o %BUILD_DIR%\collection_items.py
+    call %PYQT_PATH%\pyuic4 %UI_DIR%\preferences.ui -o %BUILD_DIR%\preferences.py
+    call %PYQT_PATH%\pyuic4 %UI_DIR%\toolbar.ui -o %BUILD_DIR%\toolbar.py
+    call %PYQT_PATH%\pyuic4 %UI_DIR%\topbar.ui -o %BUILD_DIR%\topbar.py
+    call %PYQT_PATH%\pyuic4 %UI_DIR%\properties.ui -o %BUILD_DIR%\properties.py
+    call %PYQT_PATH%\pyuic4 %UI_DIR%\field_details.ui -o %BUILD_DIR%\field_details.py
+    call %PYQT_PATH%\pyuic4 %UI_DIR%\file_data.ui -o %BUILD_DIR%\file_data.py
+    call %PYQT_PATH%\pyuic4 %UI_DIR%\file_selector.ui -o %BUILD_DIR%\file_selector.py
+    call %PYQT_PATH%\pyuic4 %UI_DIR%\widget_ref.ui -o %BUILD_DIR%\widget_ref.py
+    call %PYQT_PATH%\pyuic4 %UI_DIR%\widget_multivalue.ui -o %BUILD_DIR%\widget_multivalue.py
+    call %PYQT_PATH%\pyuic4 %UI_DIR%\advanced_search.ui -o %BUILD_DIR%\advanced_search.py
+    call %PYQT_PATH%\pyuic4 %UI_DIR%\widget_filter.ui -o %BUILD_DIR%\widget_filter.py
+    call %PIQT_PATH%\pyuic4 %UI_DIR%\im_export.ui -o %UILD_DIR%\im_export.py
 
     :: Resources
-    call %PYQT_PATH%\pyrcc4 -o %BUILD_DIR%\resources_rc.py %UI_DIR%\resources.qrc
+    call %PYQT_PATH%\pyrcc4 -o %BUILD_DIR%\img_rc.py %UI_DIR%\img\img.qrc
     call %PYQT_PATH%\pyrcc4 -o %BUILD_DIR%\lang_rc.py %UI_DIR%\lang.qrc
     echo.Widgets finished
     goto end

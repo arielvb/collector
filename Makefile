@@ -48,13 +48,12 @@ ui2py: resources
 	pyuic4 ${UI_DIR}/properties.ui -o ${BUILD_DIR}/properties.py
 	pyuic4 ${UI_DIR}/field_details.ui -o ${BUILD_DIR}/field_details.py
 	pyuic4 ${UI_DIR}/file_data.ui -o ${BUILD_DIR}/file_data.py
-	pyuic4 ${UI_DIR}/file_data.ui -o ${BUILD_DIR}/file_data.py
 	pyuic4 ${UI_DIR}/file_selector.ui -o ${BUILD_DIR}/file_selector.py
 	pyuic4 ${UI_DIR}/widget_ref.ui -o ${BUILD_DIR}/widget_ref.py
 	pyuic4 ${UI_DIR}/widget_multivalue.ui -o ${BUILD_DIR}/widget_multivalue.py
 	pyuic4 ${UI_DIR}/advanced_search.ui -o ${BUILD_DIR}/advanced_search.py
 	pyuic4 ${UI_DIR}/widget_filter.ui -o ${BUILD_DIR}/widget_filter.py
-
+	pyuic4 ${UI_DIR}/im_export.ui -o ${BUILD_DIR}/im_export.py
 
 resources:
 	mkdir -p ${BUILD_DIR}
