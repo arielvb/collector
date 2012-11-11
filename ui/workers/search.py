@@ -57,16 +57,16 @@ class Worker_Discover(QThread):
 
     def run(self):
         collector = Collector.get_instance()
-
-        plugin = 'PluginBoardGameGeek'
         plugins = collector.get_manager('plugin').filter(PluginCollector)
         logging.debug("Discover using: " + str(plugins))
+        # Call discover for all the plugins
+        all_results = []
         for plugin in plugins:
             try:
                 results = collector.discover(self.params['query'],
                                              plugin)
-                # TODO partial signal
-                self.searchComplete.emit(WorkerResult(STATUS_OK, results))
+                self.partialResult.emit(results)
+                all_results.extend(results)
             except Exception as e:
                 logging.debug(e)
                 self.searchComplete.emit(
@@ -75,6 +75,10 @@ class Worker_Discover(QThread):
                         msg="Plugin %s has failed" % plugin
                     )
                 )
+                # TODO continue when a plugin has failed
+                return
+        # Launch the complete
+        self.searchComplete.emit(WorkerResult(STATUS_OK, all_results))
 
 
 class Worker_FileLoader(QThread):
