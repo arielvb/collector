@@ -1,0 +1,30 @@
+#!/usr/bin/env python
+"""
+ibs4
+====
+Loads a file or url into BeautifulSoup and launches the interactive mode.
+
+Usage:
+	ibs4 file
+
+	file	A local file or a http resource
+"""
+from bs4 import BeautifulSoup
+import sys
+
+argv = sys.argv
+if len(argv) != 2:
+   raise Exception("Missign file name")
+name = argv[1]
+file_ = None
+if name.startswith("http"):
+   import urllib2
+   file_ = urllib2.urlopen(name)
+else:
+   file_ = open(name)
+soup = BeautifulSoup(file_)
+# The next to lines are similar to run this script with the *-i* option of python::
+#   pyhton -i 
+import code    
+code.interact("Beautiful is the *soup* variable, try it!", local=locals())
+
