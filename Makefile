@@ -64,8 +64,8 @@ resources:
 
 i18n:
 	# Use of the verbose option to see the changes
-	pylupdate4 -verbose ui/designer/*.ui ui/views/*.py -ts ${UI_DIR}/lang/es_ES.ts
-	pylupdate4 -verbose ui/designer/*.ui ui/views/*.py -ts ${UI_DIR}/lang/ca_ES.ts
+	pylupdate4 -verbose ui/designer/*.ui ui/views/*.py plugins/*.py -ts ${UI_DIR}/lang/es_ES.ts
+	pylupdate4 -verbose ui/designer/*.ui ui/views/*.py plugins/*.py -ts ${UI_DIR}/lang/ca_ES.ts
 
 release_i18n:
 	/Applications/QtSDK/Desktop/Qt/4.8.1/gcc/bin/lrelease ${UI_DIR}/lang/es_ES.ts ${UI_DIR}/lang/ca_ES.ts
