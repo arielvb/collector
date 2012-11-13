@@ -30,7 +30,7 @@ class BaseDialog(QtGui.QDialog, Ui_Dialog):
             items.append(
                 {'class': 'link', 'name': plugin.get_name(),
              'path': 'plugin/' + plugin.get_id(),
-             'image': plugin.icon()}
+             'image': plugin.icon}
             )
 
         # Toolbar

@@ -73,6 +73,10 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionQuick_search">
+   <property name="icon">
+    <iconset resource="img/img.qrc">
+     <normaloff>:/ico/search.png</normaloff>:/ico/search.png</iconset>
+   </property>
    <property name="text">
     <string>Quick search...</string>
    </property>
@@ -90,11 +94,19 @@
    </property>
   </action>
   <action name="actionImport">
+   <property name="icon">
+    <iconset resource="img/img.qrc">
+     <normaloff>:/import.png</normaloff>:/import.png</iconset>
+   </property>
    <property name="text">
     <string>Import</string>
    </property>
   </action>
   <action name="actionExport">
+   <property name="icon">
+    <iconset resource="img/img.qrc">
+     <normaloff>:/export.png</normaloff>:/export.png</iconset>
+   </property>
    <property name="text">
     <string>Export</string>
    </property>
@@ -114,7 +126,7 @@
   <action name="actionDiscover">
    <property name="icon">
     <iconset resource="img/img.qrc">
-     <normaloff>:/ico/search.png</normaloff>:/ico/search.png</iconset>
+     <normaloff>:/ico/browser.png</normaloff>:/ico/browser.png</iconset>
    </property>
    <property name="text">
     <string>Discover</string>
@@ -124,11 +136,14 @@
    <property name="text">
     <string>Preferences</string>
    </property>
+   <property name="iconText">
+    <string>Preferences</string>
+   </property>
   </action>
   <action name="actionAdvanced_Search">
    <property name="icon">
     <iconset resource="img/img.qrc">
-     <normaloff>:/ico/search.png</normaloff>:/ico/search.png</iconset>
+     <normaloff>:/filter.png</normaloff>:/filter.png</iconset>
    </property>
    <property name="text">
     <string>Advanced search</string>

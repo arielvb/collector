@@ -19,4 +19,4 @@ class PluginHellouser(PluginRunnable):
 
     @property
     def icon(self):
-        return ''
+        return ':/browser.png'

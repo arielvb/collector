@@ -27,5 +27,14 @@
     <file>ico/browser.png</file>
     <file>csv.png</file>
     <file>csvbgg.png</file>
+    <file>boardgamegeek.png</file>
+    <file>ico/boardgamegeek.png</file>
+    <file>filter.png</file>
+    <file>unfilter.png</file>
+    <file>done.png</file>
+    <file>import.png</file>
+    <file>export.png</file>
+    <file>complete.png</file>
+    <file>ico/complete.png</file>
   </qresource>
 </RCC>

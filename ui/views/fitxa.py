@@ -56,6 +56,14 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
         CustomToolbar(self.toolbar, quick, self._linkactivated)
         menu = QtGui.QMenu(self.topbar)
         menu.addAction(QtGui.QAction(
+            QtGui.QIcon(':/complete.png'),
+            self.tr("Autocomplete"),
+            self,
+            statusTip=self.tr("Autocomplete"),
+            triggered=self.autocomplete
+            )
+        )
+        menu.addAction(QtGui.QAction(
             QtGui.QIcon(':/edit.png'),
             self.tr("Edit"), self,
             statusTip=self.tr("Edit file"),
@@ -65,22 +73,17 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
                         "item": str(self.item)}))
         )
         menu.addAction(QtGui.QAction(
-            self.tr("Autocomplete"),
-            self,
-            statusTip=self.tr("Autocomplete"),
-            triggered=self.autocomplete
-            )
-        )
-        menu.addAction(QtGui.QAction(
             QtGui.QIcon(':/delete.png'),
             self.tr("Delete"), self,
             statusTip=self.tr("Delete file"),
             triggered=self.delete)
         )
+        menu.addSeparator()
         menu.addAction(QtGui.QAction(
             QtGui.QIcon(':/add.png'),
-            self.tr("New entry"), self,
-            statusTip=self.tr("New entry"),
+            self.tr("New file"), self,
+            statusTip=unicode(self.tr("New file at %s")) %
+                      self.collection.schema.name,
             triggered=lambda: self.parent().display_view(
                 'add',
                 {'collection': self.collection.get_id()})

@@ -26,7 +26,7 @@ class CSVFileSelector(QtGui.QDialog):
 
         # Creating ui elements
         self.resize(400, 135)
-        self.setWindowTitle(self.tr("Import - Boardgame CSV"))
+        self.setWindowTitle(self.tr("Select a CSV"))
         self.setObjectName(QStringU8("CSVFileSelector"))
         self.mainlayout = QtGui.QHBoxLayout(self)
         self.icon = QtGui.QLabel()
@@ -250,8 +250,9 @@ class PluginCsvImport(PluginImporter):
     """Defines the process to import files from a CSV,
      the expected format of the CSV is the export from Boardgamegeek"""
 
+    @property
     def icon(self):
-        return ':/csvbgg.png'
+        return u':/csvbgg.png'
 
     def get_name(self):
         return "Boardgamegeek CSV"

@@ -75,11 +75,13 @@ class Ui_Preferences(QtGui.QDialog, Ui_PreferencesDialog):
         for plugin in self.manager.get_enabled():
             obj = self.manager.get(plugin)
             item = ObjectListItem(obj, obj.get_name())
+            item.setIcon(QtGui.QIcon(_fromUtf8(obj.icon)))
             self.listWidget.addItem(item)
 
         for plugin in self.manager.get_disabled():
             obj = self.manager.get(plugin)
             item = ObjectListItem(obj, obj.get_name())
+            item.setIcon(QtGui.QIcon(_fromUtf8(obj.icon)))
             self.listWidget_2.addItem(item)
 
     def saveandclose(self):

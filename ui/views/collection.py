@@ -51,9 +51,9 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
             {'class':'link', 'name':
              self.tr('Filter'),
              'path': 'view/filters/collection/' + self.collection.get_id(),
-             'image': ':/search.png'},
+             'image': ':/filter.png'},
             {'class':'link', 'name':
-             str(self.tr('New <b>%s</b>')) % self.collection.get_name(),
+             unicode(self.tr('New <b>%s</b>')) % self.collection.get_name(),
              'path': 'view/add/collection/' + self.collection.get_id(),
              'image': ':/add.png'},
         ]
@@ -62,7 +62,7 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
                 'class':'link', 
                 'name': self.tr('Unfilter'),
                 'path': 'action/unfilter',
-                'image': ':/delete.png' # TODO change image
+                'image': ':/unfilter.png'
                 })
         CustomToolbar(self.toolbar, items, self.uritoaction)
         # +1 (id field)
@@ -87,8 +87,9 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
         if params is not None:
             action = params.get('action', None)
             if action == 'unfilter':
-                self.parent().display_view('collection', {'collection': self.collection.get_id()})
-
+                self.parent().display_view('collection', {
+                    'collection': self.collection.get_id()
+                })
 
     def createHeaderItem(self, text):
         item = QtGui.QTableWidgetItem()
@@ -105,6 +106,8 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
             item = FitxaTableItem(items['id'])
             # items = self.collection.load_references(items)
             #TODO allow list elements
+            #TODO render images as an image, using
+            #  self.tableWidget.setCellWidget
             value = ''
             if key in items:
                 value = items[key]
@@ -116,7 +119,7 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
                     more = count - 1
                     more_text = ''
                     if more > 0:
-                        more_text = str(self.tr(" ( %d more)")) % more
+                        more_text = " " + unicode(self.tr("( %d more)")) % more
                     item.setText(unicode(value[0]) + more_text)
             else:
                 if value is None:

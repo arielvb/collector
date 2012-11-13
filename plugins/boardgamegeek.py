@@ -85,7 +85,8 @@ class PluginBoardGameGeek(PluginCollector):
             'order': ['title', 'average', 'bgg_rank', 'designer', 'artist',
                       'publisher', 'year', 'min_players', 'max_players',
                       'playing', 'min_age', 'categories', 'mechanic', 'image'],
-            'default': 'title'
+            'default': 'title',
+            'ico': u":/ico/boardgamegeek.png"
         })
 
     def get_name(self):
@@ -94,7 +95,7 @@ class PluginBoardGameGeek(PluginCollector):
 
     @property
     def icon(self):
-        return ":/browser.png"
+        return self.schema.ico
 
     @classmethod
     def get_author(cls):
