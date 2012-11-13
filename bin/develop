@@ -1,2 +1,12 @@
 #!/bin/bash
-./main.py -h `pwd`/data $@
+MAIN="main.py"
+C_HOME="data"
+if [ "$COLLECTION_PATH" != "" ]; then
+	MAIN="$COLLECTION_PATH$MAIN"
+	C_HOME="$COLLECTION_PATH$C_HOME"
+else
+	MAIN="./$MAIN"
+	C_HOME="`pwd`$C_HOME"
+fi
+# Call the binary with the script parameters plus the develop home path
+$MAIN -h $C_HOME $@
