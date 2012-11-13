@@ -46,7 +46,7 @@ class Worker_Search(QThread):
 class Worker_Discover(QThread):
 
     searchComplete = pyqtSignal(WorkerResult)
-    partialResult = pyqtSignal([dict])
+    partialResult = pyqtSignal([list])
 
     def __init__(self, parent=None):
         QThread.__init__(self, parent)
