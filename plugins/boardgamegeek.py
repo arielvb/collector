@@ -104,11 +104,26 @@ class PluginBoardGameGeek(PluginCollector):
 
     @classmethod
     def search_uri(cls):
+        """Returns the search uri for the boardgamegeek xmlapi"""
+        return ("http://boardgamegeek.com/xmlapi/search?search=%s")
+
+    def search_filter(self, html):
+        """Returns the search results using the xmlapi of BGG"""
+        soup = BeautifulSoup(html)
+        base = self.website + "/boardgame/"
+        p_id = self.get_id()
+        return [{'id': base + i.parent.get("objectid"),
+                'name': i.text,
+                'plugin': p_id
+                } for i in soup.select('name')]
+
+    @classmethod
+    def search_uri_html(cls):
         """Returns the search uri pattern"""
         return ("http://boardgamegeek.com/geeksearch.php" +
                 "?action=search&objecttype=boardgame&q=%s&B1=Go")
 
-    def search_filter(self, html):
+    def search_filter_html(self, html):
         """ Parses the html to obtain all the results of the search """
         selector = ".collection_objectname"
         soup = BeautifulSoup(html)
