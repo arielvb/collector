@@ -29,6 +29,8 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
 
     def get_dashboard_settings(self):
         """Calculates the dashboard settings"""
+        # TODO Settings and default values calculation must go inside
+        # collection
         settings = {}
         collections = self.parent().collection.collections
         stored = self.parent().collection.get_property('dashboard')

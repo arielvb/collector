@@ -26,6 +26,8 @@ class Ui_Search(QWidget, Ui_Form):
     worker = Worker_Search()
     title = QApplication.translate("Form", "Search",
                                    None, QApplication.UnicodeUTF8)
+    icon = ":ico/search.png"
+
     description = None
 
     def __init__(self, query, results, parent, collection=None, flags=None):
@@ -47,7 +49,7 @@ class Ui_Search(QWidget, Ui_Form):
     def setupUi(self, query, results):
         super(Ui_Search, self).setupUi(self)
 
-        Topbar(widget=self.topbar, icon=':ico/search.png',
+        Topbar(widget=self.topbar, icon=self.icon,
                title=self.title.toUpper(), description=self.description)
 
         # Toolbar
@@ -135,6 +137,8 @@ class Ui_Discover(Ui_Search):
         " type something in the searchbox and the plugins"
         " will do the hardwork.", None, QApplication.UnicodeUTF8)
 
+    icon = ":ico/browser.png"
+
     worker = Worker_Discover()
 
     def search(self, text):
@@ -211,8 +215,9 @@ class SearchDialog(WidgetProvider):
     def get_widget(self, params):
         dialog = QDialog(self.parent)
         self.dialog = Ui_Dialog_Search()
-        self.collection = params['collection']
-        self.ui.setupUi(dialog)
+        # FIXME collection must be loaded from settings
+        self.collection = 'boardgames'
+        self.dialog.setupUi(dialog)
         return dialog
 
     def after_exec(self, widget):
@@ -222,6 +227,6 @@ class SearchDialog(WidgetProvider):
             self.parent.display_view(
                 'search',
                 {
-                 'term': self.ui.lineEdit.text().toUtf8(),
+                 'term': self.dialog.lineEdit.text().toUtf8(),
                  'collection': self.collection
                 })
