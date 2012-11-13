@@ -41,10 +41,10 @@ class Ui_PluginFile(QWidget, Ui_File):
         self.scrollArea.show()
 
         schema = self.plugin.schema
-        # TODO use plugin ico or see:
-        # http://www.riverbankcomputing.co.uk/static/Docs/PyQt4/html/qwebsettings.html#iconForUrl
-        self.topbarHelper = Topbar(widget=self.topbar, icon=":/ico/folder.png",
-               title=schema.name.upper() + ' > ' + self.tr("Loading..."))
+        self.topbarHelper = Topbar(
+            widget=self.topbar,
+            icon= self.plugin.icon,
+            title=schema.name.upper() + ' > ' + self.tr("Loading..."))
 
         self.worker.load_complete.connect(self.load_complete)
         self._loadToolbar()
