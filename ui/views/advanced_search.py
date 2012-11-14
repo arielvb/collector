@@ -32,6 +32,7 @@ class FilterWidget(QtGui.QWidget, Ui_Filter):
     def setupUi(self, form):
         super(FilterWidget, self).setupUi(form)
         self.value_combo.hide()
+        self.union_combo.hide()
         for i in self.fields:
             self.field_combo.addItem(i.name)
         for i in self.filters:
@@ -74,7 +75,7 @@ class AdvancedSearchWidget(QtGui.QWidget, Ui_Form):
         fields.sort(cmp=lambda x, y: cmp(x.name, y.name))
         self.fields = fields
         self.filters = self.collection.persistence.get_filters().values()
-        filter_ = FilterWidget(self.fields,self.filters)
+        filter_ = FilterWidget(self.fields, self.filters)
         self.filters_w.append(filter_)
         self.filters_layout.addWidget(filter_)
         Topbar(widget=self.topbar, icon=':ico/search.png',
@@ -88,7 +89,7 @@ class AdvancedSearchWidget(QtGui.QWidget, Ui_Form):
             {'class':'link', 'name':
              str(self.tr('Filter')),
              'path': 'action/dofilter',
-             'image': ':/edit.png'},
+             'image': ':/done.png'},
         ]
         CustomToolbar(self.toolbar, items, self._toolbar_callback)
 
@@ -97,26 +98,33 @@ class AdvancedSearchWidget(QtGui.QWidget, Ui_Form):
     def _toolbar_callback(self, uri):
         """Toolbar actions callback"""
         params = self.parent().collector_uri_call(uri)
-        action = params.get('action', None)
-        if action == 'dofilter':
-            index = self.filters_w[0].filter_combo.currentIndex()
-            query = {
-                self.filters[index].get_id(): [
-                    self.fields[index].get_id(),
-                    unicode(self.filters_w[0].value_text.text().toUtf8())
-                ]
-            }
-            self.parent().display_view('collection', params={
-                'collection': self.collection.get_id(),
-                'filter': query
-                }
-            )
+        if params is not None:
+            action = params.get('action', None)
+            if action == 'dofilter':
+                query = []
+                for i in self.filters_w:
+                    index = i.filter_combo.currentIndex()
+                    index2 = i.field_combo.currentIndex()
+
+                    query.append({
+                        self.filters[index].get_id(): [
+                            self.fields[index2].get_id(),
+                            unicode(i.value_text.text().toUtf8())
+                        ]
+                    })
+                self.parent().display_view('collection', params={
+                    'collection': self.collection.get_id(),
+                    'filter': query
+                    }
+                )
 
     @QtCore.pyqtSlot()
     def addfilter(self):
         """Adds a empty filter to de filter query"""
         # TODO whe need to store the filters...
-        self.filters_layout.addWidget(FilterWidget(self.fields, self.filters))
+        filterw = FilterWidget(self.fields, self.filters)
+        self.filters_w.append(filterw)
+        self.filters_layout.addWidget(filterw)
 
 
 class AdvancedSearch(WidgetProvider):

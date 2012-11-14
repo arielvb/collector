@@ -183,7 +183,7 @@ class TestPersistenceAlchemy(unittest.TestCase):
         self.pers.save({'name': 'John'})
         self.pers.save({'name': 'Robert'})
 
-        params = {'equals': ['name', 'John']}
+        params = [{'equals': ['name', 'John']}]
         results = self.pers.filter(params)
         self.assertEquals([i.name for i in results], ['John'])
 
@@ -192,10 +192,18 @@ class TestPersistenceAlchemy(unittest.TestCase):
         self.pers.all_created()
         self.pers.save({'name': 'John'})
         self.pers.save({'name': 'Robert'})
-        params = {'like': ['name', 'o']}
+        params = [{'like': ['name', 'o']}]
 
         results = self.pers.filter(params)
         self.assertEquals([i.name for i in results], ['John', 'Robert'])
+
+    def test_filter_join(self):
+        self.pers.all_created()
+        self.pers.save({'name': 'John Deere'})
+        self.pers.save({'name': 'Johny Deep'})
+        params = [{'like': ['name', 'o']}, {'like': ['name', 'ep']}]
+        results = self.pers.filter(params)
+        self.assertEquals([i.name for i in results], ['Johny Deep'])
 
     def tearDown(self):
         Alchemy.destroy()
