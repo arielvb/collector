@@ -6,7 +6,7 @@
 from PyQt4 import QtCore, QtGui
 from splashscreen import SplashScreen
 from engine.collector import Collector
-
+import os
 
 class CollectorApplication(QtGui.QApplication):
     """The GUI Application for Collector"""
@@ -47,8 +47,9 @@ class CollectorApplication(QtGui.QApplication):
             # Hide splash
             self.splash.finish(self.main)
 
-        # Bring window to front
-        self.main.raise_()
+        # Bring window to front if development
+        if 'COLLECTION_PATH' in os.environ:
+            self.main.raise_()
 
         if self.view is not None:
             self.main.display_view(self.view)
