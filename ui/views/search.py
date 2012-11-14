@@ -107,6 +107,8 @@ class Ui_Search(QWidget, Ui_Form):
                 self.tr("Ooops!\nSomething happened and the search" +
                         " could'nt be completed."))
         else:
+            # TODO partial results support
+            self.results = []
             self.addResults(results.results)
 
     def addResults(self, listResults):
