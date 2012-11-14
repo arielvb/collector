@@ -6,7 +6,7 @@ from engine.schema import Schema
 import sqlalchemy
 from mocks import boardgames
 from engine.persistence_sql import Alchemy, PersistenceAlchemy
-
+import os
 
 class TestPersistence(unittest.TestCase):
     """Persistence class tests"""
@@ -15,8 +15,8 @@ class TestPersistence(unittest.TestCase):
         """Test setup"""
         schema = type('Schema', (object,),
                  dict(collection='demo', id='boardgames'))
-
-        self.manager = PersistenceDict(schema, path=None,
+        Config.get_instance().set_home('/tmp/', True)
+        self.manager = PersistenceDict(schema, path="/tmp/collections/demo/",
                 params={'data': boardgames})
 
     def test_get_by_id(self):
@@ -36,6 +36,18 @@ class TestPersistence(unittest.TestCase):
         self.assertEqual(len(items), 2)
         self.assertEqual(items[0]['title'], 'The Pillars of the Earth')
         self.assertEqual(items[1]['title'], 'Coney Island')
+
+    def test_addfile(self):
+        """Test for the addfile method"""
+        name = self.manager.addfile(__file__, 'http')
+
+        self.assertEquals(name, __file__)
+        name = self.manager.addfile(__file__, 'always')
+        image = FieldImage('Fish')
+        image.set_value(name)
+        name = image.get_value()
+        self.assertEquals(open(name, "r").read(), open(__file__, "r").read())
+
 
 
 class TestAlchemy(unittest.TestCase):
