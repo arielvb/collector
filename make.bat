@@ -35,7 +35,7 @@ if "%1" == "" (
     call %PYQT_PATH%\pyuic4 %UI_DIR%\widget_multivalue.ui -o %BUILD_DIR%\widget_multivalue.py
     call %PYQT_PATH%\pyuic4 %UI_DIR%\advanced_search.ui -o %BUILD_DIR%\advanced_search.py
     call %PYQT_PATH%\pyuic4 %UI_DIR%\widget_filter.ui -o %BUILD_DIR%\widget_filter.py
-    call %PIQT_PATH%\pyuic4 %UI_DIR%\im_export.ui -o %UILD_DIR%\im_export.py
+    call %PYQT_PATH%\pyuic4 %UI_DIR%\im_export.ui -o %BUILD_DIR%\im_export.py
 
     :: Resources
     call %PYQT_PATH%\pyrcc4 -o %BUILD_DIR%\img_rc.py %UI_DIR%\img\img.qrc

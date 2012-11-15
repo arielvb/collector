@@ -36,7 +36,7 @@ class Worker_Search(QThread):
         self.error = None
         collector = Collector.get_instance()
         self.results = collector.filter(self.params['collection'],
-                                        self.params['filter'])
+                                        [self.params['filter']])
         self.searchComplete.emit(WorkerResult(STATUS_OK, self.results))
 
     def __del__(self):
