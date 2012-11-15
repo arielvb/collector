@@ -33,6 +33,7 @@ copy2win: clean
 	mkdir -p ${VM_SHARED}
 	rm -rf ${VM_SHARED}/
 	cp -r ./ ${VM_SHARED}
+	rm -rf ${VM_SHARED}/.git
 
 ui2py: resources
 	pyuic4 ${UI_DIR}/mainWindow.ui -o ${BUILD_DIR}/mainWindow.py
@@ -59,7 +60,7 @@ resources:
 	mkdir -p ${BUILD_DIR}
 	echo '#' > ${BUILD_DIR}/__init__.py
 	pyrcc4 -o ${BUILD_DIR}/img_rc.py ${UI_DIR}/img/img.qrc
-	pyrcc4 -o ${BUILD_DIR}/img_rc.py ${UI_DIR}/img/img.qrc
+	pyrcc4 -o ${BUILD_DIR}/lang_rc.py ${UI_DIR}/lang.qrc
 	pyrcc4 -o ${BUILD_DIR}/splash_rc.py ${UI_DIR}/splash/splash.qrc
 
 

@@ -7,6 +7,8 @@ from PyQt4 import QtCore, QtGui
 from splashscreen import SplashScreen
 from engine.collector import Collector
 import os
+import ui.gen.lang_rc
+
 
 class CollectorApplication(QtGui.QApplication):
     """The GUI Application for Collector"""
@@ -31,7 +33,6 @@ class CollectorApplication(QtGui.QApplication):
         # Launch collector
         self.collector = Collector(self.home)
 
-        __import__("ui.gen.lang_rc")
         self.load_translations(":/lang")
 
         # Create the main window
