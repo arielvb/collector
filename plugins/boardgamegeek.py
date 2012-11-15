@@ -13,7 +13,7 @@ from engine.schema import Schema
 class PluginBoardGameGeek(PluginCollector):
     """Boardgamegeek pluginclass"""
 
-    website = 'http://boardgamegeek.com'
+    website = 'http://www.boardgamegeek.com'
     name = 'Boardgamegeek'
     description = "Search and import Boardgames from the BGG website."
 
@@ -103,11 +103,11 @@ class PluginBoardGameGeek(PluginCollector):
         return 'Ariel von Barnekow'
 
     @classmethod
-    def search_uri(cls):
+    def search_uri_xml(cls):
         """Returns the search uri for the boardgamegeek xmlapi"""
         return ("http://boardgamegeek.com/xmlapi/search?search=%s")
 
-    def search_filter(self, html):
+    def search_filter_xml(self, html):
         """Returns the search results using the xmlapi of BGG"""
         soup = BeautifulSoup(html)
         base = self.website + "/boardgame/"
@@ -150,6 +150,9 @@ class PluginBoardGameGeek(PluginCollector):
                     'plugin': p_id
                     })
         return output
+
+    search_uri = search_uri_html
+    search_filter = search_filter_html
 
     def file_filter(self, html):
         """ Parses the html to obtain all the fields defeined in the schema """
@@ -195,7 +198,7 @@ class PluginBoardGameGeek(PluginCollector):
         image = soup.select('link[rel=image_src]')
         if image != []:
             img = soup.select('link[rel=image_src]')[0].get('href').replace(
-                '_t', '_md')
+                '_t', '')
             if not img.startswith('http'):
                 img = self.website + '/' + img
             results['image'] = img
