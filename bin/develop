@@ -1,12 +1,12 @@
 #!/bin/bash
 MAIN="main.py"
-C_HOME="data"
+C_HOME="home/sqlalchemy"
 if [ "$COLLECTION_PATH" != "" ]; then
 	MAIN="$COLLECTION_PATH$MAIN"
 	C_HOME="$COLLECTION_PATH$C_HOME"
 else
 	MAIN="./$MAIN"
-	C_HOME="`pwd`$C_HOME"
+	C_HOME="../$C_HOME"
 fi
 # Call the binary with the script parameters plus the develop home path
 $MAIN -h $C_HOME $@
