@@ -4,13 +4,14 @@
 from PyQt4.QtGui import QPixmap, QSplashScreen
 from PyQt4.QtCore import Qt
 import time
+import ui.gen.splash_rc
 
 
 class SplashScreen(object):
     """Displays a splash screen until the main window is ready"""
 
     def __init__(self):
-        splash_pix = QPixmap('./data/collector_splash.png')
+        splash_pix = QPixmap(':/splash.png')
         self.splash = QSplashScreen(splash_pix,
                                           Qt.WindowStaysOnTopHint)
         self.splash.setMask(splash_pix.mask())

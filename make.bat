@@ -40,6 +40,8 @@ if "%1" == "" (
     :: Resources
     call %PYQT_PATH%\pyrcc4 -o %BUILD_DIR%\img_rc.py %UI_DIR%\img\img.qrc
     call %PYQT_PATH%\pyrcc4 -o %BUILD_DIR%\lang_rc.py %UI_DIR%\lang.qrc
+    call %PYQT_PATH%\pyrcc4 -o %BUILD_DIR%\splash_rc.py %UI_DIR%\splash\splash.qrc
+
     echo.Widgets finished
     goto end
 )
