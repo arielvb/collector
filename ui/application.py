@@ -63,9 +63,17 @@ class CollectorApplication(QtGui.QApplication):
         elif '--uri' in argv:
             self.uri = argv[argv.index('--uri') + 1]
         if '--home' in argv:
-            self.home = argv[argv.index('--home') + 1]
+            self.home = self._checkhome(argv[argv.index('--home') + 1])
         elif '-h' in argv:
-            self.home = argv[argv.index('-h') + 1]
+            self.home = self._checkhome(argv[argv.index('-h') + 1])
+
+    def _checkhome(self, value):
+        """Checks the home value"""
+        truehome = os.path.realpath(value)
+        if truehome is None:
+            raise Exception("Wrong home folder")
+            self.quit()
+        return truehome
 
     # The language code selector is from:
     # "switch translations dynamically in a PyQt4 application"
