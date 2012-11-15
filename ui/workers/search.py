@@ -140,11 +140,14 @@ class Worker_Queue(QThread):
         results = []
         while not self.queue.empty():
             i = self.queue.get()
-            file_ = collector.get_plugin_file(
-                i['id'],
-                i['plugin'],
-            )
-            results.append(file_)
+            try:
+                file_ = collector.get_plugin_file(
+                    i['id'],
+                    i['plugin'],
+                )
+                results.append(file_)
+            except Exception as e:
+                logging.exception(e)
             self.queue.task_done()
         # q.join()
         self.complete.emit(results)
