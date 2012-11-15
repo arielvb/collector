@@ -122,8 +122,9 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
         if len(results.results) > 0:
             # TODO display alternatives window
             alternatives = results.results
-
-            self.workerQ = Worker_Queue(alternatives)
+            from PyQt4.QtCore import pyqtRemoveInputHook; pyqtRemoveInputHook(); import ipdb; ipdb.set_trace()
+            # We cut the alternatives results to maximu ten
+            self.workerQ = Worker_Queue([alternatives[0]])
             self.workerQ.complete.connect(self.docomplete)
             self.workerQ.start()
             # Collector.getInstance().complete(
@@ -145,6 +146,10 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
         # self.progress.setCancelButton(0)
         if isinstance(data, list):
             # TODO allow multiple values
+            if len(data) == 0:
+                self.progress.hide()
+                # TODO raise Error
+                return
             data = data[0]
         if not isinstance(data, dict):
             self.progress.hide()
