@@ -50,17 +50,17 @@ class TestBGGPlugin(unittest.TestCase):
 
         provider = FileProvider(filename)
 
-        results = self.plugin.search_filter(provider.get('mocked'))
+        results = self.plugin.search_filter_xml(provider.get('mocked'))
         self.assertItemsEqual(results,
          [
             {'plugin': 'PluginBoardGameGeek',
-            'id': 'http://boardgamegeek.com/boardgame/24480',
+            'id': 'http://www.boardgamegeek.com/boardgame/24480',
             'name': u'Los Pilares de la Tierra'},
             {'plugin': 'PluginBoardGameGeek',
-            'id': 'http://boardgamegeek.com/boardgame/67593',
+            'id': 'http://www.boardgamegeek.com/boardgame/67593',
             'name': u'Los Pilares de la Tierra: El juego de Cartas'},
             {'plugin': 'PluginBoardGameGeek',
-            'id': 'http://boardgamegeek.com/boardgame/31753',
+            'id': 'http://www.boardgamegeek.com/boardgame/31753',
             'name': u'Los Pilares de la Tierra: La Expansi\xf3n'}
          ])
 
@@ -79,8 +79,8 @@ class TestBGGPlugin(unittest.TestCase):
             'designer': [u'Michael Rieneck', u'Stefan Stadler'],
             'bgg_rank': u'141',
             'artist': [u'Michael Menzel', u'Anke Pohl', u'Thilo Rick'],
-            'image': 'http://boardgamegeek.com/the-pillars-of-the-earth_files/'
-                      'pic212815_md.jpg',
+            'image': 'http://www.boardgamegeek.com/the-pillars-of-the-earth_files/'
+                      'pic212815.jpg',
             'title': u'The Pillars of the Earth',
             'min_players': 2,
             'min_age': 12,
@@ -117,8 +117,8 @@ class TestBGGPlugin(unittest.TestCase):
                 'mechanic':
                  [u'Area Movement', u'Co-operative Play', u'Dice Rolling',
                   u'Role PlayingStorytelling', u'Variable Player Powers'],
-                 'image': 'http://boardgamegeek.com/mice-and-mystics_files/' +
-                          'pic1312072_md.jpg',
+                 'image': 'http://www.boardgamegeek.com/mice-and-mystics_files/' +
+                          'pic1312072.jpg',
                 'average': 0.00,
                 })
         self.assertItemsEqual(fields.keys(), self.plugin.schema.file.keys())
@@ -134,7 +134,7 @@ class TestBGGPlugin(unittest.TestCase):
             'designer': [u'Jason Youngdale'],
             'artist': [u''],
             'bgg_rank': 'N/A',
-            'image': 'http://cf.geekdo-images.com/images/pic432665_md.jpg',
+            'image': 'http://cf.geekdo-images.com/images/pic432665.jpg',
             'title': u'Raze the Castle!',
             'min_players': 2,
             'average': 3.83,
@@ -148,7 +148,7 @@ class TestBGGPlugin(unittest.TestCase):
 
     def test_agricola_case(self):
         """This was a test to check why agricola file fails, it wasn't an
-        application error, it looks like a bgg network problem. See 
+        application error, it looks like a bgg network problem. See
         documentation import errors for more details."""
         filename = self.data_path + 'agricola.html'
         provider = FileProvider(filename)
@@ -163,7 +163,7 @@ class TestBGGPlugin(unittest.TestCase):
             u'Ystari Games', u'Z-Man Games'],
             'designer': [u'Uwe Rosenberg'],
             'artist': [u'Klemens Franz'], 'bgg_rank': u'2',
-            'image': 'http://cf.geekdo-images.com/images/pic259085_md.jpg',
+            'image': 'http://cf.geekdo-images.com/images/pic259085.jpg',
             'title': u'Agricola', 'min_players': 1, 'min_age': 12,
             'average': 8.24, 'mechanic': [u'Worker Placement'],
             'year': 2007, 'max_players': 5, 'playing': u'120  minutes',
@@ -179,11 +179,6 @@ class TestBGGPlugin(unittest.TestCase):
         self.assertEqual(self.plugin.intfilter(''), None)
         #Unicode
         self.assertEqual(self.plugin.intfilter(u'100'), 100)
-
-
-
-
-
 
 
 if __name__ == '__main__':
