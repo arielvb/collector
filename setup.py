@@ -36,7 +36,8 @@ if ISOSX:
             "data",
         ],
         "argv_emulation": True,
-        "includes": ["sip", "PyQt4.QtCore", "PyQt4.QtGui", "bs4"],
+        "includes": ["sip", "PyQt4.QtCore", "PyQt4.QtGui", "bs4",
+            'sqlalchemy.dialects.sqlite'],
         "excludes": [
             "IPython",
             "PyQt4.uic.port_v3.proxy_base",
@@ -54,7 +55,9 @@ if ISWINDOWS:
     OPTIONS['py2exe'] = {
         "dist_dir": 'dist/windows',
         "skip_archive": True,
-        "includes": ["sip"],
+        "includes": [
+            "sip",
+            "sqlalchemy.dialects.sqlite"],
         "dll_excludes": [
             "MSVCP90.dll",
             "MSWSOCK.dll",
