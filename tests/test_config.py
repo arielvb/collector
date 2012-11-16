@@ -53,9 +53,9 @@ class TestConfig(unittest.TestCase):
             conf.get_data_path(),
             os.path.join(os.path.expanduser('~'), 'Collector'))
 
-    def test_set_setting(self):
+    def test_set_home(self):
         conf = config.Config()
-        conf.set_settings({'home': ':resources:'})
+        conf.set_home(':resources:')
         self.assertEqual(conf.get_home(), conf.get_appdata_path())
     #TODO linux config!
 
