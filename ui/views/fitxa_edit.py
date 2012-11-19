@@ -87,6 +87,12 @@ class Ui_Fitxa_Edit(QtGui.QWidget, Ui_Form):
                     {'item': self.item, 'collection': self.collection.get_id()})
 
     def save(self):
+        self.progress = QtGui.QProgressDialog(
+                self.tr("Saving"),
+                QtCore.QString(),
+                0,
+                0)
+        self.progress.show()
         schema = self.collection.schema
         data = {}
         for field in schema.order:
@@ -94,11 +100,12 @@ class Ui_Fitxa_Edit(QtGui.QWidget, Ui_Form):
             field_obj = schema.get_field(field)
             value = widget.text()
             if isinstance(value, QtCore.QString):
-                value = str(value)
+                value = unicode(value)
             data[field_obj.get_id()] = value
         data['id'] = self.obj['id']
 
         self.collection.save(data)
+        self.progress.hide()
         self.parent().display_view(
             'fitxa',
             {'item': data['id'], 'collection': self.collection.get_id()})
