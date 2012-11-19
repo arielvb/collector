@@ -24,6 +24,9 @@
        <string>General</string>
       </attribute>
       <layout class="QFormLayout" name="formLayout">
+       <property name="fieldGrowthPolicy">
+        <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+       </property>
        <item row="1" column="0">
         <widget class="QLabel" name="label_2">
          <property name="text">
@@ -58,36 +61,20 @@
         </widget>
        </item>
        <item row="2" column="1">
-        <widget class="QGroupBox" name="copygroup">
-         <property name="title">
-          <string/>
+        <widget class="QComboBox" name="copy_combo"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Home:</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_5">
-          <item>
-           <widget class="QCheckBox" name="copy_always">
-            <property name="text">
-             <string>Always</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="copy_remote">
-            <property name="text">
-             <string>Remote only</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="copy_never">
-            <property name="text">
-             <string>Never</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLabel" name="home">
+         <property name="text">
+          <string notr="true">[]</string>
+         </property>
         </widget>
        </item>
       </layout>

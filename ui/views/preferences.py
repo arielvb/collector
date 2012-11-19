@@ -25,6 +25,7 @@ class Ui_Preferences(QtGui.QDialog, Ui_PreferencesDialog):
         aren't easy to do with the QT Designer"""
         super(Ui_Preferences, self).setupUi(self)
         self.refresh()
+
         self.connect(self.buttonBox,
             QtCore.SIGNAL(_fromUtf8("accepted()")), self.saveandclose)
 
@@ -44,6 +45,22 @@ class Ui_Preferences(QtGui.QDialog, Ui_PreferencesDialog):
                 index = 1
             self.lang_combo.setCurrentIndex(index)
 
+        # Copy file
+        self.copy = Collector.get_instance().conf('copy')
+
+        self.copy_dict = {
+            self.tr("Always"): "always",
+            self.tr("Never"): "never",
+            self.tr("Remote only"): "http"
+            }
+        index = 0
+        for i in self.copy_dict.items():
+            self.copy_combo.addItem(i[0])
+            if i[1] == self.copy:
+                self.copy_combo.setCurrentIndex(index)
+            index += 1
+
+        self.home.setText(_fromUtf8(Collector.get_instance().conf('home')))
 
     @QtCore.pyqtSlot()
     def disable(self):
@@ -88,6 +105,8 @@ class Ui_Preferences(QtGui.QDialog, Ui_PreferencesDialog):
         """Saves unsaved data and closes"""
         config = Collector.get_instance().get_manager('config')
         config.set('lang', self.codes[self.lang_combo.currentIndex()])
+
+        config.set('copy', self.copy_dict[self.copy_combo.currentText()])
         config.save()
         self.close()
 
