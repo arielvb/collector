@@ -107,7 +107,7 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
             collection = self.parent().collection.get_collection(collection_id)
             label = collection.get_name()
             self.lLastItems.setText(str(self.tr("Last %s")) % label)
-            lastObjects = collection.get_last(20)
+            lastObjects = collection.get_last(40)
             for i in lastObjects:
                 text = i[collection.schema.default]
                 item = FitxaListItem(i['id'], text != '' and

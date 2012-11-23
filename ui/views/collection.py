@@ -59,7 +59,7 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
         ]
         if self.filters is not None:
             items.insert(1, {
-                'class':'link', 
+                'class': 'link',
                 'name': self.tr('Unfilter'),
                 'path': 'action/unfilter',
                 'image': ':/unfilter.png'

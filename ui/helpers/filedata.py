@@ -30,8 +30,13 @@ class FileDataWidget(QtGui.QWidget, Ui_Form):
     def create_label(self, text):
         """Creates a widget label, is used to display the field name"""
         item = QtGui.QLabel(self)
+        item.setWordWrap(True)
+        item.setAlignment(QtCore.Qt.AlignLeading |
+                          QtCore.Qt.AlignLeft |
+                          QtCore.Qt.AlignTop)
         item.setText(text)
         item.setFont(self.font)
+        item.setStyleSheet("text-align:top")
         return item
 
     def create_field(self, field, value):
