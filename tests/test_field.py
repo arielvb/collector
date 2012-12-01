@@ -47,6 +47,13 @@ class TestFieldInt(unittest.TestCase):
         field.set_value('00002')
         self.assertEquals(field.get_value(), 2)
 
+    def test_set_none_value(self):
+        field = fields.FieldInt('A name', False)
+        field.set_value('')
+        self.assertEqual(field.get_value(), None)
+        field.set_value(None)
+        self.assertEqual(field.get_value(), None)
+
     def test_add_value_as_str(self):
         field = fields.FieldInt('A name', True)
         field.add_value(['1'])
@@ -61,6 +68,15 @@ class TestFieldInt(unittest.TestCase):
         field = fields.FieldInt('A name', False)
         self.assertRaises(ValueError, field.set_value, "1.0")
         self.assertRaises(ValueError, field.set_value, "asdfasdf")
+
+
+class TestFieldFloat(unittest.TestCase):
+
+    def test_float(self):
+        field = fields.FieldFloat("A float", False)
+        self.assertEqual(field.get_pretty_type(), 'Float')
+        field.set_value("1.3")
+        self.assertEqual(field.get_value(), 1.3)
 
 from engine.config import Config
 from os.path import join
