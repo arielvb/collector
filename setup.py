@@ -48,7 +48,7 @@ if ISOSX:
         ]
     }
     REQUIRES.append('py2app')
-    EXTRAOPTIONS = dict(app=["main.py"])
+    EXTRAOPTIONS = dict(app=[os.path.join("collector", "main.py")])
 
 if ISWINDOWS:
     __import__('py2exe')
@@ -67,7 +67,7 @@ if ISWINDOWS:
     }
     REQUIRES.append('py2exe')
     EXTRAOPTIONS = dict(windows=[{
-        "script": "main.py",
+        "script": os.path.join("collector", "main.py"),
         "dest_base": "Collector",
         'icon_resources':[(1, 'collection.ico')]
     }])
