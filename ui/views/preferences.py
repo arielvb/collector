@@ -4,7 +4,7 @@ from PyQt4 import QtCore, QtGui
 from ui.gen.preferences import Ui_PreferencesDialog, _fromUtf8
 from ui.widgetprovider import WidgetProvider
 from ui.helpers.items import ObjectListItem
-from engine.collector import Collector
+from engine.controller import Collector
 
 
 class Ui_Preferences(QtGui.QDialog, Ui_PreferencesDialog):

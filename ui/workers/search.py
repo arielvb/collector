@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from PyQt4.QtCore import QThread, pyqtSignal
-from engine.collector import Collector
+from engine.controller import Collector
 from engine.plugin import PluginCollector
 import logging
 

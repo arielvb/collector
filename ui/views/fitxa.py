@@ -6,7 +6,7 @@ from ui.helpers.customtoolbar import CustomToolbar, Topbar
 from ui.widgetprovider import WidgetProvider
 from ui.helpers.filedata import FileDataWidget
 from ui.workers.search import Worker_Discover, Worker_Queue
-from engine.collector import Collector
+from engine.controller import Collector
 
 
 class Ui_Fitxa(QtGui.QWidget, Ui_File):

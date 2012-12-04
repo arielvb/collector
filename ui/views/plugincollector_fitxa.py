@@ -11,7 +11,7 @@ from ui.helpers.customtoolbar import CustomToolbar, Topbar
 from ui.widgetprovider import WidgetProvider
 from ui.helpers.filedata import FileDataWidget
 from ui.workers.search import Worker_FileLoader, STATUS_OK
-from engine.collector import Collector
+from engine.controller import Collector
 import webbrowser
 
 

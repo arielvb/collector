@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """Plugin to Import the CSV from Boardgamegeek"""
 from boardgamegeek import PluginBoardGameGeek
-from engine.collector import Collector
+from engine.controller import Collector
 from engine.plugin import PluginImporter
 from engine.provider import UrlProvider
 from ui.helpers.fields import FileSelector

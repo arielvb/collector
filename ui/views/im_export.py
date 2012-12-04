@@ -3,7 +3,7 @@ from PyQt4 import QtGui
 from ui.gen.im_export import Ui_Dialog
 from ui.widgetprovider import WidgetProvider
 from ui.helpers.customtoolbar import CustomToolbar
-from engine.collector import get_manager
+from engine.controller import get_manager
 from engine.plugin import PluginExporter, PluginImporter
 import logging
 

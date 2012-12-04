@@ -15,7 +15,7 @@ from ui.gen.search_quick import Ui_Dialog as Ui_Dialog_Search
 from ui.helpers.customtoolbar import Topbar, CustomToolbar
 from ui.helpers.items import ObjectListItem, FitxaListItem
 from ui.widgetprovider import WidgetProvider
-from engine.collector import Collector
+from engine.controller import Collector
 
 
 class Ui_Search(QWidget, Ui_Form):
