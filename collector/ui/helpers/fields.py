@@ -55,6 +55,7 @@ class FieldTextWidget(FieldWidget):
 
     def prepare(self, parent, field, value):
         widget = QtGui.QLabel(parent)
+        widget.setWordWrap(True)
         widget.setTextInteractionFlags(Qt.LinksAccessibleByMouse |
                                        Qt.TextSelectableByMouse)
         try:
@@ -92,11 +93,15 @@ class ImageWidget(QtGui.QLabel):
         self.max_x = None
         self.max_y = None
 
-    def set_image(self, value, max_x=450, max_y=450):
+    def set_image(self, value, max_x=450, max_y=450, noscale=False):
         """Changes the current image to the new one, and resizes the widget
          if the size is different."""
-        self.max_x = max_x
-        self.max_y = max_y
+        if not noscale:
+            self.max_x = max_x
+            self.max_y = max_y
+        else:
+            self.max_x = None
+            self.max_y = None
         pixmap = None
         if value is None or value == '':
             value = self.default_src
@@ -107,8 +112,9 @@ class ImageWidget(QtGui.QLabel):
             pixmap = QtGui.QPixmap(value)
             if pixmap.isNull():
                 pixmap = QtGui.QPixmap(_fromUtf8(self.default_src))
-            scaled = pixmap.scaled(max_x, max_y, Qt.KeepAspectRatio)
-            self.setPixmap(scaled)
+            if not noscale:
+                pixmap = pixmap.scaled(max_x, max_y, Qt.KeepAspectRatio)
+            self.setPixmap(pixmap)
         self.setAlignment(Qt.AlignLeading | Qt.AlignLeft |
                           Qt.AlignTop)
         self.src = value
@@ -227,13 +233,14 @@ class ReferenceWidget(QtGui.QWidget, Ui_Reference):
         collection_id = self.field.ref_collection
         dst_field = self.field.ref_field
         dst_collection = self.man.get_collection(collection_id)
-        contents = dst_collection.get_all()
+        contents = dst_collection.get_all(order=dst_field)
         self.comboBox.clear()
         self.values.append('')
         self.comboBox.addItem('')
         # TODO maybe is more eficinet use QStringList
         i = 1
         for reference in contents:
+            print reference.name
             # TODO we need to store the object, because if the field is empty??
             # or whe must make the field required in the dst collection?
             self.values.append(reference)
@@ -244,7 +251,20 @@ class ReferenceWidget(QtGui.QWidget, Ui_Reference):
             i += 1
 
 
-class FiedlReferenceWidget(FieldTextWidget):
+class FieldReferenceWidget(FieldTextWidget):
+
+    def prepare(self, parent, field, value):
+        widget = super(FieldReferenceWidget, self).prepare(
+            parent, field, value)
+        text = widget.text()
+        uri = "collector://view/fitxa/item/%s/collection/%s" % ("1",
+             field.ref_collection)
+        widget.setText("<a href=\"%s\">%s</a>" % (uri, text))
+        widget.connect(
+                widget,
+                SIGNAL(_fromUtf8("linkActivated(QString)")),
+                lambda s: MainWindow.instance.collector_uri_call(s))
+        return widget
 
     def prepare_edit(self, parent, field, value):
         #TODO this widget must be a file selector
@@ -331,7 +351,7 @@ class FieldWidgetManager(object):
         self.default = FieldTextWidget()
         self.register['text'] = self.default
         self.register['image'] = FieldImageWidget()
-        self.register['ref'] = FiedlReferenceWidget()
+        self.register['ref'] = FieldReferenceWidget()
         self.register['int'] = FieldIntWidget()
 
     @staticmethod

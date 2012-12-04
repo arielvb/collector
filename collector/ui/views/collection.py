@@ -6,7 +6,7 @@ from collector.ui.gen.collection_items import Ui_Form, _fromUtf8
 from PyQt4 import QtCore, QtGui
 from collector.ui.helpers.customtoolbar import CustomToolbar, Topbar
 from collector.ui.widgetprovider import WidgetProvider
-from collector.ui.helpers.items import FitxaTableItem
+from collector.ui.helpers.items import FitxaTableItem, FitxaTableImage
 
 
 class Ui_Collection(QtGui.QWidget, Ui_Form):
@@ -66,14 +66,25 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
                 })
         CustomToolbar(self.toolbar, items, self.uritoaction)
         # +1 (id field)
-        self.tableWidget.setColumnCount(len(self.schema.order))
+        order = [i for i, k in self.schema.file.iteritems() if
+                 k.class_ != 'ref' and not k.is_multivalue()]
+        order = sorted(
+            order,
+            cmp=lambda x, y: self.schema.order.index(x) >
+                 self.schema.order.index(y))
+        self.tableWidget.setColumnCount(len(order))
         self.tableWidget.setRowCount(len(self.objects))
-        header = self.schema.order
-        for item in header:
-            self.createHeaderItem(self.schema.get_field(item).name)
+        if 'image' in order:
+            order.remove('image')
+            order.insert(0, 'image')
+        for item in order:
+            field = self.schema.get_field(item)
+            self.createHeaderItem(field.name)
         for item in self.objects:
-            self.createTableRow(self.collection.load_references(item), header)
-        self.tableWidget.resizeColumnToContents(0)
+            self.createTableRow(item, self.schema, order)
+        self.tableWidget.resizeColumnsToContents()
+        self.tableWidget.resizeRowsToContents()
+
         # Connections
         QtCore.QObject.connect(
             self.tableWidget,
@@ -97,35 +108,51 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
         self.tableWidget.setHorizontalHeaderItem(self._table_headers, item)
         self._table_headers += 1
 
-    def createTableRow(self, items, orderedKeys):
+    def createTableRow(self, file_, schema, order):
         """ items is a list, and each item of the list can be a string or
         a list """
         row = self._table_items
         column = 0
-        for key in orderedKeys:
-            item = FitxaTableItem(items['id'])
+        items = file_
+        for key in order:
             # items = self.collection.load_references(items)
             #TODO allow list elements
             #TODO render images as an image, using
             #  self.tableWidget.setCellWidget
-            value = ''
-            if key in items:
-                value = items[key]
-            if isinstance(value, (unicode, str)):
-                item.setText(_fromUtf8(value))
-            elif isinstance(value, list):
-                count = len(value)
-                if count > 0:
-                    more = count - 1
-                    more_text = ''
-                    if more > 0:
-                        more_text = " " + unicode(self.tr("( %d more)")) % more
-                    item.setText(unicode(value[0]) + more_text)
-            else:
+            value = None
+            field = schema.get_field(key)
+            item = None
+            if field.class_ != 'ref' and not field.is_multivalue():
+                if key in items:
+                    value = items[key]
+                field.set_value(value)
+                value = field.get_value()
                 if value is None:
                     value = ''
-                item.setText(_fromUtf8(unicode(value)))
-            self.tableWidget.setItem(row, column, item)
+                if field.class_ != 'image':
+                    item = FitxaTableItem(items['id'])
+                    if isinstance(value, (unicode, str)):
+                        item.setText(_fromUtf8(value))
+                    elif isinstance(value, list):
+                        count = len(value)
+                        if count > 0:
+                            more = count - 1
+                            more_text = ''
+                            if more > 0:
+                                more_text = (" " +
+                                    unicode(self.tr("( %d more)")) %
+                                    more)
+                            item.setText(unicode(value[0]) + more_text)
+                    else:
+                        if value is None:
+                            value = ''
+                        item.setText(_fromUtf8(unicode(value)))
+                    self.tableWidget.setItem(row, column, item)
+
+                else:
+                    item = FitxaTableImage(items['id'])
+                    # item.set_image(value, 64, 64)
+                    self.tableWidget.setCellWidget(row, column, item)
             column += 1
         self._table_items += 1
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-MAIN="main.py"
+MAIN="collector/main.py"
 C_HOME="../home/sqlalchemy"
 if [ "$COLLECTION_PATH" != "" ]; then
 	MAIN="$COLLECTION_PATH$MAIN"
