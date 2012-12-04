@@ -1,7 +1,7 @@
 """
 Setup for Collector
 """
-from setuptools import setup
+from setuptools import setup, find_packages
 import os
 from collector.core.config import ISWINDOWS, ISOSX
 
@@ -54,7 +54,7 @@ if ISWINDOWS:
     __import__('py2exe')
     OPTIONS['py2exe'] = {
         "dist_dir": 'dist/windows',
-        "skip_archive": True,
+        "skip_archive": False,
         "includes": [
             "sip",
             "sqlalchemy.dialects.sqlite"],
@@ -83,12 +83,17 @@ setup(
     author_email="i@arielvb.com",
     url="http://www.arielvb.com",
     license="GPL2",
-    zip_safe=False,
-    packages=["engine", "plugins", "ui", "ui.views",
-     "ui.helpers", "ui.gen", "tests", "ui.workers"],
+    zip_safe=True,
+    packages=find_packages(exclude=["tests"]),
+    include_package_data=True,
+    # packages=["engine", "plugins", "ui", "ui.views",
+    #  "ui.helpers", "ui.gen", "tests", "ui.workers", "."],
     # data_files=[('data', 'data/*')],
     options=OPTIONS,
     test_suite='tests',
     setup_requires=REQUIRES,
+    entry_points={
+        'console_scripts': ["collector=collector.main:main"]
+    },
     **EXTRAOPTIONS
 )
