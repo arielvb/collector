@@ -117,7 +117,7 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
     def showalternatives(self, results):
         """Choose the alternatives to autocomplete"""
         # self.progress.hide()
-        self.progress.setLabelText("Loading data (Step 2/3)")
+        self.progress.setLabelText(self.tr("Loading data (Step 2/3)"))
         # self.progress = None
         if len(results.results) > 0:
             # TODO display alternatives window
@@ -126,33 +126,23 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
             self.workerQ = Worker_Queue([alternatives[0]])
             self.workerQ.complete.connect(self.docomplete)
             self.workerQ.start()
-            # Collector.getInstance().complete(
-            #     self.collection.get_id(),
-            #     self.obj['id'],
-            #     alternatives)
-            # self.parent().display_view(
-            #     'comparefile',
-            #     params={'source': self.obj,
-            #             'new': alternatives[0]}
-            # )
         else:
             QtGui.QMessageBox.warning(self, self.tr("Collector"),
                 self.tr("No data found"))
 
     def docomplete(self, data):
-        """aaaaa"""
-        self.progress.setLabelText("Autocomplete running (Step 3/3)")
+        """Completes the file with the new data"""
+        self.progress.setLabelText(self.tr("Autocomplete running (Step 3/3)"))
         # self.progress.setCancelButton(0)
         if isinstance(data, list):
             # TODO allow multiple values
             if len(data) == 0:
                 self.progress.hide()
-                # TODO raise Error
                 return
             data = data[0]
         if not isinstance(data, dict):
             self.progress.hide()
-            # TODO raise error
+            raise ValueError("Expected dict found *%s*", type(data))
         Collector.get_instance().complete(
             self.collection.get_id(),
             self.obj['id'],

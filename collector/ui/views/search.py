@@ -156,7 +156,7 @@ class Ui_Discover(Ui_Search):
         self.worker.search(unicode(text, 'utf-8'))
 
     def addResults(self, results):
-        """Overrides the default addResults because the results from collector.plugins
+        """Overrides the default addResults because the results from plugins
          are a little bit different"""
         # TODO the results of a plugin must be in the same format of the search
         for result in results:

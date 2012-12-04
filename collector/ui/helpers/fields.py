@@ -200,7 +200,6 @@ class FieldImageWidget(FieldWidget):
         return widget
 
     def prepare_edit(self, parent, field, value):
-        #TODO this widget must be a file selector
         widget = FileSelector(parent, 'Images (*.jpg *.png)')
         widget.set_value(value)
         return widget
@@ -268,7 +267,7 @@ class FieldReferenceWidget(FieldTextWidget):
 
     def prepare_edit(self, parent, field, value):
         #TODO this widget must be a file selector
-        widget = ReferenceWidget(field, value[1], parent)
+        widget = ReferenceWidget(field, value, parent)
         return widget
 
 

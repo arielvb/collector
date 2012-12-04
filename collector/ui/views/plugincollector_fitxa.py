@@ -4,8 +4,7 @@
 # E1101: Module 'PyQt4.QtCore' has no ...
 """The plugin file view and widget"""
 
-from PyQt4 import QtCore
-from PyQt4.QtGui import QWidget, QMessageBox, QMenu, QAction, QIcon, QCursor
+from PyQt4 import QtCore, QtGui
 from collector.ui.gen.fitxa import Ui_File
 from collector.ui.helpers.customtoolbar import CustomToolbar, Topbar
 from collector.ui.widgetprovider import WidgetProvider
@@ -15,7 +14,7 @@ from collector.core.controller import Collector
 import webbrowser
 
 
-class Ui_PluginFile(QWidget, Ui_File):
+class Ui_PluginFile(QtGui.QWidget, Ui_File):
     """The Plugin File Widget"""
 
     worker = Worker_FileLoader()
@@ -43,7 +42,7 @@ class Ui_PluginFile(QWidget, Ui_File):
         schema = self.plugin.schema
         self.topbarHelper = Topbar(
             widget=self.topbar,
-            icon= self.plugin.icon,
+            icon=self.plugin.icon,
             title=schema.name.upper() + ' > ' + self.tr("Loading..."))
 
         self.worker.load_complete.connect(self.load_complete)
@@ -54,20 +53,35 @@ class Ui_PluginFile(QWidget, Ui_File):
     def add_to_my_collection(self):
         """Add the current plugin file to the user collection"""
         if self.data is not None:
+            self.progress = QtGui.QProgressDialog(
+                self.tr("Saving"),
+                QtCore.QString(),
+                0,
+                0)
+            self.progress.show()
             collector = Collector.get_instance()
             result = collector.add(self.data, self.collection,
                           use_mapping=self.plugin.get_id())
+            self.progress.hide()
             if result is not None:
-                #Ok
-                # TODO notify and ask to go?
-                pass
+                # Ok case
+                # TODO ask the user if want's to see the
+                # added file or not
+                id_ = result.id
+                self.parent().display_view(
+                    'fitxa',
+                    {'item': id_,
+                     'collection': self.collection}
+                )
             else:
-                QMessageBox.warning(self,
+                # Error case
+                QtGui.QMessageBox.warning(self,
                 self.tr("Collector"),
                 self.tr("Ooops, an error ocurred" +
                         " and no data couldn't be added."))
         else:
-            QMessageBox.warning(self,
+            # Trying to add not ready content.
+            QtGui.QMessageBox.warning(self,
                 self.tr("Collector"),
                 self.tr("The content isn't yet available," +
                         " and no data couldn't be added."))
@@ -81,23 +95,22 @@ class Ui_PluginFile(QWidget, Ui_File):
 
     def _menu(self):
         """Creates the menu for the options action"""
-        menu = QMenu(self.topbar)
-        #TODO implement add to my collection action
-        menu.addAction(QAction(
-            QIcon(':/add.png'),
+        menu = QtGui.QMenu(self.topbar)
+        menu.addAction(QtGui.QAction(
+            QtGui.QIcon(':/add.png'),
             self.tr("Add"), self,
             statusTip=self.tr("Add to my collection"),
             triggered=self.add_to_my_collection)
         )
-        menu.addAction(QAction(
-            QIcon(':/reload.png'),
+        menu.addAction(QtGui.QAction(
+            QtGui.QIcon(':/reload.png'),
             self.tr("Reload"), self,
             statusTip=self.tr("Reload the file."),
             triggered=self.search)
         )
 
-        menu.addAction(QAction(
-            QIcon(':/browser.png'),
+        menu.addAction(QtGui.QAction(
+            QtGui.QIcon(':/browser.png'),
             self.tr("View in browser"), self,
             statusTip=self.tr("View in your browser"),
             triggered=lambda: webbrowser.open(self.id))
@@ -118,13 +131,12 @@ class Ui_PluginFile(QWidget, Ui_File):
 
     def _linkactivated(self, uri):
         """Callback for the toolbar"""
+        # Call to the mainwindow collector_uri_call
         params = self.parent().collector_uri_call(uri)
-        #TODO check action is go back
         if params is not None:
             action = params['action']
             if action == 'options':
-                self.actions_menu.popup(QCursor.pos())
-            # action = params['action']
+                self.actions_menu.popup(QtGui.QCursor.pos())
             if action == 'back':
                 self.parent().display_view(self.referer['view'],
                                            self.referer['params'])
@@ -133,7 +145,7 @@ class Ui_PluginFile(QWidget, Ui_File):
         """Updates the view with the results of the worker"""
         self.progressBar.hide()
         if results.status != STATUS_OK:
-            QMessageBox.warning(self,
+            QtGui.QMessageBox.warning(self,
                 self.tr("Collector"),
                 self.tr("Ooops!\nSomething happened and the search" +
                         " could'nt be completed."))
