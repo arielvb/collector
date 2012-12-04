@@ -80,11 +80,14 @@ class PluginBoardGameGeek(PluginCollector):
                 },
                 'average': {'name': 'Rating', 'class': 'float'},
                 'bgg_rank': {'name': 'BGG Rank'},
+                'description': {'name': 'Description'},
+                'website': {'name': 'Website'}
 
             },
             'order': ['title', 'average', 'bgg_rank', 'designer', 'artist',
                       'publisher', 'year', 'min_players', 'max_players',
-                      'playing', 'min_age', 'categories', 'mechanic', 'image'],
+                      'playing', 'min_age', 'categories', 'mechanic', 'image',
+                      'description', 'website'],
             'default': 'title',
             'ico': u":/ico/boardgamegeek.png"
         })
@@ -166,8 +169,8 @@ class PluginBoardGameGeek(PluginCollector):
         results['title'] = soup.select('.geekitem_title a span')[0].getText()
         taula = soup.select('.geekitem_infotable')[0]
         rows = taula.findAll('tr')
-        results['designer'] = self.row_filter(rows[0])
-        results['artist'] = self.row_filter(rows[1])
+        results['designer'] = self.remove_show_more(self.row_filter(rows[0]))
+        results['artist'] = self.remove_show_more(self.row_filter(rows[1]))
         results['publisher'] = self.remove_show_more(self.row_filter(rows[2]))
         value = self.intfilter(self.row_filter(rows[3])[0])
         if value is not None:
@@ -207,7 +210,20 @@ class PluginBoardGameGeek(PluginCollector):
         except IndexError:
             results['bgg_rank'] = 'N/A'
         results['average'] = float(soup.select('.b span')[0].get_text())
-
+        description = soup.select("#editdesc")
+        if len(description) > 0:
+            results['description'] = description[0].text.replace(
+                "\n google_ad_section_start \n", ""
+                ).replace(
+                "\n google_ad_section_end \n", "").replace("  ", " ")
+        website = soup.find(id="edit_rep_weblinkid")
+        if len(website) > 0:
+            url = ''
+            if website.a is not None:
+                url = website.a.get('href')
+            results['website'] = url
+        else:
+            results['website'] = ''
         return results
 
     @classmethod
@@ -235,6 +251,8 @@ class PluginBoardGameGeek(PluginCollector):
     @classmethod
     def remove_show_more(cls, elements):
         """Removes the last element of the list if it's Show more"""
+        if len(elements) == 0:
+            return elements
         if elements[-1] == u'Show More \xbb':
             elements.pop()
         elif elements[-1] == u'Show More &raquo':

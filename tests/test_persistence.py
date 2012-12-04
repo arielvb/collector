@@ -6,7 +6,7 @@ from engine.schema import Schema
 import sqlalchemy
 from mocks import boardgames
 from engine.persistence_sql import Alchemy, PersistenceAlchemy
-import os
+
 
 class TestPersistence(unittest.TestCase):
     """Persistence class tests"""
@@ -47,7 +47,6 @@ class TestPersistence(unittest.TestCase):
         image.set_value(name)
         name = image.get_value()
         self.assertEquals(open(name, "r").read(), open(__file__, "r").read())
-
 
 
 class TestAlchemy(unittest.TestCase):
@@ -204,6 +203,22 @@ class TestPersistenceAlchemy(unittest.TestCase):
         params = [{'like': ['name', 'o']}, {'like': ['name', 'ep']}]
         results = self.pers.filter(params)
         self.assertEquals([i.name for i in results], ['Johny Deep'])
+
+    def test_get_all(self):
+        pers = self.pers
+        pers.all_created()
+        pers.save({'name': 'Robert'})
+        pers.save({'name': 'Carl'})
+        pers.save({'name': 'Aron'})
+        one = pers.get_all(1, 0, None)
+        self.assertEqual(len(one), 2)
+        self.assertEqual(one[0].name, 'Carl')
+        one = pers.get_all(2, 1, None)
+        self.assertEqual(len(one), 1)
+        self.assertEqual(one[0].name, 'Aron')
+        results = pers.get_all(0, 0, u'name')
+        self.assertEquals(['Aron', 'Carl', 'Robert'],
+                          [i.name for i in results])
 
     def tearDown(self):
         Alchemy.destroy()
