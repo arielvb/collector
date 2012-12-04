@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from engine.controller import Collector
+from collector.core.controller import Collector
 
 
 class TestCollector(unittest.TestCase):

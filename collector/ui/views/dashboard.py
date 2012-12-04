@@ -3,10 +3,10 @@
 # C0103:
 
 from PyQt4 import QtCore, QtGui
-from ui.gen.dashboard import Ui_Form, _fromUtf8
-from ui.helpers.customtoolbar import CustomToolbar, Topbar
-from ui.helpers.items import FitxaListItem
-from ui.widgetprovider import WidgetProvider
+from collector.ui.gen.dashboard import Ui_Form, _fromUtf8
+from collector.ui.helpers.customtoolbar import CustomToolbar, Topbar
+from collector.ui.helpers.items import FitxaListItem
+from collector.ui.widgetprovider import WidgetProvider
 
 
 class Ui_Dashboard(QtGui.QWidget, Ui_Form):

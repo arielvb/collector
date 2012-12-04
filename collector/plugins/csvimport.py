@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 """Plugin to Import the CSV from Boardgamegeek"""
 from boardgamegeek import PluginBoardGameGeek
-from engine.controller import Collector
-from engine.plugin import PluginImporter
-from engine.provider import UrlProvider
-from ui.helpers.fields import FileSelector
+from collector.core.controller import Collector
+from collector.core.plugin import PluginImporter
+from collector.core.provider import UrlProvider
+from collector.ui.helpers.fields import FileSelector
 from PyQt4 import QtCore, QtGui
 import csv
 import logging

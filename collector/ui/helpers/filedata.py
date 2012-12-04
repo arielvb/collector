@@ -7,8 +7,8 @@ The layout for a file
 """
 from PyQt4 import QtCore, QtGui
 
-from ui.gen.file_data import Ui_Form
-from ui.helpers.fields import FieldWidgetManager
+from collector.ui.gen.file_data import Ui_Form
+from collector.ui.helpers.fields import FieldWidgetManager
 
 
 class FileDataWidget(QtGui.QWidget, Ui_Form):

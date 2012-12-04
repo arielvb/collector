@@ -2,7 +2,7 @@
 
 import unittest
 import mocks
-from engine.schema import Schema
+from collector.core.schema import Schema
 
 
 # class TestField(unittest.TestCase):

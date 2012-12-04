@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from PyQt4 import QtCore, QtGui
-from ui.gen.fitxa_edit import Ui_Form, _fromUtf8
-from ui.helpers.customtoolbar import CustomToolbar, Topbar
-from ui.widgetprovider import WidgetProvider
-from ui.helpers.fields import FieldWidgetManager
+from collector.ui.gen.fitxa_edit import Ui_Form, _fromUtf8
+from collector.ui.helpers.customtoolbar import CustomToolbar, Topbar
+from collector.ui.widgetprovider import WidgetProvider
+from collector.ui.helpers.fields import FieldWidgetManager
 
 
 class Ui_Fitxa_New(QtGui.QWidget, Ui_Form):

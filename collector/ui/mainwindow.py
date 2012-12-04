@@ -11,8 +11,8 @@ from gen.mainWindow import Ui_MainWindow, _fromUtf8
 
 from views import ViewNotFound
 
-from engine.collection import Collection
-from engine.plugin import PluginManager
+from collector.core.collection import Collection
+from collector.core.plugin import PluginManager
 
 
 class MainWindow(QtGui.QMainWindow, Ui_MainWindow):

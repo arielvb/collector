@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from engine.file import FileDict as File
+from collector.core.file import FileDict as File
 
 
 class TestFile(unittest.TestCase):

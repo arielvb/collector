@@ -9,13 +9,13 @@ Search related views: item search, quick search and discover.
 """
 from PyQt4 import QtCore
 from PyQt4.QtGui import QWidget, QApplication, QMessageBox, QDialog
-from ui.gen.search_results import Ui_Form, _fromUtf8
-from ui.workers.search import Worker_Search, Worker_Discover, STATUS_OK
-from ui.gen.search_quick import Ui_Dialog as Ui_Dialog_Search
-from ui.helpers.customtoolbar import Topbar, CustomToolbar
-from ui.helpers.items import ObjectListItem, FitxaListItem
-from ui.widgetprovider import WidgetProvider
-from engine.controller import Collector
+from collector.ui.gen.search_results import Ui_Form, _fromUtf8
+from collector.ui.workers.search import Worker_Search, Worker_Discover, STATUS_OK
+from collector.ui.gen.search_quick import Ui_Dialog as Ui_Dialog_Search
+from collector.ui.helpers.customtoolbar import Topbar, CustomToolbar
+from collector.ui.helpers.items import ObjectListItem, FitxaListItem
+from collector.ui.widgetprovider import WidgetProvider
+from collector.core.controller import Collector
 
 
 class Ui_Search(QWidget, Ui_Form):
@@ -156,7 +156,7 @@ class Ui_Discover(Ui_Search):
         self.worker.search(unicode(text, 'utf-8'))
 
     def addResults(self, results):
-        """Overrides the default addResults because the results from plugins
+        """Overrides the default addResults because the results from collector.plugins
          are a little bit different"""
         # TODO the results of a plugin must be in the same format of the search
         for result in results:

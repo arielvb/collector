@@ -3,8 +3,8 @@
 # C013 Camecase
 """Test for all the included plugins"""
 import unittest
-from engine.provider import FileProvider
-from plugins.boardgamegeek import PluginBoardGameGeek
+from collector.core.provider import FileProvider
+from collector.plugins.boardgamegeek import PluginBoardGameGeek
 from os.path import dirname
 
 

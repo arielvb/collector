@@ -6,8 +6,8 @@
 """Plugin for Boardgamegeek"""
 
 from bs4 import BeautifulSoup
-from engine.plugin import PluginCollector
-from engine.schema import Schema
+from collector.core.plugin import PluginCollector
+from collector.core.schema import Schema
 
 
 class PluginBoardGameGeek(PluginCollector):

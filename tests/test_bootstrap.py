@@ -15,7 +15,7 @@ class TestBoostrap(unittest.TestCase):
     def test_ui_is_generated(self):
         name = 'Ui_MainWindow doesn\'t exists'
         try:
-            from ui.gen.mainWindow import Ui_MainWindow
+            from collector.ui.gen.mainWindow import Ui_MainWindow
             name = Ui_MainWindow.__name__
         except:
             pass

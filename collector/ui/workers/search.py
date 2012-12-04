@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from PyQt4.QtCore import QThread, pyqtSignal
-from engine.controller import Collector
-from engine.plugin import PluginCollector
+from collector.core.controller import Collector
+from collector.core.plugin import PluginCollector
 import logging
 
 STATUS_OK = 0

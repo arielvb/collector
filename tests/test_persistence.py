@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import unittest
-from engine.persistence import PersistenceDict
-from engine.fields import *
-from engine.schema import Schema
+from collector.core.persistence import PersistenceDict
+from collector.core.fields import *
+from collector.core.schema import Schema
 import sqlalchemy
 from mocks import boardgames
-from engine.persistence_sql import Alchemy, PersistenceAlchemy
+from collector.core.persistence_sql import Alchemy, PersistenceAlchemy
 
 
 class TestPersistence(unittest.TestCase):

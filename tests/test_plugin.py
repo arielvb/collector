@@ -2,7 +2,7 @@
 
 import unittest
 import os
-from engine.plugin import PluginManager
+from collector.core.plugin import PluginManager
 
 
 class TestPluginManager(unittest.TestCase):

@@ -2,11 +2,11 @@
 # pylint: disable-msg=E1101,E0611
 # E0611: No name 'QtCore' in module 'PyQt4'
 # E1101: Module ___ has no ___ member
-from ui.gen.collection_items import Ui_Form, _fromUtf8
+from collector.ui.gen.collection_items import Ui_Form, _fromUtf8
 from PyQt4 import QtCore, QtGui
-from ui.helpers.customtoolbar import CustomToolbar, Topbar
-from ui.widgetprovider import WidgetProvider
-from ui.helpers.items import FitxaTableItem
+from collector.ui.helpers.customtoolbar import CustomToolbar, Topbar
+from collector.ui.widgetprovider import WidgetProvider
+from collector.ui.helpers.items import FitxaTableItem
 
 
 class Ui_Collection(QtGui.QWidget, Ui_Form):

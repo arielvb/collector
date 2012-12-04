@@ -12,10 +12,10 @@ to fetch the elements of a collection.
 The results are passed to the view *collection*.
 """
 from PyQt4 import QtCore, QtGui
-from ui.gen.advanced_search import Ui_Form, _fromUtf8
-from ui.gen.widget_filter import Ui_Form as Ui_Filter
-from ui.helpers.customtoolbar import CustomToolbar, Topbar
-from ui.widgetprovider import WidgetProvider
+from collector.ui.gen.advanced_search import Ui_Form, _fromUtf8
+from collector.ui.gen.widget_filter import Ui_Form as Ui_Filter
+from collector.ui.helpers.customtoolbar import CustomToolbar, Topbar
+from collector.ui.widgetprovider import WidgetProvider
 
 
 class FilterWidget(QtGui.QWidget, Ui_Filter):

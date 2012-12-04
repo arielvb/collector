@@ -1,6 +1,6 @@
 from PyQt4 import QtCore, QtGui
-from ui.gen.toolbar import Ui_Form as CustomToolbarUi, _fromUtf8
-from ui.gen.topbar import Ui_Form as TopbarUi
+from collector.ui.gen.toolbar import Ui_Form as CustomToolbarUi, _fromUtf8
+from collector.ui.gen.topbar import Ui_Form as TopbarUi
 
 
 class CustomToolbar(CustomToolbarUi):

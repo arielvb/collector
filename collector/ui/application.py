@@ -5,9 +5,9 @@
 """The GUI Application for Collector using QT"""
 from PyQt4 import QtCore, QtGui
 from splashscreen import SplashScreen
-from engine.controller import Collector
+from collector.core.controller import Collector
 import os
-import ui.gen.lang_rc
+import collector.ui.gen.lang_rc
 from views.dashboard import DashboardView
 from views.fitxa_edit import FitxaEditView
 from views.fitxa import FitxaView

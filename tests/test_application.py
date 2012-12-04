@@ -1,7 +1,7 @@
 import unittest
 import sip
 sip.setapi('QVariant', 2)
-from ui.application import CollectorApplication
+from collector.ui.application import CollectorApplication
 from PyQt4.QtTest import QTest
 from PyQt4.QtCore import QCoreApplication
 import os
@@ -30,7 +30,7 @@ class TestApplication(unittest.TestCase):
         del self.app
 
     def test_main_window(self):
-        from ui.mainwindow import MainWindow
+        from collector.ui.mainwindow import MainWindow
         assert isinstance(self.app.main, MainWindow)
 
     def test_discoverview(self):

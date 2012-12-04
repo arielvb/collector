@@ -15,10 +15,10 @@ from PyQt4 import QtGui
 from PyQt4.QtCore import pyqtSlot, Qt, SIGNAL, QUrl
 from PyQt4.QtNetwork import QNetworkAccessManager, QNetworkRequest
 from PyQt4.QtNetwork import QNetworkReply
-from engine.collection import Collection
-from ui.gen.file_selector import Ui_FileSelector, _fromUtf8
-from ui.gen.widget_ref import Ui_Reference
-from ui.gen.widget_multivalue import Ui_Multivalue
+from collector.core.collection import Collection
+from collector.ui.gen.file_selector import Ui_FileSelector, _fromUtf8
+from collector.ui.gen.widget_ref import Ui_Reference
+from collector.ui.gen.widget_multivalue import Ui_Multivalue
 import logging
 
 

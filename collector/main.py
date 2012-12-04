@@ -22,7 +22,7 @@ def main():
         format=FORMAT)
     # logging does bizzard things if this import is
     #  before the call logging.basicConfig
-    from ui.application import CollectorApplication
+    from collector.ui.application import CollectorApplication
 
     app = CollectorApplication(sys.argv)
 

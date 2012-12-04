@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from engine import fields
+from collector.core import fields
 
 
 class TestField(unittest.TestCase):
@@ -78,7 +78,7 @@ class TestFieldFloat(unittest.TestCase):
         field.set_value("1.3")
         self.assertEqual(field.get_value(), 1.3)
 
-from engine.config import Config
+from collector.core.config import Config
 from os.path import join
 
 

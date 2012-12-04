@@ -3,7 +3,7 @@ Setup for Collector
 """
 from setuptools import setup
 import os
-from engine.config import ISWINDOWS, ISOSX
+from collector.core.config import ISWINDOWS, ISOSX
 
 NAME = 'Collector'
 VERSION = "0.2"

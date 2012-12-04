@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from PyQt4 import QtCore, QtGui
-from ui.gen.preferences import Ui_PreferencesDialog, _fromUtf8
-from ui.widgetprovider import WidgetProvider
-from ui.helpers.items import ObjectListItem
-from engine.controller import Collector
+from collector.ui.gen.preferences import Ui_PreferencesDialog, _fromUtf8
+from collector.ui.widgetprovider import WidgetProvider
+from collector.ui.helpers.items import ObjectListItem
+from collector.core.controller import Collector
 
 
 class Ui_Preferences(QtGui.QDialog, Ui_PreferencesDialog):

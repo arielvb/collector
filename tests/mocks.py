@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from engine.config import Config
+from collector.core.config import Config
 config = Config.get_instance()
 BASE_PATH = 'collector://collections/demo'
 

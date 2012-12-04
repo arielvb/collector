@@ -4,7 +4,7 @@
 from PyQt4.QtGui import QPixmap, QSplashScreen
 from PyQt4.QtCore import Qt
 import time
-import ui.gen.splash_rc
+import collector.ui.gen.splash_rc
 
 
 class SplashScreen(object):

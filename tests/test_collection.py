@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from engine.collection import Collection
-from engine.persistence_sql import Alchemy
+from collector.core.collection import Collection
+from collector.core.persistence_sql import Alchemy
 import os
 
 

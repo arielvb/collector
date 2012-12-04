@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from engine.plugin import PluginRunnable
+from collector.core.plugin import PluginRunnable
 from PyQt4.Qt import qDebug
 
 

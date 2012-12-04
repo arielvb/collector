@@ -1,10 +1,10 @@
 # -* coding: utf-8 *-
 from PyQt4 import QtGui
-from ui.gen.im_export import Ui_Dialog
-from ui.widgetprovider import WidgetProvider
-from ui.helpers.customtoolbar import CustomToolbar
-from engine.controller import get_manager
-from engine.plugin import PluginExporter, PluginImporter
+from collector.ui.gen.im_export import Ui_Dialog
+from collector.ui.widgetprovider import WidgetProvider
+from collector.ui.helpers.customtoolbar import CustomToolbar
+from collector.core.controller import get_manager
+from collector.core.plugin import PluginExporter, PluginImporter
 import logging
 
 

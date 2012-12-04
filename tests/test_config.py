@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from engine import config
+from collector.core import config
 import sys
 import os
 

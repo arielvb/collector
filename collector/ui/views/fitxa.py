@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from PyQt4 import QtCore, QtGui
-from ui.gen.fitxa import Ui_File
-from ui.helpers.customtoolbar import CustomToolbar, Topbar
-from ui.widgetprovider import WidgetProvider
-from ui.helpers.filedata import FileDataWidget
-from ui.workers.search import Worker_Discover, Worker_Queue
-from engine.controller import Collector
+from collector.ui.gen.fitxa import Ui_File
+from collector.ui.helpers.customtoolbar import CustomToolbar, Topbar
+from collector.ui.widgetprovider import WidgetProvider
+from collector.ui.helpers.filedata import FileDataWidget
+from collector.ui.workers.search import Worker_Discover, Worker_Queue
+from collector.core.controller import Collector
 
 
 class Ui_Fitxa(QtGui.QWidget, Ui_File):

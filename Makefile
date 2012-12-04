@@ -1,5 +1,5 @@
-UI_DIR=./ui/designer
-BUILD_DIR=./ui/gen
+UI_DIR=./collector/ui/designer
+BUILD_DIR=./collector/ui/gen
 EXPORT=./export/
 VM_SHARED=~/Desktop/mv/collector
 
