@@ -25,7 +25,17 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="toolbarLinks"/>
+    <layout class="QHBoxLayout" name="toolbarLinks">
+     <property name="leftMargin">
+      <number>12</number>
+     </property>
+     <property name="rightMargin">
+      <number>12</number>
+     </property>
+     <property name="bottomMargin">
+      <number>12</number>
+     </property>
+    </layout>
    </item>
   </layout>
  </widget>
