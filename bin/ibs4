@@ -24,7 +24,13 @@ else:
    file_ = open(name)
 soup = BeautifulSoup(file_)
 # The next to lines are similar to run this script with the *-i* option of python::
-#   pyhton -i 
-import code    
+#   pyhton -i
+q = sys.exit
+import code
+print "=" * 80
+print "SHORTCUTS"
+print "-" * 80
+print "q()" + " " * 20 + " quit" 
+print "=" * 80
 code.interact("Beautiful is the *soup* variable, try it!", local=locals())
 
