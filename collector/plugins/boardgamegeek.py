@@ -27,21 +27,21 @@ class PluginBoardGameGeek(PluginCollector):
                     },
                 'designer': {
                     'class': 'text',
-                    'name': 'Designer/s',
+                    'name': 'Designer',
                     'description': 'List of all the designers',
-                    'multivalue': True
+                    'multiple': True
                     },
                 'artist': {
                     'class': 'text',
-                    'name': 'Artist/s',
+                    'name': 'Artist',
                     'description': 'List of all the artists',
-                    'multivalue': True
+                    'multiple': True
                     },
                 'publisher': {
                     'class': 'text',
-                    'name': 'Publisher/s',
+                    'name': 'Publisher',
                     'description': 'List of all the plublishers',
-                    'multivalue': True
+                    'multiple': True
                     },
                 'year': {
                     'class': 'int',
@@ -67,12 +67,12 @@ class PluginBoardGameGeek(PluginCollector):
                 'categories': {
                     'class': 'text',
                     'name': 'Categories',
-                    'multivalue': True
+                    'multiple': True
                 },
                 'mechanic': {
                     'class': 'text',
                     'name': 'Mechanic',
-                    'multivalue': True
+                    'multiple': True
                 },
                 'image': {
                     'class': 'image',
