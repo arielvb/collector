@@ -36,7 +36,6 @@ class FileDataWidget(QtGui.QWidget, Ui_Form):
                           QtCore.Qt.AlignTop)
         item.setText(text)
         item.setFont(self.font)
-        item.setStyleSheet("text-align:top")
         return item
 
     def create_field(self, field, value):
@@ -72,7 +71,6 @@ class FileDataWidget(QtGui.QWidget, Ui_Form):
                 value = field in obj and obj[field] or ''
                 field_obj = schema.get_field(field)
                 self.create_field(field_obj, value)
-
         if 'image' in obj:
             src = obj['image']
             image = schema.get_field('image')

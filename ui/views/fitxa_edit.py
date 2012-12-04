@@ -84,7 +84,8 @@ class Ui_Fitxa_Edit(QtGui.QWidget, Ui_Form):
             elif action == 'cancel':
                 self.parent().display_view(
                     'fitxa',
-                    {'item': self.item, 'collection': self.collection.get_id()})
+                    {'item': self.item,
+                     'collection': self.collection.get_id()})
 
     def save(self):
         self.progress = QtGui.QProgressDialog(

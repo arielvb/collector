@@ -122,7 +122,6 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
         if len(results.results) > 0:
             # TODO display alternatives window
             alternatives = results.results
-            from PyQt4.QtCore import pyqtRemoveInputHook; pyqtRemoveInputHook(); import ipdb; ipdb.set_trace()
             # We cut the alternatives results to maximu ten
             self.workerQ = Worker_Queue([alternatives[0]])
             self.workerQ.complete.connect(self.docomplete)
