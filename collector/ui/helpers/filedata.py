@@ -50,14 +50,9 @@ class FileDataWidget(QtGui.QWidget, Ui_Form):
                                     rowspan, columnspan)
         column += 1
         # The widget
-        if not isinstance(value, list):
-            value = [value]
-        for i in value:
-            item = self.man.get_widget(field, self,
-                                       i, False)
-            self.fieldsLayout.addWidget(item, self.row, column,
-                                        rowspan, columnspan)
-            self.row += 1
+        item = self.man.get_widget(field, self, value, False)
+        self.fieldsLayout.addWidget(item, self.row, column,
+                                    rowspan, columnspan)
         self.row += 1
 
     def setupUi(self, form):
@@ -70,6 +65,8 @@ class FileDataWidget(QtGui.QWidget, Ui_Form):
             if field != 'image':
                 value = field in obj and obj[field] or ''
                 field_obj = schema.get_field(field)
+                if field_obj.class_ == 'ref':
+                    value = zip(value, obj.get(field, True))
                 self.create_field(field_obj, value)
         if 'image' in obj:
             src = obj['image']
@@ -78,9 +75,10 @@ class FileDataWidget(QtGui.QWidget, Ui_Form):
             path = image.get_value()
             widget = self.man.get_widget(image, self, {
                 'src': path,
-                'x': self.parent().width() / 3,
+                'x': self.parent().width() / 2,
                 'y': self.parent().height() - 200})
             self.image_layout.addWidget(widget)
-
-        if len(obj) < 3:
+        else:
             self.line.hide()
+        # if len(obj) < 3:
+        #     self.line.hide()

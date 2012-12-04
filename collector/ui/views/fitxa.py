@@ -25,7 +25,7 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
         super(Ui_Fitxa, self).setupUi(self)
         item = self.item
         obj = self.collection.get(item)
-        obj = self.collection.load_references(obj)
+        # obj = self.collection.load_references(obj)
         self.obj = obj
         self.fontLabel = QtGui.QFont()
         self.fontLabel.setBold(True)

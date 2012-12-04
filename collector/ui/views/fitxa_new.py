@@ -99,7 +99,6 @@ class Ui_Fitxa_New(QtGui.QWidget, Ui_Form):
                 if isinstance(value, QtCore.QString):
                     value = str(value)
             data[field] = value
-        from PyQt4.Qt import qDebug; qDebug(str(data))
         self.collection.save(data)
         self.parent().display_view('fitxa',
                                   {'item': data['id'],

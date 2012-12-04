@@ -19,6 +19,7 @@ from collector.core.collection import Collection
 from collector.ui.gen.file_selector import Ui_FileSelector, _fromUtf8
 from collector.ui.gen.widget_ref import Ui_Reference
 from collector.ui.gen.widget_multivalue import Ui_Multivalue
+from collector.ui.mainwindow import MainWindow
 import logging
 
 
@@ -115,7 +116,7 @@ class ImageWidget(QtGui.QLabel):
             if not noscale:
                 pixmap = pixmap.scaled(max_x, max_y, Qt.KeepAspectRatio)
             self.setPixmap(pixmap)
-        self.setAlignment(Qt.AlignLeading | Qt.AlignLeft |
+        self.setAlignment(Qt.AlignLeading | Qt.AlignHCenter |
                           Qt.AlignTop)
         self.src = value
 
@@ -240,7 +241,6 @@ class ReferenceWidget(QtGui.QWidget, Ui_Reference):
         # TODO maybe is more eficinet use QStringList
         i = 1
         for reference in contents:
-            print reference.name
             # TODO we need to store the object, because if the field is empty??
             # or whe must make the field required in the dst collection?
             self.values.append(reference)
@@ -255,9 +255,9 @@ class FieldReferenceWidget(FieldTextWidget):
 
     def prepare(self, parent, field, value):
         widget = super(FieldReferenceWidget, self).prepare(
-            parent, field, value)
+            parent, field, value[1])
         text = widget.text()
-        uri = "collector://view/fitxa/item/%s/collection/%s" % ("1",
+        uri = "collector://view/fitxa/item/%s/collection/%s" % (value[0],
              field.ref_collection)
         widget.setText("<a href=\"%s\">%s</a>" % (uri, text))
         widget.connect(
@@ -268,7 +268,7 @@ class FieldReferenceWidget(FieldTextWidget):
 
     def prepare_edit(self, parent, field, value):
         #TODO this widget must be a file selector
-        widget = ReferenceWidget(field, value, parent)
+        widget = ReferenceWidget(field, value[1], parent)
         return widget
 
 
@@ -303,10 +303,39 @@ class FieldIntWidget(FieldTextWidget):
         return w
 
 
-class MultivalueWidget(QtGui.QWidget, Ui_Multivalue):
+class MultivalueWidget(QtGui.QWidget):
 
     def __init__(self, widgetprovider, parent, field, values):
         super(MultivalueWidget, self).__init__(parent)
+        self.widgetprovider = widgetprovider
+        self.setupUi()
+        self.widgets = []
+        self.field = field
+        for value in values:
+            self.add_value(value)
+
+    def setupUi(self):
+        self.layout = QtGui.QVBoxLayout(self)
+        self.layout.setSpacing(0)
+        self.layout.setMargin(0)
+        self.layout.setObjectName(_fromUtf8("verticalLayout_3"))
+        self.fields = QtGui.QVBoxLayout()
+        self.fields.setObjectName(_fromUtf8("fields"))
+        self.layout.addLayout(self.fields)
+        spacerItem = QtGui.QSpacerItem(0, 0, QtGui.QSizePolicy.Minimum,
+                            QtGui.QSizePolicy.Expanding)
+        self.layout.addItem(spacerItem)
+
+    def add_value(self, default=None):
+        widget = self.widgetprovider.getWidget(self, self.field, default)
+        self.fields.addWidget(widget)
+        self.widgets.append(widget)
+
+
+class MultivalueWidgetEdit(QtGui.QWidget, Ui_Multivalue):
+
+    def __init__(self, widgetprovider, parent, field, values):
+        super(MultivalueWidgetEdit, self).__init__(parent)
         self.widgetprovider = widgetprovider
         self.setupUi(self)
         self.widgets = []
@@ -374,10 +403,13 @@ class FieldWidgetManager(object):
             provider = self.register[id_]
         widget = None
         if not edit:
-            widget = provider.getWidget(parent, field, value)
-        else:
             if field.is_multivalue():
                 widget = MultivalueWidget(provider, parent, field, value)
+            else:
+                widget = provider.getWidget(parent, field, value)
+        else:
+            if field.is_multivalue():
+                widget = MultivalueWidgetEdit(provider, parent, field, value)
             else:
                 widget = provider.getWidgetEdit(parent, field, value)
         return widget
