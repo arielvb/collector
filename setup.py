@@ -77,8 +77,21 @@ setup(
     version=VERSION,
     description="Collector is a management application",
     long_description=(read('README.txt')),
-    # TODO search classifiers
-    classifiers=['Intended Auidence:: Developers, Collectors'],
+    # Classifiers full list:
+    #       http://pypi.python.org/pypi?:action=list_classifiers
+    classifiers=[
+        'Intended Audience :: End Users/Desktop',
+        'Development Status :: 3 - Alpha',
+        'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',
+        'Natural Language :: Spanish',
+        'Natural Language :: Catalan',
+        'Natural Language :: English',
+        'Operating System :: MacOS',
+        'Operating System :: Microsoft :: Windows',
+        'Operating System :: Unix',
+        'Topic :: Games/Entertainment',
+        'Topic :: Utilities'
+    ],
     author="Ariel von Barnekow",
     author_email="i@arielvb.com",
     url="http://www.arielvb.com",
