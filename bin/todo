@@ -1,20 +1,22 @@
 #!/bin/bash
 ###############################################################################
-# TODO
+# TO DO
 # ----------------------------------------------
 # List the all the pending work (TO DO)
 #
 # Usage: todo [-c]
 #
-#       -c  prints the count of todos
+#       -c  prints only the total amount
 #
 ###############################################################################
 
 if [[ $BASH_ARGC > 0 ]]; then
     if [[ $1 == "-c" ]]; then
-        grep --colour=auto -n -r TODO --exclude todo . | wc -l
+        grep --colour=auto -n -r TODO --exclude .git collector setup.py | wc -l
+    else
+       echo "Usage: todo [-c]"
     fi
 else
-        grep --colour=auto -n -r TODO --exclude todo .
+        grep --colour=auto -n -r TODO --exclude .git collector setup.py
 fi
 
