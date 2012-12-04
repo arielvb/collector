@@ -7,17 +7,6 @@
 import logging
 from PyQt4 import QtCore, QtGui
 from gen.mainWindow import Ui_MainWindow, _fromUtf8
-from views.dashboard import DashboardView
-from views.fitxa_edit import FitxaEditView
-from views.fitxa import FitxaView
-from views.collection import CollectionView
-from views.search import SearchView, DiscoverView, SearchDialog
-from views.fitxa_new import FitxaNewView
-from views.preferences import PreferencesView
-from views.properties import PropertiesView
-from views.plugincollector_fitxa import PluginFileView
-from views.advanced_search import AdvancedSearch
-from views.im_export import ImportView, ExportView
 
 
 from views import ViewNotFound
@@ -31,11 +20,12 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
 
     was_maximized = False
     collection = None
+    instance = None
 
     def __init__(self, parent=None):
         super(MainWindow,  self,).__init__(parent)
         self.plugin_manager = PluginManager.get_instance()
-
+        MainWindow.instance = self
         self.collection = Collection.get_instance()
 
         self.setupUi(self)
@@ -43,9 +33,10 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.setUnifiedTitleAndToolBarOnMac(True)
         # TODO clean toolbar code?
         # self.createToolbar()
+        self.views = None
         self.view = 'dashboard'
-        self.views = self.init_views()
-        self.display_view('dashboard')
+        # self.views = self.init_views()
+        # self.display_view('dashboard')
         # Menu actions
         self.help_menu = self.menuBar().addMenu("&Help")
         self.about_action = QtGui.QAction(
@@ -91,25 +82,6 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
             QtCore.SIGNAL(_fromUtf8("triggered()")),
             lambda: self.display_view('export'))
 
-    def init_views(self):
-        """ Initialize the avaible views, each view is loaded by a provider"""
-        return {
-            'dashboard': DashboardView(self),
-            'fitxa': FitxaView(self),
-            'edit': FitxaEditView(self),
-            'collection': CollectionView(self),
-            'add': FitxaNewView(self),
-            'search': SearchView(self),
-            'discover': DiscoverView(self),
-            'preferences': PreferencesView(self),
-            'quicksearch': SearchDialog(self),
-            'properties': PropertiesView(self),
-            'pluginfile': PluginFileView(self),
-            'filters': AdvancedSearch(self),
-            'import': ImportView(self),
-            'export': ExportView(self),
-        }
-
     def display_view(self, name, params=None):
         """Launches the requested view by name with their parameters,
          if view doesn't exist throws an exception"""
@@ -153,7 +125,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         uri = str(uri)
         # Check protocol
         if not uri.startswith('collector://'):
-            raise Exception("Not a collector uri")
+            raise ValueError("Not a collector uri")
         # Remove protocol
         uri = uri[len('collector://'):]
         params_encoded = uri.split('/')

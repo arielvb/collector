@@ -8,6 +8,17 @@ from splashscreen import SplashScreen
 from engine.collector import Collector
 import os
 import ui.gen.lang_rc
+from views.dashboard import DashboardView
+from views.fitxa_edit import FitxaEditView
+from views.fitxa import FitxaView
+from views.collection import CollectionView
+from views.search import SearchView, DiscoverView, SearchDialog
+from views.fitxa_new import FitxaNewView
+from views.preferences import PreferencesView
+from views.properties import PropertiesView
+from views.plugincollector_fitxa import PluginFileView
+from views.advanced_search import AdvancedSearch
+from views.im_export import ImportView, ExportView
 
 
 class CollectorApplication(QtGui.QApplication):
@@ -41,10 +52,12 @@ class CollectorApplication(QtGui.QApplication):
         from mainwindow import MainWindow
 
         self.main = MainWindow()
+        self.main.views = CollectorApplication.get_views(self.main)
+        self.main.display_view('dashboard')
+
         if not hidden:
             # Show main window
             self.main.show()
-
             # Hide splash
             self.splash.finish(self.main)
 
@@ -131,3 +144,23 @@ class CollectorApplication(QtGui.QApplication):
             qt_qm = app.translators.get('qt' + locale[2:], None)
             if qt_qm is not None:
                 app.installTranslator(qt_qm)
+
+    @staticmethod
+    def get_views(parent):
+        """ Initialize the avaible views, each view is loaded by a provider"""
+        return {
+            'dashboard': DashboardView(parent),
+            'fitxa': FitxaView(parent),
+            'edit': FitxaEditView(parent),
+            'collection': CollectionView(parent),
+            'add': FitxaNewView(parent),
+            'search': SearchView(parent),
+            'discover': DiscoverView(parent),
+            'preferences': PreferencesView(parent),
+            'quicksearch': SearchDialog(parent),
+            'properties': PropertiesView(parent),
+            'pluginfile': PluginFileView(parent),
+            'filters': AdvancedSearch(parent),
+            'import': ImportView(parent),
+            'export': ExportView(parent),
+        }
