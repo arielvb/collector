@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="ca_ES" sourcelanguage="en">
+<!DOCTYPE TS><TS version="2.0" language="ca_ES" sourcelanguage="en">
 <context>
     <name>AdvancedSearchWidget</name>
     <message>
@@ -447,84 +446,89 @@
         <translation>General</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="30"/>
+        <location filename="preferences.ui" line="33"/>
         <source>Language*:</source>
         <translation>Idioma*:</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="38"/>
+        <location filename="preferences.ui" line="41"/>
         <source>Catalan</source>
         <translation>Català</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="43"/>
+        <location filename="preferences.ui" line="46"/>
         <source>English</source>
         <translation>Anglès</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="48"/>
+        <location filename="preferences.ui" line="51"/>
         <source>Spanish</source>
         <translation>Espanyol</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="56"/>
+        <location filename="preferences.ui" line="59"/>
         <source>Copy files:</source>
         <translation>Copiar fitxers:</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="69"/>
+        <location filename="preferences.ui" line="67"/>
         <source>Always</source>
-        <translation>Sempre</translation>
+        <translation type="obsolete">Sempre</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="76"/>
+        <location filename="preferences.ui" line="77"/>
         <source>Remote only</source>
-        <translation>Només els remots</translation>
+        <translation type="obsolete">Només els remots</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="83"/>
+        <location filename="preferences.ui" line="72"/>
         <source>Never</source>
-        <translation>Mai</translation>
+        <translation type="obsolete">Mai</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="97"/>
+        <location filename="preferences.ui" line="84"/>
         <source>Plugins</source>
         <translation>Complements</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="103"/>
+        <location filename="preferences.ui" line="90"/>
         <source>Manage the plugins that will be globally available or disabled.</source>
         <translation>Gestiona els complements que estaran disponibles a l&apos;aplicació.</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="117"/>
+        <location filename="preferences.ui" line="104"/>
         <source>Enabled</source>
         <translation>Activats</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="124"/>
+        <location filename="preferences.ui" line="111"/>
         <source>BGG</source>
         <translation>BGG</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="147"/>
+        <location filename="preferences.ui" line="134"/>
         <source>Disable selected &gt;&gt;</source>
         <translation>Desactiva els seleccionats &gt;&gt;</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="163"/>
+        <location filename="preferences.ui" line="150"/>
         <source>Disabled</source>
         <translation>Desactivats</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="174"/>
+        <location filename="preferences.ui" line="161"/>
         <source>&lt;&lt; Enable selected</source>
         <translation>&lt;&lt; Activa els seleccionats</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="213"/>
+        <location filename="preferences.ui" line="200"/>
         <source>* Requires restart the application</source>
         <translation>* Requererix reiniciar l&apos;aplicació</translation>
+    </message>
+    <message>
+        <location filename="preferences.ui" line="69"/>
+        <source>Home:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -717,27 +721,27 @@
 <context>
     <name>Ui_Dashboard</name>
     <message>
-        <location filename="dashboard.py" line="83"/>
+        <location filename="dashboard.py" line="85"/>
         <source>Dashboard</source>
         <translation>Tauler principal</translation>
     </message>
     <message>
-        <location filename="dashboard.py" line="55"/>
+        <location filename="dashboard.py" line="57"/>
         <source>New &lt;b&gt;%s&lt;/b&gt;</source>
         <translation>Nou &lt;b&gt;%s&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="dashboard.py" line="107"/>
+        <location filename="dashboard.py" line="109"/>
         <source>Last %s</source>
         <translation>Darrers %s</translation>
     </message>
     <message>
-        <location filename="dashboard.py" line="111"/>
+        <location filename="dashboard.py" line="113"/>
         <source>Entry %d</source>
         <translation>Entrada %d</translation>
     </message>
     <message>
-        <location filename="dashboard.py" line="116"/>
+        <location filename="dashboard.py" line="118"/>
         <source>Warning: No collection available!</source>
         <translation>Atenció: No hi ha cap col·lecció disponible!</translation>
     </message>
@@ -745,17 +749,17 @@
 <context>
     <name>Ui_Discover</name>
     <message>
-        <location filename="search.py" line="131"/>
+        <location filename="search.py" line="135"/>
         <source>Discover</source>
         <translation>Descubreix</translation>
     </message>
     <message>
-        <location filename="search.py" line="133"/>
+        <location filename="search.py" line="137"/>
         <source>Discover allows you find new objects for your collection, type something in the searchbox and the plugins will do the hardwork.</source>
         <translation>&quot;Descubreix&quot; et permet trobar nous objecte per la teva collecció, escriu quelcom a la caixa de cerca i els complements faràn la resta. </translation>
     </message>
     <message>
-        <location filename="search.py" line="146"/>
+        <location filename="search.py" line="152"/>
         <source>Searching...</source>
         <translation>Cercant...</translation>
     </message>
@@ -773,64 +777,82 @@
         <translation>Opcions</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="58"/>
+        <location filename="fitxa.py" line="66"/>
         <source>Edit</source>
         <translation>Edita</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="58"/>
+        <location filename="fitxa.py" line="66"/>
         <source>Edit file</source>
         <translation>Edita la fitxa</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="74"/>
+        <location filename="fitxa.py" line="75"/>
         <source>Delete</source>
         <translation>Esborra</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="74"/>
+        <location filename="fitxa.py" line="75"/>
         <source>Delete file</source>
         <translation>Esborra la fitxa</translation>
     </message>
     <message>
         <location filename="fitxa.py" line="80"/>
         <source>New entry</source>
-        <translation>Nova entrada</translation>
+        <translation type="obsolete">Nova entrada</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="67"/>
+        <location filename="fitxa.py" line="58"/>
         <source>Autocomplete</source>
         <translation>Autocompleta</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="103"/>
+        <location filename="fitxa.py" line="106"/>
         <source>Looking for data (Step 1/3)</source>
         <translation>Cercant dades (Pas 1/3)</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="103"/>
+        <location filename="fitxa.py" line="106"/>
         <source>Abort</source>
         <translation>Cancel·la</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="136"/>
+        <location filename="fitxa.py" line="140"/>
         <source>Collector</source>
         <translation>Collector</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="136"/>
+        <location filename="fitxa.py" line="140"/>
         <source>No data found</source>
         <translation>No s&apos;han trobat dades</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="168"/>
+        <location filename="fitxa.py" line="176"/>
         <source>Delete item</source>
         <translation>Esborra l&apos;element</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="168"/>
+        <location filename="fitxa.py" line="176"/>
         <source>Are you sure you want to remove this file?</source>
         <translation>Segur que vol esborrar aquesta fitxa?</translation>
+    </message>
+    <message>
+        <location filename="fitxa.py" line="82"/>
+        <source>New file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="fitxa.py" line="82"/>
+        <source>New file at %s</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Ui_Fitxa_Edit</name>
+    <message>
+        <location filename="fitxa_edit.py" line="90"/>
+        <source>Saving</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -924,25 +946,43 @@ Something happened and the search could&apos;nt be completed.</source>
     </message>
 </context>
 <context>
+    <name>Ui_Preferences</name>
+    <message>
+        <location filename="preferences.py" line="52"/>
+        <source>Always</source>
+        <translation>Sempre</translation>
+    </message>
+    <message>
+        <location filename="preferences.py" line="53"/>
+        <source>Never</source>
+        <translation>Mai</translation>
+    </message>
+    <message>
+        <location filename="preferences.py" line="54"/>
+        <source>Remote only</source>
+        <translation>Només els remots</translation>
+    </message>
+</context>
+<context>
     <name>Ui_Search</name>
     <message>
-        <location filename="search.py" line="103"/>
+        <location filename="search.py" line="105"/>
         <source>Ooops!
 Something happened and the search could&apos;nt be completed.</source>
         <translation>Hi ha hagut un error i la cerca no s&apos;ha pogut completar.</translation>
     </message>
     <message>
-        <location filename="search.py" line="88"/>
+        <location filename="search.py" line="90"/>
         <source>Searching...</source>
         <translation>Cercant...</translation>
     </message>
     <message>
-        <location filename="search.py" line="103"/>
+        <location filename="search.py" line="105"/>
         <source>Collector</source>
         <translation>Collector</translation>
     </message>
     <message>
-        <location filename="search.py" line="55"/>
+        <location filename="search.py" line="57"/>
         <source>Dashboard</source>
         <translation>Tauler principal</translation>
     </message>
