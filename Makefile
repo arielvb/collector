@@ -2,13 +2,15 @@ UI_DIR=./collector/ui/designer
 BUILD_DIR=./collector/ui/gen
 EXPORT=./export/
 VM_SHARED=~/Desktop/mv/collector
+MACDEPLOY=./bin/macdeployqt
+#MACDEPLOY=/Applications/QtSDK/Desktop/Qt/4.8.1/gcc/bin/macdeployqt
 
 .PHONY: clean
 
 all: ui2py
 
 run: all
-	./main.py
+	./collector/main.py
 
 test:
 	clear
@@ -16,7 +18,7 @@ test:
 
 mac: all
 	python setup.py py2app
-	bin/macdeployqt dist/Collector.app
+	$(MACDEPLOY) dist/Collector.app
 	# Remove _debug binaries inside frameworks
 	find dist/Collector.app/Contents/Frameworks/ -name *_debug -exec rm {\} \;
 
@@ -69,16 +71,15 @@ i18n:
 	pylupdate4 -verbose ui/designer/*.ui ui/views/*.py plugins/*.py -ts ${UI_DIR}/lang/es_ES.ts
 	pylupdate4 -verbose ui/designer/*.ui ui/views/*.py plugins/*.py -ts ${UI_DIR}/lang/ca_ES.ts
 
+# Next rule calls make again to build resources
 release_i18n:
 	/Applications/QtSDK/Desktop/Qt/4.8.1/gcc/bin/lrelease ${UI_DIR}/lang/es_ES.ts ${UI_DIR}/lang/ca_ES.ts
-	#TODO how to deal with recursion?
 	make resources
 
 gitexport:
 	rm -rf ${EXPORT}
 	git checkout-index --prefix=${EXPORT} -a
 	cd engine; git checkout-index --prefix=../${EXPORT}/engine/ -a
-
 
 clean:
 	find . -name \*.pyc -exec rm {\} \;
