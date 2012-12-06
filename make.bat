@@ -8,8 +8,8 @@ REM Command file for develop collector
 
 set ISCC="C:\Archivos de programa\Inno Setup 5\ISCC.exe"
 set QTPLUGINS="C:\Python27\Lib\site-packages\PyQt4\plugins\imageformats"
-set UI_DIR="ui\designer"
-set BUILD_DIR="ui\gen"
+set UI_DIR="collector\ui\designer"
+set BUILD_DIR="collector\ui\gen"
 set PYQT_PATH="C:\Python27\Lib\site-packages\PyQt4"
 set PYTHON="C:\Python27\python.exe"
 
