@@ -21,7 +21,8 @@ class CustomToolbar(CustomToolbarUi):
         "<p align=\"center\" style=\" margin-top:0px;"
         "margin-bottom:0px; margin-left:0px;"
         "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">"
-        "<a href=\"collector://%(path)s\"><img src=\"%(image)s\" /><br/>"
+        "<a href=\"collector://%(path)s\" title=\"%(title)s\">"
+        "<img src=\"%(image)s\" /><br/>"
         "<span style=\"\">%(title)s</span>"
         "</a></p></body>"
         "</html>")
@@ -36,11 +37,11 @@ class CustomToolbar(CustomToolbarUi):
         self.links = []
         self.widget = widget
         self.setupUi(widget)
-        # TODO background or not background?
-        # Form.setStyleSheet(
-        #    "background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\
-        #                           stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,\
-        #                           stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);")
+        # Background or not background? Not background
+        widget.setStyleSheet(
+           "background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\
+                                  stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,\
+                                  stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);")
         for i in items:
             self.create_item(i, callback)
 
@@ -74,6 +75,7 @@ class CustomToolbar(CustomToolbarUi):
             }
             item = QtGui.QLabel(widget)
             item.setText(content)
+            item.setToolTip(config['name'])
             item.connect(
                 item,
                 QtCore.SIGNAL(_fromUtf8("linkActivated(QString)")),
