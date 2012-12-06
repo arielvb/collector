@@ -37,6 +37,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.view = 'dashboard'
         # self.views = self.init_views()
         # self.display_view('dashboard')
+        self.statusbar.hide()
         # Menu actions
         self.help_menu = self.menuBar().addMenu("&Help")
         self.about_action = QtGui.QAction(
