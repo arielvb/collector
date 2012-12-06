@@ -6,7 +6,7 @@ import os
 from collector.core.config import ISWINDOWS, ISOSX
 
 NAME = 'Collector'
-VERSION = "0.2"
+VERSION = "0.3"
 
 
 def read(*rnames):
@@ -19,7 +19,7 @@ REQUIRES = ["beautifulsoup4", 'sqlalchemy']
 
 if ISOSX:
     OPTIONS['py2app'] = {
-        "iconfile": "collection.icns",
+        "iconfile": "collector.icns",
         "plist": {
             'CFBundleGetInfoString':
             "Collector, a collection management application.",
@@ -32,12 +32,11 @@ if ISOSX:
             'Copyright 2012, arielvb.com'
         },
         "resources": [
-            #'qt.conf'
             "data",
         ],
         "argv_emulation": True,
         "includes": ["sip", "PyQt4.QtCore", "PyQt4.QtGui", "bs4",
-            'sqlalchemy.dialects.sqlite'],
+                     'sqlalchemy.dialects.sqlite'],
         "excludes": [
             "IPython",
             "PyQt4.uic.port_v3.proxy_base",
@@ -69,7 +68,7 @@ if ISWINDOWS:
     EXTRAOPTIONS = dict(windows=[{
         "script": os.path.join("collector", "main.py"),
         "dest_base": "Collector",
-        'icon_resources':[(1, 'collection.ico')]
+        'icon_resources':[(1, 'collector.ico')]
     }])
 
 setup(
@@ -78,7 +77,7 @@ setup(
     description="Collector is a management application",
     long_description=(read('README.txt')),
     # Classifiers full list:
-    #       http://pypi.python.org/pypi?:action=list_classifiers
+    #   http://pypi.python.org/pypi?:action=list_classifiers
     classifiers=[
         'Intended Audience :: End Users/Desktop',
         'Development Status :: 3 - Alpha',
@@ -99,9 +98,6 @@ setup(
     zip_safe=True,
     packages=find_packages(exclude=["tests"]),
     include_package_data=True,
-    # packages=["engine", "plugins", "ui", "ui.views",
-    #  "ui.helpers", "ui.gen", "tests", "ui.workers", "."],
-    # data_files=[('data', 'data/*')],
     options=OPTIONS,
     test_suite='tests',
     setup_requires=REQUIRES,

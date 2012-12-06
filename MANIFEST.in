@@ -1,5 +1,5 @@
 include make.bat Makefile
-include collection.icns collection.ico
+include collector.icns collector.ico
 include builddemo.py
 graft data
 graft tests/data
