@@ -17,6 +17,9 @@
    <iconset resource="img/img.qrc">
     <normaloff>:/collection.png</normaloff>:/collection.png</iconset>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>true</bool>
   </property>
@@ -71,7 +74,13 @@
    <addaction name="menuSearch"/>
    <addaction name="menuTools"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="styleSheet">
+    <string notr="true">background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                  stop: 0 #D3D3D3, stop: 0.4 #DDDDDD,
+                                  stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);</string>
+   </property>
+  </widget>
   <action name="actionQuick_search">
    <property name="icon">
     <iconset resource="img/img.qrc">
