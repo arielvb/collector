@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""Test for plugins"""
 import unittest
 import os
 from collector.core.plugin import PluginManager
@@ -37,7 +37,7 @@ class TestPluginManager(unittest.TestCase):
 
     def test_load_enabled_and_run(self):
         path = os.path.join(os.path.dirname(__file__),
-                                   'data', 'plugins')
+                            'data', 'plugins')
         self.manager.look_for_plugins([path])
         execution_result = self.manager.get('PluginHello').results
         self.assertEqual(execution_result, 'Hello world')

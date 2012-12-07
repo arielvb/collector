@@ -5,7 +5,6 @@ from collector.ui.application import CollectorApplication
 from PyQt4.QtTest import QTest
 from PyQt4.QtCore import QCoreApplication
 import os
-import time
 import urllib2
 
 HOME = os.path.join(os.path.dirname(__file__), '..', 'data')
@@ -16,8 +15,6 @@ class TestApplication(unittest.TestCase):
     def setUp(self):
         '''Create the GUI'''
         self.app = CollectorApplication(["--home", HOME], True)
-        # while QCoreApplication.startingUp():
-        #     time.sleep(2)
 
     def tearDown(self):
         self.app.collector.shutdown()
@@ -25,8 +22,6 @@ class TestApplication(unittest.TestCase):
         CollectorApplication.current = None
         CollectorApplication.collector = None
         CollectorApplication.translators = {}
-        # while QCoreApplication.closingDown():
-        #     time.sleep(2)
         del self.app
 
     def test_main_window(self):
@@ -46,7 +41,9 @@ class TestApplication(unittest.TestCase):
             urllib2.urlopen('http://google.com', timeout=200)
             is_google = True
         except:
-            self.assertTrue(is_google, "Looks like no internet connection"
+            self.assertTrue(
+                is_google,
+                "Looks like no internet connection"
                 " is avaible.")
 
 if __name__ == '__main__':

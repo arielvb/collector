@@ -23,9 +23,9 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
     def dosearch(self):
         """Call to search view"""
         self.parent().display_view(
-                'search',
-                {'term': self.lSearch.text().toUtf8(),
-                'collection': self.settings['quicksearch']})
+            'search',
+            {'term': self.lSearch.text().toUtf8(),
+            'collection': self.settings['quicksearch']})
 
     def get_dashboard_settings(self):
         """Calculates the dashboard settings"""
@@ -43,7 +43,7 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
                 {'class': 'link', 'name': collection.get_name(),
                  'path': 'view/collection/collection/' + collection.get_id(),
                  'image': image}
-                )
+            )
         # TODO allow personalization of the new entry button?
         if len(collections) > 0:
             if stored is not None:
@@ -59,7 +59,7 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
                 {'class': 'line'},
                 {'class': 'link',
                  'name': str(self.tr('New <b>%s</b>')) %
-                         main_collection.get_name(),
+                    main_collection.get_name(),
                  'path': 'view/add/collection/' + main_collection.get_id(),
                  'image': ':/add.png'}
             ])

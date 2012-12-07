@@ -26,8 +26,10 @@ class Ui_Preferences(QtGui.QDialog, Ui_PreferencesDialog):
         super(Ui_Preferences, self).setupUi(self)
         self.refresh()
 
-        self.connect(self.buttonBox,
-            QtCore.SIGNAL(_fromUtf8("accepted()")), self.saveandclose)
+        self.connect(
+            self.buttonBox,
+            QtCore.SIGNAL(_fromUtf8("accepted()")),
+            self.saveandclose)
 
         self.connect(
             self.b_disable,
@@ -52,7 +54,7 @@ class Ui_Preferences(QtGui.QDialog, Ui_PreferencesDialog):
             self.tr("Always"): "always",
             self.tr("Never"): "never",
             self.tr("Remote only"): "http"
-            }
+        }
         index = 0
         for i in self.copy_dict.items():
             self.copy_combo.addItem(i[0])

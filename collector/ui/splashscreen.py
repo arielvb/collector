@@ -13,13 +13,14 @@ class SplashScreen(object):
     def __init__(self):
         splash_pix = QPixmap(':/splash.png')
         self.splash = QSplashScreen(splash_pix,
-                                          Qt.WindowStaysOnTopHint)
+                                    Qt.WindowStaysOnTopHint)
         self.splash.setMask(splash_pix.mask())
 
     def show(self):
         """Displays the splash screen"""
         self.splash.show()
-        self.splash.showMessage('Loading...', Qt.AlignBottom | Qt.AlignHCenter,
+        self.splash.showMessage('Loading...',
+                                Qt.AlignBottom | Qt.AlignHCenter,
                                 Qt.white)
         # ensure at least its visible one second
         time.sleep(1)

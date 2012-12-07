@@ -112,7 +112,9 @@ class AdvancedSearchWidget(QtGui.QWidget, Ui_Form):
                             unicode(i.value_text.text().toUtf8())
                         ]
                     })
-                self.parent().display_view('collection', params={
+                self.parent().display_view(
+                    'collection',
+                    params={
                     'collection': self.collection.get_id(),
                     'filter': query
                     }

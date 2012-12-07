@@ -60,7 +60,7 @@ class Ui_Fitxa_New(QtGui.QWidget, Ui_Form):
         widgets = []
         for i in value:
             item = self.man.get_widget(field, self,
-                                   i, True)
+                                       i, True)
             widgets.append(item)
             self.fieldsLayout.addWidget(item, self.row, column,
                                         rowspan, columnspan)
@@ -86,7 +86,8 @@ class Ui_Fitxa_New(QtGui.QWidget, Ui_Form):
         elif action == 'cancel':
             # TODO return to referer parameter?
             self.parent().display_view('collection',
-                                      {'collection': self.collection.get_id()})
+                                       {'collection':
+                                        self.collection.get_id()})
 
     def save(self):
         schema = self.collection.schema
@@ -100,9 +101,10 @@ class Ui_Fitxa_New(QtGui.QWidget, Ui_Form):
                     value = str(value)
             data[field] = value
         self.collection.save(data)
-        self.parent().display_view('fitxa',
-                                  {'item': data['id'],
-                                  'collection': self.collection.get_id()})
+        self.parent().display_view(
+            'fitxa',
+            {'item': data['id'],
+            'collection': self.collection.get_id()})
 
 
 class FitxaNewView(WidgetProvider):

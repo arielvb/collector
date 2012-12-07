@@ -33,7 +33,7 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
         schema = self.collection.schema
         Topbar(widget=self.topbar, icon=self.collection.schema.ico,
                title=self.collection.schema.name.upper() + ' > ' +
-                obj[schema.default])
+               obj[schema.default])
         self.progressBar.hide()
         self.data_widget = FileDataWidget(schema, obj, self.parent())
         self.scrollArea.setWidget(self.data_widget)
@@ -60,8 +60,7 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
             self.tr("Autocomplete"),
             self,
             statusTip=self.tr("Autocomplete"),
-            triggered=self.autocomplete
-            )
+            triggered=self.autocomplete)
         )
         menu.addAction(QtGui.QAction(
             QtGui.QIcon(':/edit.png'),
@@ -83,11 +82,10 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
             QtGui.QIcon(':/add.png'),
             self.tr("New file"), self,
             statusTip=unicode(self.tr("New file at %s")) %
-                      self.collection.schema.name,
+            self.collection.schema.name,
             triggered=lambda: self.parent().display_view(
                 'add',
-                {'collection': self.collection.get_id()})
-            )
+                {'collection': self.collection.get_id()}))
         )
         self.actions_menu = menu
 
@@ -104,10 +102,10 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
     def autocomplete(self):
         """Launches to the autocomplete proces"""
         self.progress = QtGui.QProgressDialog(
-                self.tr("Looking for data (Step 1/3)"),
-                self.tr("Abort"),
-                0,
-                0)
+            self.tr("Looking for data (Step 1/3)"),
+            self.tr("Abort"),
+            0,
+            0)
         self.progress.canceled.connect(self.abortautocomplete)
         self.progress.setWindowModality(QtCore.Qt.WindowModal)
         self.progress.show()
@@ -127,7 +125,8 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
             self.workerQ.complete.connect(self.docomplete)
             self.workerQ.start()
         else:
-            QtGui.QMessageBox.warning(self, self.tr("Collector"),
+            QtGui.QMessageBox.warning(
+                self, self.tr("Collector"),
                 self.tr("No data found"))
 
     def docomplete(self, data):
@@ -150,8 +149,7 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
         self.progress.hide()
         self.parent().display_view('fitxa', params={
             'item': self.obj['id'],
-            'collection': self.collection.get_id()
-            }
+            'collection': self.collection.get_id()}
         )
 
     def abortautocomplete(self):

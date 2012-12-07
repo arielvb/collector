@@ -60,8 +60,10 @@ class Ui_PluginFile(QtGui.QWidget, Ui_File):
                 0)
             self.progress.show()
             collector = Collector.get_instance()
-            result = collector.add(self.data, self.collection,
-                          use_mapping=self.plugin.get_id())
+            result = collector.add(
+                self.data,
+                self.collection,
+                use_mapping=self.plugin.get_id())
             self.progress.hide()
             if result is not None:
                 # Ok case
@@ -75,13 +77,15 @@ class Ui_PluginFile(QtGui.QWidget, Ui_File):
                 )
             else:
                 # Error case
-                QtGui.QMessageBox.warning(self,
-                self.tr("Collector"),
-                self.tr("Ooops, an error ocurred" +
-                        " and no data couldn't be added."))
+                QtGui.QMessageBox.warning(
+                    self,
+                    self.tr("Collector"),
+                    self.tr("Ooops, an error ocurred" +
+                            " and no data couldn't be added."))
         else:
             # Trying to add not ready content.
-            QtGui.QMessageBox.warning(self,
+            QtGui.QMessageBox.warning(
+                self,
                 self.tr("Collector"),
                 self.tr("The content isn't yet available," +
                         " and no data couldn't be added."))
@@ -145,19 +149,25 @@ class Ui_PluginFile(QtGui.QWidget, Ui_File):
         """Updates the view with the results of the worker"""
         self.progressBar.hide()
         if results.status != STATUS_OK:
-            QtGui.QMessageBox.warning(self,
+            QtGui.QMessageBox.warning(
+                self,
                 self.tr("Collector"),
                 self.tr("Ooops!\nSomething happened and the search" +
                         " could'nt be completed."))
         else:
             self.data = results.results
             schema = self.plugin.schema
-            self.data_widget = FileDataWidget(schema,
-             self.data, self.parent())
+            self.data_widget = FileDataWidget(
+                schema,
+                self.data,
+                self.parent())
             self.scrollArea.setWidget(self.data_widget)
             self.scrollArea.show()
-            self.topbarHelper.set_title(schema.name.upper() +
-             ' > ' + self.data[schema.default])
+            self.topbarHelper.set_title(
+                "%s > %s" %
+                (schema.name.upper(),
+                 self.data[schema.default])
+            )
 
 
 class PluginFileView(WidgetProvider):

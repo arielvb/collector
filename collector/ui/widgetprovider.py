@@ -34,7 +34,6 @@ class WidgetProvider(object):
     def get_widget(self, params):
         """Creates the widget with the deseired parameters"""
 
-
     def after_exec(self, widget):
         """Called after execute the widget is is a dialog"""
         pass

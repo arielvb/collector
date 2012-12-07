@@ -14,10 +14,12 @@ class TestPersistence(unittest.TestCase):
     def setUp(self):
         """Test setup"""
         schema = type('Schema', (object,),
-                 dict(collection='demo', id='boardgames'))
+                      dict(collection='demo', id='boardgames'))
         Config.get_instance().set_home('/tmp/', True)
-        self.manager = PersistenceDict(schema, path="/tmp/collections/demo/",
-                params={'data': boardgames})
+        self.manager = PersistenceDict(
+            schema,
+            path="/tmp/collections/demo/",
+            params={'data': boardgames})
 
     def test_get_by_id(self):
         """Cheks the get_id method"""
@@ -288,7 +290,9 @@ class TestPersistenceAlchemyReferencesMany(unittest.TestCase):
         schema = Schema('test', 'browser')
         schema.add_field(field1)
         self.pers = PersistenceAlchemy(schema, ':memory:')
-        field2 = FieldRef('Designer', params={'ref': 'browser.name',
+        field2 = FieldRef(
+            'Designer',
+            params={'ref': 'browser.name',
             'multiple': True})
 
         field1 = FieldText('Name')
@@ -320,9 +324,10 @@ class TestPersistenceAlchemyReferencesMany(unittest.TestCase):
         pers2.all_created()
         board2 = pers2.save({'designer': [1, 2], 'name': 'Pilares'})
         obj = pers2.load_references([], board2)
-        self.assertEquals(obj,
+        self.assertEquals(
+            obj,
             {'designer': [u'John', u'Julius'],
-            'name': u'Pilares', '_refLoaded': True, 'id': 1}
+             'name': u'Pilares', '_refLoaded': True, 'id': 1}
         )
 
     def tearDown(self):

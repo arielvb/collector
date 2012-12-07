@@ -48,11 +48,11 @@ collections = {
                     'title': {'class': 'text', 'name': 'Title'},
                     'year': {'class': 'int', 'name': 'Year'},
                     'designers': {'class': 'ref', 'name': 'Designer/s',
-                                 'multiple': True,
-                                 'params': {'ref': 'people.name'}},
+                                  'multiple': True,
+                                  'params': {'ref': 'people.name'}},
                     'artists': {'class': 'ref', 'name': 'Artist/s',
-                                 'multiple': True,
-                                 'params': {'ref': 'people.name'}},
+                                'multiple': True,
+                                'params': {'ref': 'people.name'}},
                     'image': {'class': 'image', 'name': 'Image'},
                     'publisher': {'class': 'text', 'name': 'Publisher',
                                   'multiple': True},
@@ -82,7 +82,7 @@ collections = {
         },
         'persistence': {
             # 'storage': 'pickle',
-           'storage': 'sqlalchemy',
+            'storage': 'sqlalchemy',
             # 'parameters': {'boardgames': boardgames, 'people': people}
         },
         'mappings': {

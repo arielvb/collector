@@ -28,8 +28,9 @@ class TestConfig(unittest.TestCase):
         conf = config.Config(platform=config.Config.OSX)
         path = conf.get_resources_path()
         delattr(sys, 'frozen')
-        ok = os.path.dirname(sys.executable).replace('MacOS',
-                 'Resources')
+        ok = os.path.dirname(sys.executable).replace(
+            'MacOS',
+            'Resources')
         self.assertEquals(path, ok)
 
     def test_resources_non_frozen_win(self):

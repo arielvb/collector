@@ -108,11 +108,11 @@ class PropertiesWidget(QtGui.QDialog, Ui_Properties):
 
         self.connect(
             self.fieldsList,
-            QtCore.SIGNAL("currentItemChanged(QListWidgetItem*, " +
+            QtCore.SIGNAL(
+                "currentItemChanged(QListWidgetItem*, " +
                 "QListWidgetItem*)"),
             self._itemSelected
         )
-
 
     def _itemSelected(self, item, old):
         if (getattr(item, 'obj', False)):

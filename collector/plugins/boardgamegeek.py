@@ -18,79 +18,79 @@ class PluginBoardGameGeek(PluginCollector):
     description = "Search and import Boardgames from the BGG website."
 
     schema = Schema('plugin_bgg', 'boardgames', {
-            'name': 'Boardgamegeek',
-            'fields': {
-                'title': {
-                    'class': 'text',
-                    'name': 'Title',
-                    'description': 'Boardgame title'
-                    },
-                'designer': {
-                    'class': 'text',
-                    'name': 'Designer',
-                    'description': 'List of all the designers',
-                    'multiple': True
-                    },
-                'artist': {
-                    'class': 'text',
-                    'name': 'Artist',
-                    'description': 'List of all the artists',
-                    'multiple': True
-                    },
-                'publisher': {
-                    'class': 'text',
-                    'name': 'Publisher',
-                    'description': 'List of all the plublishers',
-                    'multiple': True
-                    },
-                'year': {
-                    'class': 'int',
-                    'name': 'Year published',
-                    'description': 'Year when the boardgame was published'
-                    },
-                'min_players': {
-                    'class': 'int',
-                    'name': 'Min. number of players'
-                },
-                'max_players': {
-                    'class': 'int',
-                    'name': 'Max. number of players'
-                },
-                'playing': {
-                    'class': 'text',
-                    'name': 'Playing time'
-                },
-                'min_age': {
-                    'class': 'int',
-                    'name': 'Mfg suggested ages'
-                },
-                'categories': {
-                    'class': 'text',
-                    'name': 'Categories',
-                    'multiple': True
-                },
-                'mechanic': {
-                    'class': 'text',
-                    'name': 'Mechanic',
-                    'multiple': True
-                },
-                'image': {
-                    'class': 'image',
-                    'name': 'Image',
-                },
-                'average': {'name': 'Rating', 'class': 'float'},
-                'bgg_rank': {'name': 'BGG Rank'},
-                'description': {'name': 'Description'},
-                'website': {'name': 'Website'}
-
+        'name': 'Boardgamegeek',
+        'fields': {
+            'title': {
+                'class': 'text',
+                'name': 'Title',
+                'description': 'Boardgame title'
             },
-            'order': ['title', 'average', 'bgg_rank', 'designer', 'artist',
-                      'publisher', 'year', 'min_players', 'max_players',
-                      'playing', 'min_age', 'categories', 'mechanic', 'image',
-                      'description', 'website'],
-            'default': 'title',
-            'ico': u":/ico/boardgamegeek.png"
-        })
+            'designer': {
+                'class': 'text',
+                'name': 'Designer',
+                'description': 'List of all the designers',
+                'multiple': True
+            },
+            'artist': {
+                'class': 'text',
+                'name': 'Artist',
+                'description': 'List of all the artists',
+                'multiple': True
+            },
+            'publisher': {
+                'class': 'text',
+                'name': 'Publisher',
+                'description': 'List of all the plublishers',
+                'multiple': True
+            },
+            'year': {
+                'class': 'int',
+                'name': 'Year published',
+                'description': 'Year when the boardgame was published'
+            },
+            'min_players': {
+                'class': 'int',
+                'name': 'Min. number of players'
+            },
+            'max_players': {
+                'class': 'int',
+                'name': 'Max. number of players'
+            },
+            'playing': {
+                'class': 'text',
+                'name': 'Playing time'
+            },
+            'min_age': {
+                'class': 'int',
+                'name': 'Mfg suggested ages'
+            },
+            'categories': {
+                'class': 'text',
+                'name': 'Categories',
+                'multiple': True
+            },
+            'mechanic': {
+                'class': 'text',
+                'name': 'Mechanic',
+                'multiple': True
+            },
+            'image': {
+                'class': 'image',
+                'name': 'Image',
+            },
+            'average': {'name': 'Rating', 'class': 'float'},
+            'bgg_rank': {'name': 'BGG Rank'},
+            'description': {'name': 'Description'},
+            'website': {'name': 'Website'}
+
+        },
+        'order': ['title', 'average', 'bgg_rank', 'designer', 'artist',
+                  'publisher', 'year', 'min_players', 'max_players',
+                  'playing', 'min_age', 'categories', 'mechanic', 'image',
+                  'description', 'website'],
+        'default': 'title',
+        'ico': u":/ico/boardgamegeek.png"
+    })
 
     def get_name(self):
         """Returns the name of the plugin"""
@@ -117,8 +117,8 @@ class PluginBoardGameGeek(PluginCollector):
         p_id = self.get_id()
         return [{'id': base + i.parent.get("objectid"),
                 'name': i.text,
-                'plugin': p_id
-                } for i in soup.select('name')]
+                'plugin': p_id}
+                for i in soup.select('name')]
 
     @classmethod
     def search_uri_html(cls):
@@ -151,7 +151,7 @@ class PluginBoardGameGeek(PluginCollector):
                     'year': year[1:-1],
                     'id': uri,
                     'plugin': p_id
-                    })
+                })
         return output
 
     search_uri = search_uri_html
@@ -163,7 +163,7 @@ class PluginBoardGameGeek(PluginCollector):
         #  after beautifulsoup... modify the original string
         html = html.replace('&nbsp;−&nbsp;', ' -     ').replace(
             '&nbsp;&minus;&nbsp;', ' - '
-            )
+        )
         soup = BeautifulSoup(html, from_encoding="utf-8")
         results = {}
         results['title'] = soup.select('.geekitem_title a span')[0].getText()
@@ -186,7 +186,7 @@ class PluginBoardGameGeek(PluginCollector):
         # TODO user_suggested_players field (row 5)
         # TODO unify playing time to minutes
         results['playing'] = ' '.join(self.row_filter(
-                                    rows[6])).replace('\t', '')
+            rows[6])).replace('\t', '')
         min_age = self.intfilter(self.row_filter(rows[7])[0])
         if min_age is not None:
             results['min_age'] = int(min_age)
@@ -213,9 +213,9 @@ class PluginBoardGameGeek(PluginCollector):
         description = soup.select("#editdesc")
         if len(description) > 0:
             results['description'] = description[0].text.replace(
-                "\n google_ad_section_start \n", ""
-                ).replace(
-                "\n google_ad_section_end \n", "").replace("  ", " ")
+                "\n google_ad_section_start \n", "").replace(
+                    "\n google_ad_section_end \n", "").replace(
+                        "  ", " ")
         website = soup.find(id="edit_rep_weblinkid")
         if len(website) > 0:
             url = ''
@@ -246,7 +246,7 @@ class PluginBoardGameGeek(PluginCollector):
         simplifies double line break, and returns a list
         with all the lines"""
         return row.findAll('td')[1].get_text().strip().replace(
-                                "\n\n", '').split("\n")
+            "\n\n", '').split("\n")
 
     @classmethod
     def remove_show_more(cls, elements):

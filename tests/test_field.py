@@ -32,8 +32,10 @@ class TestField(unittest.TestCase):
         self.assertEquals(field.get_value(), ['Black', 'Yellow'])
         field.set_value([])
         self.assertEqual(field.get_value(), [])
-        self.assertRaises(ValueError, field.set_value,
-                          "string aren't allowed, neither basic types")
+        self.assertRaises(
+            ValueError,
+            field.set_value,
+            "string aren't allowed, neither basic types")
 
 
 class TestFieldInt(unittest.TestCase):
@@ -87,9 +89,11 @@ class TestFieldImage(unittest.TestCase):
     def test_collector_scheme(self):
         field = fields.FieldImage('image')
         field.set_value('collector://collections/demo/demo.png')
-        self.assertEqual(join(Config.get_instance().get_data_path(),
-                              'collections', 'demo', 'demo.png'),
-                              field.get_value())
+        self.assertEqual(
+            join(Config.get_instance().get_data_path(),
+                 'collections', 'demo', 'demo.png'),
+            field.get_value()
+        )
 
 
 class TestFieldRef(unittest.TestCase):

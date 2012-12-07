@@ -59,7 +59,7 @@ class Ui_Fitxa_Edit(QtGui.QWidget, Ui_Form):
                                     rowspan, columnspan)
         column += 1
         item = self.man.get_widget(field, self,
-                               value, True)
+                                   value, True)
         self.fieldsLayout.addWidget(item, self.row, column,
                                     rowspan, columnspan)
         self.row += 1
@@ -89,10 +89,10 @@ class Ui_Fitxa_Edit(QtGui.QWidget, Ui_Form):
 
     def save(self):
         self.progress = QtGui.QProgressDialog(
-                self.tr("Saving"),
-                QtCore.QString(),
-                0,
-                0)
+            self.tr("Saving"),
+            QtCore.QString(),
+            0,
+            0)
         self.progress.show()
         schema = self.collection.schema
         data = {}

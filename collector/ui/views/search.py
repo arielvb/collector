@@ -10,7 +10,8 @@ Search related views: item search, quick search and discover.
 from PyQt4 import QtCore
 from PyQt4.QtGui import QWidget, QApplication, QMessageBox, QDialog
 from collector.ui.gen.search_results import Ui_Form, _fromUtf8
-from collector.ui.workers.search import Worker_Search, Worker_Discover, STATUS_OK
+from collector.ui.workers.search import (
+    Worker_Search, Worker_Discover, STATUS_OK)
 from collector.ui.gen.search_quick import Ui_Dialog as Ui_Dialog_Search
 from collector.ui.helpers.customtoolbar import Topbar, CustomToolbar
 from collector.ui.helpers.items import ObjectListItem, FitxaListItem
@@ -102,7 +103,8 @@ class Ui_Search(QWidget, Ui_Form):
         self.progressBar.hide()
 
         if results.status != STATUS_OK:
-            QMessageBox.warning(self,
+            QMessageBox.warning(
+                self,
                 self.tr("Collector"),
                 self.tr("Ooops!\nSomething happened and the search" +
                         " could'nt be completed."))
@@ -134,7 +136,8 @@ class Ui_Discover(Ui_Search):
 
     title = QApplication.translate("Ui_Discover", "Discover",
                                    None, QApplication.UnicodeUTF8)
-    description = QApplication.translate("Ui_Discover",
+    description = QApplication.translate(
+        "Ui_Discover",
         "Discover allows you find new objects for your collection,"
         " type something in the searchbox and the plugins"
         " will do the hardwork.", None, QApplication.UnicodeUTF8)
@@ -175,7 +178,7 @@ class Ui_Discover(Ui_Search):
                 'referer': {
                     'view': 'discover',
                     'params': {'term': self.query, 'results': self.results}
-                    }
+                }
             }
         )
 
@@ -201,7 +204,7 @@ class SearchView(WidgetProvider):
         term = params.get('term', '')
         results = params.get('results', None)
         collection = params.get('collection', None)
-        if collection == None:
+        if collection is None:
             raise ValueError()
         widget = Ui_Search(term, results, self.parent, collection)
         return widget
@@ -229,6 +232,6 @@ class SearchDialog(WidgetProvider):
             self.parent.display_view(
                 'search',
                 {
-                 'term': self.dialog.lineEdit.text().toUtf8(),
-                 'collection': self.collection
+                    'term': self.dialog.lineEdit.text().toUtf8(),
+                    'collection': self.collection
                 })

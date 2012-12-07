@@ -256,13 +256,13 @@ class FieldReferenceWidget(FieldTextWidget):
         widget = super(FieldReferenceWidget, self).prepare(
             parent, field, value[1])
         text = widget.text()
-        uri = "collector://view/fitxa/item/%s/collection/%s" % (value[0],
-             field.ref_collection)
+        uri = "collector://view/fitxa/item/%s/collection/%s" % (
+            value[0], field.ref_collection)
         widget.setText("<a href=\"%s\">%s</a>" % (uri, text))
         widget.connect(
-                widget,
-                SIGNAL(_fromUtf8("linkActivated(QString)")),
-                lambda s: MainWindow.instance.collector_uri_call(s))
+            widget,
+            SIGNAL(_fromUtf8("linkActivated(QString)")),
+            lambda s: MainWindow.instance.collector_uri_call(s))
         return widget
 
     def prepare_edit(self, parent, field, value):
@@ -321,8 +321,9 @@ class MultivalueWidget(QtGui.QWidget):
         self.fields = QtGui.QVBoxLayout()
         self.fields.setObjectName(_fromUtf8("fields"))
         self.layout.addLayout(self.fields)
-        spacerItem = QtGui.QSpacerItem(0, 0, QtGui.QSizePolicy.Minimum,
-                            QtGui.QSizePolicy.Expanding)
+        spacerItem = QtGui.QSpacerItem(
+            0, 0, QtGui.QSizePolicy.Minimum,
+            QtGui.QSizePolicy.Expanding)
         self.layout.addItem(spacerItem)
 
     def add_value(self, default=None):

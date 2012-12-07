@@ -1,35 +1,8 @@
 # -*- coding: utf-8 -*-
-
+"""Schema tests"""
 import unittest
 import mocks
 from collector.core.schema import Schema
-
-
-# class TestField(unittest.TestCase):
-
-#     def test_malformed_field_ref(self):
-#         result = Field.validate({'class': 'ref', 'name': 'name', 'ref': 'a.'})
-#         self.assertFalse(result)
-
-#     def test_empty_attr_ref_field_ref(self):
-#         result = Field.validate({'class': 'ref', 'name': 'name', 'ref': ''})
-#         self.assertFalse(result)
-
-# class TestSchemaManager(unittest.TestCase):
-
-#     def test_is_singleton(self):
-#         self.assertRaises(Exception, SchemaManager)
-#         ins1 = SchemaManager.get_instance()
-#         ins2 = SchemaManager.get_instance()
-#         self.assertEqual(ins1, ins2)
-
-#     def test_get_non_existing_schema(self):
-#         ins = SchemaManager.get_instance()
-#         self.assertRaises(Exception, ins.get, 'Fish')
-
-#     def test_get_existing_schema(self):
-#         ins = SchemaManager.get_instance()
-#         self.assertEqual(ins.get('boardgames').name, 'Boardgames')
 
 
 class TestSchema(unittest.TestCase):

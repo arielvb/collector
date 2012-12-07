@@ -39,4 +39,3 @@ class FitxaTableImage(ImageWidget):
 
     def getObjectId(self):
         return self.id
-

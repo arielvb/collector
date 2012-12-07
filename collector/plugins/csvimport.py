@@ -72,7 +72,8 @@ class CSVFileSelector(QtGui.QDialog):
         else:
             self.file = None
             # Launch error message
-            QtGui.QMessageBox.warning(self,
+            QtGui.QMessageBox.warning(
+                self,
                 self.tr("Collector"),
                 self.tr("Please select an existing file."))
 
@@ -99,54 +100,54 @@ class CSVWorker(QtCore.QThread):
     filecreated = QtCore.pyqtSignal(int)
 
     bgg_csv_schema = [
-                    'objectname',
-                    'objectid',
-                    'rating',
-                    'numplays',
-                    'weight',
-                    'own',
-                    'fortrade',
-                    'want',
-                    'wanttobuy',
-                    'wanttoplay',
-                    'prevowned',
-                    'preordered',
-                    'wishlist',
-                    'wishlistpriority',
-                    'wishlistcomment',
-                    'comment',
-                    'conditiontext',
-                    'haspartslist',
-                    'wantpartslist',
-                    'collid',
-                    'baverage',
-                    'average',
-                    'avgweight',
-                    'rank',
-                    'numowned',
-                    'objecttype',
-                    'originalname',
-                    'minplayers',
-                    'maxplayers',
-                    'playingtime',
-                    'yearpublished',
-                    'bggrecplayers',
-                    'bggbestplayers',
-                    'bggrecagerange',
-                    'bgglanguagedependence',
-                    'publisherid',
-                    'imageid',
-                    'year',
-                    'language',
-                    'other',
-                    'pricepaid',
-                    'pp_currency',
-                    'currvalue',
-                    'cv_currency',
-                    'acquisitiondate',
-                    'acquiredfrom',
-                    'quantity',
-                    'privatecomment']
+        'objectname',
+        'objectid',
+        'rating',
+        'numplays',
+        'weight',
+        'own',
+        'fortrade',
+        'want',
+        'wanttobuy',
+        'wanttoplay',
+        'prevowned',
+        'preordered',
+        'wishlist',
+        'wishlistpriority',
+        'wishlistcomment',
+        'comment',
+        'conditiontext',
+        'haspartslist',
+        'wantpartslist',
+        'collid',
+        'baverage',
+        'average',
+        'avgweight',
+        'rank',
+        'numowned',
+        'objecttype',
+        'originalname',
+        'minplayers',
+        'maxplayers',
+        'playingtime',
+        'yearpublished',
+        'bggrecplayers',
+        'bggbestplayers',
+        'bggrecagerange',
+        'bgglanguagedependence',
+        'publisherid',
+        'imageid',
+        'year',
+        'language',
+        'other',
+        'pricepaid',
+        'pp_currency',
+        'currvalue',
+        'cv_currency',
+        'acquisitiondate',
+        'acquiredfrom',
+        'quantity',
+        'privatecomment']
 
     def __init__(self, path, folder):
         QtCore.QThread.__init__(self)
@@ -265,6 +266,8 @@ class PluginCsvImport(PluginImporter):
         widget = CSVFileSelector()
         widget.exec_()
         if widget.file is not None:
-            progress = CSVProgress(widget.file, widget.collection
-                )
+            progress = CSVProgress(
+                widget.file,
+                widget.collection
+            )
             progress.exec_()

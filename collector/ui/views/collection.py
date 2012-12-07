@@ -58,12 +58,15 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
              'image': ':/add.png'},
         ]
         if self.filters is not None:
-            items.insert(1, {
-                'class': 'link',
-                'name': self.tr('Unfilter'),
-                'path': 'action/unfilter',
-                'image': ':/unfilter.png'
-                })
+            items.insert(
+                1,
+                {
+                    'class': 'link',
+                    'name': self.tr('Unfilter'),
+                    'path': 'action/unfilter',
+                    'image': ':/unfilter.png'
+                }
+            )
         CustomToolbar(self.toolbar, items, self.uritoaction)
         # +1 (id field)
         order = [i for i, k in self.schema.file.iteritems() if
@@ -71,7 +74,7 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
         order = sorted(
             order,
             cmp=lambda x, y: self.schema.order.index(x) >
-                 self.schema.order.index(y))
+            self.schema.order.index(y))
         self.tableWidget.setColumnCount(len(order))
         self.tableWidget.setRowCount(len(self.objects))
         if 'image' in order:
@@ -139,7 +142,8 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
                             more = count - 1
                             more_text = ''
                             if more > 0:
-                                more_text = (" " +
+                                more_text = (
+                                    " " +
                                     unicode(self.tr("( %d more)")) %
                                     more)
                             item.setText(unicode(value[0]) + more_text)
