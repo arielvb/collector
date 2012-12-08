@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="es_ES" sourcelanguage="en">
+<!DOCTYPE TS>
+<TS version="2.0" language="es_ES" sourcelanguage="en">
 <context>
     <name>AdvancedSearchWidget</name>
     <message>
@@ -39,7 +40,7 @@
 <context>
     <name>CSVProgress</name>
     <message>
-        <location filename="csvimport.py" line="235"/>
+        <location filename="csvimport.py" line="236"/>
         <source>Importing files</source>
         <translation>Importando fichas</translation>
     </message>
@@ -47,7 +48,7 @@
 <context>
     <name>CSVWorker</name>
     <message>
-        <location filename="csvimport.py" line="165"/>
+        <location filename="csvimport.py" line="166"/>
         <source>The CSV isn&apos;t from Boardgamegeek</source>
         <translation>El CSV no es de Boardgamegeek</translation>
     </message>
@@ -90,15 +91,15 @@
     <message>
         <location filename="dialog_autocomplete.ui" line="20"/>
         <source>Select the files to use as data:</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecciona las fichas a usar como datos:</translation>
     </message>
     <message>
-        <location filename="im_export.ui" line="41"/>
+        <location filename="im_export.ui" line="57"/>
         <source>Select one of the avaible formats:</source>
         <translation>Elige uno de los formatos disponibles:</translation>
     </message>
     <message>
-        <location filename="im_export.ui" line="63"/>
+        <location filename="im_export.ui" line="83"/>
         <source>Sorry, no formats avaible. Check your plugin settings.</source>
         <translation>No hay formatos disponibles. Revisa la configuración.</translation>
     </message>
@@ -163,7 +164,7 @@
         <translation>Formulario</translation>
     </message>
     <message>
-        <location filename="search.py" line="27"/>
+        <location filename="search.py" line="28"/>
         <source>Search</source>
         <translation>Buscar</translation>
     </message>
@@ -173,7 +174,7 @@
         <translation type="obsolete">Activados</translation>
     </message>
     <message>
-        <location filename="search_results.ui" line="37"/>
+        <location filename="search_results.ui" line="48"/>
         <source>Search results</source>
         <translation>Resultados de la búsqueda</translation>
     </message>
@@ -218,17 +219,17 @@
         <translation>Búsqueda avanzada</translation>
     </message>
     <message>
-        <location filename="advanced_search.ui" line="34"/>
+        <location filename="advanced_search.ui" line="43"/>
         <source>Collection</source>
         <translation>Colección</translation>
     </message>
     <message>
-        <location filename="advanced_search.ui" line="43"/>
+        <location filename="advanced_search.ui" line="60"/>
         <source>Filters</source>
         <translation>Filtros</translation>
     </message>
     <message>
-        <location filename="advanced_search.ui" line="57"/>
+        <location filename="advanced_search.ui" line="74"/>
         <source>Add filter</source>
         <translation>Añadir filtro</translation>
     </message>
@@ -243,12 +244,12 @@
         <translation>O</translation>
     </message>
     <message>
-        <location filename="csvimport.py" line="206"/>
+        <location filename="csvimport.py" line="207"/>
         <source>Reading CSV...</source>
         <translation>Leyendo CSV...</translation>
     </message>
     <message>
-        <location filename="csvimport.py" line="206"/>
+        <location filename="csvimport.py" line="207"/>
         <source>Stop import</source>
         <translation>Parar importación</translation>
     </message>
@@ -277,12 +278,12 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="mainWindow.ui" line="48"/>
+        <location filename="mainWindow.ui" line="51"/>
         <source>Search</source>
         <translation>Buscar</translation>
     </message>
     <message>
-        <location filename="mainWindow.ui" line="55"/>
+        <location filename="mainWindow.ui" line="58"/>
         <source>Tools</source>
         <translation>Herramientas</translation>
     </message>
@@ -292,17 +293,17 @@
         <translation type="obsolete">Complementos</translation>
     </message>
     <message>
-        <location filename="mainWindow.ui" line="64"/>
+        <location filename="mainWindow.ui" line="67"/>
         <source>View</source>
         <translation>Ver</translation>
     </message>
     <message>
-        <location filename="mainWindow.ui" line="81"/>
+        <location filename="mainWindow.ui" line="90"/>
         <source>Quick search...</source>
         <translation>Búsqueda rápida...</translation>
     </message>
     <message>
-        <location filename="mainWindow.ui" line="84"/>
+        <location filename="mainWindow.ui" line="93"/>
         <source>Ctrl+F</source>
         <translation>Ctrl+F</translation>
     </message>
@@ -317,17 +318,17 @@
         <translation type="obsolete">Ctrl+W</translation>
     </message>
     <message>
-        <location filename="mainWindow.ui" line="93"/>
+        <location filename="mainWindow.ui" line="102"/>
         <source>Dashboard</source>
         <translation>Panel principal</translation>
     </message>
     <message>
-        <location filename="mainWindow.ui" line="120"/>
+        <location filename="mainWindow.ui" line="129"/>
         <source>Fullscreen</source>
         <translation>Pantalla completa</translation>
     </message>
     <message>
-        <location filename="mainWindow.ui" line="123"/>
+        <location filename="mainWindow.ui" line="132"/>
         <source>Ctrl+Shift+F</source>
         <translation>Ctrl+Shift+F</translation>
     </message>
@@ -337,7 +338,7 @@
         <translation type="obsolete">Gestionar complementos</translation>
     </message>
     <message>
-        <location filename="mainWindow.ui" line="149"/>
+        <location filename="mainWindow.ui" line="158"/>
         <source>Advanced search</source>
         <translation>Búsqueda avanzada</translation>
     </message>
@@ -347,22 +348,22 @@
         <translation>Collector</translation>
     </message>
     <message>
-        <location filename="mainWindow.ui" line="41"/>
+        <location filename="mainWindow.ui" line="44"/>
         <source>Collection</source>
         <translation>Colección</translation>
     </message>
     <message>
-        <location filename="mainWindow.ui" line="102"/>
+        <location filename="mainWindow.ui" line="111"/>
         <source>Import</source>
         <translation>Importar</translation>
     </message>
     <message>
-        <location filename="mainWindow.ui" line="111"/>
+        <location filename="mainWindow.ui" line="120"/>
         <source>Export</source>
         <translation>Exportar</translation>
     </message>
     <message>
-        <location filename="mainWindow.ui" line="158"/>
+        <location filename="mainWindow.ui" line="167"/>
         <source>Properties</source>
         <translation>Propiedades</translation>
     </message>
@@ -372,19 +373,19 @@
         <translation type="obsolete">Editar</translation>
     </message>
     <message>
-        <location filename="mainWindow.ui" line="132"/>
+        <location filename="mainWindow.ui" line="141"/>
         <source>Discover</source>
         <translation>Descubrir</translation>
     </message>
     <message>
-        <location filename="mainWindow.ui" line="161"/>
+        <location filename="mainWindow.ui" line="170"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
     <message>
-        <location filename="mainWindow.ui" line="140"/>
+        <location filename="mainWindow.ui" line="149"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferencias</translation>
     </message>
 </context>
 <context>
@@ -443,7 +444,7 @@
     <message>
         <location filename="preferences.ui" line="14"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferencias</translation>
     </message>
     <message>
         <location filename="preferences.ui" line="24"/>
@@ -533,7 +534,7 @@
     <message>
         <location filename="preferences.ui" line="69"/>
         <source>Home:</source>
-        <translation type="unfinished"></translation>
+        <translation>Directorio principal:</translation>
     </message>
 </context>
 <context>
@@ -713,7 +714,7 @@
         <translation>Eliminar filtro</translation>
     </message>
     <message>
-        <location filename="collection.py" line="122"/>
+        <location filename="collection.py" line="145"/>
         <source>( %d more)</source>
         <translation>(%d más)</translation>
     </message>
@@ -754,17 +755,17 @@
 <context>
     <name>Ui_Discover</name>
     <message>
-        <location filename="search.py" line="135"/>
+        <location filename="search.py" line="137"/>
         <source>Discover</source>
         <translation>Descubrir</translation>
     </message>
     <message>
-        <location filename="search.py" line="137"/>
+        <location filename="search.py" line="139"/>
         <source>Discover allows you find new objects for your collection, type something in the searchbox and the plugins will do the hardwork.</source>
         <translation>&quot;Descubrir&quot; te permite encontrar objectos para tu colección, escribe algo en la caja de búsqueda y los complementos harán el resto.</translation>
     </message>
     <message>
-        <location filename="search.py" line="152"/>
+        <location filename="search.py" line="155"/>
         <source>Searching...</source>
         <translation>Búscando...</translation>
     </message>
@@ -782,22 +783,22 @@
         <translation>Opciones</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="66"/>
+        <location filename="fitxa.py" line="65"/>
         <source>Edit</source>
         <translation>Editar</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="66"/>
+        <location filename="fitxa.py" line="65"/>
         <source>Edit file</source>
         <translation>Editar ficha</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="75"/>
+        <location filename="fitxa.py" line="74"/>
         <source>Delete</source>
         <translation>Eliminar</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="75"/>
+        <location filename="fitxa.py" line="74"/>
         <source>Delete file</source>
         <translation>Eliminar ficha</translation>
     </message>
@@ -812,52 +813,62 @@
         <translation>Autocompletar</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="106"/>
+        <location filename="fitxa.py" line="104"/>
         <source>Looking for data (Step 1/3)</source>
         <translation>Búscando datos (Paso 1/3)</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="106"/>
+        <location filename="fitxa.py" line="104"/>
         <source>Abort</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="140"/>
+        <location filename="fitxa.py" line="128"/>
         <source>Collector</source>
         <translation>Collector</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="140"/>
+        <location filename="fitxa.py" line="128"/>
         <source>No data found</source>
         <translation>No se han encontrado datos</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="176"/>
+        <location filename="fitxa.py" line="163"/>
         <source>Delete item</source>
         <translation>Eliminar item</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="176"/>
+        <location filename="fitxa.py" line="163"/>
         <source>Are you sure you want to remove this file?</source>
         <translation>¿Seguro que quieres elminar esta ficha?</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="82"/>
+        <location filename="fitxa.py" line="81"/>
         <source>New file</source>
-        <translation type="unfinished"></translation>
+        <translation>Nueva ficha:</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="82"/>
+        <location filename="fitxa.py" line="81"/>
         <source>New file at %s</source>
-        <translation type="unfinished"></translation>
+        <translation>Nueva ficha en %s</translation>
+    </message>
+    <message>
+        <location filename="fitxa.py" line="118"/>
+        <source>Loading data (Step 2/3)</source>
+        <translation>Cargando datos (Paso 2/3)</translation>
+    </message>
+    <message>
+        <location filename="fitxa.py" line="134"/>
+        <source>Autocomplete running (Step 3/3)</source>
+        <translation>Autocompletando (Paso 3/3)</translation>
     </message>
 </context>
 <context>
     <name>Ui_Fitxa_Edit</name>
     <message>
-        <location filename="fitxa_edit.py" line="90"/>
+        <location filename="fitxa_edit.py" line="91"/>
         <source>Saving</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardando</translation>
     </message>
 </context>
 <context>
@@ -904,94 +915,99 @@
 <context>
     <name>Ui_PluginFile</name>
     <message>
-        <location filename="plugincollector_fitxa.py" line="44"/>
+        <location filename="plugincollector_fitxa.py" line="43"/>
         <source>Loading...</source>
         <translation>Cargando...</translation>
     </message>
     <message>
-        <location filename="plugincollector_fitxa.py" line="109"/>
+        <location filename="plugincollector_fitxa.py" line="126"/>
         <source>Go back</source>
         <translation>Atras</translation>
     </message>
     <message>
-        <location filename="plugincollector_fitxa.py" line="111"/>
+        <location filename="plugincollector_fitxa.py" line="128"/>
         <source>Dashboard</source>
         <translation>Panel principal</translation>
     </message>
     <message>
-        <location filename="plugincollector_fitxa.py" line="99"/>
+        <location filename="plugincollector_fitxa.py" line="116"/>
         <source>View in browser</source>
         <translation>Ver en el navegador</translation>
     </message>
     <message>
-        <location filename="plugincollector_fitxa.py" line="92"/>
+        <location filename="plugincollector_fitxa.py" line="109"/>
         <source>Reload</source>
         <translation>Recargar</translation>
     </message>
     <message>
-        <location filename="plugincollector_fitxa.py" line="136"/>
+        <location filename="plugincollector_fitxa.py" line="152"/>
         <source>Collector</source>
         <translation>Collector</translation>
     </message>
     <message>
-        <location filename="plugincollector_fitxa.py" line="136"/>
+        <location filename="plugincollector_fitxa.py" line="152"/>
         <source>Ooops!
 Something happened and the search could&apos;nt be completed.</source>
         <translation>Ooops!
 Algo ha ocurrido y la búsquda no se ha completado.</translation>
     </message>
     <message>
-        <location filename="plugincollector_fitxa.py" line="65"/>
+        <location filename="plugincollector_fitxa.py" line="80"/>
         <source>Ooops, an error ocurred and no data couldn&apos;t be added.</source>
         <translation>Ooops, ha habido un error y no se ha podido añadir los datos.</translation>
     </message>
     <message>
-        <location filename="plugincollector_fitxa.py" line="70"/>
+        <location filename="plugincollector_fitxa.py" line="87"/>
         <source>The content isn&apos;t yet available, and no data couldn&apos;t be added.</source>
         <translation>El contenido aún no está disponible y no se puede añadir.</translation>
     </message>
     <message>
-        <location filename="plugincollector_fitxa.py" line="86"/>
+        <location filename="plugincollector_fitxa.py" line="103"/>
         <source>Add</source>
         <translation>Añadir</translation>
     </message>
     <message>
-        <location filename="plugincollector_fitxa.py" line="86"/>
+        <location filename="plugincollector_fitxa.py" line="103"/>
         <source>Add to my collection</source>
         <translation>Añadir a mi colección</translation>
     </message>
     <message>
-        <location filename="plugincollector_fitxa.py" line="92"/>
+        <location filename="plugincollector_fitxa.py" line="109"/>
         <source>Reload the file.</source>
         <translation>Recargar la ficha.</translation>
     </message>
     <message>
-        <location filename="plugincollector_fitxa.py" line="99"/>
+        <location filename="plugincollector_fitxa.py" line="116"/>
         <source>View in your browser</source>
         <translation>Ver en el navegador</translation>
     </message>
     <message>
-        <location filename="plugincollector_fitxa.py" line="114"/>
+        <location filename="plugincollector_fitxa.py" line="131"/>
         <source>Options</source>
         <translation>Opciones</translation>
+    </message>
+    <message>
+        <location filename="plugincollector_fitxa.py" line="56"/>
+        <source>Saving</source>
+        <translation>Guardando</translation>
     </message>
 </context>
 <context>
     <name>Ui_Preferences</name>
     <message>
-        <location filename="preferences.py" line="52"/>
-        <source>Always</source>
-        <translation type="unfinished">Siempre</translation>
-    </message>
-    <message>
-        <location filename="preferences.py" line="53"/>
-        <source>Never</source>
-        <translation type="unfinished">Nunca</translation>
-    </message>
-    <message>
         <location filename="preferences.py" line="54"/>
+        <source>Always</source>
+        <translation>Siempre</translation>
+    </message>
+    <message>
+        <location filename="preferences.py" line="55"/>
+        <source>Never</source>
+        <translation>Nunca</translation>
+    </message>
+    <message>
+        <location filename="preferences.py" line="56"/>
         <source>Remote only</source>
-        <translation type="unfinished">Sólo los de la red</translation>
+        <translation>Sólo los de la red</translation>
     </message>
 </context>
 <context>
@@ -1004,24 +1020,24 @@ Something happened and the searchcould&apos;nt be completed.</source>
 Algo ha ocurrido y la búsquda no se ha completado.</translation>
     </message>
     <message>
-        <location filename="search.py" line="105"/>
+        <location filename="search.py" line="106"/>
         <source>Ooops!
 Something happened and the search could&apos;nt be completed.</source>
         <translation>Ooops!
 Algo ha ocurrido y la búsquda no se ha completado.</translation>
     </message>
     <message>
-        <location filename="search.py" line="90"/>
+        <location filename="search.py" line="91"/>
         <source>Searching...</source>
         <translation>Búscando...</translation>
     </message>
     <message>
-        <location filename="search.py" line="105"/>
+        <location filename="search.py" line="106"/>
         <source>Collector</source>
         <translation>Collector</translation>
     </message>
     <message>
-        <location filename="search.py" line="57"/>
+        <location filename="search.py" line="58"/>
         <source>Dashboard</source>
         <translation>Panel principal</translation>
     </message>
