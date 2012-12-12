@@ -68,8 +68,8 @@ resources:
 
 i18n:
 	# Use of the verbose option to see the changes
-	pylupdate4 -verbose ui/designer/*.ui ui/views/*.py plugins/*.py -ts ${UI_DIR}/lang/es_ES.ts
-	pylupdate4 -verbose ui/designer/*.ui ui/views/*.py plugins/*.py -ts ${UI_DIR}/lang/ca_ES.ts
+	pylupdate4 -verbose collector/ui/designer/*.ui collector/ui/views/*.py collector/plugins/*.py -ts ${UI_DIR}/lang/es_ES.ts
+	pylupdate4 -verbose collector/ui/designer/*.ui collector/ui/views/*.py collector/plugins/*.py -ts ${UI_DIR}/lang/ca_ES.ts
 
 # Next rule calls make again to build resources
 release_i18n:
@@ -79,7 +79,7 @@ release_i18n:
 gitexport:
 	rm -rf ${EXPORT}
 	git checkout-index --prefix=${EXPORT} -a
-	cd engine; git checkout-index --prefix=../${EXPORT}/engine/ -a
+	cd core; git checkout-index --prefix=../${EXPORT}/core/ -a
 
 clean:
 	find . -name \*.pyc -exec rm {\} \;
