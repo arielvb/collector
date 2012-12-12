@@ -16,6 +16,7 @@ set PYTHON="C:\Python27\python.exe"
 if "%1" == "" (
     echo Building widgets...
     :: Make the destination folder a python package
+    mkdir %BUILD_DIR%
     echo # > %BUILD_DIR%\__init__.py
     call %PYQT_PATH%\pyuic4 %UI_DIR%\mainWindow.ui -o %BUILD_DIR%\mainWindow.py
     call %PYQT_PATH%\pyuic4 %UI_DIR%\dashboard.ui -o %BUILD_DIR%\dashboard.py
