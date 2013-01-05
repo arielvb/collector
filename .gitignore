@@ -5,6 +5,6 @@
 *.egg-info
 build
 dist
-ui/gen
+collector/ui/gen
 data/collections
 data/settings.json

@@ -14,7 +14,7 @@ from collector.ui.workers.search import (
     Worker_Search, Worker_Discover, STATUS_OK)
 from collector.ui.gen.search_quick import Ui_Dialog as Ui_Dialog_Search
 from collector.ui.helpers.customtoolbar import Topbar, CustomToolbar
-from collector.ui.helpers.items import ObjectListItem, FitxaListItem
+from collector.ui.helpers.items import ObjectListItem
 from collector.ui.widgetprovider import WidgetProvider
 from collector.core.controller import Collector
 
@@ -117,7 +117,7 @@ class Ui_Search(QWidget, Ui_Form):
         """Adds the each elelemt of listResults to the results list widget"""
 
         for result in listResults:
-            item = FitxaListItem(result['id'], result[self.pretty])
+            item = ObjectListItem(result, result[self.pretty])
             self.listWidget.addItem(item)
             del item
         self.results.extend(listResults)
@@ -127,7 +127,7 @@ class Ui_Search(QWidget, Ui_Form):
         self.worker.searchComplete.disconnect()
         self.parent().display_view(
             'fitxa',
-            {'item': listItem.id, 'collection': 'boardgames'}
+            {'item': listItem.obj.id, 'collection': 'boardgames'}
         )
 
 
