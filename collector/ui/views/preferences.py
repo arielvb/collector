@@ -2,7 +2,7 @@
 
 from PyQt4 import QtCore, QtGui
 from collector.ui.gen.preferences import Ui_PreferencesDialog, _fromUtf8
-from collector.ui.widgetprovider import WidgetProvider
+from collector.ui.views import Dialog
 from collector.ui.helpers.items import ObjectListItem
 from collector.core.controller import Collector
 
@@ -113,9 +113,7 @@ class Ui_Preferences(QtGui.QDialog, Ui_PreferencesDialog):
         self.close()
 
 
-class PreferencesView(WidgetProvider):
-
-    mode = WidgetProvider.DIALOG_WIDGET
+class PreferencesView(Dialog):
 
     def get_widget(self, params):
         return Ui_Preferences(self.parent)

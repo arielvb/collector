@@ -3,7 +3,7 @@
 from PyQt4 import QtCore, QtGui
 from collector.ui.gen.fitxa_edit import Ui_Form
 from collector.ui.helpers.customtoolbar import CustomToolbar, Topbar
-from collector.ui.widgetprovider import WidgetProvider
+from collector.ui.views import Page
 from collector.ui.helpers.fields import FieldWidgetManager
 
 
@@ -112,7 +112,7 @@ class Ui_Fitxa_Edit(QtGui.QWidget, Ui_Form):
             {'item': data['id'], 'collection': self.collection.get_id()})
 
 
-class FitxaEditView(WidgetProvider):
+class FitxaEditView(Page):
 
     def get_widget(self, params):
         item = params['item']

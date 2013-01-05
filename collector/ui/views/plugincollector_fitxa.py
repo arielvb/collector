@@ -7,7 +7,7 @@
 from PyQt4 import QtCore, QtGui
 from collector.ui.gen.fitxa import Ui_File
 from collector.ui.helpers.customtoolbar import CustomToolbar, Topbar
-from collector.ui.widgetprovider import WidgetProvider
+from collector.ui.views import Page
 from collector.ui.helpers.filedata import FileDataWidget
 from collector.ui.workers.search import Worker_FileLoader, STATUS_OK
 from collector.core.controller import Collector
@@ -170,7 +170,7 @@ class Ui_PluginFile(QtGui.QWidget, Ui_File):
             )
 
 
-class PluginFileView(WidgetProvider):
+class PluginFileView(Page):
 
     def get_widget(self, params):
         plugin = params['plugin']

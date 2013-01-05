@@ -15,7 +15,7 @@ from collector.ui.workers.search import (
 from collector.ui.gen.search_quick import Ui_Dialog as Ui_Dialog_Search
 from collector.ui.helpers.customtoolbar import Topbar, CustomToolbar
 from collector.ui.helpers.items import ObjectListItem
-from collector.ui.widgetprovider import WidgetProvider
+from collector.ui.views import Dialog, Page
 from collector.core.controller import Collector
 
 
@@ -183,7 +183,7 @@ class Ui_Discover(Ui_Search):
         )
 
 
-class DiscoverView(WidgetProvider):
+class DiscoverView(Page):
     """Discover view"""
 
     def get_widget(self, params):
@@ -197,7 +197,7 @@ class DiscoverView(WidgetProvider):
         return widget
 
 
-class SearchView(WidgetProvider):
+class SearchView(Page):
     """Quick search view"""
 
     def get_widget(self, params):
@@ -210,10 +210,9 @@ class SearchView(WidgetProvider):
         return widget
 
 
-class SearchDialog(WidgetProvider):
+class SearchDialog(Dialog):
     """Quick Search dialog view"""
 
-    mode = WidgetProvider.DIALOG_WIDGET
     dialog = None
     collection = None
 

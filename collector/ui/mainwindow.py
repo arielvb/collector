@@ -9,7 +9,7 @@ from PyQt4 import QtCore, QtGui
 from gen.mainWindow import Ui_MainWindow, _fromUtf8
 
 
-from views import ViewNotFound
+from views import ViewNotFound, Dialog
 
 from collector.core.collection import Collection
 from collector.core.plugin import PluginManager
@@ -93,7 +93,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         logging.debug("Called display view, URI: " +
                       self.viewcall2collectoruri(name, params))
         self.views[name].run(params)
-        if self.views[name].mode != self.views[name].DIALOG_WIDGET:
+        if not isinstance(self.views[name], Dialog):
             self.view = name
 
     def switch_fullscreen(self):

@@ -3,7 +3,7 @@
 from PyQt4 import QtCore, QtGui
 from collector.ui.gen.properties import Ui_Properties, _fromUtf8
 from collector.ui.gen.field_details import Ui_FieldDetails
-from collector.ui.widgetprovider import WidgetProvider
+from collector.ui.views import Dialog
 from collector.ui.helpers.items import ObjectListItem
 from collector.ui.views.dashboard import Ui_Dashboard
 
@@ -152,10 +152,8 @@ class PropertiesWidget(QtGui.QDialog, Ui_Properties):
             self.accept()
 
 
-class PropertiesView(WidgetProvider):
+class PropertiesView(Dialog):
     """Properties view"""
-
-    mode = WidgetProvider.DIALOG_WIDGET
 
     def get_widget(self, params):
         # collection = params['collection']

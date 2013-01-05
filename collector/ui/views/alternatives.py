@@ -1,6 +1,6 @@
 """AutoComplete Views and Dialogs"""
 from PyQt4 import QtGui, QtCore
-from collector.ui.widgetprovider import WidgetProvider
+from collector.ui.views import Dialog
 from collector.ui.workers.search import Worker_Discover
 
 
@@ -30,9 +30,7 @@ class LoadingAlternatives(QtGui.QProgressDialog):
             self.worker.wait()
 
 
-class AlternativesView(WidgetProvider):
-
-    mode = WidgetProvider.DIALOG_WIDGET
+class AlternativesView(Dialog):
 
     def get_widget(self, params):
         key = params['key']

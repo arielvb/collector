@@ -15,7 +15,7 @@ from PyQt4 import QtCore, QtGui
 from collector.ui.gen.advanced_search import Ui_Form, _fromUtf8
 from collector.ui.gen.widget_filter import Ui_Form as Ui_Filter
 from collector.ui.helpers.customtoolbar import CustomToolbar, Topbar
-from collector.ui.widgetprovider import WidgetProvider
+from collector.ui.views import Page
 
 
 class FilterWidget(QtGui.QWidget, Ui_Filter):
@@ -129,7 +129,7 @@ class AdvancedSearchWidget(QtGui.QWidget, Ui_Form):
         self.filters_layout.addWidget(filterw)
 
 
-class AdvancedSearch(WidgetProvider):
+class AdvancedSearch(Page):
     """AdvancedSearch view, is a centralwidget view"""
 
     def get_widget(self, params):

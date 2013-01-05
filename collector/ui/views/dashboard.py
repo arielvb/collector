@@ -6,7 +6,7 @@ from PyQt4 import QtCore, QtGui
 from collector.ui.gen.dashboard import Ui_Form, _fromUtf8
 from collector.ui.helpers.customtoolbar import CustomToolbar, Topbar
 from collector.ui.helpers.items import FitxaListItem
-from collector.ui.widgetprovider import WidgetProvider
+from collector.ui.views import Page
 
 
 class Ui_Dashboard(QtGui.QWidget, Ui_Form):
@@ -134,7 +134,7 @@ class Ui_Dashboard(QtGui.QWidget, Ui_Form):
             {'item': s.id, 'collection': self.settings['lastcollection']})
 
 
-class DashboardView(WidgetProvider):
+class DashboardView(Page):
     """Dashboard view"""
 
     def get_widget(self, params):

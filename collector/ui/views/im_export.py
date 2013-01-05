@@ -1,7 +1,7 @@
 # -* coding: utf-8 *-
 from PyQt4 import QtGui
 from collector.ui.gen.im_export import Ui_Dialog
-from collector.ui.widgetprovider import WidgetProvider
+from collector.ui.views import Dialog
 from collector.ui.helpers.customtoolbar import CustomToolbar
 from collector.core.controller import get_manager
 from collector.core.plugin import PluginExporter, PluginImporter
@@ -86,19 +86,15 @@ class ImportDialog(BaseDialog):
         self.setWindowTitle(self.tr("Import"))
 
 
-class ImportView(WidgetProvider):
+class ImportView(Dialog):
     """Properties view"""
-
-    mode = WidgetProvider.DIALOG_WIDGET
 
     def get_widget(self, params):
         return ImportDialog(self.parent)
 
 
-class ExportView(WidgetProvider):
+class ExportView(Dialog):
     """Properties view"""
-
-    mode = WidgetProvider.DIALOG_WIDGET
 
     def get_widget(self, params):
         return ExportDialog(self.parent)

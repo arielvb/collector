@@ -5,7 +5,7 @@
 from collector.ui.gen.collection_items import Ui_Form, _fromUtf8
 from PyQt4 import QtCore, QtGui
 from collector.ui.helpers.customtoolbar import CustomToolbar, Topbar
-from collector.ui.widgetprovider import WidgetProvider
+from collector.ui.views import Page
 from collector.ui.helpers.items import FitxaTableItem, FitxaTableImage
 
 
@@ -167,7 +167,7 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
              'collection': self.collection.get_id()})
 
 
-class CollectionView(WidgetProvider):
+class CollectionView(Page):
 
     def get_widget(self, params):
         filters = params.get('filter', None)

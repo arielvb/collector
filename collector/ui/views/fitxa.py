@@ -3,7 +3,7 @@
 from PyQt4 import QtCore, QtGui
 from collector.ui.gen.fitxa import Ui_File
 from collector.ui.helpers.customtoolbar import CustomToolbar, Topbar
-from collector.ui.widgetprovider import WidgetProvider
+from collector.ui.views import Page
 from collector.ui.helpers.filedata import FileDataWidget
 from collector.ui.workers.search import Worker_Discover, Worker_Queue
 from collector.core.controller import Collector
@@ -171,7 +171,7 @@ class Ui_Fitxa(QtGui.QWidget, Ui_File):
             self.parent().display_view('dashboard')
 
 
-class FitxaView(WidgetProvider):
+class FitxaView(Page):
 
     def get_widget(self, params):
         collection = params['collection']
