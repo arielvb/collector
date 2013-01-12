@@ -16,7 +16,7 @@ class Ui_Preferences(QtGui.QDialog, Ui_PreferencesDialog):
         super(Ui_Preferences, self).__init__(parent, flags)
         self.manager = Collector.get_instance().get_manager("plugin")
         self.current_lang = None
-        self.codes = ['ca_ES', 'en_UK', 'es_ES']
+        self.codes = [":system:", 'ca_ES', 'en_UK', 'es_ES']
         self.setupUi()
 
     def setupUi(self):
