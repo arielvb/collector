@@ -94,30 +94,56 @@ class ImageWidget(QtGui.QLabel):
         self.max_x = None
         self.max_y = None
 
-    def set_image(self, value, max_x=450, max_y=450, noscale=False):
+    def set_image(self, value, max_x=450, max_y=450, scale=True):
         """Changes the current image to the new one, and resizes the widget
-         if the size is different."""
-        if not noscale:
+         if the size is different.
+         The allowed values for the *value* param. are:
+            - File path (unicode)
+            - http uri
+            - QImage
+
+        By default the image is scaled to 450x450px, you can override this
+         behavior setting the *max_x* and *max_y* paramethers.
+        If you don't want to scale the image, set to False the  *scale* param.
+        """
+        if scale:
             self.max_x = max_x
             self.max_y = max_y
         else:
             self.max_x = None
             self.max_y = None
+        #FIXME allow parameter: default image
+        default = self.default_src
         pixmap = None
+        # Check image empty
         if value is None or value == '':
-            value = self.default_src
-        if value.startswith('http'):
-            logging.debug('FILEDATA loading image from url %s', value)
+            value = default
+        # The image is from network or is local file?
+        if isinstance(value, unicode) and value.startswith('http'):
+            # http uri (defered load)
             self.nam.get(QNetworkRequest(QUrl(value)))
         else:
-            pixmap = QtGui.QPixmap(value)
+            # Non url
+            if isinstance(value, QtGui.QImage):
+                # from QImage
+                pixmap = QtGui.QPixmap()
+                pixmap.convertFromImage(value)
+            else:
+                # from file
+                pixmap = QtGui.QPixmap(value)
+            # Check if the resulting pixmap is empty
             if pixmap.isNull():
-                pixmap = QtGui.QPixmap(_fromUtf8(self.default_src))
-            if not noscale:
+                # Load the default pixmap
+                pixmap = QtGui.QPixmap(_fromUtf8(default))
+            # Scale the image
+            if scale:
                 pixmap = pixmap.scaled(max_x, max_y, Qt.KeepAspectRatio)
+            # Set the widget pixmap
             self.setPixmap(pixmap)
+        # And finally set pretty alignment
         self.setAlignment(Qt.AlignLeading | Qt.AlignHCenter |
                           Qt.AlignTop)
+        # Store the final value
         self.src = value
 
     def http_image_complete(self, reply):

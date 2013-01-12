@@ -7,6 +7,7 @@ from PyQt4 import QtCore, QtGui
 from collector.ui.helpers.customtoolbar import CustomToolbar, Topbar
 from collector.ui.views import Page
 from collector.ui.helpers.items import FitxaTableItem, FitxaTableImage
+from collector.ui.workers.loaders import WorkerImageLoader
 
 
 class Ui_Collection(QtGui.QWidget, Ui_Form):
@@ -28,7 +29,20 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
         else:
             self.filters = filters
             self.objects = self.collection.filter(filters)
+        self.worker = WorkerImageLoader(64, 64)
+        self.worker.image_ready.connect(
+            lambda image, obj: self.set_image(obj, image))
         self.customize()
+
+    def set_image(self, obj, image=None):
+        """Sets the image of the obj, where obj must be an isinstance
+        of FitxaTableImage.
+        If no image is provided, a default one (:box.png) is used.
+        """
+        if image is None:
+            # IMPORTANT box.png has an expected size of 64x64px
+            image = ':box.png'
+        obj.set_image(image, scale=False)
 
     def customize(self):
         """After setup the Ui customize some elements"""
@@ -120,8 +134,6 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
         for key in order:
             # items = self.collection.load_references(items)
             #TODO allow list elements
-            #TODO render images as an image, using
-            #  self.tableWidget.setCellWidget
             value = None
             field = schema.get_field(key)
             item = None
@@ -155,9 +167,13 @@ class Ui_Collection(QtGui.QWidget, Ui_Form):
 
                 else:
                     item = FitxaTableImage(items['id'])
-                    # item.set_image(value, 64, 64)
+                    if not value.startswith("http"):
+                        WorkerImageLoader.load(value, item)
+                    else:
+                        item.set_image(value, 64, 64)
                     self.tableWidget.setCellWidget(row, column, item)
             column += 1
+        self.worker.start()
         self._table_items += 1
 
     def _itemSelected(self, tableItem):
