@@ -16,6 +16,7 @@ def read(*rnames):
 
 OPTIONS = {}
 REQUIRES = ["beautifulsoup4", 'sqlalchemy']
+EXTRAOPTIONS = {}
 
 if ISOSX:
     OPTIONS['py2app'] = {
@@ -92,8 +93,8 @@ setup(
         'Topic :: Utilities'
     ],
     author="Ariel von Barnekow",
-    author_email="i@arielvb.com",
-    url="http://www.arielvb.com",
+    author_email="projects@arielvb.com",
+    url="http://www.collector.cat",
     license="GPL2",
     zip_safe=True,
     packages=find_packages(exclude=["tests"]),
