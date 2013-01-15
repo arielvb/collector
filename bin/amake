@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd $COLLECTION_PATH
+make $1

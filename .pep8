@@ -1,0 +1,4 @@
+[pep8]
+statistics=1
+count=1
+exclude=bs4,.git,dist,build,gen,bin

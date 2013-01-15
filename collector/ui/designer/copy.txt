@@ -1,0 +1,14 @@
+add.png http://www.iconfinder.com/icondetails/23421/128/add_insert_object_icon
+dashboard.png http://www.iconfinder.com/icondetails/67978/128/_icon
+http://www.iconfinder.com/icondetails/49592/128/bookcase_library_shelf_icon
+fullscreen.png http://www.iconfinder.com/icondetails/15328/32/fullscreen_view_icon
+
+edit.png http://www.iconfinder.com/icondetails/50835/128/edit_pencil_write_icon
+search.png http://www.iconfinder.com/icondetails/7186/128/kfind_search_icon
+delete.png http://www.iconfinder.com/icondetails/62114/128/delete_garbage_remove_trash_icon
+reload.png http://www.iconfinder.com/icondetails/17009/128/arrows_interact_refresh_reload_sync_update_icon
+browser.png http://www.iconfinder.com/icondetails/10442/128/blue_earth_globe_internet_world_icon
+filter.png http://www.iconfinder.com/icondetails/40778/128/filter_icon
+done.png http://www.iconfinder.com/icondetails/48784/128/done_notification_icon
+import.png http://www.iconfinder.com/icondetails/59204/32/out_sign_icon
+complete.png http://www.iconfinder.com/icondetails/81953/128/_icon

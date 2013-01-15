@@ -1,0 +1,3 @@
+[submodule "engine"]
+	path = collector/core
+	url = https://ariel@dev.arielvb.com/git/pfcengine.git

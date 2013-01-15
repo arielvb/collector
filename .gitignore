@@ -1,0 +1,10 @@
+*.pyc
+*.pyo
+*.egg
+*.log
+*.egg-info
+build
+dist
+collector/ui/gen
+data/collections
+data/settings.json
