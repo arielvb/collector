@@ -452,22 +452,22 @@
         <translation>Idioma*:</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="41"/>
+        <location filename="preferences.ui" line="46"/>
         <source>Catalan</source>
         <translation>Català</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="46"/>
+        <location filename="preferences.ui" line="51"/>
         <source>English</source>
         <translation>Anglès</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="51"/>
+        <location filename="preferences.ui" line="56"/>
         <source>Spanish</source>
         <translation>Espanyol</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="59"/>
+        <location filename="preferences.ui" line="64"/>
         <source>Copy files:</source>
         <translation>Copiar fitxers:</translation>
     </message>
@@ -487,49 +487,54 @@
         <translation type="obsolete">Mai</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="84"/>
+        <location filename="preferences.ui" line="89"/>
         <source>Plugins</source>
         <translation>Complements</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="90"/>
+        <location filename="preferences.ui" line="95"/>
         <source>Manage the plugins that will be globally available or disabled.</source>
         <translation>Gestiona els complements que estaran disponibles a l&apos;aplicació.</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="104"/>
+        <location filename="preferences.ui" line="109"/>
         <source>Enabled</source>
         <translation>Activats</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="111"/>
+        <location filename="preferences.ui" line="116"/>
         <source>BGG</source>
         <translation>BGG</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="134"/>
+        <location filename="preferences.ui" line="139"/>
         <source>Disable selected &gt;&gt;</source>
         <translation>Desactiva els seleccionats &gt;&gt;</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="150"/>
+        <location filename="preferences.ui" line="155"/>
         <source>Disabled</source>
         <translation>Desactivats</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="161"/>
+        <location filename="preferences.ui" line="166"/>
         <source>&lt;&lt; Enable selected</source>
         <translation>&lt;&lt; Activa els seleccionats</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="200"/>
+        <location filename="preferences.ui" line="207"/>
         <source>* Requires restart the application</source>
         <translation>* Requererix reiniciar l&apos;aplicació</translation>
     </message>
     <message>
-        <location filename="preferences.ui" line="69"/>
+        <location filename="preferences.ui" line="74"/>
         <source>Home:</source>
         <translation>Directori principal:</translation>
+    </message>
+    <message>
+        <location filename="preferences.ui" line="41"/>
+        <source>Autodetect</source>
+        <translation>Autodetectar</translation>
     </message>
 </context>
 <context>
@@ -684,27 +689,27 @@
 <context>
     <name>Ui_Collection</name>
     <message>
-        <location filename="collection.py" line="47"/>
+        <location filename="collection.py" line="61"/>
         <source>Dashboard</source>
         <translation>Tauler principal</translation>
     </message>
     <message>
-        <location filename="collection.py" line="56"/>
+        <location filename="collection.py" line="70"/>
         <source>New &lt;b&gt;%s&lt;/b&gt;</source>
         <translation>Nou &lt;b&gt;%s&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="collection.py" line="41"/>
+        <location filename="collection.py" line="55"/>
         <source>(filtered)</source>
         <translation>(filtrad)</translation>
     </message>
     <message>
-        <location filename="collection.py" line="52"/>
+        <location filename="collection.py" line="66"/>
         <source>Filter</source>
         <translation>Filtra</translation>
     </message>
     <message>
-        <location filename="collection.py" line="61"/>
+        <location filename="collection.py" line="75"/>
         <source>Unfilter</source>
         <translation>Treu el filtre</translation>
     </message>
@@ -714,7 +719,7 @@
         <translation type="obsolete">(%d més)</translation>
     </message>
     <message>
-        <location filename="collection.py" line="145"/>
+        <location filename="collection.py" line="157"/>
         <source>( %d more)</source>
         <translation>(%d més)</translation>
     </message>
@@ -768,32 +773,32 @@
 <context>
     <name>Ui_Fitxa</name>
     <message>
-        <location filename="fitxa.py" line="45"/>
+        <location filename="fitxa.py" line="51"/>
         <source>Dashboard</source>
         <translation>Tauler principal</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="52"/>
+        <location filename="fitxa.py" line="58"/>
         <source>Options</source>
         <translation>Opcions</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="65"/>
+        <location filename="fitxa.py" line="71"/>
         <source>Edit</source>
         <translation>Edita</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="65"/>
+        <location filename="fitxa.py" line="71"/>
         <source>Edit file</source>
         <translation>Edita la fitxa</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="74"/>
+        <location filename="fitxa.py" line="80"/>
         <source>Delete</source>
         <translation>Esborra</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="74"/>
+        <location filename="fitxa.py" line="80"/>
         <source>Delete file</source>
         <translation>Esborra la fitxa</translation>
     </message>
@@ -803,57 +808,57 @@
         <translation type="obsolete">Nova entrada</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="58"/>
+        <location filename="fitxa.py" line="64"/>
         <source>Autocomplete</source>
         <translation>Autocompleta</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="104"/>
+        <location filename="fitxa.py" line="110"/>
         <source>Looking for data (Step 1/3)</source>
         <translation>Cercant dades (Pas 1/3)</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="104"/>
+        <location filename="fitxa.py" line="110"/>
         <source>Abort</source>
         <translation>Cancel·la</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="128"/>
+        <location filename="fitxa.py" line="134"/>
         <source>Collector</source>
         <translation>Collector</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="128"/>
+        <location filename="fitxa.py" line="134"/>
         <source>No data found</source>
         <translation>No s&apos;han trobat dades</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="163"/>
+        <location filename="fitxa.py" line="169"/>
         <source>Delete item</source>
         <translation>Esborra l&apos;element</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="163"/>
+        <location filename="fitxa.py" line="169"/>
         <source>Are you sure you want to remove this file?</source>
         <translation>Segur que vol esborrar aquesta fitxa?</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="81"/>
+        <location filename="fitxa.py" line="87"/>
         <source>New file</source>
         <translation>Nova entrada</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="81"/>
+        <location filename="fitxa.py" line="87"/>
         <source>New file at %s</source>
         <translation>Nova entrada a %s </translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="118"/>
+        <location filename="fitxa.py" line="124"/>
         <source>Loading data (Step 2/3)</source>
         <translation>Carregant dades (Pas 2/3)</translation>
     </message>
     <message>
-        <location filename="fitxa.py" line="134"/>
+        <location filename="fitxa.py" line="140"/>
         <source>Autocomplete running (Step 3/3)</source>
         <translation>Autocompletant (Pas 3/3)</translation>
     </message>
