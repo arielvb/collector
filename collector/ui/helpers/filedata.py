@@ -66,7 +66,10 @@ class FileDataWidget(QtGui.QWidget, Ui_Form):
                 value = field in obj and obj[field] or ''
                 field_obj = schema.get_field(field)
                 if field_obj.class_ == 'ref':
-                    value = zip(value, obj.get(field, True))
+                    if not field_obj.is_multivalue():
+                        value = (value, obj.get(field, True))
+                    else:
+                        value = zip(value, obj.get(field, True))
                 self.create_field(field_obj, value)
         if 'image' in obj:
             src = obj['image']
