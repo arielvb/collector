@@ -1,36 +1,36 @@
 Collector
 =========
 
-Collector is a collection manager for your desktop, is avaible for Linux, Mac and Windows.
+Collector is a collection manager for your desktop, is available for Linux, Mac
+and Windows.
 
-Collector insn't full functionally and needs some improvements to be a complete, by the moment it has only one collection: Boardgames Collection. 
+Collector isn't full functionally and needs some improvements to be a complete,
+by the moment it has only one collection: Boardgames Collection.
 
+.. note::
+
+	Project has not been maintained in the past years and right now it may not
+	be usable. On October 2020, this project is bring back to live...
 
 Installation
 ------------
 
-Download the latest executable/package from the website: http://www.collector.cat
+Download the latest executable/package from the website:
+http://www.collector.cat
 
 Development installation
 ++++++++++++++++++++++++
 
-The repos are in process to be migrated to *github*, donwload the latest source from the website or...
+Clone this repo using --recursive::
 
-Provisional instrucctions
-.........................
+	https://github.com/arielvb/collector
 
-Clone this repo, modify the .gitmodules and replace the url for::
+If you forget the --recursive, then init and update the submodules by hand::
 
-	https://github.com/arielvb/collector.core.git
-
-Then init and update the submodules::
-
-	git submodule init
-	git submodule update
+	git submodule update --init
 
 
 Documentation
 +++++++++++++
 
-Read the developer guide at http://www.collector.cat/dev/
-
+Read the developer guide at http://www.collector.cat/dev/ (in Catalan only)
